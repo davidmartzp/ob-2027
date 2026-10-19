@@ -1,0 +1,9 @@
+:host{ display:block; }
+
+/* ============ INVITADOS ============ */
+.invitados{ background:var(--papel); }
+.invitados .aviso{
+  font-family:var(--mano); font-size:24px; color:var(--miel); transform:rotate(-1.5deg);
+  display:inline-block; margin-top:14px;
+}
+.lista-invitados{ border-top:1.5px solid var(--tinta); }

@@ -1,0 +1,38 @@
+:host{ display:block; }
+
+/* ============ LA COMUNIDAD (foto grupal a sangre) ============ */
+.comunidad{ padding:0 0 clamp(60px,7vw,100px); }
+.comunidad .lienzo{
+  position:relative; overflow:hidden;
+  /* paralaje: el bloque entero (foto completa y pliegues) flota con --paralaje (lo pone comunidad.ts) */
+  transform:translate3d(0, var(--paralaje, 0px), 0); will-change:transform;
+}
+.comunidad .foto{ width:100%; height:auto; display:block; }
+.comunidad .lienzo::after{
+  /* viñeta cálida de papel */
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(35,33,26,.42), transparent 22%),
+    linear-gradient(0deg, rgba(35,33,26,.35), transparent 30%);
+  mix-blend-mode:multiply;
+}
+.pliegues-foto{ position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:none; }
+.comunidad-pie{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:26px;
+  flex-wrap:wrap; padding:clamp(28px,4vw,50px) var(--gutter) 0;
+}
+.comunidad-pie p{ max-width:44ch; color:var(--tinta-80); }
+/* el h2.titulo global en grande y mayúsculas, como cuando iba sobre la foto */
+.comunidad-pie .titulo-grande{
+  font-weight:560; text-transform:uppercase;
+  font-size:clamp(52px,9.5vw,158px); line-height:.88; letter-spacing:-.025em;
+}
+.comunidad-pie .titulo-grande em{ font-weight:360; }
+
+@media (prefers-reduced-motion: reduce){
+  .comunidad .lienzo{ transform:none; will-change:auto; }
+}
+
+@media (max-width: 760px){
+  .comunidad-pie .titulo-grande{ font-size:clamp(44px,13vw,80px); }
+}

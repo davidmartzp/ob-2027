@@ -1,0 +1,18 @@
+{
+  "locale": "en",
+  "translations": {
+    "invitados.anice.rol": "Complex single-sheet figures · Amiens, France",
+    "invitados.anice.bio": "Born in 1999 in Amiens, France. Discovered origami in 2010 and very soon became passionate about creating original designs. At first the inspiration came from the animal world: those early models stood out for being tender and expressive. Over time, the work evolved towards hybrid figures, shaped by studies in art and design. Specializes in folding complex subjects from a single sheet and explores the “half illusion” of movement, texture and the lightness of the material. The work is internationally recognized and has led to exhibiting and teaching all over the world.",
+    "invitados.anice.fotoAlt": "Anicé Claudeón smiles while folding a paper figure",
+    "invitados.convocatoria.nombre.antes": "Open ",
+    "invitados.convocatoria.nombre.enfasis": "call",
+    "invitados.convocatoria.rol": "National guest by open call",
+    "invitados.convocatoria.bio": "This spot is for a folder from Colombia. If you have an original model, a technique you've mastered or a workshop you'd like to share, apply: write to us telling us who you are and what you'd like to teach.",
+    "invitados.origen.internacional": "International",
+    "invitados.origen.nacional": "National",
+    "invitados.bioProvisional": "✳ provisional bio — updated once the name is confirmed.",
+    "invitados.titulo": "Our {$START_EMPHASISED_TEXT}guests{$CLOSE_EMPHASISED_TEXT}",
+    "invitados.aviso": "✳ provisional list — names to be confirmed",
+    "invitados.lema": "They come to share with the community, not just to teach"
+  }
+}

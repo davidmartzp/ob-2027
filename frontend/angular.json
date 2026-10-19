@@ -1,0 +1,129 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": "4455d23e-99de-4833-a471-afe03e5e1d83"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "frontend": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "static",
+            "polyfills": [
+              "@angular/localize/init"
+            ],
+            "localize": true
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "localize": [
+                "es"
+              ]
+            },
+            "en": {
+              "localize": [
+                "en"
+              ]
+            },
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "localize": true,
+              "outputPath": "dist/local",
+              "deleteOutputPath": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "frontend:build:production"
+            },
+            "development": {
+              "buildTarget": "frontend:build:development"
+            },
+            "en": {
+              "buildTarget": "frontend:build:development,en"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      },
+      "i18n": {
+        "sourceLocale": {
+          "code": "es",
+          "subPath": ""
+        },
+        "locales": {
+          "en": {
+            "translation": [
+              "src/locale/en/acerca.json",
+              "src/locale/en/actividades.json",
+              "src/locale/en/cabecera.json",
+              "src/locale/en/comun.json",
+              "src/locale/en/comunidad.json",
+              "src/locale/en/evento.json",
+              "src/locale/en/hero.json",
+              "src/locale/en/invitados.json",
+              "src/locale/en/itinerario.json",
+              "src/locale/en/leyenda.json",
+              "src/locale/en/marquee.json",
+              "src/locale/en/meta.json",
+              "src/locale/en/nav.json",
+              "src/locale/en/paginaActividades.json",
+              "src/locale/en/patrocinadores.json",
+              "src/locale/en/pie.json",
+              "src/locale/en/tallerista.json"
+            ],
+            "subPath": "en"
+          }
+        }
+      }
+    }
+  }
+}

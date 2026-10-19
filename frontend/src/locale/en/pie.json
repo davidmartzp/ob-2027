@@ -1,0 +1,12 @@
+{
+  "locale": "en",
+  "translations": {
+    "pie.contacto": "Contact us",
+    "pie.ubicacion": "Event location",
+    "pie.mapa": "Open in Google Maps ↗",
+    "pie.enlaces": "Quick links",
+    "pie.inscribete": "Sign up now →",
+    "pie.derechos": "© 2027 Congreso Origami Bogotá · All rights reserved",
+    "pie.lema": "16 years celebrating the art of origami"
+  }
+}

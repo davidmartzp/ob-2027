@@ -1,0 +1,23 @@
+<dialog #dialogo class="modal" aria-labelledby="itinerario-titulo" (click)="alHacerClic($event)">
+  <div class="hoja">
+    <header class="cabeza">
+      <div>
+        <h2 id="itinerario-titulo" i18n="@@itinerario.modal.titulo">El <em>itinerario</em></h2>
+      </div>
+      <button type="button" class="cerrar" aria-label="Cerrar itinerario" i18n-aria-label="@@itinerario.modal.cerrar" (click)="cerrar()">×</button>
+    </header>
+
+    <ol class="momentos">
+      @for (m of momentos; track m.momento) {
+        <li>
+          <h3>{{ m.momento }}</h3>
+          @for (p of m.parrafos; track $index) {
+            <p>{{ p }}</p>
+          }
+        </li>
+      }
+    </ol>
+
+    <p class="credito"><span class="anotacion" i18n="@@itinerario.modal.credito">El itinerario: {{ autor }}.</span></p>
+  </div>
+</dialog>

@@ -1,0 +1,40 @@
+/* ============ FICHA DE ACTIVIDAD ============ */
+:host{ display:block; border-bottom:1.5px solid var(--tinta); scroll-margin-top:90px; }
+
+.detalle{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,340px); gap:clamp(24px,4vw,60px);
+  /* alineado con el texto de la fila: sangría abierta + icono + hueco */
+  padding:4px 8px clamp(28px,4vw,44px) calc(22px + var(--actividad-icono) + var(--actividad-hueco));
+}
+details[open] .detalle{ animation:abrir .45s var(--ease); }
+@keyframes abrir{ from{ opacity:0; transform:translateY(-8px); } }
+
+.prosa p{ color:var(--tinta-80); max-width:62ch; }
+.prosa p + p{ margin-top:14px; }
+.prosa .pend-nota{ margin-top:16px; }
+.enlaces{ list-style:none; margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+.enlaces a{
+  font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--miel); text-decoration:none; border-bottom:1px dashed currentColor;
+}
+.enlaces a[target]::after{ content:" ↗"; }
+.enlaces a:hover{ color:var(--tinta); }
+
+figure{ align-self:start; }
+figure img{
+  aspect-ratio:4/3; object-fit:cover; border:4px solid var(--papel);
+  box-shadow:8px 8px 0 var(--pajizo); rotate:-1deg;
+}
+/* sin foto: el logo a su tamaño (el archivo mide 100px), centrado en un recuadro de papel */
+figure img.logo{
+  width:100%; height:auto; aspect-ratio:4/3; object-fit:none; background:var(--papel-2);
+  border:1.5px dashed var(--tinta-30); box-shadow:none; rotate:0deg;
+}
+
+@media (max-width: 1020px){
+  .detalle{ grid-template-columns:1fr; padding-left:8px; }
+  figure{ max-width:340px; }
+}
+@media (prefers-reduced-motion: reduce){
+  details[open] .detalle{ animation:none; }
+}

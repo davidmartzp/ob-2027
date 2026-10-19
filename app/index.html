@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origami Bogotá 2027 — El finde más plegado del año</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23B4552D'/></svg>">
+<meta name="description" content="Congreso de Origami en Colombia. 16 años celebrando el arte del origami. Liceo Francés Louis Pasteur, Bogotá. Edición 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ORIGAMI BOGOTÁ 2027 — "EL DIAGRAMA"
+   El sitio como una hoja de instrucciones de plegado:
+   cada sección es un PASO, el lenguaje gráfico es la notación
+   de los diagramas de origami (pliegues valle/montaña, flechas,
+   patrones de pliegue), y la página se despliega al hacer scroll.
+   ============================================================ */
+
+:root{
+  --papel:      #F5F0E0;  /* lana cruda — base */
+  --papel-2:    #EBE3C9;  /* lana envejecida */
+  --tinta:      #27251B;  /* carbón de ruana */
+  --tinta-60:   rgba(29,27,20,.6);
+  --tinta-30:   rgba(29,27,20,.3);
+  --tinta-12:   rgba(29,27,20,.12);
+  --ruana:    #EBA937;  /* sol de amanecer — acento */
+  --miel:      #A8740D;  /* miel profunda — acento de texto */  /* terracota de ruana — acento */
+  --pajizo:       #D9A92B;  /* dorado pajizo — flor de frailejón */
+  --frailejon:     #6C8B67;  /* verde frailejón */
+  --paramo:      #33454F;  /* noche de páramo — azul pizarra */
+  --paramo-txt:  #ECE7D8;
+  --serif: "Fraunces", Georgia, serif;
+  --sans:  "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:  "IBM Plex Mono", "SFMono-Regular", monospace;
+  --mano:  "Caveat", cursive;
+  --marron: 12px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --ease: cubic-bezier(.32,.94,.6,1);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--ruana); color:var(--tinta); }
+
+/* Grano de papel sobre todo el viewport */
+body::after{
+  content:""; position:fixed; inset:0; z-index:120; pointer-events:none;
+  opacity:.5; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+
+/* ---------- utilidades de notación de diagrama ---------- */
+.mono{ font-family:var(--mono); }
+.paso-tag{
+  font-family:var(--mono); font-size:12px; letter-spacing:.22em;
+  text-transform:uppercase; display:inline-flex; align-items:center; gap:12px;
+}
+.paso-tag::before{
+  content:""; width:44px; height:1px; background:currentColor;
+  /* línea de pliegue valle: segmentada */
+  background:repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 10px);
+}
+.pliegue{
+  /* línea de pliegue valle horizontal */
+  border:0; height:1px;
+  background:repeating-linear-gradient(90deg, currentColor 0 8px, transparent 8px 14px);
+  opacity:.45;
+}
+.pliegue-montana{
+  border:0; height:1px;
+  background:repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 5px, currentColor 5px 13px, transparent 13px 18px);
+  opacity:.45;
+}
+.anotacion{
+  font-family:var(--mano); font-size:clamp(22px,2.4vw,30px); line-height:1.1;
+  color:var(--miel); transform:rotate(-3deg); display:inline-block;
+}
+
+/* flecha de doblar (curva) reutilizable */
+.flecha-doblar{ width:64px; height:44px; overflow:visible; }
+.flecha-doblar path{
+  fill:none; stroke:currentColor; stroke-width:2;
+  stroke-dasharray:6 6; animation:correr 1.2s linear infinite;
+}
+@keyframes correr{ to{ stroke-dashoffset:-12; } }
+
+/* ---------- reveals al hacer scroll ---------- */
+.reveal{ opacity:0; transform:translateY(3.1vw); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in{ opacity:1; transform:none; }
+.reveal[data-delay="1"]{ transition-delay:.12s; }
+.reveal[data-delay="2"]{ transition-delay:.24s; }
+.reveal[data-delay="3"]{ transition-delay:.36s; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001s !important; transition-duration:.001s !important; }
+  .reveal{ opacity:1; transform:none; }
+}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px var(--gutter);
+  transition:transform .35s var(--ease), background .35s, box-shadow .35s;
+}
+header.oculto{ transform:translateY(-110%); }
+header.solido{ background:rgba(236,231,216,.92); backdrop-filter:blur(8px); box-shadow:0 1px 0 var(--tinta-12); }
+.marca{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+.marca svg{ width:38px; height:38px; }
+.marca b{ font-family:var(--serif); font-weight:600; font-size:18px; letter-spacing:.01em; }
+.marca small{ font-family:var(--mono); font-size:10px; letter-spacing:.25em; display:block; color:var(--tinta-60); }
+nav.principal{ display:flex; gap:26px; align-items:center; }
+nav.principal a{
+  font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  text-decoration:none; position:relative; padding:4px 0;
+}
+nav.principal a::after{
+  content:""; position:absolute; left:0; bottom:0; width:100%; height:1px;
+  background:repeating-linear-gradient(90deg, currentColor 0 5px, transparent 5px 8px);
+  transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease);
+}
+nav.principal a:hover::after{ transform:scaleX(1); }
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase;
+  padding:13px 26px; border-radius:999px; text-decoration:none; cursor:pointer;
+  border:1.5px solid var(--tinta); background:var(--tinta); color:var(--papel);
+  transition:background .25s, color .25s, transform .25s var(--ease);
+}
+.btn:hover{ background:var(--ruana); border-color:var(--miel); color:var(--tinta); transform:translateY(-2px); }
+.btn.btn-linea{ background:transparent; color:var(--tinta); }
+.btn.btn-linea:hover{ background:var(--tinta); color:var(--papel); }
+.btn.btn-naranja{ background:var(--ruana); border-color:var(--miel); color:var(--tinta); }
+.btn.btn-naranja:hover{ background:var(--tinta); border-color:var(--tinta); }
+header .btn{ padding:10px 20px; font-size:12px; }
+.menu-toggle{ display:none; }
+nav.movil{ display:none; }
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100svh; position:relative;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:110px var(--gutter) 40px;
+  isolation:isolate;
+}
+.hero .cp{
+  position:absolute; inset:0; z-index:-1; pointer-events:none;
+}
+.hero-top{
+  position:absolute; top:96px; left:var(--gutter); right:var(--gutter);
+  display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+  font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+}
+.hero-top .coords{ text-align:right; color:var(--tinta-60); }
+.hero-grid{
+  display:grid; grid-template-columns:1.5fr .9fr; gap:clamp(20px,4vw,60px);
+  align-items:end;
+}
+.hero-titulo{
+  font-family:var(--serif); font-variation-settings:"opsz" 144;
+  font-weight:560; line-height:.92; letter-spacing:-.02em;
+  font-size:clamp(52px, 9.2vw, 148px); text-transform:uppercase;
+}
+.hero-titulo .fila{ display:block; }
+.hero-titulo .fila span{ display:inline-block; }
+.hero-titulo em{
+  font-style:italic; font-weight:340; color:var(--miel); letter-spacing:-.01em;
+}
+.hero-titulo .ano{
+  -webkit-text-stroke:2px var(--tinta); color:transparent;
+}
+.hero-lado{ position:relative; padding-bottom:8px; }
+.hero-lado .figura{
+  position:absolute; right:0; bottom:calc(100% - 30px); width:min(34vw, 460px);
+  filter:drop-shadow(0 30px 40px rgba(29,27,20,.18));
+  transform:rotate(3deg);
+}
+.hero-lado .figura img{ mix-blend-mode:multiply; }
+.hero-fecha{ display:inline-flex; align-items:baseline; gap:18px; margin-top:30px; padding:12px 22px; border:1.5px dashed var(--tinta-30); background:var(--papel-2); transform:rotate(-1.2deg); box-shadow:7px 7px 0 var(--pajizo); }
+.hf-tag{ font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--tinta-60); }
+.hf-dias{ font-family:var(--serif); font-weight:600; font-size:clamp(26px,3.4vw,42px); letter-spacing:.02em; color:var(--tinta); }
+.hf-mes{ font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--miel); }
+.hero-sub{
+  font-family:var(--serif); font-style:italic; font-weight:400;
+  font-size:clamp(20px,2.2vw,30px); line-height:1.25; max-width:22ch;
+}
+.hero-meta{
+  margin-top:16px; display:flex; flex-wrap:wrap; gap:8px 30px;
+  font-family:var(--mono); font-size:12.5px; letter-spacing:.12em; text-transform:uppercase;
+}
+.hero-meta b{ font-weight:500; }
+.hero-meta span{ color:var(--tinta-60); display:block; font-size:11px; margin-bottom:2px; }
+.hero-cta{ margin-top:18px; display:flex; gap:14px; flex-wrap:wrap; }
+.socials{ display:flex; gap:10px; margin-top:18px; }
+.socials a{
+  width:42px; height:42px; border-radius:50%; border:1.5px solid var(--tinta-30);
+  display:grid; place-items:center; text-decoration:none; transition:.25s;
+}
+.socials a:hover{ border-color:var(--miel); background:var(--ruana); color:#fff; transform:translateY(-3px); }
+.socials svg{ width:17px; height:17px; }
+.scroll-hint{
+  position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+  font-family:var(--mono); font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--tinta-60); display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.scroll-hint::after{
+  content:""; width:1px; height:34px;
+  background:repeating-linear-gradient(180deg, var(--tinta) 0 5px, transparent 5px 9px);
+  animation:caer 1.6s var(--ease) infinite;
+}
+@keyframes caer{ 0%{ transform:scaleY(0); transform-origin:top; } 50%{ transform:scaleY(1); transform-origin:top; } 51%{ transform-origin:bottom; } 100%{ transform:scaleY(0); transform-origin:bottom; } }
+
+/* ============ MARQUEE — faja de ruana tejida ============ */
+.avion{ position:fixed; top:0; left:0; z-index:80; width:54px; pointer-events:none; opacity:0; transition:opacity .9s ease; filter:drop-shadow(4px 5px 0 rgba(39,37,27,.16)); will-change:transform; }
+.avion.volando{ opacity:1; }
+.marquee{
+  background:var(--paramo); color:var(--papel);
+  overflow:hidden; padding:0; transform:rotate(-1.2deg); margin:30px -2%;
+}
+.marquee::before, .marquee::after{
+  content:""; display:block; height:9px;
+  background:repeating-linear-gradient(90deg,
+    var(--ruana) 0 96px, var(--frailejon) 96px 140px,
+    var(--papel) 140px 148px, var(--paramo) 148px 230px);
+}
+.marquee .pista{ display:flex; gap:0; width:max-content; padding:15px 0; animation:rodar 26s linear infinite; }
+.marquee span{
+  font-family:var(--serif); font-size:clamp(20px,2.4vw,32px); font-weight:480;
+  white-space:nowrap; padding:0 18px; display:flex; align-items:center; gap:36px;
+}
+.marquee span::after{ content:"✳"; color:var(--miel); font-size:.8em; }
+.marquee span em{ font-style:italic; color:var(--pajizo); }
+@keyframes rodar{ to{ transform:translateX(-50%); } }
+
+/* ============ SECCIONES GENERALES ============ */
+section{ padding:clamp(70px,10vw,140px) var(--gutter); position:relative; }
+.sec-head{ display:flex; align-items:baseline; justify-content:space-between; gap:20px; margin-bottom:clamp(36px,5vw,70px); flex-wrap:wrap; }
+h2.titulo{
+  font-family:var(--serif); font-weight:520; letter-spacing:-.02em;
+  font-size:clamp(40px,6vw,88px); line-height:.98;
+}
+h2.titulo em{ font-style:italic; font-weight:340; color:var(--miel); }
+</style>
+<style>
+/* ============ ACERCA ============ */
+.acerca{ background:var(--papel); }
+.acerca-grid{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,80px);
+  align-items:start;
+}
+.acerca-grande{
+  font-family:var(--serif); font-weight:460; letter-spacing:-.015em;
+  font-size:clamp(28px,3.4vw,52px); line-height:1.12;
+}
+.acerca-grande em{ font-style:italic; color:var(--miel); font-weight:380; }
+.acerca-grande mark{
+  background:none; color:inherit; position:relative; white-space:nowrap;
+}
+.acerca-grande mark::after{
+  content:""; position:absolute; left:-2%; bottom:.06em; width:104%; height:.34em;
+  background:var(--frailejon); z-index:-1; transform:rotate(-1deg);
+}
+.acerca-der{ position:relative; }
+.acerca-der p{ max-width:52ch; color:var(--tinta-60); }
+.acerca-der p + p{ margin-top:1em; }
+.acerca-der p b{ color:var(--tinta); font-weight:600; }
+.acerca-nota{
+  margin-top:34px; padding:26px 28px; background:var(--papel-2);
+  border-left:3px solid var(--pajizo); position:relative;
+}
+.acerca-nota::before{
+  content:"FIG. 01"; font-family:var(--mono); font-size:10px; letter-spacing:.25em;
+  color:var(--miel); display:block; margin-bottom:10px;
+}
+.acerca-nota p{ font-family:var(--serif); font-style:italic; font-size:19px; color:var(--tinta); }
+.acerca .anotacion{ position:absolute; top:-38px; right:6%; }
+
+/* ============ ITINERARIO (hoja negra) ============ */
+.itinerario{
+  background:var(--paramo); color:var(--paramo-txt);
+  margin:0; overflow:hidden;
+}
+.itinerario::before{
+  /* patrón de pliegues (crease pattern) de fondo */
+  content:""; position:absolute; inset:0; opacity:.14; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23ECE7D8' stroke-width='1'%3E%3Cpath d='M0 210 H420' stroke-dasharray='8 8'/%3E%3Cpath d='M210 0 V420' stroke-dasharray='2 5 9 5'/%3E%3Cpath d='M0 0 L420 420' stroke-dasharray='8 8'/%3E%3Cpath d='M420 0 L0 420' stroke-dasharray='2 5 9 5'/%3E%3Cpath d='M105 0 V420 M315 0 V420' stroke-dasharray='8 8' opacity='.6'/%3E%3Ccircle cx='210' cy='210' r='90' stroke-dasharray='4 6'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:420px;
+}
+.itinerario .inner{ position:relative; display:grid; grid-template-columns:1.2fr .8fr; gap:clamp(30px,5vw,90px); align-items:center; }
+.itinerario h2.titulo{ color:var(--paramo-txt); }
+.itinerario h2.titulo em{ color:var(--pajizo); }
+.itinerario p{ color:rgba(236,231,216,.72); max-width:46ch; margin-top:20px; }
+.itinerario .acciones{ display:flex; flex-direction:column; gap:16px; align-items:flex-start; }
+.btn.btn-claro{ background:var(--paramo-txt); border-color:var(--paramo-txt); color:var(--paramo); }
+.btn.btn-claro:hover{ background:var(--ruana); border-color:var(--miel); color:var(--tinta); }
+.recursos-link{
+  font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--pajizo); text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+  border-bottom:1px dashed var(--pajizo); padding-bottom:4px; transition:.25s;
+}
+.recursos-link:hover{ color:var(--papel); gap:16px; }
+.itinerario .mega{
+  position:absolute; right:-2%; bottom:-.35em;
+  font-family:var(--serif); font-weight:600; font-size:clamp(120px,22vw,340px);
+  line-height:1; color:transparent; -webkit-text-stroke:1px rgba(236,231,216,.14);
+  pointer-events:none; user-select:none;
+}
+.itinerario .flecha-doblar{ color:var(--pajizo); margin-top:8px; }
+.itinerario .cerros{ position:absolute; left:0; right:0; bottom:0; pointer-events:none; z-index:0; }
+.itinerario .inner{ z-index:1; }
+
+/* ============ INVITADOS ============ */
+.invitados{ background:var(--papel); }
+.invitados .aviso{
+  font-family:var(--mano); font-size:24px; color:var(--miel); transform:rotate(-1.5deg);
+  display:inline-block; margin-top:14px;
+}
+.lista-invitados{ border-top:1.5px solid var(--tinta); }
+.invitado-card{
+  display:grid; grid-template-columns:minmax(230px,330px) 1fr; gap:clamp(26px,4.5vw,64px);
+  align-items:center; padding:clamp(34px,4.5vw,58px) 8px; border-bottom:1.5px solid var(--tinta);
+}
+.invitado-card:nth-child(even){ grid-template-columns:1fr minmax(230px,330px); }
+.invitado-card:nth-child(even) .inv-foto{ order:2; }
+.inv-foto{ margin:0; }
+.inv-foto img{
+  width:100%; aspect-ratio:1; object-fit:cover; display:block;
+  border:6px solid #fff; box-shadow:12px 12px 0 var(--pajizo); transform:rotate(-2deg);
+  mix-blend-mode:multiply; background:var(--papel);
+}
+.invitado-card:nth-child(even) .inv-foto img{ transform:rotate(2deg); box-shadow:-12px 12px 0 var(--ruana); }
+.inv-foto figcaption{
+  font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--tinta-60); margin-top:14px;
+}
+.inv-info .num{
+  font-family:var(--mono); font-size:12px; letter-spacing:.2em; color:var(--tinta-60);
+  display:flex; align-items:center; gap:14px;
+}
+.inv-info .nombre{
+  font-family:var(--serif); font-weight:520; letter-spacing:-.02em;
+  font-size:clamp(30px,4.6vw,60px); line-height:1; text-transform:uppercase; margin:14px 0 10px;
+}
+.inv-info .nombre em{ font-style:italic; font-weight:340; text-transform:none; color:var(--miel); }
+.inv-info .rol{
+  font-family:var(--serif); font-style:italic; font-size:18px; color:var(--tinta-60);
+  display:block; margin-bottom:14px;
+}
+.inv-info .bio{ font-size:16px; line-height:1.65; color:var(--tinta); max-width:56ch; margin:0; }
+.pend-nota{ font-weight:400; font-size:13px; color:var(--tinta-60); font-style:italic; }
+/* vista flotante que sigue el cursor */
+.vista-flotante{
+  position:fixed; z-index:90; width:min(300px, 30vw); aspect-ratio:4/5;
+  pointer-events:none; opacity:0; transform:scale(.85) rotate(-4deg);
+  transition:opacity .18s ease, transform .3s var(--ease);
+  background:var(--papel-2); border:1.5px solid var(--tinta);
+  display:grid; place-items:center; overflow:hidden;
+  box-shadow:14px 14px 0 var(--ruana);
+}
+.vista-flotante.activa{ opacity:1; transform:scale(1) rotate(2deg); }
+.vista-flotante svg{ width:70%; height:auto; }
+.vista-flotante figcaption{
+  position:absolute; bottom:10px; left:12px; font-family:var(--mono);
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--tinta-60);
+}
+
+/* ============ ACTIVIDADES ============ */
+.actividades{ background:var(--frailejon); } .actividades h2.titulo em{ color:var(--paramo); }
+.actividades .paso-tag{ color:var(--tinta); }
+.lista-actividades{ list-style:none; border-top:1.5px solid var(--tinta); }
+.lista-actividades li{ border-bottom:1.5px solid var(--tinta); transition:opacity .15s; }
+.lista-actividades:hover > li:not(:hover){ opacity:.3; }
+.actividad{
+  display:grid; grid-template-columns:auto 1fr auto; gap:clamp(16px,3vw,44px);
+  align-items:center; padding:clamp(22px,3.4vw,38px) 8px; text-decoration:none;
+  transition:padding-left .3s var(--ease);
+}
+.actividad:hover{ padding-left:26px; }
+.actividad .icono{ width:clamp(44px,5vw,70px); }
+.actividad .icono svg{ width:100%; height:auto; transition:transform .4s var(--ease); }
+.actividad:hover .icono svg{ transform:rotate(90deg); }
+.actividad h3{
+  font-family:var(--serif); font-weight:540; letter-spacing:-.02em;
+  font-size:clamp(26px,3.6vw,52px); line-height:1.02;
+}
+.actividad h3 em{ font-style:italic; font-weight:340; }
+.actividad p{ color:rgba(29,27,20,.66); max-width:60ch; margin-top:6px; font-size:15.5px; }
+.actividad .ver{
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.actividad .ver::after{ content:"→"; transition:transform .25s var(--ease); }
+.actividad:hover .ver::after{ transform:translateX(6px); }
+
+/* ============ TALLERISTA ============ */
+.tallerista{
+  background:var(--ruana); color:var(--tinta); overflow:hidden;
+}
+.tallerista .inner{ display:grid; grid-template-columns:1fr .85fr; gap:clamp(30px,5vw,80px); align-items:center; }
+.tallerista h2.titulo{ color:var(--tinta); }
+.tallerista h2.titulo em{ color:var(--noche, var(--paramo)); }
+.tallerista p{ color:rgba(39,37,27,.82); max-width:48ch; margin-top:18px; }
+.tallerista .foto{
+  transform:rotate(2.5deg); border:6px solid #fff;
+  box-shadow:16px 16px 0 var(--paramo);
+}
+.tallerista .foto img{ aspect-ratio:4/3; object-fit:cover; }
+.tallerista .btn.btn-noche{ background:var(--paramo); border-color:var(--paramo); color:var(--papel); margin-top:30px; }
+.tallerista .btn.btn-noche:hover{ background:var(--papel); color:var(--paramo); border-color:var(--papel); }
+.tallerista .paso-tag{ color:var(--tinta); }
+.tallerista .anotacion{ color:var(--paramo); }
+
+/* ============ PATROCINADORES ============ */
+.patrocinadores{ padding-top:clamp(50px,7vw,90px); padding-bottom:clamp(50px,7vw,90px); }
+.patros{
+  display:flex; flex-wrap:wrap; gap:18px 44px; align-items:center; justify-content:center;
+  margin-top:36px;
+}
+.patros span{
+  font-family:var(--serif); font-weight:480; font-size:clamp(17px,1.8vw,24px);
+  color:var(--tinta-60); letter-spacing:.02em; transition:.25s; cursor:default;
+  display:inline-flex; align-items:center; gap:14px;
+}
+.patros span:hover{ color:var(--miel); transform:translateY(-2px); }
+.patros span::before{ content:"✳"; font-size:.7em; color:var(--pajizo); }
+.centro{ text-align:center; }
+
+/* ============ FOOTER ============ */
+footer{ background:var(--paramo); color:var(--paramo-txt); padding:clamp(60px,8vw,110px) var(--gutter) 34px; }
+.f-fecha{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--pajizo); margin:0 0 6px; }
+.footer-grid{
+  display:grid; grid-template-columns:1.1fr .8fr .8fr; gap:clamp(30px,5vw,70px);
+  padding-bottom:clamp(40px,5vw,70px);
+}
+footer h3{
+  font-family:var(--mono); font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--pajizo); margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+footer h3::before{ content:""; width:26px; height:1px; background:repeating-linear-gradient(90deg,var(--pajizo) 0 5px, transparent 5px 8px); }
+footer a{ text-decoration:none; }
+.f-contacto a, .f-contacto p{ color:rgba(236,231,216,.8); display:block; margin-bottom:10px; font-size:15.5px; }
+.f-contacto a:hover{ color:var(--miel); }
+.f-socials{ display:flex; gap:10px; margin-top:18px; }
+.f-socials a{
+  width:40px; height:40px; border-radius:50%; border:1.5px solid rgba(236,231,216,.3);
+  display:grid; place-items:center; transition:.25s;
+}
+.f-socials a:hover{ background:var(--ruana); border-color:var(--miel); color:var(--tinta); transform:translateY(-3px); }
+.f-socials svg{ width:16px; height:16px; }
+.f-ubicacion p{ color:rgba(236,231,216,.8); margin-bottom:8px; font-size:15.5px; }
+.f-ubicacion .mapa-link{ color:var(--pajizo); border-bottom:1px dashed var(--pajizo); padding-bottom:2px; font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+.f-ubicacion .mapa-link:hover{ color:var(--miel); border-color:var(--miel); }
+.f-links a{
+  display:block; font-family:var(--serif); font-size:clamp(20px,2.2vw,28px); font-weight:460;
+  padding:8px 0; color:rgba(236,231,216,.85); transition:.2s;
+}
+.f-links a:hover{ color:var(--miel); padding-left:10px; font-style:italic; }
+.f-links a.btn{ font-family:var(--mono); font-size:13px; letter-spacing:.1em; font-style:normal; }
+.f-links a.btn:hover{ padding-left:26px; color:#fff; }
+.f-cta{ margin-top:26px; }
+.footer-mega{
+  font-family:var(--serif); font-weight:560; letter-spacing:-.02em; text-transform:uppercase;
+  font-size:clamp(52px,10.5vw,170px); line-height:.95; text-align:center;
+  color:transparent; -webkit-text-stroke:1.5px rgba(236,231,216,.28);
+  border-top:1px solid rgba(236,231,216,.16); padding-top:clamp(30px,4vw,60px);
+  transition:color .6s;
+}
+.footer-mega:hover{ color:rgba(236,231,216,.08); }
+.footer-base{
+  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  border-top:1px dashed rgba(236,231,216,.25); margin-top:clamp(26px,3vw,44px); padding-top:22px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(236,231,216,.5);
+}
+.footer-base a{ color:var(--pajizo); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1020px){
+  .hero-grid, .acerca-grid, .itinerario .inner, .tallerista .inner{ grid-template-columns:1fr; }
+  .hero-lado .figura{ position:relative; bottom:auto; width:min(64vw,420px); margin:-30px 0 20px auto; }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 760px){
+  body{ font-size:16px; }
+  nav.principal{ display:none; }
+  .menu-toggle{
+    display:grid; place-items:center; width:44px; height:44px; border-radius:50%;
+    border:1.5px solid var(--tinta); background:transparent; cursor:pointer;
+  }
+  nav.movil{
+    position:fixed; inset:0; z-index:99; background:var(--papel);
+    display:flex; flex-direction:column; justify-content:center; gap:6px;
+    padding:0 var(--gutter); transform:translateY(-102%); transition:transform .5s var(--ease);
+  }
+  nav.movil.abierta{ transform:none; }
+  nav.movil a{
+    font-family:var(--serif); font-size:clamp(34px,9vw,54px); font-weight:520;
+    text-decoration:none; border-bottom:1px dashed var(--tinta-30); padding:10px 0;
+  }
+  nav.movil a::before{ content:"0" counter(nav); }
+  .hero{ padding-top:90px; }
+  .hero-top{ position:static; margin-bottom:26px; }
+  .hero-top .coords{ display:none; }
+  .invitado-card{ grid-template-columns:1fr; gap:20px; padding:30px 4px; }
+  .invitado-card:nth-child(even) .inv-foto{ order:0; }
+  .inv-foto img{ max-width:280px; }
+  .actividad{ grid-template-columns:1fr; gap:10px; }
+  .vista-flotante{ display:none; }
+  .footer-grid{ grid-template-columns:1fr; }
+  .marquee{ transform:rotate(-2deg); }
+  .hero-fecha{ flex-wrap:wrap; gap:8px 16px; padding:10px 16px; transform:rotate(-.8deg); }
+  .hero-meta{ flex-direction:column; gap:10px; }
+  .hero-cta{ flex-wrap:wrap; }
+  .avion{ width:34px; }
+  .doblez{ height:44px; }
+  section{ padding:clamp(56px,14vw,80px) var(--gutter); }
+  .actividad .ver{ display:none; }
+  .ver-stack{ align-items:flex-start; }
+  .comunidad .titulo-flotante{ font-size:clamp(44px,13vw,80px); }
+  .inv-foto img{ box-shadow:8px 8px 0 var(--pajizo); }
+  .tallerista img{ transform:rotate(0); box-shadow:10px 10px 0 var(--paramo); }
+  .despliegue .panel{ min-width:210px; }
+}
+
+/* ============ DOBLEZ FÍSICO ENTRE SECCIONES ============ */
+/* la hoja se dobla de verdad: dos caras del pliegue + línea de quiebre */
+.doblez{ height:58px; position:relative; }
+.doblez::before{
+  content:""; position:absolute; inset:0 0 50% 0;
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
+}
+.doblez::after{
+  content:""; position:absolute; inset:50% 0 0 0;
+  background:linear-gradient(180deg, rgba(20,17,10,.28), rgba(20,17,10,0));
+}
+.doblez .linea{
+  position:absolute; top:50%; left:0; right:0; height:1px;
+  background:repeating-linear-gradient(90deg, currentColor 0 8px, transparent 8px 14px);
+  opacity:.45;
+}
+
+/* ============ LA COMUNIDAD (foto grupal a sangre) ============ */
+.comunidad{ padding:0 0 clamp(60px,7vw,100px); }
+.comunidad .marco{ position:relative; overflow:hidden; }
+.comunidad .foto{ width:100%; height:auto; display:block; }
+.comunidad .marco::after{
+  /* viñeta cálida de papel */
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(35,33,26,.42), transparent 22%),
+    linear-gradient(0deg, rgba(35,33,26,.35), transparent 30%);
+  mix-blend-mode:multiply;
+}
+.pliegues-foto{ position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:none; }
+.comunidad .titulo-flotante{
+  position:absolute; left:var(--gutter); bottom:clamp(18px,4vw,54px); z-index:3;
+  font-family:var(--serif); font-weight:560; text-transform:uppercase;
+  font-size:clamp(52px,9.5vw,158px); line-height:.88; letter-spacing:-.025em;
+  color:var(--papel);
+  text-shadow:0 6px 40px rgba(20,17,10,.55), 0 1px 0 rgba(20,17,10,.4);
+}
+.comunidad .titulo-flotante em{ font-style:italic; font-weight:360; color:var(--pajizo); }
+.cinta{
+  position:absolute; width:130px; height:36px; z-index:4;
+  background:rgba(236,231,216,.72); mix-blend-mode:screen;
+  box-shadow:0 3px 8px rgba(20,17,10,.25);
+  -webkit-clip-path:polygon(3% 0, 97% 6%, 100% 94%, 0 100%);
+  clip-path:polygon(3% 0, 97% 6%, 100% 94%, 0 100%);
+}
+.comunidad-pie{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:26px;
+  flex-wrap:wrap; padding:clamp(28px,4vw,50px) var(--gutter) 0;
+}
+.comunidad-pie p{ max-width:44ch; color:var(--tinta-60); }
+
+/* ============ HERO: pliegue central con sombra ============ */
+.hero::before{
+  content:""; position:absolute; top:0; bottom:0; left:calc(50% - 1px); width:150px;
+  background:linear-gradient(90deg, rgba(35,33,26,.12), transparent 70%);
+  z-index:-1; pointer-events:none;
+}
+.hero::after{
+  content:""; position:absolute; top:0; bottom:0; right:calc(50% - 151px); width:150px;
+  background:linear-gradient(270deg, rgba(255,255,255,.35), transparent 70%);
+  z-index:-1; pointer-events:none; mix-blend-mode:soft-light;
+}
+.hero-grid{ transform-origin:50% 100%; will-change:transform; }
+
+/* ============ vista flotante con foto ============ */
+.vista-flotante img{ display:none; width:100%; height:100%; object-fit:cover; }
+.vista-flotante.modo-foto img{ display:block; }
+.vista-flotante.modo-foto svg{ display:none; }
+
+/* ============ SÍMBOLOS DE DIAGRAMA (valle / montaña / flechas) ============ */
+.simb{ width:22px; height:16px; overflow:visible; flex:none; }
+.simb *{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; }
+.simb .valle{ stroke-dasharray:4 3; }
+.simb .montana{ stroke-dasharray:1.5 2.5 5 2.5; }
+.simb .flecha{ stroke-dasharray:3 2.6; animation:correr 1.2s linear infinite; }
+
+/* línea montaña en los dobleces (alterna con valle) */
+.doblez.montana .linea{
+  background:repeating-linear-gradient(90deg,
+    currentColor 0 2px, transparent 2px 6px,
+    currentColor 6px 16px, transparent 6px 20px);
+}
+
+/* ============ MENÚ DESPLEGABLE ============ */
+.despliegue{ position:relative; }
+.despliegue > button{
+  font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  background:none; border:0; color:inherit; cursor:pointer; padding:4px 0;
+  display:inline-flex; align-items:center; gap:7px;
+}
+.despliegue > button::after{ content:"▾"; font-size:10px; transition:transform .25s var(--ease); }
+.despliegue.abierto > button::after{ transform:rotate(180deg); }
+.despliegue .panel{
+  position:absolute; top:calc(100% + 14px); left:-18px; min-width:250px;
+  background:var(--papel); border:1.5px solid var(--tinta);
+  box-shadow:8px 8px 0 var(--pajizo);
+  opacity:0; visibility:hidden; transform:translateY(-8px) rotateX(-14deg);
+  transform-origin:top; transition:.28s var(--ease); z-index:60;
+}
+.despliegue.abierto .panel{ opacity:1; visibility:visible; transform:none; }
+.panel a{
+  display:flex; align-items:baseline; gap:12px; padding:11px 18px;
+  font-family:var(--sans); font-size:14.5px; text-decoration:none; text-transform:none;
+  letter-spacing:0; border-bottom:1px dashed var(--tinta-30); transition:.18s;
+}
+.panel a::after{ content:none; }
+.panel a:last-child{ border-bottom:0; }
+.panel a:hover{ background:var(--tinta); color:var(--papel); padding-left:24px; }
+.panel a::before{
+  content:attr(data-n); font-family:var(--mono); font-size:10px; letter-spacing:.15em;
+  color:var(--miel);
+}
+.panel a:hover::before{ color:var(--pajizo); }
+
+/* ============ LEYENDA DEL DIAGRAMA ============ */
+.leyenda{
+  display:flex; flex-wrap:wrap; gap:14px 34px; align-items:center; justify-content:center;
+  padding:26px var(--gutter); border-top:1.5px solid var(--tinta);
+  font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--tinta-60);
+}
+.leyenda span{ display:inline-flex; align-items:center; gap:9px; }
+.leyenda .simb{ width:30px; }
+
+/* ============ ACTIVIDADES: escala a muchas ============ */
+.actividad{ padding:clamp(16px,2.4vw,26px) 8px; }
+.actividad h3{ font-size:clamp(23px,3vw,40px); }
+.ver-stack{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.chip{
+  font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+  padding:4px 12px; border:1.2px dashed var(--tinta-30); border-radius:999px; color:var(--tinta-60);
+  white-space:nowrap;
+}
+.actividad:hover .chip{ border-color:var(--tinta); color:var(--tinta); }
+
+/* ============ invitados: pocas filas, más presencia ============ */
+
+
+.nota-invitados{
+  margin-top:26px; font-family:var(--mano); font-size:24px; color:var(--ocre, var(--pajizo));
+  transform:rotate(-1.2deg); display:inline-block;
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="header">
+  <a class="marca" href="#inicio" aria-label="Origami Bogotá — inicio">
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M6 38 L24 6 L42 38 Z" fill="#B4552D"/>
+      <path d="M24 6 L24 38" stroke="#23211A" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <path d="M6 38 L24 26 L42 38" fill="#C79A3B"/>
+      <path d="M6 38 L24 26 L24 38 Z" fill="#ECE7D8"/>
+    </svg>
+    <span><b>Origami Bogotá</b><small>EDICIÓN 2027</small></span>
+  </a>
+  <nav class="principal" aria-label="Navegación principal">
+    <a href="#acerca">El evento</a>
+    <a href="#comunidad">La comunidad</a>
+    <div class="despliegue" id="menuPaginas">
+      <button type="button" aria-expanded="false" aria-haspopup="true">El congreso</button>
+      <div class="panel">
+        <a href="#itinerario" data-n="03">Itinerario</a>
+        <a href="#itinerario" data-n="03b">Recursos y cronograma</a>
+        <a href="#invitados" data-n="04">Invitados</a>
+        <a href="#actividades" data-n="05">Actividades</a>
+        <a href="#actividades" data-n="05b">Talleres</a>
+        <a href="#actividades" data-n="05c">Exposición</a>
+        <a href="#patrocinadores" data-n="A">Patrocinadores</a>
+        <a href="#inscribete" data-n="B">Contacto e inscripciones</a>
+      </div>
+    </div>
+    <a href="#tallerista">Sé tallerista</a>
+    <a class="btn btn-naranja" href="#inscribete">Inscríbete</a>
+  </nav>
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+    <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M0 1h18M0 7h18M0 13h18" stroke="#23211A" stroke-width="2"/></svg>
+  </button>
+</header>
+<nav class="movil" id="navMovil" aria-label="Menú móvil">
+  <a href="#acerca">El evento</a>
+  <a href="#comunidad">La comunidad</a>
+  <a href="#itinerario">Itinerario</a>
+  <a href="#invitados">Invitados</a>
+  <a href="#actividades">Actividades</a>
+  <a href="#patrocinadores">Patrocinadores</a>
+  <a href="#tallerista">Sé tallerista</a>
+  <a href="#inscribete" style="color:var(--ruana)">Inscríbete →</a>
+</nav>
+
+
+<!-- avioncito de papel: vuela con el scroll -->
+<div class="avion" id="avion" aria-hidden="true">
+  <svg viewBox="0 0 64 48" fill="none">
+    <path d="M3 26 L61 3 L35 45 L27 30 Z" fill="#F5F0E0" stroke="#27251B" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M27 30 L61 3" stroke="#27251B" stroke-width="1.2"/>
+    <path d="M27 30 L35 45" stroke="#27251B" stroke-width="1.2"/>
+    <path d="M3 26 L27 30" stroke="#27251B" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>
+  </svg>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <svg class="cp" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#23211A" stroke-width="1">
+      <path d="M-40 620 L1480 180" stroke-dasharray="10 8" opacity=".28"/>
+      <path d="M-40 200 L1480 760" stroke-dasharray="3 7 12 7" opacity=".22"/>
+      <path d="M720 -40 L720 940" stroke-dasharray="10 8" opacity=".16"/>
+      <circle cx="1150" cy="300" r="220" stroke-dasharray="5 9" opacity=".2"/>
+      <path d="M1150 80 L1330 480 L970 480 Z" opacity=".14"/>
+    </g>
+  </svg>
+
+  <div class="hero-top">
+    <span>Paso 00 — Tomar la hoja <svg class="simb" viewBox="0 0 24 20" aria-hidden="true"><rect x="4" y="2" width="15" height="15" transform="rotate(7 11 9)"/></svg></span>
+    <span class="coords">4.6680° N, 74.0536° W<br>Bogotá, Colombia · 2.600 msnm</span>
+  </div>
+
+  <div class="hero-grid">
+    <div>
+      <h1 class="hero-titulo">
+        <span class="fila"><span>Origami</span></span>
+        <span class="fila"><span><em>Bogotá</em></span></span>
+        <span class="fila"><span class="ano">2027</span></span>
+      </h1>
+      <div class="hero-fecha reveal" data-delay="1">
+        <span class="hf-tag">Fecha — vie a dom</span>
+        <span class="hf-dias">04 · 05 · 06</span>
+        <span class="hf-mes">de junio, 2027</span>
+      </div>
+      <p class="hero-sub reveal" data-delay="1">Dieciséis años plegando juntos el arte del origami — y esta hoja apenas empieza a doblarse.</p>
+      <div class="hero-meta reveal" data-delay="2">
+        <div><span>Sede</span><b>Liceo Francés Louis Pasteur</b></div>
+        <div><span>Ciudad</span><b>Bogotá, Colombia</b></div>
+        <div><span>Edición</span><b>N.º 16 · 2027</b></div>
+      </div>
+      <div class="hero-cta reveal" data-delay="3">
+        <a class="btn btn-naranja" href="#inscribete">Inscríbete ahora</a>
+        <a class="btn btn-linea" href="#itinerario">Ver itinerario</a>
+      </div>
+      <div class="socials reveal" data-delay="3">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.7-1.6h1.5V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.7H7.8V14h2.7v8h3z"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9 1-1.1 2.4-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.3.9 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.3-.2-.6-.3z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7.2A4.8 4.8 0 1 0 12 16.8 4.8 4.8 0 0 0 12 7.2zm0 7.9a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2zM17.4 6.6a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM12 4.3c-2.5 0-2.8 0-3.8.1a5.1 5.1 0 0 0-1.7.3 3.4 3.4 0 0 0-2 2 5.1 5.1 0 0 0-.3 1.7c-.1 1-.1 1.3-.1 3.8s0 2.8.1 3.8a5.1 5.1 0 0 0 .3 1.7 3.4 3.4 0 0 0 2 2 5.1 5.1 0 0 0 1.7.3c1 .1 1.3.1 3.8.1s2.8 0 3.8-.1a5.1 5.1 0 0 0 1.7-.3 3.4 3.4 0 0 0 2-2 5.1 5.1 0 0 0 .3-1.7c.1-1 .1-1.3.1-3.8s0-2.8-.1-3.8a5.1 5.1 0 0 0-.3-1.7 3.4 3.4 0 0 0-2-2 5.1 5.1 0 0 0-1.7-.3c-1-.1-1.3-.1-3.8-.1zM12 2.5c2.6 0 2.9 0 3.9.1a6.9 6.9 0 0 1 2.3.4 5.2 5.2 0 0 1 3 3 6.9 6.9 0 0 1 .4 2.3c.1 1 .1 1.3.1 3.9s0 2.9-.1 3.9a6.9 6.9 0 0 1-.4 2.3 5.2 5.2 0 0 1-3 3 6.9 6.9 0 0 1-2.3.4c-1 .1-1.3.1-3.9.1s-2.9 0-3.9-.1a6.9 6.9 0 0 1-2.3-.4 5.2 5.2 0 0 1-3-3 6.9 6.9 0 0 1-.4-2.3c-.1-1-.1-1.3-.1-3.9s0-2.9.1-3.9a6.9 6.9 0 0 1 .4-2.3 5.2 5.2 0 0 1 3-3 6.9 6.9 0 0 1 2.3-.4C9.1 2.5 9.4 2.5 12 2.5z"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-lado">
+      <figure class="figura">
+        <img src="assets/origami-frailejon.png" alt="Frailejón de origami plegado en papel verde páramo con flores amarillas, mascota de la edición 2027">
+      </figure>
+      <span class="anotacion">¡póngase la ruana, sumercé!</span><br><br>
+      <svg class="flecha-doblar" viewBox="0 0 64 44" aria-hidden="true">
+        <path d="M4 6 C 30 -6, 54 8, 44 30 M44 30 l-8 -3 M44 30 l2 -8"/>
+      </svg>
+    </div>
+  </div>
+  <div class="scroll-hint">Despliega</div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+    <div class="pista">
+    <span>Plegamos <em>juntos</em></span><span>16 años de comunidad</span><span>04—06 jun · Bogotá · 2.600 msnm</span><span>Ruana, papel y <em>tinto</em></span><span>El finde más plegado del año</span>
+    <span>Plegamos <em>juntos</em></span><span>16 años de comunidad</span><span>04—06 jun · Bogotá · 2.600 msnm</span><span>Ruana, papel y <em>tinto</em></span><span>El finde más plegado del año</span>
+  </div>
+</div>
+
+<!-- ================= ACERCA ================= -->
+<section class="acerca" id="acerca">
+  <div class="sec-head">
+    <span class="paso-tag reveal">Paso 01 — Conocer la hoja <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="valle" d="M1 8 H23"/></svg></span>
+    <span class="mono reveal" style="font-size:12px; letter-spacing:.2em; color:var(--tinta-60)">FIG. 01 / EL EVENTO</span>
+  </div>
+  <div class="acerca-grid">
+    <h2 class="acerca-grande reveal">
+      Un evento pensado para <mark>todos los apasionados</mark> y <em>curiosos</em> por doblar papel — un espacio para conocer personas con los mismos intereses.
+    </h2>
+    <div class="acerca-der">
+      <span class="anotacion">trae papel y ruana ✳</span>
+      <svg class="frailejon" viewBox="0 0 120 160" width="132" aria-hidden="true" style="float:right; margin:0 0 12px 26px; transform:rotate(4deg)">
+        <g stroke="#23211A" stroke-width="1.4" fill="none">
+          <path d="M60 152 L60 58" stroke-dasharray="5 4"/>
+          <path d="M60 152 L48 120 M60 152 L72 120" stroke-dasharray="3 4" opacity=".6"/>
+        </g>
+        <path d="M60 98 L16 58 L46 104 Z" fill="#87947B" stroke="#23211A" stroke-width="1.2"/>
+        <path d="M60 98 L104 58 L74 104 Z" fill="#87947B" stroke="#23211A" stroke-width="1.2"/>
+        <path d="M60 98 L34 40 L56 96 Z" fill="#6E7B63" stroke="#23211A" stroke-width="1.2"/>
+        <path d="M60 98 L86 40 L64 96 Z" fill="#6E7B63" stroke="#23211A" stroke-width="1.2"/>
+        <path d="M60 98 L60 28 L66 94 Z" fill="#87947B" stroke="#23211A" stroke-width="1.2"/>
+        <path d="M60 98 L60 28 L54 94 Z" fill="#7A8870" stroke="#23211A" stroke-width="1.2"/>
+        <circle cx="60" cy="22" r="6" fill="#C79A3B" stroke="#23211A" stroke-width="1.2"/>
+        <circle cx="48" cy="32" r="4.5" fill="#C79A3B" stroke="#23211A" stroke-width="1.2"/>
+        <circle cx="72" cy="30" r="4.5" fill="#C79A3B" stroke="#23211A" stroke-width="1.2"/>
+      </svg>
+      <p class="reveal"><b>Origami Bogotá</b> dedica la posibilidad de aprender nuevas técnicas y de introducirse en el mundo del origami si es la primera vez que asistes.</p>
+      <p class="reveal" data-delay="1">Durante el evento se pliega en diferentes espacios: no solo en los talleres, sino también entre pausas y cafés. Llevamos 16 años trabajando para que todos los amantes de este arte tengan un lugar en el evento.</p>
+      <div class="acerca-nota reveal" data-delay="2">
+        <p>“Tenemos espacios para todos los niveles de complejidad — desde principiantes hasta avanzados — y otro espacio para niños. Es muy emocionante ver cómo las personas más experimentadas forman parte de los modelos complejos y los exponen.”</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA COMUNIDAD ================= -->
+<section class="comunidad" id="comunidad" aria-label="La comunidad">
+  <div class="marco reveal">
+    <img class="foto" src="assets/foto-comunidad.jpg" alt="Foto grupal de la comunidad de Origami Bogotá frente al edificio de ladrillo del Liceo Francés Louis Pasteur">
+    <svg class="pliegues-foto" viewBox="0 0 1440 860" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sombraPliegue" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#14110A" stop-opacity=".32"/>
+          <stop offset="1" stop-color="#14110A" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="luzPliegue" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#FFFDF2" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#FFFDF2" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- la foto también está doblada: dos pliegues diagonales con sombra y luz -->
+      <path d="M340 0 L520 860" stroke="#ECE7D8" stroke-width="1.4" stroke-dasharray="12 10" opacity=".55"/>
+      <path d="M340 0 L520 860 L470 860 L290 0 Z" fill="url(#sombraPliegue)" opacity=".5"/>
+      <path d="M1100 0 L920 860" stroke="#ECE7D8" stroke-width="1.4" stroke-dasharray="3 6 12 6" opacity=".5"/>
+      <path d="M1100 0 L920 860 L970 860 L1150 0 Z" fill="url(#luzPliegue)" opacity=".6"/>
+    </svg>
+    <span class="cinta" style="top:20px; left:9%; transform:rotate(-7deg)"></span>
+    <span class="cinta" style="top:24px; right:9%; transform:rotate(6deg)"></span>
+    <h2 class="titulo-flotante">La <em>comunidad</em></h2>
+  </div>
+  <div class="comunidad-pie">
+    <div>
+      <span class="paso-tag reveal">Paso 02 — La foto de la familia <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="flecha" d="M3 3 C 9 0, 19 2, 17 11 M17 11 l-4.5 -1.8 M17 11 l1.2 -4.4"/></svg></span><br>
+      <span class="anotacion reveal" data-delay="1" style="margin-top:14px">16 años de estas manos ✳</span>
+    </div>
+    <p class="reveal" data-delay="2">Cada edición termina igual: todos juntos frente al ladrillo del Liceo, con las manos llenas de papel y modelos nuevos. Esta foto es la edición 2026 — la de 2027 te está esperando.</p>
+  </div>
+</section>
+
+<!-- ================= ITINERARIO ================= -->
+<div class="doblez" style="background:var(--paramo); color:var(--paramo-txt)"><span class="linea"></span></div>
+<section class="itinerario" id="itinerario">
+  <div class="inner">
+    <div>
+      <span class="paso-tag reveal" style="color:var(--pajizo)">Paso 03 — Marcar los pliegues <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="montana" d="M1 8 H23"/></svg></span>
+      <h2 class="titulo reveal" data-delay="1" style="margin-top:22px">¡El <em>itinerario</em>!<br>Todo lo que necesitas saber</h2>
+      <p class="reveal" data-delay="2">Pa' sobrevivir al finde más plegado del año: guías, cronogramas y documentos clave del evento en un solo lugar. Consulta los recursos y prepara tu experiencia.</p>
+      <svg class="flecha-doblar reveal" data-delay="3" viewBox="0 0 64 44" aria-hidden="true">
+        <path d="M4 6 C 30 -6, 54 8, 44 30 M44 30 l-8 -3 M44 30 l2 -8"/>
+      </svg>
+    </div>
+    <div class="acciones reveal" data-delay="2">
+      <a class="btn btn-claro" href="#">Ver itinerario completo →</a>
+      <a class="recursos-link" href="#">Ir a Recursos + Cronograma</a>
+      <p style="font-family:var(--mono); font-size:12px; letter-spacing:.14em; color:rgba(236,231,216,.5); margin-top:14px">¡ORIGAMI BOGOTÁ 2027!<br>Estamos preparando la edición 2027. Pronto compartiremos toda la información sobre inscripciones, talleres y actividades. <span style="color:var(--pajizo)">¡Nos vemos el próximo año!</span></p>
+    </div>
+  </div>
+  <div class="cerros" aria-hidden="true">
+    <svg viewBox="0 0 1440 150" preserveAspectRatio="none" style="width:100%; height:150px; display:block">
+      <path d="M0 150 L0 96 L170 58 L330 100 L480 42 L610 104 L770 62 L930 108 L1090 48 L1250 94 L1440 72 L1440 150 Z" fill="#3E5560" opacity=".55"/>
+      <path d="M0 150 L0 118 L210 84 L380 122 L560 78 L740 126 L920 88 L1120 130 L1300 92 L1440 116 L1440 150 Z" fill="#26333B"/>
+      <g stroke="#ECE7D8" stroke-width="1" fill="none" opacity=".3">
+        <path d="M480 42 L560 150" stroke-dasharray="6 6"/>
+        <path d="M1090 48 L1010 150" stroke-dasharray="3 5 8 5"/>
+        <path d="M170 58 L250 150" stroke-dasharray="6 6"/>
+      </g>
+      <path d="M474 42 l6 -12 l6 12 M480 26 v8" stroke="#ECE7D8" stroke-width="1.6" fill="none" opacity=".7"/>
+    </svg>
+  </div>
+  <span class="mega" aria-hidden="true">2027</span>
+</section>
+
+<!-- ================= INVITADOS ================= -->
+<section class="invitados" id="invitados">
+  <div class="sec-head">
+    <div>
+      <span class="paso-tag reveal">Paso 04 — Manos que llegan <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="flecha" d="M21 13 C 15 16, 5 14, 7 5 M7 5 l4.5 1.8 M7 5 l-1.2 4.4"/></svg></span>
+      <h2 class="titulo reveal" data-delay="1" style="margin-top:18px">Nuestros <em>invitados</em></h2>
+      <span class="aviso reveal" data-delay="2">✳ listado provisional — nombres por confirmar</span>
+    </div>
+    <p class="mono reveal" data-delay="2" style="font-size:12px; letter-spacing:.14em; color:var(--tinta-60); max-width:32ch; text-transform:uppercase">Vienen a compartir con la comunidad, no solo a enseñar</p>
+  </div>
+
+  <div class="lista-invitados">
+    <article class="invitado-card reveal">
+      <figure class="inv-foto">
+        <img src="assets/inv-1.png" alt="Retrato provisional en papel plegado de la invitada internacional">
+        <figcaption>FIG. 04-A — retrato provisional</figcaption>
+      </figure>
+      <div class="inv-info">
+        <span class="num">INV. 01 <span class="etiqueta int">Internacional</span></span>
+        <h3 class="nombre">Por <em>confirmar</em></h3>
+        <span class="rol">Taller de plegado figurativo avanzado + exhibición</span>
+        <p class="bio">Treinta años doblan estas manos. Viene del Japón con la paciencia de la grulla: plegado figurativo, papel washi y una exhibición que deja sin aire. En Bogotá compartirá un taller de dos jornadas y la historia de la figura que la hizo famosa. <b class="pend-nota">✳ biografía provisional — se actualiza al confirmar el nombre.</b></p>
+      </div>
+    </article>
+    <article class="invitado-card reveal" data-delay="1">
+      <figure class="inv-foto">
+        <img src="assets/inv-2.png" alt="Retrato provisional en papel plegado del invitado internacional">
+        <figcaption>FIG. 04-B — retrato provisional</figcaption>
+      </figure>
+      <div class="inv-info">
+        <span class="num">INV. 02 <span class="etiqueta int">Internacional</span></span>
+        <h3 class="nombre">Por <em>confirmar</em></h3>
+        <span class="rol">Modelos de acción y papel dúo</span>
+        <p class="bio">Especialista en modelos de acción — ranas que saltan, aviones que sí vuelan — y en papel dúo de dos colores. Sus talleres son pura risa y precisión: uno sale con los dedos cansados y el corazón contento. <b class="pend-nota">✳ biografía provisional — se actualiza al confirmar el nombre.</b></p>
+      </div>
+    </article>
+    <article class="invitado-card reveal" data-delay="2">
+      <figure class="inv-foto">
+        <img src="assets/inv-3.png" alt="Retrato provisional en papel plegado de la invitada nacional">
+        <figcaption>FIG. 04-C — retrato provisional</figcaption>
+      </figure>
+      <div class="inv-info">
+        <span class="num">INV. 03 <span class="etiqueta nac">Nacional</span></span>
+        <h3 class="nombre">Por <em>confirmar</em></h3>
+        <span class="rol">Origami modular y comunidad</span>
+        <p class="bio">De nuestra propia mesa: referente del origami modular en Colombia y tejedor de comunidad. Su taller convierte veinte hojas sueltas en una sola estrella — igual que este congreso. <b class="pend-nota">✳ biografía provisional — se actualiza al confirmar el nombre.</b></p>
+      </div>
+    </article>
+  </div>
+  <span class="nota-invitados">son solo 2 o 3 este año — pocas manos, mucho papel ✳ ¿y la próxima figura la plegamos contigo? Propón tu taller ↓</span>
+</section>
+
+<!-- vista flotante para invitados -->
+<figure class="vista-flotante" id="vistaFlotante" aria-hidden="true">
+  <img id="vistaImg" alt="">
+  <svg id="vistaFigura" viewBox="0 0 120 120" fill="none"></svg>
+  <figcaption>Retrato provisional</figcaption>
+</figure>
+
+<!-- ================= ACTIVIDADES ================= -->
+<div class="doblez montana" style="background:var(--frailejon); color:var(--tinta)"><span class="linea"></span></div>
+<section class="actividades" id="actividades">
+  <div class="sec-head">
+    <div>
+      <span class="paso-tag reveal">Paso 05 — Doblar en grupo <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="flecha" d="M18.5 8.5 A6.5 6.5 0 1 1 17 3.2 M17 3.2 l-4.4 1 M17 3.2 l1 4.4"/></svg></span>
+      <h2 class="titulo reveal" data-delay="1" style="margin-top:18px">Nuestras <em>actividades</em></h2>
+    </div>
+    <p class="mono reveal" data-delay="2" style="font-size:12px; letter-spacing:.14em; color:rgba(29,27,20,.6); max-width:30ch; text-transform:uppercase">Navega por todo lo que tenemos preparado para ti</p>
+  </div>
+
+  <ul class="lista-actividades">
+    <li class="reveal"><a class="actividad" href="#" data-img="assets/act-rifas.jpg">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M30 6 L54 30 L30 54 L6 30 Z" fill="#B4552D" stroke="none"/><path d="M30 6 L30 54 M6 30 L54 30" stroke-dasharray="4 4"/></svg></span>
+      <span><h3>¡Rifas y sorteos <em>sorpresa</em>!</h3><p>Premios, papel especial y sorpresas durante todo el fin de semana.</p></span>
+      <span class="ver-stack"><span class="chip">Sorteo</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="1"><a class="actividad" href="#" data-img="assets/act-chocogami.jpg">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M8 44 L30 12 L52 44 Z" fill="#C79A3B" stroke="none"/><path d="M30 12 L30 44" stroke-dasharray="4 4"/></svg></span>
+      <span><h3>Chocogami: ¡el reto más <em>dulce</em>!</h3><p>Pliega con papel (y chocolate) en la actividad más sabrosa del congreso.</p></span>
+      <span class="ver-stack"><span class="chip">Reto</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="2"><a class="actividad" href="#" data-img="assets/act-explora.jpg">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><circle cx="30" cy="30" r="22" fill="#ECE7D8" stroke="none"/><path d="M8 30 H52 M30 8 V52" stroke-dasharray="4 4"/><circle cx="30" cy="30" r="22" stroke-dasharray="4 4"/></svg></span>
+      <span><h3>Explora Bogotá: ¡más allá del <em>papel</em>!</h3><p>Recorridos y planes para conocer la ciudad entre pliegue y pliegue.</p></span>
+      <span class="ver-stack"><span class="chip">Tour</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="3"><a class="actividad" href="#" data-img="assets/act-expo.jpg">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M10 50 L30 10 L50 50 Z" fill="#B4552D" stroke="none"/><path d="M10 50 L30 34 L50 50" fill="#87947B" stroke="none"/><path d="M30 10 L30 34" stroke-dasharray="3 3"/></svg></span>
+      <span><h3>Exposición: ¡muestra tu <em>arte</em> al mundo!</h3><p>Los modelos de la comunidad, exhibidos para celebrar la versatilidad del papel.</p></span>
+      <span class="ver-stack"><span class="chip">Exhibición</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal"><a class="actividad" href="#" data-fig="grulla">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M30 8 L52 30 L30 52 L8 30 Z" fill="#ECE7D8" stroke-dasharray="4 4"/><path d="M30 8 L30 52" stroke-dasharray="2 4 6 4"/></svg></span>
+      <span><h3>Talleres por <em>niveles</em></h3><p>De principiante a avanzado: cada quien pliega a su ritmo, con guía en la mesa.</p></span>
+      <span class="ver-stack"><span class="chip">Taller</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="1"><a class="actividad" href="#" data-fig="pez">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M8 40 L30 14 L52 40 Z" fill="#C79A3B" stroke="none"/><path d="M30 14 L30 40" stroke-dasharray="2 4 6 4"/></svg></span>
+      <span><h3>Zona <em>infantil</em></h3><p>Un espacio para que los más pequeños plieguen sus primeras figuras.</p></span>
+      <span class="ver-stack"><span class="chip">Familia</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="2"><a class="actividad" href="#" data-fig="rana">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><circle cx="30" cy="30" r="20" fill="#B4552D" stroke="none"/><circle cx="30" cy="30" r="20" fill="none" stroke-dasharray="3 4"/><path d="M30 10 V50 M10 30 H50" stroke="#ECE7D8" stroke-dasharray="3 4"/></svg></span>
+      <span><h3>Café y plegado <em>libre</em></h3><p>La mesa abierta: tinto, conversación y papel para plegar sin programa.</p></span>
+      <span class="ver-stack"><span class="chip">Comunidad</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+    <li class="reveal" data-delay="3"><a class="actividad" href="#" data-fig="tigre">
+      <span class="icono"><svg viewBox="0 0 60 60" fill="none" stroke="#23211A" stroke-width="2"><path d="M10 48 L30 12 L50 48 Z" fill="#87947B" stroke="none"/><path d="M30 12 L30 48" stroke-dasharray="4 4"/><path d="M10 48 L30 34 L50 48" fill="#2E3E46" stroke="none"/></svg></span>
+      <span><h3>Charlas y <em>conversatorios</em></h3><p>Historias, técnicas y proyectos de quienes viven el origami todos los días.</p></span>
+      <span class="ver-stack"><span class="chip">Charla</span><span class="ver">Ver detalles</span></span>
+    </a></li>
+  </ul>
+</section>
+
+<!-- ================= TALLERISTA ================= -->
+<div class="doblez" style="background:var(--ruana); color:var(--tinta)"><span class="linea"></span></div>
+<section class="tallerista" id="tallerista">
+  <div class="inner">
+    <div>
+      <span class="paso-tag reveal">Paso 06 — Compartir el doblez <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="valle" d="M1 5 H23"/><path class="montana" d="M1 12 H23"/></svg></span>
+      <h2 class="titulo reveal" data-delay="1" style="margin-top:22px">¡Comparte tu pasión!<br><em>Sé tallerista</em> en nuestro evento</h2>
+      <p class="reveal" data-delay="2">Buscamos mentes creativas como la tuya para inspirar y enseñar en nuestro próximo evento. Si tienes un modelo de origami para enseñar que quieras compartir, ¡queremos conocer tu propuesta!</p>
+      <a class="btn btn-noche reveal" data-delay="3" href="#">Proponer un taller ahora</a><br>
+      <span class="anotacion reveal" data-delay="3">¡tu modelo puede ser el próximo paso!</span>
+    </div>
+    <figure class="foto reveal" data-delay="2">
+      <img src="assets/taller-manos.png" alt="Manos de varias personas plegando papel juntas en una mesa de taller">
+    </figure>
+  </div>
+</section>
+
+<!-- ================= PATROCINADORES ================= -->
+<section class="patrocinadores" id="patrocinadores">
+  <div class="centro">
+    <span class="paso-tag reveal" style="justify-content:center">Apoyo — La mesa donde plegamos <svg class="simb" viewBox="0 0 24 16" aria-hidden="true"><path class="montana" d="M1 8 H23"/></svg></span>
+    <h2 class="titulo reveal" data-delay="1" style="margin-top:18px; font-size:clamp(30px,4vw,56px)">Nuestros <em>patrocinadores</em></h2>
+  </div>
+  <div class="patros reveal" data-delay="2">
+    <span>Liceo Francés Louis Pasteur</span><span>Pliegues Origami</span><span>evoforma PLUS</span><span>nessan</span><span>Una Restrepo</span><span>ImpresionArte</span><span>Papelería San Sebastián</span><span>duopapel</span><span>Origamística</span><span>Embajada del Japón en Colombia</span>
+  </div>
+</section>
+
+<!-- ================= LEYENDA DEL DIAGRAMA ================= -->
+<div class="leyenda" aria-hidden="true">
+  <span style="color:var(--tinta)">Clave del diagrama —</span>
+  <span><svg class="simb" viewBox="0 0 24 16"><path class="valle" d="M1 8 H23"/></svg> Valle</span>
+  <span><svg class="simb" viewBox="0 0 24 16"><path class="montana" d="M1 8 H23"/></svg> Montaña</span>
+  <span><svg class="simb" viewBox="0 0 24 16"><path class="flecha" d="M3 3 C 9 0, 19 2, 17 11 M17 11 l-4.5 -1.8 M17 11 l1.2 -4.4"/></svg> Doblar</span>
+  <span><svg class="simb" viewBox="0 0 24 16"><path class="flecha" d="M21 13 C 15 16, 5 14, 7 5 M7 5 l4.5 1.8 M7 5 l-1.2 4.4"/></svg> Desdoblar</span>
+  <span><svg class="simb" viewBox="0 0 24 16"><path class="flecha" d="M18.5 8.5 A6.5 6.5 0 1 1 17 3.2 M17 3.2 l-4.4 1 M17 3.2 l1 4.4"/></svg> Girar</span>
+</div>
+
+<div class="doblez montana" style="background:var(--paramo); color:var(--paramo-txt)"><span class="linea"></span></div>
+<!-- ================= FOOTER ================= -->
+<footer id="inscribete">
+  <div class="footer-grid">
+    <div class="f-contacto">
+      <h3>Contáctanos</h3>
+      <p class="f-fecha">04 · 05 · 06 de junio, 2027 — Bogotá</p>
+      <a href="tel:+573152459839">+57 315 245 9839</a>
+      <a href="mailto:inscripciones@origamibogota.com">inscripciones@origamibogota.com</a>
+      <a href="mailto:congresoorigamibogota@gmail.com">congresoorigamibogota@gmail.com</a>
+      <div class="f-socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.7-1.6h1.5V4.2c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.7H7.8V14h2.7v8h3z"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9 1-1.1 2.4-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.3.9 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.3-.2-.6-.3z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7.2A4.8 4.8 0 1 0 12 16.8 4.8 4.8 0 0 0 12 7.2zm0 7.9a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2zM17.4 6.6a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM12 4.3c-2.5 0-2.8 0-3.8.1a5.1 5.1 0 0 0-1.7.3 3.4 3.4 0 0 0-2 2 5.1 5.1 0 0 0-.3 1.7c-.1 1-.1 1.3-.1 3.8s0 2.8.1 3.8a5.1 5.1 0 0 0 1.7-.3 3.4 3.4 0 0 0 2 2 5.1 5.1 0 0 0-.3 1.7c1 .1 1.3.1 3.8.1s2.8 0 3.8-.1a5.1 5.1 0 0 0 1.7-.3 3.4 3.4 0 0 0 2-2 5.1 5.1 0 0 0 .3-1.7c.1-1 .1-1.3.1-3.8s0-2.9-.1-3.9a6.9 6.9 0 0 1 2.3.4 5.2 5.2 0 0 1 3 3 6.9 6.9 0 0 1 .4 2.3c-1 .1-1.3.1-3.9.1s-2.9 0-3.9-.1a6.9 6.9 0 0 1-2.3-.4 5.2 5.2 0 0 1-3-3 6.9 6.9 0 0 1-.4-2.3c-.1-1-.1-1.3-.1-3.9s0-2.9.1-3.9a6.9 6.9 0 0 1 .4-2.3 5.2 5.2 0 0 1 3-3A6.9 6.9 0 0 1 9.1 2.5C9.4 2.5 12 2.5 12 2.5z"/></svg></a>
+      </div>
+    </div>
+    <div class="f-ubicacion">
+      <h3>Ubicación del evento</h3>
+      <p><b style="color:var(--papel)">Liceo Francés Louis Pasteur</b></p>
+      <p>Cl. 87 #7-77, Barrio La Cabrera<br>Bogotá, Colombia</p>
+      <a class="mapa-link" href="https://maps.google.com/?q=Liceo+Franc%C3%A9s+Louis+Pasteur+Bogot%C3%A1" target="_blank" rel="noopener">Abrir en Google Maps ↗</a>
+    </div>
+    <div class="f-links">
+      <h3>Enlaces rápidos</h3>
+      <a href="#inicio">Inicio</a>
+      <a href="#itinerario">Itinerario</a>
+      <a href="#invitados">Invitados</a>
+      <a href="#actividades">Talleres</a>
+      <a class="btn btn-naranja f-cta" href="mailto:inscripciones@origamibogota.com">Inscríbete ahora →</a>
+    </div>
+  </div>
+  <div class="footer-mega" aria-hidden="true">Origami Bogotá</div>
+  <div class="footer-base">
+    <span>© 2027 Congreso Origami Bogotá · Todos los derechos reservados</span>
+    <span>16 años celebrando el arte del origami</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- reveals al hacer scroll ---------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:.12, rootMargin:'0px 0px -6% 0px' });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- header: sólido + ocultar al bajar ---------- */
+const header = document.getElementById('header');
+let ultimaY = 0;
+addEventListener('scroll', ()=>{
+  const y = scrollY;
+  header.classList.toggle('solido', y > 40);
+  if (y > 300 && y > ultimaY) header.classList.add('oculto');
+  else header.classList.remove('oculto');
+  ultimaY = y;
+},{ passive:true });
+
+/* ---------- menú desplegable ---------- */
+const desp = document.getElementById('menuPaginas');
+const despBtn = desp.querySelector('button');
+despBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const abierto = desp.classList.toggle('abierto');
+  despBtn.setAttribute('aria-expanded', abierto);
+});
+desp.querySelectorAll('.panel a').forEach(a=>a.addEventListener('click', ()=>desp.classList.remove('abierto')));
+document.addEventListener('click', (e)=>{ if(!desp.contains(e.target)) desp.classList.remove('abierto'); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') desp.classList.remove('abierto'); });
+
+/* ---------- menú móvil ---------- */
+const toggle = document.getElementById('menuToggle');
+const navMovil = document.getElementById('navMovil');
+toggle.addEventListener('click', ()=>{
+  const abierta = navMovil.classList.toggle('abierta');
+  toggle.setAttribute('aria-expanded', abierta);
+});
+navMovil.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>navMovil.classList.remove('abierta')));
+
+/* ---------- vista flotante de invitados (sigue el cursor) ---------- */
+const figuras = {
+  grulla:`<path d="M60 14 L96 60 L60 106 L24 60 Z" fill="#B4552D"/><path d="M60 14 L60 106 M24 60 L96 60" stroke="#23211A" stroke-dasharray="4 4"/><path d="M60 14 L78 60 L60 74 L42 60 Z" fill="#ECE7D8" stroke="#23211A"/>`,
+  rana:`<path d="M20 90 L60 30 L100 90 Z" fill="#87947B" stroke="#23211A"/><path d="M60 30 L60 90 M20 90 L60 66 L100 90" stroke="#23211A" stroke-dasharray="4 4" fill="none"/><circle cx="45" cy="52" r="4" fill="#23211A"/><circle cx="75" cy="52" r="4" fill="#23211A"/>`,
+  zorro:`<path d="M24 30 L60 100 L96 30 L60 48 Z" fill="#C79A3B" stroke="#23211A"/><path d="M24 30 L12 12 L40 24 M96 30 L108 12 L80 24" fill="#B4552D" stroke="#23211A"/><path d="M60 48 L60 100" stroke="#23211A" stroke-dasharray="4 4"/>`,
+  pez:`<path d="M14 60 L62 26 L106 60 L62 94 Z" fill="#B4552D" stroke="#23211A"/><path d="M62 26 L62 94 M14 60 L106 60" stroke="#ECE7D8" stroke-dasharray="4 4" fill="none"/><circle cx="38" cy="54" r="4" fill="#ECE7D8"/>`,
+  tigre:`<path d="M60 16 L100 44 L88 100 L32 100 L20 44 Z" fill="#C79A3B" stroke="#23211A"/><path d="M60 16 L60 100 M20 44 L100 44" stroke="#23211A" stroke-dasharray="4 4" fill="none"/><path d="M40 62 L52 62 M68 62 L80 62" stroke="#23211A" stroke-width="3"/>`
+};
+const vista = document.getElementById('vistaFlotante');
+const vistaFig = document.getElementById('vistaFigura');
+const vistaImg = document.getElementById('vistaImg');
+const vistaCap = vista.querySelector('figcaption');
+let vx=0, vy=0, cx=0, cy=0, vistaOn=false;
+
+/* actividades: la vista flotante muestra la foto real del momento */
+document.querySelectorAll('.actividad[data-img]').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{
+    vistaImg.src = el.dataset.img;
+    vistaCap.textContent = 'Archivo Origami Bogotá';
+    vista.classList.add('modo-foto','activa'); vistaOn = true;
+  });
+  el.addEventListener('mouseleave', ()=>{ vista.classList.remove('activa','modo-foto'); vistaOn = false; });
+});
+/* actividades sin foto: muestran su figura de diagrama */
+document.querySelectorAll('.actividad[data-fig]').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{
+    vista.classList.remove('modo-foto');
+    vistaCap.textContent = 'Figura de la actividad';
+    vistaFig.innerHTML = figuras[el.dataset.fig] || figuras.grulla;
+    vista.classList.add('activa'); vistaOn = true;
+  });
+  el.addEventListener('mouseleave', ()=>{ vista.classList.remove('activa'); vistaOn = false; });
+});
+addEventListener('mousemove', e=>{ vx = e.clientX + 26; vy = e.clientY - 120; },{ passive:true });
+(function seguir(){
+  cx += (vx-cx)*.12; cy += (vy-cy)*.12;
+  vista.style.left = cx+'px'; vista.style.top = cy+'px';
+  requestAnimationFrame(seguir);
+})();
+
+/* ---------- el hero se pliega suavemente al hacer scroll ---------- */
+const heroGrid = document.querySelector('.hero-grid');
+addEventListener('scroll', ()=>{
+  const p = Math.min(scrollY / innerHeight, 1);
+  heroGrid.style.transform = `perspective(1400px) rotateX(${p*7}deg) translateY(${p*-26}px)`;
+  heroGrid.style.opacity = 1 - p*.3;
+},{ passive:true });
+
+/* ---------- año en hero: nada dinámico, la edición es fija (2027) ---------- */
+
+/* ===== avioncito de papel: vuela con el scroll ===== */
+(function(){
+  const av = document.getElementById('avion');
+  if (!av || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let px = 0, py = 0, visible = false;
+  const pos = (p)=>{
+    const vw = innerWidth, vh = innerHeight, t = p * Math.PI * 2;
+    return {
+      x: vw * (0.08 + 0.84 * (0.5 - 0.5 * Math.cos(t * 2.2))),
+      y: vh * (0.16 + 0.66 * (0.5 + 0.5 * Math.sin(t * 1.6 + 1.1)))
+    };
+  };
+  function frame(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    const a = pos(p), b = pos(Math.min(1, p + 0.004));
+    px += (a.x - px) * 0.08; py += (a.y - py) * 0.08;
+    const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+    const bob = Math.sin(Date.now() / 320) * 3;
+    av.style.transform = `translate(${px}px, ${py + bob}px) rotate(${ang}deg)`;
+    if (!visible && scrollY > 40){ av.classList.add('volando'); visible = true; }
+    if (scrollY <= 40 && visible){ av.classList.remove('volando'); visible = false; }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

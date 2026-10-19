@@ -1,0 +1,9 @@
+{
+  "locale": "en",
+  "translations": {
+    "comunidad.fotoAlt": "Group photo of the Origami Bogotá community in front of the brick building of the Liceo Francés Louis Pasteur",
+    "comunidad.titulo": "The {$START_EMPHASISED_TEXT}community{$CLOSE_EMPHASISED_TEXT}",
+    "comunidad.frase": "nobody folds alone here ✳",
+    "comunidad.texto": "You arrive with a blank sheet and leave with friends, half-finished models and the urge to come back. At this table, the person who's been folding for years explains things to the one who arrived yesterday, and kids ask questions without a second thought. This is the 2026 photo. In the 2027 one, there's a spot saved for you."
+  }
+}

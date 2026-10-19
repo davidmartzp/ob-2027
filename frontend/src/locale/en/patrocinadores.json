@@ -1,0 +1,7 @@
+{
+  "locale": "en",
+  "translations": {
+    "patrocinadores.embajada": "Embassy of Japan in Colombia",
+    "patrocinadores.titulo": "Our {$START_EMPHASISED_TEXT}sponsors{$CLOSE_EMPHASISED_TEXT}"
+  }
+}

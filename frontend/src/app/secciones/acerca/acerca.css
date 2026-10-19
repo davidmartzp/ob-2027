@@ -1,0 +1,37 @@
+:host{ display:block; }
+
+/* ============ ACERCA ============ */
+.acerca{ background:var(--papel); }
+.acerca-grid{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,80px);
+  align-items:start;
+}
+.acerca-grande{
+  font-family:var(--serif); font-weight:460; letter-spacing:-.015em;
+  font-size:clamp(28px,3.4vw,52px); line-height:1.12;
+}
+.acerca-grande em{ font-style:italic; color:var(--miel); font-weight:380; }
+.acerca-grande mark{
+  background:none; color:inherit; position:relative; white-space:nowrap;
+}
+.acerca-grande mark::after{
+  content:""; position:absolute; left:-2%; bottom:.06em; width:104%; height:.34em;
+  background:var(--frailejon); z-index:-1; transform:rotate(-1deg);
+}
+.acerca-der{ position:relative; }
+.acerca-der p{ max-width:52ch; color:var(--tinta-80); }
+.acerca-der p + p{ margin-top:1em; }
+.acerca-der p b{ color:var(--tinta); font-weight:600; }
+.acerca-nota{
+  margin-top:34px; padding:26px 28px; background:var(--papel-2);
+  border-left:3px solid var(--pajizo); position:relative;
+}
+.acerca-nota p{ font-family:var(--serif); font-style:italic; font-size:19px; color:var(--tinta); }
+
+@media (max-width: 1020px){
+  .acerca-grid{ grid-template-columns:1fr; }
+}
+@media (max-width: 760px){
+  /* el dibujo flotante estrechaba el primer párrafo: más pequeño en móvil */
+  .acerca-der svg{ width:72px; margin:0 0 8px 16px !important; }
+}

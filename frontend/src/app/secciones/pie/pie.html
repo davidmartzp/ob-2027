@@ -1,0 +1,34 @@
+<footer id="inscribete">
+  <div class="footer-grid">
+    <div class="f-contacto">
+      <h3 i18n="@@pie.contacto">Contáctanos</h3>
+      <p class="f-fecha">{{ evento.fechaLarga }}</p>
+      <a [href]="evento.telefono.href">{{ evento.telefono.texto }}</a>
+      @for (correo of evento.correos; track correo) {
+        <a [href]="'mailto:' + correo">{{ correo }}</a>
+      }
+      <app-redes-sociales oscuro/>
+    </div>
+    <div class="f-ubicacion">
+      <h3 i18n="@@pie.ubicacion">Ubicación del evento</h3>
+      <p><b class="sede">{{ evento.sede }}</b></p>
+      <p>{{ evento.direccion }}<br>{{ evento.ciudad }}</p>
+      <a class="mapa-link" [appEnlace]="evento.mapaUrl" i18n="@@pie.mapa">Abrir en Google Maps ↗</a>
+    </div>
+    <div class="f-links">
+      <h3 i18n="@@pie.enlaces">Enlaces rápidos</h3>
+      @for (enlace of enlaces; track enlace.texto) {
+        <a [href]="enlace.href">{{ enlace.texto }}</a>
+      }
+      @if (inscripcionesAbiertas) {
+        <a class="btn btn-naranja f-cta" [href]="evento.correoInscripciones" i18n="@@pie.inscribete">Inscríbete ahora →</a>
+      }
+    </div>
+  </div>
+  <img class="footer-logo" src="assets/logo-amigos-plegadores.png" alt="Logo de Amigos Plegadores" i18n-alt="@@comun.logoAlt" width="72" height="72">
+  <div class="footer-mega" aria-hidden="true">Origami Bogotá</div>
+  <div class="footer-base">
+    <span i18n="@@pie.derechos">© 2027 Congreso Origami Bogotá · Todos los derechos reservados</span>
+    <span i18n="@@pie.lema">16 años celebrando el arte del origami</span>
+  </div>
+</footer>

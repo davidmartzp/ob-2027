@@ -125,6 +125,7 @@
     {
       "id": "publica-diagramas",
       "categoria": "convocatorias",
+      "foto": "assets/actividades/publica-diagramas.jpg",
       "titulo": {
         "es": "Publica tus diagramas: deja tu <em>huella</em>",
         "en": "Publish your diagrams: leave your <em>mark</em>"
@@ -174,6 +175,7 @@
     {
       "id": "tallerista",
       "categoria": "convocatorias",
+      "foto": "assets/actividades/tallerista.jpg",
       "titulo": {
         "es": "Comparte tu talento: ¡sé <em>tallerista</em>!",
         "en": "Share your talent: be a <em>workshop teacher</em>!"
@@ -194,6 +196,7 @@
     {
       "id": "pines",
       "categoria": "comunidad",
+      "foto": "assets/actividades/pines.jpg",
       "titulo": {
         "es": "Rompe el hielo con pines <em>plegados</em>",
         "en": "Break the ice with folded <em>pins</em>"
@@ -214,7 +217,7 @@
     {
       "id": "chocogami",
       "categoria": "retos",
-      "foto": "assets/act-chocogami.jpg",
+      "foto": "assets/actividades/chocogami.jpg",
       "titulo": {
         "es": "Chocogami: ¡el reto más <em>dulce</em>!",
         "en": "Chocogami: the <em>sweetest</em> challenge!"
@@ -235,6 +238,7 @@
     {
       "id": "tarjetas-atc",
       "categoria": "convocatorias",
+      "foto": "assets/actividades/tarjetas-atc.jpg",
       "titulo": {
         "es": "Intercambio de <em>tarjetas</em> (ATC)",
         "en": "Artist <em>Trading Cards</em> (ATC) exchange"
@@ -264,6 +268,7 @@
     {
       "id": "chiva",
       "categoria": "bogota",
+      "foto": "assets/actividades/chiva.jpg",
       "titulo": {
         "es": "¡Súbete a la <em>chiva rumbera</em>!",
         "en": "Jump on the <em>party bus</em>!"
@@ -328,7 +333,7 @@
     {
       "id": "exposicion",
       "categoria": "comunidad",
-      "foto": "assets/act-expo.jpg",
+      "foto": "assets/actividades/exposicion.jpg",
       "titulo": {
         "es": "Exposición: ¡muestra tu <em>arte</em> al mundo!",
         "en": "Exhibition: show your <em>art</em> to the world!"
@@ -409,7 +414,7 @@
     {
       "id": "explora-bogota",
       "categoria": "bogota",
-      "foto": "assets/act-explora.jpg",
+      "foto": "assets/actividades/explora-bogota.jpg",
       "titulo": {
         "es": "Explora Bogotá: ¡más allá del <em>papel</em>!",
         "en": "Explore Bogotá: beyond the <em>paper</em>!"
@@ -434,7 +439,6 @@
     {
       "id": "rifas",
       "categoria": "retos",
-      "foto": "assets/act-rifas.jpg",
       "titulo": {
         "es": "¡Rifas y sorteos <em>sorpresa</em>!",
         "en": "Raffles and surprise <em>draws</em>!"

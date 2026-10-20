@@ -1,0 +1,26 @@
+{
+  "imagenAlt": {
+    "es": "Origami Bogotá {edicion}, del 4 al 6 de junio en el Liceo Francés Louis Pasteur, junto a un toro alado de origami",
+    "en": "Origami Bogotá {edicion}, June 4–6 at the Liceo Francés Louis Pasteur, next to an origami winged bull"
+  },
+  "inicio": {
+    "titulo": {
+      "es": "Origami Bogotá {edicion} — El finde más plegado del año",
+      "en": "Origami Bogotá {edicion} — The foldiest weekend of the year"
+    },
+    "descripcion": {
+      "es": "Congreso de Origami en Colombia. {anios} años celebrando el arte del origami. Liceo Francés Louis Pasteur, Bogotá. Edición {edicion}.",
+      "en": "Origami convention in Colombia. {anios} years celebrating the art of origami. Liceo Francés Louis Pasteur, Bogotá. {edicion} edition."
+    }
+  },
+  "actividades": {
+    "titulo": {
+      "es": "Actividades — Origami Bogotá {edicion}",
+      "en": "Activities — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Chocogami, talleres por niveles, intercambio de pines y tarjetas, exposición, chiva rumbera y más: todas las actividades del Congreso Origami Bogotá {edicion}.",
+      "en": "Chocogami, workshops for every level, pin and card exchanges, exhibition, party bus and more: all the activities of the Origami Bogotá {edicion} Convention."
+    }
+  }
+}

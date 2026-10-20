@@ -1,0 +1,152 @@
+{
+  "destinos": {
+    "inicio": {
+      "href": "#inicio",
+      "texto": {
+        "es": "Inicio",
+        "en": "Home"
+      }
+    },
+    "evento": {
+      "href": "#acerca",
+      "texto": {
+        "es": "El evento",
+        "en": "The event"
+      }
+    },
+    "comunidad": {
+      "href": "#comunidad",
+      "texto": {
+        "es": "La comunidad",
+        "en": "The community"
+      }
+    },
+    "itinerario": {
+      "href": "#itinerario",
+      "texto": {
+        "es": "Itinerario",
+        "en": "Itinerary"
+      }
+    },
+    "recursos": {
+      "href": "#itinerario",
+      "texto": {
+        "es": "Recursos y cronograma",
+        "en": "Resources and schedule"
+      }
+    },
+    "invitados": {
+      "href": "#invitados",
+      "texto": {
+        "es": "Invitados",
+        "en": "Guests"
+      }
+    },
+    "actividades": {
+      "href": "actividades",
+      "texto": {
+        "es": "Actividades",
+        "en": "Activities"
+      }
+    },
+    "talleres": {
+      "href": "actividades#talleres",
+      "texto": {
+        "es": "Talleres",
+        "en": "Workshops"
+      }
+    },
+    "exposicion": {
+      "href": "actividades#exposicion",
+      "texto": {
+        "es": "Exposición",
+        "en": "Exhibition"
+      }
+    },
+    "patrocinadores": {
+      "href": "#patrocinadores",
+      "texto": {
+        "es": "Patrocinadores",
+        "en": "Sponsors"
+      }
+    },
+    "contacto": {
+      "href": "#inscribete",
+      "texto": {
+        "es": "Contacto e inscripciones",
+        "en": "Contact and sign-up"
+      }
+    },
+    "tallerista": {
+      "href": "#tallerista",
+      "texto": {
+        "es": "Sé tallerista",
+        "en": "Teach a workshop"
+      }
+    }
+  },
+  "listas": {
+    "principal": [
+      "evento",
+      "comunidad"
+    ],
+    "congreso": [
+      "itinerario",
+      "recursos",
+      "invitados",
+      "actividades",
+      "talleres",
+      "exposicion",
+      "patrocinadores",
+      "contacto"
+    ],
+    "suelto": [
+      "tallerista"
+    ],
+    "movil": [
+      "evento",
+      "comunidad",
+      "itinerario",
+      "invitados",
+      "actividades",
+      "patrocinadores",
+      "tallerista"
+    ],
+    "pie": [
+      "inicio",
+      "itinerario",
+      "invitados",
+      "talleres"
+    ]
+  },
+  "textos": {
+    "marcaAria": {
+      "es": "Origami Bogotá — inicio",
+      "en": "Origami Bogotá — home"
+    },
+    "edicion": {
+      "es": "EDICIÓN {edicion}",
+      "en": "{edicion} EDITION"
+    },
+    "navAria": {
+      "es": "Navegación principal",
+      "en": "Main navigation"
+    },
+    "congreso": {
+      "es": "El congreso",
+      "en": "The convention"
+    },
+    "abrirMenu": {
+      "es": "Abrir menú",
+      "en": "Open menu"
+    },
+    "menuMovilAria": {
+      "es": "Menú móvil",
+      "en": "Mobile menu"
+    },
+    "inscribeteMovil": {
+      "es": "Inscríbete →",
+      "en": "Sign up →"
+    }
+  }
+}

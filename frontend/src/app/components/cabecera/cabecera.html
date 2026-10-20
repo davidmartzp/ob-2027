@@ -1,0 +1,37 @@
+<header [class.solido]="solido()" [class.oculto]="oculto()">
+  <a class="marca" appEnlace="#inicio" [attr.aria-label]="t.marcaAria">
+    <img src="assets/logo-amigos-plegadores.png" alt="" width="38" height="38">
+    <span><b>Origami Bogotá</b><small>{{ t.edicion }}</small></span>
+  </a>
+  <div class="lado">
+    @if (mostrarMenu) {
+      <nav class="principal" [attr.aria-label]="t.navAria">
+        <app-menu lista="principal"/>
+        <div class="despliegue" #desplegable [class.abierto]="desplegableAbierto()">
+          <button type="button" aria-haspopup="true" [attr.aria-expanded]="desplegableAbierto()"
+                  (click)="desplegableAbierto.set(!desplegableAbierto())">{{ t.congreso }}</button>
+          <div class="panel">
+            <app-menu lista="congreso" (elegido)="desplegableAbierto.set(false)"/>
+          </div>
+        </div>
+        <app-menu lista="suelto"/>
+        @if (inscripcionesAbiertas) {
+          <a class="btn btn-naranja" appEnlace="#inscribete">{{ comun.inscribete }}</a>
+        }
+      </nav>
+      <button class="menu-toggle" [attr.aria-label]="t.abrirMenu" [attr.aria-expanded]="movilAbierto()"
+              (click)="movilAbierto.set(!movilAbierto())">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    }
+    <app-selector-idioma/>
+  </div>
+</header>
+@if (mostrarMenu) {
+  <nav class="movil" [attr.aria-label]="t.menuMovilAria" [class.abierta]="movilAbierto()">
+    <app-menu lista="movil" (elegido)="movilAbierto.set(false)"/>
+    @if (inscripcionesAbiertas) {
+      <a class="cta" appEnlace="#inscribete" (click)="movilAbierto.set(false)">{{ t.inscribeteMovil }}</a>
+    }
+  </nav>
+}

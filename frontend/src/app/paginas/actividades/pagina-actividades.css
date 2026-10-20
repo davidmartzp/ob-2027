@@ -1,10 +1,9 @@
 :host{ display:block; }
 
 /* ============ HERO DE LA PÁGINA (hoja de frailejón) ============ */
-.pagina-hero{ background:var(--frailejon); padding-bottom:clamp(50px,6vw,90px); }
+.pagina-hero{ background:var(--frailejon); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--paramo); }
 .pagina-hero .separador{ color:var(--tinta); margin-top:clamp(28px,4vw,48px); }
 .pagina-hero h2.titulo{ font-size:clamp(46px,7.5vw,110px); }
-.pagina-hero h2.titulo em{ color:var(--paramo); }
 .intro{ color:var(--tinta-80); max-width:52ch; margin-top:22px; }
 .volver{
   font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
@@ -34,7 +33,7 @@
 .fichas{ list-style:none; border-top:1.5px solid var(--tinta); }
 
 .vacio{ display:grid; justify-items:center; text-align:center; gap:14px; padding:clamp(30px,5vw,60px) 0; }
-.vacio svg{ width:110px; height:auto; }
+.vacio svg{ width:110px; height:auto; color:var(--trazo); }
 .vacio p{ color:var(--tinta-80); max-width:44ch; }
 .vacio .btn{ margin-top:8px; }
 

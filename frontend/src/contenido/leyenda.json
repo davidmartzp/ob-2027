@@ -1,0 +1,18 @@
+{
+  "clave": {
+    "es": "Clave del diagrama —",
+    "en": "Diagram key —"
+  },
+  "valle": {
+    "es": "Valle",
+    "en": "Valley"
+  },
+  "montana": {
+    "es": "Montaña",
+    "en": "Mountain"
+  },
+  "doblar": {
+    "es": "Doblar",
+    "en": "Fold"
+  }
+}

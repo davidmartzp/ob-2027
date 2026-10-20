@@ -1,12 +1,9 @@
-<main>
-  <app-hero/>
-
-  <app-doblez fondo="var(--frailejon)" montana/>
+<app-pagina-interna fondo="var(--frailejon)">
   <section class="pagina-hero">
-    <a class="volver" href="./" i18n="@@paginaActividades.volver">← Volver a la hoja</a>
+    <a class="volver" appEnlace="./">{{ t.volver }}</a>
     <app-separador appReveal/>
-    <h2 class="titulo" appReveal="1" i18n="@@actividades.titulo">Nuestras <em>actividades</em></h2>
-    <p class="intro" appReveal="2" i18n="@@paginaActividades.intro">Planes para un finde de papel: talleres, retos, intercambios y rumba. Busca por palabra o filtra por categoría, y abre cada ficha para ver los detalles.</p>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.titulo"></h2>
+    <p class="intro" appReveal="2">{{ t.intro }}</p>
   </section>
 
   <app-doblez fondo="var(--papel)"/>
@@ -14,29 +11,20 @@
   <section class="catalogo">
     <div class="herramientas">
       <form role="search" class="buscador" (submit)="$event.preventDefault()">
-        <label for="buscar-actividad" i18n="@@paginaActividades.buscarLabel">Busca tu actividad</label>
+        <label for="buscar-actividad">{{ t.buscarLabel }}</label>
         <input #campo id="buscar-actividad" type="search" autocomplete="off" aria-describedby="contador-actividades"
-               [value]="termino()" (input)="termino.set(campo.value)"
-               placeholder="Prueba con «chocolate», «taller» o «subasta»…" i18n-placeholder="@@paginaActividades.buscarPlaceholder">
+               [value]="termino()" (input)="termino.set(campo.value)" [placeholder]="t.buscarPlaceholder">
       </form>
 
-      <div class="filtros" role="group" aria-label="Filtrar por categoría" i18n-aria-label="@@paginaActividades.filtrosAria">
-        <button type="button" class="chip" [attr.aria-pressed]="categoria() === null" (click)="categoria.set(null)" i18n="@@paginaActividades.todas">Todas</button>
+      <div class="filtros" role="group" [attr.aria-label]="t.filtrosAria">
+        <button type="button" class="chip" [attr.aria-pressed]="categoria() === null" (click)="categoria.set(null)">{{ t.todas }}</button>
         @for (c of categorias; track c.id) {
           <button type="button" class="chip" [attr.aria-pressed]="categoria() === c.id" (click)="categoria.set(c.id)">{{ c.nombre }}</button>
         }
       </div>
 
       <!-- contador solo para lectores de pantalla: anuncia los resultados al filtrar -->
-      <p id="contador-actividades" class="solo-lector" role="status" aria-live="polite">
-        @if (filtradas().length === total) {
-          <ng-container i18n="@@paginaActividades.contadorTodas">{{ total }} actividades</ng-container>
-        } @else if (filtradas().length) {
-          <ng-container i18n="@@paginaActividades.contadorFiltradas">{{ filtradas().length }} de {{ total }} actividades</ng-container>
-        } @else {
-          <ng-container i18n="@@paginaActividades.contadorCero">Ninguna actividad coincide</ng-container>
-        }
-      </p>
+      <p id="contador-actividades" class="solo-lector" role="status" aria-live="polite">{{ contador() }}</p>
     </div>
 
     @if (filtradas().length) {
@@ -47,16 +35,16 @@
       </ul>
     } @else {
       <div class="vacio">
-        <svg appFigura="pez"></svg>
-        <h2 class="titulo" i18n="@@paginaActividades.vacioTitulo">Ni una sola hoja por <em>aquí</em>…</h2>
-        <p i18n="@@paginaActividades.vacioTexto">Revisa la búsqueda o quita los filtros, que el papel no se va a doblar solo.</p>
-        <span class="anotacion" i18n="@@paginaActividades.vacioAnotacion">¡ni el frailejón la encontró!</span>
-        <button type="button" class="btn btn-linea" (click)="limpiar(campo)" i18n="@@paginaActividades.limpiar">Limpiar búsqueda</button>
+        <svg class="pez" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <path d="M14 60 L62 26 L106 60 L62 94 Z" stroke="currentColor" style="fill:var(--teja)"/>
+          <path d="M62 26 L62 94 M14 60 L106 60" style="stroke:var(--paramo-txt)" stroke-dasharray="4 4"/>
+          <circle cx="38" cy="54" r="4" style="fill:var(--paramo-txt)"/>
+        </svg>
+        <h2 class="titulo rico" [innerHTML]="t.vacioTitulo"></h2>
+        <p>{{ t.vacioTexto }}</p>
+        <span class="anotacion">{{ t.vacioAnotacion }}</span>
+        <button type="button" class="btn btn-linea" (click)="limpiar(campo)">{{ t.limpiar }}</button>
       </div>
     }
   </section>
-
-  @if (patrocinadoresVisibles) {
-    <app-patrocinadores/>
-  }
-</main>
+</app-pagina-interna>

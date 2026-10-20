@@ -1,0 +1,31 @@
+:host{ display:block; }
+
+/* ============ ACERCA ============ */
+.acerca{ background:var(--papel); }
+.acerca-grid{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,80px);
+  align-items:start;
+}
+/* el <em> y el <mark> del título vienen del JSON (texto rico, estilos en styles.css) */
+.acerca-grande{
+  font-family:var(--serif); font-weight:460; letter-spacing:-.015em;
+  font-size:clamp(28px,3.4vw,52px); line-height:1.12;
+  --peso-enfasis:380;
+}
+.acerca-der{ position:relative; }
+.acerca-der p{ max-width:52ch; color:var(--tinta-80); }
+.acerca-der p + p{ margin-top:1em; }
+.frailejon{ float:right; margin:0 0 12px 26px; transform:rotate(4deg); color:var(--trazo); }
+.acerca-nota{
+  margin-top:34px; padding:26px 28px; background:var(--papel-2);
+  border-left:3px solid var(--pajizo); position:relative;
+}
+.acerca-nota p{ font-family:var(--serif); font-style:italic; font-size:19px; color:var(--tinta); }
+
+@media (max-width: 1020px){
+  .acerca-grid{ grid-template-columns:1fr; }
+}
+@media (max-width: 760px){
+  /* el dibujo flotante estrechaba el primer párrafo: más pequeño en móvil */
+  .frailejon{ width:72px; margin:0 0 8px 16px; }
+}

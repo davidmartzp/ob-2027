@@ -1,0 +1,21 @@
+{
+  "titulo": {
+    "es": "Nuestros <em>patrocinadores</em>",
+    "en": "Our <em>sponsors</em>"
+  },
+  "lista": [
+    "Liceo Francés Louis Pasteur",
+    "Pliegues Origami",
+    "evoforma PLUS",
+    "nessan",
+    "Una Restrepo",
+    "ImpresionArte",
+    "Papelería San Sebastián",
+    "duopapel",
+    "Origamística",
+    {
+      "es": "Embajada del Japón en Colombia",
+      "en": "Embassy of Japan in Colombia"
+    }
+  ]
+}

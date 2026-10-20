@@ -1,0 +1,89 @@
+{
+  "seccion": {
+    "titulo": {
+      "es": "Nuestros <em>invitados</em>",
+      "en": "Our <em>guests</em>"
+    },
+    "aviso": {
+      "es": "✳ listado provisional — nombres por confirmar",
+      "en": "✳ provisional list — names to be confirmed"
+    },
+    "lema": {
+      "es": "Vienen a compartir con la comunidad, no solo a enseñar",
+      "en": "They come to share with the community, not just to teach"
+    }
+  },
+  "tarjeta": {
+    "origen": {
+      "internacional": {
+        "es": "Internacional",
+        "en": "International"
+      },
+      "nacional": {
+        "es": "Nacional",
+        "en": "National"
+      }
+    },
+    "bioProvisional": {
+      "es": "✳ biografía provisional — se actualiza al confirmar el nombre.",
+      "en": "✳ provisional bio — updated once the name is confirmed."
+    }
+  },
+  "lista": [
+    {
+      "id": "anice-claudeon",
+      "numero": "INV. 01",
+      "origen": "internacional",
+      "provisional": false,
+      "foto": "assets/anice-claudeon.jpg",
+      "retrato": "foto",
+      "nombre": "Anicé <em>Claudeón</em>",
+      "rol": {
+        "es": "Figuras complejas de una sola hoja · Amiens, Francia",
+        "en": "Complex single-sheet figures · Amiens, France"
+      },
+      "bio": {
+        "es": "Nació en 1999 en Amiens, Francia. Descubrió el origami en 2010 y muy pronto se apasionó por crear sus propios diseños. Al principio se inspiró en el mundo animal: sus primeros modelos se destacaban por lo tiernos y expresivos. Con el tiempo, su trabajo evolucionó hacia figuras híbridas, influido por sus estudios de arte y diseño. Se especializa en plegar sujetos complejos a partir de una sola hoja y explora la «media ilusión» del movimiento, la textura y la ligereza del material. Su obra tiene reconocimiento internacional y lo ha llevado a exponer y enseñar en todo el mundo.",
+        "en": "Born in 1999 in Amiens, France. Discovered origami in 2010 and very soon became passionate about creating original designs. At first the inspiration came from the animal world: those early models stood out for being tender and expressive. Over time, the work evolved towards hybrid figures, shaped by studies in art and design. Specializes in folding complex subjects from a single sheet and explores the “half illusion” of movement, texture and the lightness of the material. The work is internationally recognized and has led to exhibiting and teaching all over the world."
+      },
+      "fotoAlt": {
+        "es": "Anicé Claudeón sonríe mientras pliega una figura de papel",
+        "en": "Anicé Claudeón smiles while folding a paper figure"
+      },
+      "enlace": {
+        "tipo": "instagram",
+        "texto": "@anice_cldn",
+        "href": "https://www.instagram.com/anice_cldn/"
+      }
+    },
+    {
+      "id": "convocatoria-nacional",
+      "numero": "INV. 02",
+      "origen": "nacional",
+      "provisional": false,
+      "foto": "assets/logo-amigos-plegadores.png",
+      "retrato": "logo",
+      "nombre": {
+        "es": "Convocatoria <em>abierta</em>",
+        "en": "Open <em>call</em>"
+      },
+      "rol": {
+        "es": "Invitado nacional por convocatoria",
+        "en": "National guest by open call"
+      },
+      "bio": {
+        "es": "Este puesto es para un plegador o una plegadora de Colombia. Si tiene un modelo propio, una técnica que domina o un taller que quiera compartir, postúlese: escríbanos contándonos quién es y qué le gustaría enseñar.",
+        "en": "This spot is for a folder from Colombia. If you have an original model, a technique you've mastered or a workshop you'd like to share, apply: write to us telling us who you are and what you'd like to teach."
+      },
+      "fotoAlt": {
+        "es": "Logo de Amigos Plegadores",
+        "en": "Amigos Plegadores logo"
+      },
+      "enlace": {
+        "tipo": "correo",
+        "texto": "inscripciones@origamibogota.com",
+        "href": "mailto:inscripciones@origamibogota.com"
+      }
+    }
+  ]
+}

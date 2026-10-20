@@ -1,0 +1,32 @@
+<section class="comunidad" id="comunidad" [attr.aria-label]="t.aria">
+  <div class="marco" appReveal>
+    <!-- el paralaje mueve .lienzo y no .marco: un transform en .marco anularía el reveal -->
+    <div class="lienzo">
+      <img class="foto" src="assets/foto-comunidad.jpg" [alt]="t.fotoAlt">
+      <svg class="pliegues-foto" viewBox="0 0 1440 860" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="sombraPliegue" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" style="stop-color:var(--sombra-pliegue)" stop-opacity=".32"/>
+            <stop offset="1" style="stop-color:var(--sombra-pliegue)" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="luzPliegue" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" style="stop-color:var(--luz-pliegue)" stop-opacity=".22"/>
+            <stop offset="1" style="stop-color:var(--luz-pliegue)" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- la foto también está doblada: dos pliegues diagonales con sombra y luz -->
+        <path d="M340 0 L520 860" stroke="currentColor" stroke-width="1.4" stroke-dasharray="12 10" opacity=".55"/>
+        <path d="M340 0 L520 860 L470 860 L290 0 Z" fill="url(#sombraPliegue)" opacity=".5"/>
+        <path d="M1100 0 L920 860" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 6 12 6" opacity=".5"/>
+        <path d="M1100 0 L920 860 L970 860 L1150 0 Z" fill="url(#luzPliegue)" opacity=".6"/>
+      </svg>
+    </div>
+  </div>
+  <div class="comunidad-pie">
+    <div>
+      <h2 class="titulo titulo-grande rico" appReveal [innerHTML]="t.titulo"></h2>
+      <app-separador montana appReveal="1" [frase]="t.frase"/>
+    </div>
+    <p appReveal="2">{{ t.texto }}</p>
+  </div>
+</section>

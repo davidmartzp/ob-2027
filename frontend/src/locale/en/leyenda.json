@@ -1,9 +1,0 @@
-{
-  "locale": "en",
-  "translations": {
-    "leyenda.clave": "Diagram key —",
-    "leyenda.valle": "Valley",
-    "leyenda.montana": "Mountain",
-    "leyenda.doblar": "Fold"
-  }
-}

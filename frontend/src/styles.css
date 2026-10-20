@@ -23,6 +23,18 @@
   --frailejon:  #6C8B67;  /* verde frailejón */
   --paramo:     #33454F;  /* noche de páramo — azul pizarra */
   --paramo-txt: #ECE7D8;
+  /* ilustraciones (SVG en línea): trazo, hojas y flor del frailejón, cerros del páramo, pliegues de la foto */
+  --trazo:            #23211A;
+  --salvia:           #87947B;
+  --salvia-media:     #7A8870;
+  --salvia-oscura:    #6E7B63;
+  --flor:             #C79A3B;
+  --teja:             #B4552D;
+  --cerro-lejano:     #3E5560;
+  --cerro-cercano:    #26333B;
+  --sombra-pliegue:   #14110A;
+  --luz-pliegue:      #FFFDF2;
+  --blanco:           #FFFFFF;  /* marco de papel de las fotos */
   --serif: "Fraunces", Georgia, serif;
   --sans:  "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --mono:  "IBM Plex Mono", "SFMono-Regular", monospace;
@@ -153,11 +165,28 @@ h2.titulo{
   font-family:var(--serif); font-weight:520; letter-spacing:-.02em;
   font-size:clamp(40px,6vw,88px); line-height:.98;
 }
-h2.titulo em{ font-style:italic; font-weight:340; color:var(--miel); }
 /* separador y título de sección van juntos, en cualquier orden */
 .separador + .titulo, .titulo + .separador{ margin-top:18px; }
 /* frase en mono al lado del título de sección («Vienen a compartir…») */
 .lema{ font-family:var(--mono); font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-80); max-width:32ch; }
+
+/* ---------- texto enriquecido de los *.i18n.json ---------- */
+/* Los textos con <em>, <b>, <mark>, <br> se pintan con [innerHTML] sobre un elemento
+   class="rico". Ese HTML no lleva el atributo de encapsulado del componente, así que sus
+   estilos van aquí; cada sección ajusta el énfasis con variables CSS, que sí atraviesan:
+   --color-enfasis (miel), --peso-enfasis (340) y --transformar-enfasis (como el padre). */
+.rico em{
+  font-style:italic; font-weight:var(--peso-enfasis, 340);
+  color:var(--color-enfasis, var(--miel)); text-transform:var(--transformar-enfasis, inherit);
+}
+.rico b{ font-weight:600; color:var(--tinta); }
+/* z-index:0 = capa propia: sin ella el subrayado (z-index:-1) queda detrás del fondo de la sección */
+.rico mark{ background:none; color:inherit; position:relative; z-index:0; white-space:nowrap; }
+.rico mark::after{
+  content:""; position:absolute; left:-2%; bottom:.06em; width:104%; height:.34em;
+  background:var(--frailejon); z-index:-1; transform:rotate(-1deg);
+}
+.rico .destacado{ color:var(--color-enfasis, var(--pajizo)); }
 
 /* ---------- doblez físico entre secciones (componente Doblez) ---------- */
 /* la hoja se dobla de verdad: dos caras del pliegue + línea de quiebre */

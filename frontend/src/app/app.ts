@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Doblez } from './compartido/doblez';
-import { VistaFlotante } from './efectos/vista-flotante';
-import { Cabecera } from './secciones/cabecera/cabecera';
-import { Leyenda } from './secciones/leyenda/leyenda';
-import { Pie } from './secciones/pie/pie';
+import { Doblez } from '@components/doblez/doblez';
+import { VistaFlotante } from '@components/vista-flotante/vista-flotante';
+import { Cabecera } from '@components/cabecera/cabecera';
+import { Leyenda } from '@components/leyenda/leyenda';
+import { Pie } from '@components/pie/pie';
 
 /* ============ MARCO COMÚN ============
    Cabecera, leyenda y pie se comparten; cada página (paginas/) va en el outlet.

@@ -1,0 +1,30 @@
+<footer id="inscribete">
+  <div class="footer-grid">
+    <div class="f-contacto">
+      <h3>{{ t.contacto }}</h3>
+      <p class="f-fecha">{{ evento.fechaLarga }}</p>
+      <a [appEnlace]="evento.telefono.href">{{ evento.telefono.texto }}</a>
+      <a [appEnlace]="'mailto:' + evento.correo">{{ evento.correo }}</a>
+      <app-redes-sociales oscuro/>
+    </div>
+    <div class="f-ubicacion">
+      <h3>{{ t.ubicacion }}</h3>
+      <p><b class="sede">{{ evento.sede }}</b></p>
+      <p>{{ evento.direccion }}<br>{{ evento.ciudad }}</p>
+      <a class="mapa-link" [appEnlace]="evento.mapaUrl">{{ t.mapa }}</a>
+    </div>
+    <div class="f-links">
+      <h3>{{ t.enlaces }}</h3>
+      <app-menu lista="pie"/>
+      @if (evento.inscripcionesAbiertas) {
+        <a class="btn btn-naranja f-cta" [appEnlace]="'mailto:' + evento.correo">{{ t.inscribete }}</a>
+      }
+    </div>
+  </div>
+  <img class="footer-logo" src="assets/logo-amigos-plegadores.png" [alt]="comun.logoAlt" width="72" height="72">
+  <div class="footer-mega" aria-hidden="true">Origami Bogotá</div>
+  <div class="footer-base">
+    <span>{{ t.derechos }}</span>
+    <span>{{ t.lema }}</span>
+  </div>
+</footer>

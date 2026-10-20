@@ -1,0 +1,456 @@
+{
+  "destacadas": [
+    "publica-diagramas",
+    "pines",
+    "talleres"
+  ],
+  "logoSinFoto": "assets/logo-amigos-plegadores.png",
+  "seccion": {
+    "frase": {
+      "es": "¡del chocogami a la chiva, hay pa' todos los gustos!",
+      "en": "from Chocogami to the party bus, there's something for everyone!"
+    },
+    "titulo": {
+      "es": "Nuestras <em>actividades</em>",
+      "en": "Our <em>activities</em>"
+    },
+    "lema": {
+      "es": "Navega por todo lo que tenemos preparado para ti",
+      "en": "Browse everything we've got ready for you"
+    },
+    "intro": {
+      "es": "Del reto dulce del Chocogami a la rumba de la chiva: busca, filtra y encuentra tu pliegue del 4 al 6 de junio.",
+      "en": "From the sweet Chocogami challenge to the party bus: search, filter and find your fold, June 4–6."
+    },
+    "cta": {
+      "es": "Explorar las actividades →",
+      "en": "Explore the activities →"
+    },
+    "destacadas": {
+      "es": "Destacadas —",
+      "en": "Featured —"
+    }
+  },
+  "pagina": {
+    "volver": {
+      "es": "← Volver a la hoja",
+      "en": "← Back to the sheet"
+    },
+    "titulo": {
+      "es": "Nuestras <em>actividades</em>",
+      "en": "Our <em>activities</em>"
+    },
+    "intro": {
+      "es": "Planes para un finde de papel: talleres, retos, intercambios y rumba. Busca por palabra o filtra por categoría, y abre cada ficha para ver los detalles.",
+      "en": "Plans for a paper weekend: workshops, challenges, exchanges and partying. Search by keyword or filter by category, and open each card for the details."
+    },
+    "buscarLabel": {
+      "es": "Busca tu actividad",
+      "en": "Find your activity"
+    },
+    "buscarPlaceholder": {
+      "es": "Prueba con «chocolate», «taller» o «subasta»…",
+      "en": "Try “chocolate”, “workshop” or “auction”…"
+    },
+    "filtrosAria": {
+      "es": "Filtrar por categoría",
+      "en": "Filter by category"
+    },
+    "todas": {
+      "es": "Todas",
+      "en": "All"
+    },
+    "contadorTodas": {
+      "es": "{n} actividades",
+      "en": "{n} activities"
+    },
+    "contadorFiltradas": {
+      "es": "{n} de {total} actividades",
+      "en": "{n} of {total} activities"
+    },
+    "contadorCero": {
+      "es": "Ninguna actividad coincide",
+      "en": "No activities match"
+    },
+    "vacioTitulo": {
+      "es": "Ni una sola hoja por <em>aquí</em>…",
+      "en": "Not a single sheet <em>here</em>…"
+    },
+    "vacioTexto": {
+      "es": "Revisa la búsqueda o quita los filtros, que el papel no se va a doblar solo.",
+      "en": "Check your search or clear the filters — the paper won't fold itself."
+    },
+    "vacioAnotacion": {
+      "es": "¡ni el frailejón la encontró!",
+      "en": "not even the frailejón could find it!"
+    },
+    "limpiar": {
+      "es": "Limpiar búsqueda",
+      "en": "Clear search"
+    }
+  },
+  "fila": {
+    "verDetalles": {
+      "es": "Ver detalles",
+      "en": "See details"
+    },
+    "cerrar": {
+      "es": "Cerrar",
+      "en": "Close"
+    }
+  },
+  "categorias": {
+    "convocatorias": {
+      "es": "Convocatorias",
+      "en": "Open calls"
+    },
+    "talleres": {
+      "es": "Talleres y encuentros",
+      "en": "Workshops and meetups"
+    },
+    "retos": {
+      "es": "Retos y sorpresas",
+      "en": "Challenges and surprises"
+    },
+    "comunidad": {
+      "es": "Comunidad",
+      "en": "Community"
+    },
+    "bogota": {
+      "es": "Bogotá y rumba",
+      "en": "Bogotá and partying"
+    }
+  },
+  "items": [
+    {
+      "id": "publica-diagramas",
+      "categoria": "convocatorias",
+      "titulo": {
+        "es": "Publica tus diagramas: deja tu <em>huella</em>",
+        "en": "Publish your diagrams: leave your <em>mark</em>"
+      },
+      "resumen": {
+        "es": "Tus diagramas originales, publicados en el libro oficial del evento.",
+        "en": "Your original diagrams, published in the official event book."
+      },
+      "parrafos": {
+        "es": [
+          "¿Creaste un modelo de origami increíble? ¡Es tu oportunidad de verlo publicado! Comparte tus diagramas originales en nuestro libro \"Páginas De Origami 2026\". Llegarás a origamistas de todo el mundo y tu creación será parte del libro oficial del evento.",
+          "¿Cómo participar? Fácil: descarga las Bases de la convocatoria (español o inglés), prepara tus diagramas y envíalos antes del 20 de mayo de 2026 a Camilo Torres: paginasdeorigami@gmail.com. ¡Anímate a compartir tu arte!"
+        ],
+        "en": [
+          "Did you create an amazing origami model? This is your chance to see it published! Share your original diagrams in our book \"Páginas De Origami 2026\". You'll reach origami artists worldwide and your creation will be part of the official event book.",
+          "How to participate? Easy: download the Call for Submissions guidelines (Spanish or English), prepare your diagrams and send them before May 20, 2026 to Camilo Torres: paginasdeorigami@gmail.com. Go ahead and share your art!"
+        ]
+      },
+      "nota": {
+        "es": "✳ Fechas de la edición {edicionAnterior} — por confirmar para {edicion}.",
+        "en": "✳ Dates from the {edicionAnterior} edition — to be confirmed for {edicion}."
+      },
+      "enlaces": [
+        {
+          "href": "https://origamibogota.com/descargas/basesdiagramasES.docx",
+          "texto": {
+            "es": "Bases de la convocatoria (español)",
+            "en": "Call guidelines (Spanish)"
+          }
+        },
+        {
+          "href": "https://origamibogota.com/descargas/basesdiagramasEN.docx",
+          "texto": {
+            "es": "Bases de la convocatoria (inglés)",
+            "en": "Call guidelines (English)"
+          }
+        },
+        {
+          "href": "mailto:paginasdeorigami@gmail.com",
+          "texto": {
+            "es": "Escribir a paginasdeorigami@gmail.com",
+            "en": "Email paginasdeorigami@gmail.com"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tallerista",
+      "categoria": "convocatorias",
+      "titulo": {
+        "es": "Comparte tu talento: ¡sé <em>tallerista</em>!",
+        "en": "Share your talent: be a <em>workshop teacher</em>!"
+      },
+      "resumen": {
+        "es": "Enseña tus modelos en las categorías básico, intermedio, avanzado o kids.",
+        "en": "Teach your models in the basic, intermediate, advanced or kids categories."
+      },
+      "parrafos": {
+        "es": [
+          "¿Te apasiona enseñar origami? ¡Este es tu momento! Inscríbete para ser tallerista en nuestras categorías (Básico, Intermedio, Avanzado, Kids) y comparte tu magia con otros plegadores. Al inscribirte, cuéntanos qué figuras geniales quieres enseñar, o si prefieres, ¡nos mandas los detalles más tarde! Anímate a inspirar a otros con tus pliegues."
+        ],
+        "en": [
+          "Are you passionate about teaching origami? This is your moment! Sign up to be a workshop teacher in our categories (Basic, Intermediate, Advanced, Kids) and share your magic with other folders. When registering, tell us what cool figures you want to teach — or if you prefer, send us the details later! Go ahead and inspire others with your folds."
+        ]
+      }
+    },
+    {
+      "id": "pines",
+      "categoria": "comunidad",
+      "titulo": {
+        "es": "Rompe el hielo con pines <em>plegados</em>",
+        "en": "Break the ice with folded <em>pins</em>"
+      },
+      "resumen": {
+        "es": "Dobla figuritas para llevar de prendedor y repártelas para hacer amigos.",
+        "en": "Fold little figures to wear as brooches and hand them out to make friends."
+      },
+      "parrafos": {
+        "es": [
+          "¿Un poco tímido/a para empezar a charlar? ¡Tenemos la solución! Únete al intercambio de pines: dobla un montón de figuritas de origami chulas que se puedan usar como prendedor. Repártelas a quien quieras en la inauguración o durante todo el evento. ¡Es la excusa perfecta para conectar, hacer amigos y llevarte un recuerdo único!"
+        ],
+        "en": [
+          "Feeling a little shy about starting a conversation? We have the solution! Join the pin exchange: fold a bunch of cute origami figurines that can be worn as brooches. Hand them out to whoever you want at the opening or throughout the entire event. It's the perfect excuse to connect, make friends and take home a unique souvenir!"
+        ]
+      }
+    },
+    {
+      "id": "chocogami",
+      "categoria": "retos",
+      "foto": "assets/act-chocogami.jpg",
+      "titulo": {
+        "es": "Chocogami: ¡el reto más <em>dulce</em>!",
+        "en": "Chocogami: the <em>sweetest</em> challenge!"
+      },
+      "resumen": {
+        "es": "Pliega usando solo el empaque de un chocolate colombiano.",
+        "en": "Fold using nothing but the wrapper of a Colombian chocolate bar."
+      },
+      "parrafos": {
+        "es": [
+          "¡Prepárate para un desafío delicioso y creativo! En Chocogami, destapas un chocolate colombiano popular, descubres una foto secreta y... ¡a plegar! La regla de oro: solo puedes usar el empaque del chocolate. Demuestra tu ingenio, compite por premios divertidos o simplemente pásalo genial viendo las creaciones (¡y comiendo chocolate!). ¿Te atreves?"
+        ],
+        "en": [
+          "Get ready for a delicious and creative challenge! In Chocogami, you unwrap a popular Colombian chocolate bar, discover a secret photo and... start folding! The golden rule: you can only use the chocolate wrapper. Show off your ingenuity, compete for fun prizes or simply have a great time watching the creations (and eating chocolate!). Do you dare?"
+        ]
+      }
+    },
+    {
+      "id": "tarjetas-atc",
+      "categoria": "convocatorias",
+      "titulo": {
+        "es": "Intercambio de <em>tarjetas</em> (ATC)",
+        "en": "Artist <em>Trading Cards</em> (ATC) exchange"
+      },
+      "resumen": {
+        "es": "Arma paquetes de tarjetas de origami e intercámbialos por una colección única.",
+        "en": "Put together packs of origami cards and trade them for a unique collection."
+      },
+      "parrafos": {
+        "es": [
+          "¡Haz que tus ATC (Artist Trading Cards) sean inolvidables! Diseña y arma paquetes de tarjetas de origami (16 tarjetas por paquete, en grupos de 2). Al final, se intercambian paquetes de 16 o 32 tarjetas diferentes entre los participantes, ¡y todos se llevan una colección única! Además, participa en el concurso a la mejor tarjeta y deja que tu creatividad brille. Descarga las bases de la convocatoria y empieza a plegar conexiones llenas de arte."
+        ],
+        "en": [
+          "Make your ATCs (Artist Trading Cards) unforgettable! Design and assemble origami card packets (16 cards per packet, in groups of 2). At the end, packets of 16 or 32 different cards are exchanged between participants, and everyone takes home a unique collection! Also enter the contest for best card and let your creativity shine. Download the submission guidelines and start folding connections full of art."
+        ]
+      },
+      "enlaces": [
+        {
+          "href": "https://origamibogota.com/descargas/ATC.docx",
+          "texto": {
+            "es": "Bases de la convocatoria ATC",
+            "en": "ATC submission guidelines"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chiva",
+      "categoria": "bogota",
+      "titulo": {
+        "es": "¡Súbete a la <em>chiva rumbera</em>!",
+        "en": "Jump on the <em>party bus</em>!"
+      },
+      "resumen": {
+        "es": "Una noche de baile y rumba colombiana sobre ruedas, solo para adultos.",
+        "en": "A night of Colombian dancing and partying on wheels, adults only."
+      },
+      "parrafos": {
+        "es": [
+          "¿Listos para una noche de pura fiesta colombiana? La Chiva Rumbera es nuestro autobús colorido y musical para una escapada nocturna llena de baile y diversión. Es una actividad extra (¡y solo para adultos!) perfecta para soltar el esqueleto después de un día de plegado. ¡No te la pierdas si quieres rumba de la buena!"
+        ],
+        "en": [
+          "Ready for a night of pure Colombian party? The Chiva Rumbera is our colorful, musical bus for a night out full of dancing and fun. It's an extra activity (adults only!) perfect for letting loose after a day of folding. Don't miss it if you want some serious fun!"
+        ]
+      },
+      "nota": {
+        "es": "✳ Actividad opcional, solo para adultos — consulta los detalles.",
+        "en": "✳ Optional activity, adults only — check the details."
+      }
+    },
+    {
+      "id": "encuentro-invitados",
+      "categoria": "talleres",
+      "titulo": {
+        "es": "Encuentro con los <em>invitados</em>",
+        "en": "Meet the <em>guests</em>"
+      },
+      "resumen": {
+        "es": "Clases especiales para plegar un modelo directamente con los invitados.",
+        "en": "Special classes to fold a model directly with the guests."
+      },
+      "parrafos": {
+        "es": [
+          "¡Una oportunidad de oro! Tendremos clases especiales con nuestros invitados estrella (internacionales y nacionales). Imagina aprender sus secretos, escuchar sus historias y plegar un modelo especial directamente con ellos en un grupo grande. ¡Prepárate para una dosis concentrada de inspiración y conocimiento de los que más saben!"
+        ],
+        "en": [
+          "A golden opportunity! We will have special classes with our star guests (international and national). Imagine learning their secrets, hearing their stories and folding a special model directly with them in a large group. Get ready for a concentrated dose of inspiration and knowledge from those who know best!"
+        ]
+      }
+    },
+    {
+      "id": "talleres",
+      "categoria": "talleres",
+      "titulo": {
+        "es": "Talleres para todos: ¡encuentra tu <em>pliegue</em>!",
+        "en": "Workshops for everyone: find your <em>fold</em>!"
+      },
+      "resumen": {
+        "es": "Talleres por niveles, de principiante a experto, con modelos de autor.",
+        "en": "Workshops by level, from beginner to expert, with original models."
+      },
+      "parrafos": {
+        "es": [
+          "¿Eres nuevo/a en el mundo del origami o ya eres súper pro plegando? ¡No importa! Nuestros talleres se dividen por niveles (Principiante, Intermedio, Experto) para que disfrutes aprendiendo figuras a tu ritmo. Lo mejor: muchos profes enseñan modelos creados por ellos mismos. ¡Son oportunidades únicas para aprender figuras que no encontrarás en otro lugar!"
+        ],
+        "en": [
+          "Are you new to the world of origami or already a super-pro folder? It doesn't matter! Our workshops are divided by level (Beginner, Intermediate, Expert) so you can enjoy learning figures at your own pace. The best part: many teachers teach models they created themselves. These are unique opportunities to learn figures you won't find anywhere else!"
+        ]
+      }
+    },
+    {
+      "id": "exposicion",
+      "categoria": "comunidad",
+      "foto": "assets/act-expo.jpg",
+      "titulo": {
+        "es": "Exposición: ¡muestra tu <em>arte</em> al mundo!",
+        "en": "Exhibition: show your <em>art</em> to the world!"
+      },
+      "resumen": {
+        "es": "Expón tus mejores creaciones y vota por la mejor exposición.",
+        "en": "Display your best creations and vote for the best exhibit."
+      },
+      "parrafos": {
+        "es": [
+          "¡Este es tu escenario! Trae tus mejores creaciones y exponlas para que todos las admiren. Recuerda ponerle una etiqueta con los datos clave (autor, plegador, tipo de papel...). Además, ¡tus modelos pueden ganar premios! Habrá votaciones durante todo el evento para elegir la mejor exposición (¡la creatividad cuenta!). No olvides votar por tus favoritas y dejar que tu trabajo inspire a otros."
+        ],
+        "en": [
+          "This is your stage! Bring your best creations and display them for everyone to admire. Remember to put a label with the key details (author, folder, paper type...). Your models can also win prizes! There will be votes throughout the event to choose the best exhibition (creativity counts!). Don't forget to vote for your favorites and let your work inspire others."
+        ]
+      }
+    },
+    {
+      "id": "origami-kids",
+      "categoria": "talleres",
+      "titulo": {
+        "es": "Origami Kids: ¡diversión para los <em>peques</em>!",
+        "en": "Origami Kids: fun for the <em>little ones</em>!"
+      },
+      "resumen": {
+        "es": "Un rincón con talleres, juegos y figuras para niños y niñas.",
+        "en": "A corner with workshops, games and figures for kids."
+      },
+      "parrafos": {
+        "es": [
+          "¡El futuro del origami está aquí! Tenemos un rincón especial para los niños y niñas, con talleres súper divertidos, juegos y figuras pensadas para sus manitas creativas. Y si te encanta enseñar y tienes un don con los peques, ¡anímate a ser profe voluntario en Origami Kids! Es una experiencia gratificante llena de risas y papelitos de colores."
+        ],
+        "en": [
+          "The future of origami is here! We have a special corner for children, with super fun workshops, games and figures designed for their creative little hands. And if you love teaching and have a gift with kids, go ahead and become a volunteer teacher at Origami Kids! It's a rewarding experience full of laughter and colorful paper."
+        ]
+      }
+    },
+    {
+      "id": "subasta",
+      "categoria": "retos",
+      "titulo": {
+        "es": "Subasta silenciosa: ¡tesoros <em>escondidos</em>!",
+        "en": "Silent auction: hidden <em>treasures</em>!"
+      },
+      "resumen": {
+        "es": "Libros, papeles y modelos donados por artistas, al mejor postor secreto.",
+        "en": "Books, papers and models donated by artists, to the best secret bid."
+      },
+      "parrafos": {
+        "es": [
+          "¿Buscas esa joya de origami que no encuentras en ningún lado? ¡Participa en nuestra Subasta Silenciosa! Podrás encontrar libros, papeles especiales, modelos exclusivos donados por artistas y muchas sorpresas más. Escribe tu oferta en secreto, cruza los dedos y ¡llévate a casa algo único! Además, ayudas a apoyar a la comunidad de origami."
+        ],
+        "en": [
+          "Looking for that origami gem you can't find anywhere? Join our Silent Auction! You'll find books, specialty papers, exclusive models donated by artists and many more surprises. Write your bid in secret, cross your fingers and take home something unique! You'll also be supporting the origami community."
+        ]
+      }
+    },
+    {
+      "id": "origami-pasillo",
+      "categoria": "comunidad",
+      "titulo": {
+        "es": "Origami de pasillo: ¡la magia <em>espontánea</em>!",
+        "en": "Hallway origami: the <em>spontaneous</em> magic!"
+      },
+      "resumen": {
+        "es": "Trucos rápidos y figuras nuevas en cualquier rincón del evento.",
+        "en": "Quick tricks and new figures in any corner of the event."
+      },
+      "parrafos": {
+        "es": [
+          "A veces, los mejores descubrimientos ocurren fuera de las aulas. El \"Origami de Pasillo\" es ese momento mágico donde compartes un truco rápido, aprendes una figura de un nuevo amigo o simplemente charlas sobre papeles y pliegues en cualquier rincón del evento. ¡Mantén los ojos abiertos y el papel listo, la conexión y el aprendizaje suceden en todas partes!"
+        ],
+        "en": [
+          "Sometimes the best discoveries happen outside the classrooms. \"Hallway Origami\" is that magical moment where you share a quick trick, learn a figure from a new friend or simply chat about papers and folds in any corner of the event. Keep your eyes open and your paper ready — connection and learning happen everywhere!"
+        ]
+      }
+    },
+    {
+      "id": "explora-bogota",
+      "categoria": "bogota",
+      "foto": "assets/act-explora.jpg",
+      "titulo": {
+        "es": "Explora Bogotá: ¡más allá del <em>papel</em>!",
+        "en": "Explore Bogotá: beyond the <em>paper</em>!"
+      },
+      "resumen": {
+        "es": "Tips y paseos opcionales para conocer la ciudad entre pliegue y pliegue.",
+        "en": "Tips and optional outings to see the city between folds."
+      },
+      "parrafos": {
+        "es": [
+          "¿Quieres aprovechar el viaje para conocer la capital? ¡Claro que sí! Te daremos tips y quizás organicemos algunos paseos opcionales para descubrir los encantos de Bogotá. Explora la cultura, prueba la comida local y llévate recuerdos que van más allá del origami. ¡Una oportunidad para estirar las piernas y ver la ciudad entre pliegue y pliegue!"
+        ],
+        "en": [
+          "Want to make the most of your trip to explore the capital? Of course! We'll give you tips and maybe organize some optional tours to discover Bogotá's charms. Explore the culture, try the local food and take home memories that go beyond origami. A chance to stretch your legs and see the city between folds!"
+        ]
+      },
+      "nota": {
+        "es": "✳ Actividad opcional — consulta la programación para más detalles.",
+        "en": "✳ Optional activity — check the schedule for more details."
+      }
+    },
+    {
+      "id": "rifas",
+      "categoria": "retos",
+      "foto": "assets/act-rifas.jpg",
+      "titulo": {
+        "es": "¡Rifas y sorteos <em>sorpresa</em>!",
+        "en": "Raffles and surprise <em>draws</em>!"
+      },
+      "resumen": {
+        "es": "Libros, papeles y herramientas para quien esté atento a los anuncios.",
+        "en": "Books, papers and tools for whoever keeps an ear out for announcements."
+      },
+      "parrafos": {
+        "es": [
+          "¡Mantente alerta y atento/a durante todo el evento! Organizaremos rifas y sorteos sorpresa en diferentes momentos. Podrías ganar libros de origami, papeles especiales, herramientas únicas y mucho más. La clave para no perderte nada: ¡estate pendiente a los anuncios y actividades! Participa en talleres, asiste a charlas y mantén los oídos bien abiertos. ¡La suerte sonríe a quienes están presentes y activos! No te quedes con las ganas de llevarte a casa un premio genial."
+        ],
+        "en": [
+          "Stay alert and attentive throughout the event! We will organize raffles and surprise draws at different moments. You could win origami books, specialty papers, unique tools and much more. The key to not missing anything: stay tuned for announcements and activities! Join workshops, attend talks and keep your ears wide open. Luck smiles on those who are present and active! Don't miss out on taking home a great prize."
+        ]
+      }
+    }
+  ]
+}

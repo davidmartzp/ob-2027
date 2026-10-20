@@ -1,0 +1,63 @@
+/* ============ MODAL DEL ITINERARIO ============ */
+.modal{
+  width:min(760px, calc(100% - 32px)); max-height:min(88vh, 900px);
+  margin:auto; padding:0; border:1.5px solid var(--tinta);
+  background:var(--papel); color:var(--tinta);
+  box-shadow:12px 12px 0 var(--pajizo);
+  overflow:hidden;
+}
+.modal[open]{ display:flex; flex-direction:column; animation:desplegar .45s var(--ease); transform-origin:top center; }
+.modal::backdrop{ background:color-mix(in srgb, var(--tinta) 60%, transparent); }
+@keyframes desplegar{
+  from{ opacity:0; transform:perspective(1200px) rotateX(-10deg) translateY(16px); }
+  to{ opacity:1; transform:none; }
+}
+
+.hoja{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:0 clamp(20px,4vw,48px) clamp(24px,4vw,40px); }
+
+/* cabecera fija mientras se recorre el texto */
+.cabeza{
+  position:sticky; top:0; z-index:1;
+  display:flex; justify-content:space-between; align-items:flex-start; gap:16px;
+  padding:clamp(20px,3vw,32px) 0 18px; background:var(--papel);
+  border-bottom:1px dashed var(--tinta-30);
+}
+.cabeza h2{
+  font-family:var(--serif); font-weight:520; letter-spacing:-.02em;
+  font-size:clamp(32px,5vw,52px); line-height:1;
+}
+.cerrar{
+  flex:none; width:44px; height:44px; border-radius:50%;
+  border:1.5px solid var(--tinta); background:transparent; color:var(--tinta);
+  font-size:26px; line-height:1; cursor:pointer; transition:background .2s, color .2s;
+}
+.cerrar:hover, .cerrar:focus-visible{ background:var(--tinta); color:var(--papel); }
+
+/* línea de tiempo: pliegue valle vertical que une los momentos */
+.momentos{
+  list-style:none; position:relative; margin-top:28px; padding-left:28px;
+}
+.momentos::before{
+  content:""; position:absolute; left:5px; top:8px; bottom:8px; width:1px;
+  background:repeating-linear-gradient(180deg, var(--tinta-60) 0 6px, transparent 6px 10px);
+}
+.momentos li{ position:relative; padding-bottom:28px; }
+.momentos li::before{
+  /* punto de doblez sobre la línea */
+  content:""; position:absolute; left:-28px; top:6px; width:11px; height:11px;
+  background:var(--ruana); border:1.5px solid var(--tinta); transform:rotate(45deg);
+}
+.momentos h3{
+  font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--miel); margin-bottom:8px;
+}
+.momentos p{ font-size:var(--fs-texto); line-height:1.65; max-width:62ch; }
+.momentos p + p{ margin-top:.7em; }
+
+.credito{ margin-top:8px; text-align:right; }
+
+@media (max-width: 760px){
+  .modal{ max-height:92vh; box-shadow:8px 8px 0 var(--pajizo); }
+  .momentos{ padding-left:24px; }
+  .momentos li::before{ left:-24px; }
+}

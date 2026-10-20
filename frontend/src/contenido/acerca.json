@@ -1,0 +1,22 @@
+{
+  "frase": {
+    "es": "¡Bienvenidos a la nevera!",
+    "en": "Welcome to the fridge!"
+  },
+  "titulo": {
+    "es": "Un evento pensado para <mark>todos los apasionados</mark> y <em>curiosos</em> por doblar papel — un espacio para conocer personas con los mismos intereses.",
+    "en": "An event made for <mark>everyone passionate</mark> and <em>curious</em> about folding paper — a place to meet people who share your interests."
+  },
+  "p1": {
+    "es": "<b>Origami Bogotá</b> dedica la posibilidad de aprender nuevas técnicas y de introducirse en el mundo del origami si es la primera vez que asistes.",
+    "en": "<b>Origami Bogotá</b> offers the chance to learn new techniques, and to step into the world of origami if this is your first time."
+  },
+  "p2": {
+    "es": "Durante el evento se pliega en diferentes espacios: no solo en los talleres, sino también entre pausas y cafés. Llevamos {anios} años trabajando para que todos los amantes de este arte tengan un lugar en el evento.",
+    "en": "During the event there's folding everywhere: not just in the workshops, but also during breaks and over coffee. For {anios} years we've been working so that everyone who loves this art has a place at the event."
+  },
+  "cita": {
+    "es": "“Tenemos espacios para todos los niveles de complejidad — desde principiantes hasta avanzados — y otro espacio para niños. Es muy emocionante ver cómo las personas más experimentadas forman parte de los modelos complejos y los exponen.”",
+    "en": "“We have spaces for every level of complexity — from beginners to advanced — and a separate space for kids. It's really exciting to see the most experienced folders take on complex models and put them on display.”"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "frase": {
+    "es": "¡tu modelo puede ser el próximo paso!",
+    "en": "your model could be the next step!"
+  },
+  "titulo": {
+    "es": "¡Comparte tu pasión!<br><em>Sé tallerista</em> en nuestro evento",
+    "en": "Share your passion!<br><em>Teach a workshop</em> at our event"
+  },
+  "texto": {
+    "es": "Buscamos mentes creativas como la tuya para inspirar y enseñar en nuestro próximo evento. Si tienes un modelo de origami para enseñar que quieras compartir, ¡queremos conocer tu propuesta!",
+    "en": "We're looking for creative minds like yours to inspire and teach at our next event. If you have an origami model you'd like to teach and share, we want to hear your proposal!"
+  },
+  "boton": {
+    "es": "Proponer un taller ahora",
+    "en": "Propose a workshop now"
+  },
+  "fotoAlt": {
+    "es": "Manos de varias personas plegando papel juntas en una mesa de taller",
+    "en": "Hands of several people folding paper together at a workshop table"
+  },
+  "asunto": {
+    "es": "Propuesta de taller",
+    "en": "Workshop proposal"
+  }
+}

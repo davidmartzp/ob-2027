@@ -1,2 +1,6 @@
 .DS_Store
 frontend/.angular/
+node_modules/
+frontend/dist/
+backend/vendor/
+.env

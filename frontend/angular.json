@@ -29,11 +29,7 @@
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
-            "outputMode": "static",
-            "polyfills": [
-              "@angular/localize/init"
-            ],
-            "localize": true
+            "outputMode": "static"
           },
           "configurations": {
             "production": {
@@ -54,23 +50,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "localize": [
-                "es"
-              ]
-            },
-            "en": {
-              "localize": [
-                "en"
-              ]
-            },
-            "local": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "localize": true,
-              "outputPath": "dist/local",
-              "deleteOutputPath": false
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -83,45 +63,12 @@
             },
             "development": {
               "buildTarget": "frontend:build:development"
-            },
-            "en": {
-              "buildTarget": "frontend:build:development,en"
             }
           },
           "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular/build:unit-test"
-        }
-      },
-      "i18n": {
-        "sourceLocale": {
-          "code": "es",
-          "subPath": ""
-        },
-        "locales": {
-          "en": {
-            "translation": [
-              "src/locale/en/acerca.json",
-              "src/locale/en/actividades.json",
-              "src/locale/en/cabecera.json",
-              "src/locale/en/comun.json",
-              "src/locale/en/comunidad.json",
-              "src/locale/en/evento.json",
-              "src/locale/en/hero.json",
-              "src/locale/en/invitados.json",
-              "src/locale/en/itinerario.json",
-              "src/locale/en/leyenda.json",
-              "src/locale/en/marquee.json",
-              "src/locale/en/meta.json",
-              "src/locale/en/nav.json",
-              "src/locale/en/paginaActividades.json",
-              "src/locale/en/patrocinadores.json",
-              "src/locale/en/pie.json",
-              "src/locale/en/tallerista.json"
-            ],
-            "subPath": "en"
-          }
         }
       }
     }

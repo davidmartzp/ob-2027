@@ -1,0 +1,41 @@
+:host{ display:block; }
+
+/* ============ ITINERARIO (hoja de páramo) ============ */
+.itinerario{
+  background:var(--paramo); color:var(--paramo-txt); --color-enfasis:var(--pajizo);
+  margin:0; overflow:hidden;
+}
+.itinerario::before{
+  /* patrón de pliegues (crease pattern) de fondo */
+  content:""; position:absolute; inset:0; opacity:.14; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23ECE7D8' stroke-width='1'%3E%3Cpath d='M0 210 H420' stroke-dasharray='8 8'/%3E%3Cpath d='M210 0 V420' stroke-dasharray='2 5 9 5'/%3E%3Cpath d='M0 0 L420 420' stroke-dasharray='8 8'/%3E%3Cpath d='M420 0 L0 420' stroke-dasharray='2 5 9 5'/%3E%3Cpath d='M105 0 V420 M315 0 V420' stroke-dasharray='8 8' opacity='.6'/%3E%3Ccircle cx='210' cy='210' r='90' stroke-dasharray='4 6'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:420px;
+}
+.itinerario .inner{ position:relative; z-index:1; display:grid; grid-template-columns:1.2fr .8fr; gap:clamp(30px,5vw,90px); align-items:center; }
+.itinerario h2.titulo{ color:var(--paramo-txt); }
+.itinerario p{ color:color-mix(in srgb, var(--paramo-txt) 85%, transparent); max-width:46ch; margin-top:20px; }
+.itinerario .acciones{ display:flex; flex-direction:column; gap:16px; align-items:flex-start; }
+/* el botón que abre el modal debe verse igual que los .btn que son enlaces */
+button.btn{ line-height:inherit; }
+.recursos-link{
+  font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--pajizo); text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+  border-bottom:1px dashed var(--pajizo); padding-bottom:4px; transition:.25s;
+}
+.recursos-link:hover{ color:var(--papel); gap:16px; }
+.itinerario .mega{
+  position:absolute; right:-2%; bottom:-.35em;
+  font-family:var(--serif); font-weight:600; font-size:clamp(120px,22vw,340px);
+  line-height:1; color:transparent; -webkit-text-stroke:1px color-mix(in srgb, var(--paramo-txt) 14%, transparent);
+  pointer-events:none; user-select:none;
+}
+.itinerario .flecha-doblar{ color:var(--pajizo); margin-top:8px; }
+.itinerario .cerros{ position:absolute; left:0; right:0; bottom:0; pointer-events:none; z-index:0; color:var(--paramo-txt); }
+.itinerario .cerros svg{ width:100%; height:150px; display:block; }
+
+@media (max-width: 1020px){
+  .itinerario .inner{ grid-template-columns:1fr; }
+}
+
+.itinerario .separador{ color:var(--pajizo); }
+.aviso{ font-family:var(--mono); font-size:14px; letter-spacing:.08em; color:color-mix(in srgb, var(--paramo-txt) 72%, transparent); margin-top:14px; }

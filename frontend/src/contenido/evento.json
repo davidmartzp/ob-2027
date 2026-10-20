@@ -1,0 +1,49 @@
+{
+  "edicion": 2027,
+  "fundacion": 2011,
+  "sitioUrl": "https://origamibogota.com/",
+  "sede": "Liceo Francés Louis Pasteur",
+  "ciudad": "Bogotá, Colombia",
+  "direccion": "Cl. 87 #7-77, Barrio La Cabrera",
+  "mapaUrl": "https://maps.google.com/?q=Liceo+Franc%C3%A9s+Louis+Pasteur+Bogot%C3%A1",
+  "telefono": {
+    "texto": "+57 315 245 9839",
+    "href": "tel:+573152459839"
+  },
+  "correo": "inscripciones@origamibogota.com",
+  "recursosUrl": null,
+  "fecha": {
+    "es": "04 al 06 de junio",
+    "en": "June 04 to 06"
+  },
+  "fechaLarga": {
+    "es": "4 al 6 de junio de {edicion} — Bogotá",
+    "en": "June 4–6, {edicion} — Bogotá"
+  },
+  "inscripcionesAbiertas": false,
+  "mostrarMenu": true,
+  "secciones": {
+    "comunidad": true,
+    "itinerario": true,
+    "actividades": true,
+    "tallerista": true,
+    "patrocinadores": true
+  },
+  "redes": [
+    {
+      "red": "facebook",
+      "nombre": "Facebook",
+      "href": "https://www.facebook.com/origamibogota"
+    },
+    {
+      "red": "whatsapp",
+      "nombre": "WhatsApp",
+      "href": "https://api.whatsapp.com/send?phone=573152459839&text=Hola,%20quiero%20solicitar%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20evento"
+    },
+    {
+      "red": "instagram",
+      "nombre": "Instagram",
+      "href": "https://www.instagram.com/congresoorigamibogota/"
+    }
+  ]
+}

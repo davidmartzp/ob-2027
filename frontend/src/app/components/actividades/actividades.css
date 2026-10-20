@@ -1,0 +1,19 @@
+:host{ display:block; }
+
+/* ============ ACTIVIDADES ============ */
+.actividades{ background:var(--frailejon); --color-enfasis:var(--paramo); }
+.actividades .separador{ color:var(--tinta); --color-anotacion:var(--paramo); }
+.cuerpo{ display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(30px,5vw,80px); align-items:start; }
+.intro{ color:var(--tinta-80); max-width:46ch; }
+.cta{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; margin-top:28px; }
+.destacadas-tag{
+  display:block; margin-bottom:12px;
+  font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta-80);
+}
+.lista-actividades{ list-style:none; border-top:1.5px solid var(--tinta); }
+.lista-actividades li{ border-bottom:1.5px solid var(--tinta); transition:opacity .15s; }
+.lista-actividades:hover > li:not(:hover){ opacity:.3; }
+
+@media (max-width: 1020px){
+  .cuerpo{ grid-template-columns:1fr; }
+}

@@ -1,0 +1,15 @@
+<section class="tallerista" id="tallerista">
+  <div class="inner">
+    <div>
+      <app-separador montana appReveal [frase]="t.frase"/>
+      <h2 class="titulo rico" appReveal="1" [innerHTML]="t.titulo"></h2>
+      <p appReveal="2">{{ t.texto }}</p>
+      <a class="btn btn-noche" appReveal="3" [appEnlace]="correo">{{ t.boton }}</a>
+    </div>
+    <div appReveal="2">
+      <figure class="foto">
+        <img src="assets/taller-manos.png" [alt]="t.fotoAlt" loading="lazy">
+      </figure>
+    </div>
+  </div>
+</section>

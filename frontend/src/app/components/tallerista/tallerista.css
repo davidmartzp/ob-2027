@@ -1,0 +1,27 @@
+:host{ display:block; }
+
+/* ============ TALLERISTA ============ */
+.tallerista{
+  background:var(--ruana); color:var(--tinta); overflow:hidden;
+  --color-enfasis:var(--paramo);
+}
+.tallerista .inner{ display:grid; grid-template-columns:1fr .85fr; gap:clamp(30px,5vw,80px); align-items:center; }
+.tallerista h2.titulo{ color:var(--tinta); }
+.tallerista p{ color:var(--tinta-80); max-width:48ch; margin-top:18px; }
+/* la rotación va en la figura y el reveal en su envoltorio: un transform en el mismo
+   elemento que lleva appReveal anularía la animación de entrada */
+.tallerista .foto{
+  transform:rotate(2.5deg); border:6px solid var(--blanco);
+  box-shadow:16px 16px 0 var(--paramo);
+}
+.tallerista .foto img{ aspect-ratio:4/3; object-fit:cover; }
+.tallerista .btn.btn-noche{ background:var(--paramo); border-color:var(--paramo); color:var(--papel); margin-top:30px; }
+.tallerista .btn.btn-noche:hover{ background:var(--papel); color:var(--paramo); border-color:var(--papel); }
+.tallerista .separador{ color:var(--tinta); --color-anotacion:var(--paramo); }
+
+@media (max-width: 1020px){
+  .tallerista .inner{ grid-template-columns:1fr; }
+}
+@media (max-width: 760px){
+  .tallerista .foto{ transform:none; box-shadow:10px 10px 0 var(--paramo); }
+}

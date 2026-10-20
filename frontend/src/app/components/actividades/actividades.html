@@ -1,0 +1,26 @@
+<section class="actividades" id="actividades">
+  <div class="sec-head">
+    <div>
+      <app-separador appReveal [frase]="t.frase"/>
+      <h2 class="titulo rico" appReveal="1" [innerHTML]="t.titulo"></h2>
+    </div>
+    <p class="lema" appReveal="2">{{ t.lema }}</p>
+  </div>
+
+  <div class="cuerpo">
+    <div>
+      <p class="intro" appReveal>{{ t.intro }}</p>
+      <div class="cta" appReveal="1">
+        <a class="btn" appEnlace="actividades">{{ t.cta }}</a>
+      </div>
+    </div>
+    <div>
+      <span class="mono destacadas-tag" appReveal>{{ t.destacadas }}</span>
+      <ul class="lista-actividades">
+        @for (a of destacadas; track a.id) {
+          <li appActividad [actividad]="a" [appReveal]="$index + 1"></li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

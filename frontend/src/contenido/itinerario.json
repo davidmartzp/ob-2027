@@ -1,0 +1,175 @@
+{
+  "seccion": {
+    "titulo": {
+      "es": "¡El <em>itinerario</em>!<br>Todo lo que necesitas saber",
+      "en": "The <em>itinerary</em>!<br>Everything you need to know"
+    },
+    "texto": {
+      "es": "Pa' sobrevivir al finde más plegado del año: guías, cronogramas y documentos clave del evento en un solo lugar. Consulta los recursos y prepara tu experiencia.",
+      "en": "How to survive the foldiest weekend of the year: guides, schedules and key event documents all in one place. Check out the resources and get ready."
+    },
+    "verCompleto": {
+      "es": "Ver itinerario completo →",
+      "en": "See the full itinerary →"
+    },
+    "recursos": {
+      "es": "Ir a Recursos + Cronograma",
+      "en": "Go to Resources + Schedule"
+    },
+    "aviso": {
+      "es": "¡ORIGAMI BOGOTÁ {edicion}!<br>Estamos preparando la edición {edicion}. Pronto compartiremos toda la información sobre inscripciones, talleres y actividades. <span class=\"destacado\">¡Nos vemos el próximo año!</span>",
+      "en": "ORIGAMI BOGOTÁ {edicion}!<br>We're getting the {edicion} edition ready. Soon we'll share everything about sign-ups, workshops and activities. <span class=\"destacado\">See you next year!</span>"
+    }
+  },
+  "modal": {
+    "titulo": {
+      "es": "El <em>itinerario</em>",
+      "en": "The <em>itinerary</em>"
+    },
+    "cerrar": {
+      "es": "Cerrar itinerario",
+      "en": "Close itinerary"
+    },
+    "credito": {
+      "es": "El itinerario: {autor}.",
+      "en": "The itinerary: {autor}."
+    }
+  },
+  "autor": "Camilo Torres",
+  "momentos": [
+    {
+      "momento": {
+        "es": "Día —",
+        "en": "Day —"
+      },
+      "parrafos": {
+        "es": [
+          "Ya sabemos que está tachando los días que faltan para el evento uno a uno en su calendario, pliegue sistemáticamente los modelos del libro digital, escriba sobre su ansiedad en el grupo de WhatsApp y tenga paciencia, solo podemos hacer un evento al año."
+        ],
+        "en": [
+          "We know you're crossing off the days until the event one by one on your calendar. Fold your way methodically through the models in the digital book, vent your anxiety in the WhatsApp group and be patient: we can only put on one event a year."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "Unos meses antes",
+        "en": "A few months before"
+      },
+      "parrafos": {
+        "es": [
+          "Ya están abiertas las inscripciones, ¡de por dios!, inscríbase ya, que le sale más barato y tiene mejor turno para escoger talleres."
+        ],
+        "en": [
+          "Sign-ups are open, for heaven's sake! Sign up now: it's cheaper and you get a better slot for picking workshops."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "60 días antes",
+        "en": "60 days before"
+      },
+      "parrafos": {
+        "es": [
+          "Aún estamos en el grupo de WhatsApp del año pasado, algún adelantado empezará a preguntar por los pines, no entre en pánico pero tampoco se relaje que no es mañana pero tampoco hay tanto tiempo, es momento de empezar a pensar en los pines, las tarjetas y su expo personal, bueno está bien entre en pánico supérelo y empiece a doblar."
+        ],
+        "en": [
+          "We're still in last year's WhatsApp group, and some early bird will start asking about the pins. Don't panic, but don't relax either: it's not tomorrow, but there isn't that much time. It's time to start thinking about the pins, the cards and your personal exhibit. Okay, fine, panic, get over it and start folding."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "1 día antes",
+        "en": "1 day before"
+      },
+      "parrafos": {
+        "es": [
+          "Aún puede trasnochar y aprovechar la ansiedad si no empezó antes puede llegar al menos con 10 pines, me pido uno, nada como pin con ansiedad y adrenalina, aliste la maleta y prepárese para el fin de semana que tanto ha esperado."
+        ],
+        "en": [
+          "You can still pull an all-nighter and put that anxiety to work. If you didn't start earlier, you can at least show up with 10 pins (save one for me!); nothing beats a pin made on anxiety and adrenaline. Pack your bag and get ready for the weekend you've been waiting for."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "Día 1",
+        "en": "Day 1"
+      },
+      "parrafos": {
+        "es": [
+          "Espere la noche antes de que arranque el evento (es importante dormir aunque la ansiedad no lo deje).",
+          "En la fecha indicada desplácese hasta el sitio, si lo prefiere un par de horas antes de que todo comience, seguro encontrará a otro Origamista ansioso por el sector, podrán almorzar juntos (en caso extremo desayunar) tomarse un café y esperar a que sean las 3 (ya aprendimos y en 1/2 hora no se monta la expo).",
+          "Reclame su kit y si dobló algo para la Expo diríjase a hacer el montaje; Alejo Erazo lo estará esperando, no se desespere y tenga paciencia. Espere con calma mientras revisa el contenido del kit (haga lista mental de con qué va a completar la caja para el día siguiente).",
+          "Listo para el canelazo y la inauguración, seguro que para estas alturas ya habrá doblado algo en los pasillos y habrá adelantado cuaderno con los viejos amigos o habrá conocido a su parche del fin de semana.",
+          "Prepárese para no dormir esta noche tampoco.",
+          "¡Duerma, por favor! … Espere el día 2."
+        ],
+        "en": [
+          "Wait out the night before the event starts (sleeping matters, even if the nerves won't let you).",
+          "On the big day, head to the venue, a couple of hours before everything starts if you like. You're sure to find another anxious Origamist around the area: you can have lunch together (breakfast, in extreme cases), grab a coffee and wait until 3 o'clock (we've learned our lesson: the exhibition can't be set up in half an hour).",
+          "Pick up your kit and, if you folded something for the Exhibition, go set it up; Alejo Erazo will be waiting for you. Don't despair, be patient. Wait calmly while you go through the kit (make a mental list of what you'll add to the box for the next day).",
+          "Ready for the canelazo (a hot Andean cinnamon drink) and the opening! By now you've surely folded something in the hallways, caught up with old friends or met your crew for the weekend.",
+          "Get ready not to sleep tonight either.",
+          "Sleep, please! … Wait for day 2."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "Día 2",
+        "en": "Day 2"
+      },
+      "parrafos": {
+        "es": [
+          "Como no pudo dormirse temprano y finalmente pudo conciliar el sueño como a las 4 am, apúrele porque va a llegar tarde.",
+          "Mientras se desplaza al evento en transmi, taxi, Uber, bici, teletransportación o corriendo entre a la página y seleccione los talleres, no entre en pánico, si no lo deja entrar tal vez aún no es su turno. ¡Si Ud. es el que conduce, pare para inscribir; no use su celular mientras conduce!",
+          "Dedíquese a plegar todo el día, prepárese mentalmente para la foto grupal, si es precavido ya sabrá dónde va a almorzar, si no, fresco: hay grupos que ya tienen estudiada la zona, péguese al que más le llame la atención.",
+          "Venciendo el sueño, asista a los talleres de la tarde, prepárese para el chocogami y ¡de por dios! si se inscribió a las tarjetas, entréguelas que lo están buscando desde ayer.",
+          "Solo SI ES MAYOR DE EDAD, alístese para la chiva (hoy tampoco va a dormir)."
+        ],
+        "en": [
+          "Since you couldn't fall asleep early and finally dozed off around 4 am, hurry up, because you're going to be late.",
+          "While you travel to the event by TransMilenio, taxi, Uber, bike, teleportation or running, go to the website and pick your workshops. Don't panic: if it won't let you in, maybe it's not your turn yet. If you're the one driving, pull over to sign up; don't use your phone while driving!",
+          "Spend the whole day folding and get mentally ready for the group photo. If you're the planning type, you already know where you'll have lunch; if not, relax: some groups have already scoped out the area, just tag along with whichever one catches your eye.",
+          "Fighting off sleep, go to the afternoon workshops, get ready for the chocogami and, for heaven's sake, if you signed up for the cards, hand them in: they've been looking for you since yesterday.",
+          "ONLY IF YOU'RE OF LEGAL AGE, get ready for the chiva (a party bus ride; no sleep tonight either)."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "Día 3",
+        "en": "Day 3"
+      },
+      "parrafos": {
+        "es": [
+          "Si logró levantarse nos vemos en el evento.",
+          "Todo lo demás como el día segundo.",
+          "Entrega de reconocimientos, clausura, chocolatada. Ud. sentirá una ligera nostalgia que durará hasta el próximo evento."
+        ],
+        "en": [
+          "If you managed to get up, see you at the event.",
+          "Everything else, same as day two.",
+          "Awards, closing ceremony, hot chocolate. You'll feel a slight nostalgia that will last until the next event."
+        ]
+      }
+    },
+    {
+      "momento": {
+        "es": "Día 4",
+        "en": "Day 4"
+      },
+      "parrafos": {
+        "es": [
+          "Es probable que salgan planes, fuera de programa, esté pendiente en el WhatsApp del evento, la emoción nos hace vernos hasta dos semanas seguidas, si le nace en alguno nos veremos."
+        ],
+        "en": [
+          "Off-program plans will probably pop up, so keep an eye on the event's WhatsApp. The excitement keeps us meeting up for as long as two weeks straight; if you feel like joining one, we'll see you there."
+        ]
+      }
+    }
+  ]
+}

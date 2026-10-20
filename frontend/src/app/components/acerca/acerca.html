@@ -1,0 +1,32 @@
+<section class="acerca" id="acerca">
+  <div class="sec-head">
+    <app-separador appReveal [frase]="t.frase"/>
+  </div>
+  <div class="acerca-grid">
+    <h2 class="acerca-grande rico" appReveal [innerHTML]="t.titulo"></h2>
+    <div class="acerca-der">
+      <svg class="frailejon" viewBox="0 0 120 160" width="132" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="1.4" fill="none">
+          <path d="M60 152 L60 58" stroke-dasharray="5 4"/>
+          <path d="M60 152 L48 120 M60 152 L72 120" stroke-dasharray="3 4" opacity=".6"/>
+        </g>
+        <g stroke="currentColor" stroke-width="1.2">
+          <path d="M60 98 L16 58 L46 104 Z" style="fill:var(--salvia)"/>
+          <path d="M60 98 L104 58 L74 104 Z" style="fill:var(--salvia)"/>
+          <path d="M60 98 L34 40 L56 96 Z" style="fill:var(--salvia-oscura)"/>
+          <path d="M60 98 L86 40 L64 96 Z" style="fill:var(--salvia-oscura)"/>
+          <path d="M60 98 L60 28 L66 94 Z" style="fill:var(--salvia)"/>
+          <path d="M60 98 L60 28 L54 94 Z" style="fill:var(--salvia-media)"/>
+          <circle cx="60" cy="22" r="6" style="fill:var(--flor)"/>
+          <circle cx="48" cy="32" r="4.5" style="fill:var(--flor)"/>
+          <circle cx="72" cy="30" r="4.5" style="fill:var(--flor)"/>
+        </g>
+      </svg>
+      <p class="rico" appReveal [innerHTML]="t.p1"></p>
+      <p appReveal="1">{{ t.p2 }}</p>
+      <div class="acerca-nota" appReveal="2">
+        <p>{{ t.cita }}</p>
+      </div>
+    </div>
+  </div>
+</section>

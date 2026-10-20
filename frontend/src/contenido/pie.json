@@ -1,0 +1,30 @@
+{
+  "contacto": {
+    "es": "Contáctanos",
+    "en": "Contact us"
+  },
+  "ubicacion": {
+    "es": "Ubicación del evento",
+    "en": "Event location"
+  },
+  "mapa": {
+    "es": "Abrir en Google Maps ↗",
+    "en": "Open in Google Maps ↗"
+  },
+  "enlaces": {
+    "es": "Enlaces rápidos",
+    "en": "Quick links"
+  },
+  "inscribete": {
+    "es": "Inscríbete ahora →",
+    "en": "Sign up now →"
+  },
+  "derechos": {
+    "es": "© {edicion} Congreso Origami Bogotá · Todos los derechos reservados",
+    "en": "© {edicion} Congreso Origami Bogotá · All rights reserved"
+  },
+  "lema": {
+    "es": "{anios} años celebrando el arte del origami",
+    "en": "{anios} years celebrating the art of origami"
+  }
+}

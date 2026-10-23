@@ -87,7 +87,7 @@ Al inscribirse a un taller de parte 1 SHALL inscribirse también a cada taller d
 - **THEN** el taller pasa a tener 1 cupo
 
 ### Requirement: Programación pública
-`GET /events/programacion` (público) SHALL devolver los talleres activos que tienen evento, con `id`, `name`, `image`, `level`, `observations`, `public`, `duration`, `assistantName`, `event: {id, day, start_time, end_time, room: {id, name}}` y `partners`, ordenados por día, hora de inicio y salón, a cualquier hora.
+`GET /events/programacion` (público) SHALL devolver los talleres activos que tienen evento, con `id`, `name`, `image`, `level`, `observations`, `public`, `duration`, `instructor: {id, name}`, `event: {id, day, start_time, end_time, room: {id, name}}` y `partners`, ordenados por día, hora de inicio y salón, a cualquier hora.
 
 #### Scenario: Programación sin eventos
 - **WHEN** no hay talleres programados

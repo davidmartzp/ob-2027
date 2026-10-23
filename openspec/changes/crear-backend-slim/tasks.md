@@ -2,9 +2,9 @@
 
 ## 1. Andamiaje y Docker
 
-- [ ] 1.1 Crear `backend/` con `composer.json` (PHP `^8.5`, `config.platform.php = 8.5`, autoload PSR-4 `App\\` → `src/`) y las dependencias de `proposal.md`; verificar que `composer install` termina sin conflictos dentro del contenedor
-- [ ] 1.2 Crear `docker/Dockerfile` (`php:8.5-apache`, `pdo_mysql`, `pdo_sqlite`, `fileinfo`, `mod_rewrite`) y `compose.yaml` (api :8080, db `mysql:8.4` :3307 utf8mb4, correo Mailpit :8025, `cola` que ejecuta `correo:procesar` en bucle); verificar `docker compose up -d --wait` y `php -v` = 8.5 en el contenedor
-- [ ] 1.3 Crear `.env.example` (BD, `MAILER_DSN`, remitentes, `CORS_ORIGENES`, `APP_BASE_PATH`, `APP_DEBUG`, `APP_ENV`, vigencias de tokens, turno) y entradas en `.gitignore` (`backend/.env`, `backend/vendor/`, `backend/almacen/`); verificar con `git status` que `.env` no aparece
+- [x] 1.1 Crear `backend/` con `composer.json` (PHP `^8.5`, `config.platform.php = 8.5`, autoload PSR-4 `App\\` → `src/`) y las dependencias de `proposal.md`; verificar que `composer install` termina sin conflictos dentro del contenedor
+- [x] 1.2 Crear `docker/Dockerfile` (`php:8.5-apache`, `pdo_mysql`, `pdo_sqlite`, `fileinfo`, `mod_rewrite`) y `compose.yaml` (api :8080, db `mysql:8.4` :3307 utf8mb4, correo Mailpit :8025, `cola` que ejecuta `correo:procesar` en bucle); verificar `docker compose up -d --wait` y `php -v` = 8.5 en el contenedor
+- [x] 1.3 Crear `.env.example` (BD, `MAILER_DSN`, remitentes, `CORS_ORIGENES`, `APP_BASE_PATH`, `APP_DEBUG`, `APP_ENV`, vigencias de tokens, turno) y entradas en `.gitignore` (`backend/.env`, `backend/vendor/`, `backend/almacen/`); verificar con `git status` que `.env` no aparece
 
 ## 2. Plataforma (spec `backend/plataforma`)
 

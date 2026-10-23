@@ -1,0 +1,68 @@
+# Entorno de desarrollo. Las credenciales salen de .env (copiar .env.example): nunca se escriben aquí.
+name: origami-backend
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "${API_PUERTO:-8080}:80"
+    volumes:
+      - .:/var/www/html
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      MAILER_DSN: smtp://correo:1025
+    depends_on:
+      db:
+        condition: service_healthy
+      correo:
+        condition: service_started
+
+  db:
+    image: mysql:8.4
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "${DB_PUERTO:-3307}:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - datos_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+
+  # Buzón de pruebas: captura todo el correo (interfaz en http://localhost:8025).
+  correo:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "${CORREO_PUERTO:-8025}:8025"
+
+  # Cola de correo (como el cron del hosting, cada minuto). Se activa cuando exista
+  # `correo:procesar` (grupo 4): docker compose --profile cola up -d
+  cola:
+    profiles: ["cola"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/var/www/html
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      MAILER_DSN: smtp://correo:1025
+    command: ["sh", "-c", "while true; do php bin/consola correo:procesar; sleep 60; done"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  datos_mysql:

@@ -76,26 +76,27 @@ No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.5 + Apach
 ```sh
 cd backend
 cp .env.example .env                                   # solo la primera vez
-docker compose up -d --wait                            # API → http://localhost:8080 · MySQL → localhost:3307
+docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 · Mailpit → http://localhost:8025 (puertos en .env)
 docker compose exec api php bin/consola migrar         # también: revertir (último lote), sembrar (idempotente)
 docker compose exec api vendor/bin/phpunit             # pruebas (SQLite en memoria, no tocan MySQL)
-docker compose exec api vendor/bin/phpunit --filter ActividadesTest   # una sola clase/prueba
+docker compose exec api vendor/bin/phpunit --filter CorsTest         # una sola clase/prueba
 docker compose exec api composer require paquete/x     # dependencias
 ```
 
 Arquitectura orientada a servicios, ligera:
 - `config/arranque.php` arma todo: `.env` → contenedor PHP-DI (`dependencias.php`) → Eloquent → Slim (`middleware.php`, `rutas.php`). Lo comparten `public/index.php`, `bin/consola` y `tests/CasoFuncional.php`.
 - **Un módulo por servicio** en `src/Modulos/<Nombre>/`: `Rutas<Nombre>` (implementa `Modulo`), `Controlador<Nombre>` (solo HTTP), `Servicio<Nombre>` (lógica, devuelve arrays con la forma de la API) y modelos Eloquent. **Módulo nuevo = carpeta + alta en `config/rutas.php`**. Controladores y servicios se inyectan solos (autowiring).
-- Los servicios lanzan errores de dominio (`App\Compartido\Errores\*`) y el controlador los traduce a `HttpNotFoundException`, etc. Todas las respuestas de error salen en JSON.
-- Migraciones: `database/migraciones/AAAA_MM_DD_HHMMSS_*.php` devuelven `new class implements Migracion { subir/bajar(Builder $esquema) }`. Semillas: `database/semillas/NN_*.php` devuelven un callable idempotente (`updateOrCreate`). Usa en las migraciones solo lo que soporten MySQL **y** SQLite, porque las pruebas migran sobre SQLite.
+- Los servicios lanzan errores de dominio (`App\Compartido\Errores\*`: `NoEncontrado`, `Validacion`, `Conflicto`…) y `ManejadorErrores` los convierte en `{"error": {"codigo", "mensaje", …}}` con su estado HTTP; los controladores no capturan nada. Validación de cuerpos con `Validador::validar($datos, ['campo' => 'requerido|entero:1,120'])`.
+- Migraciones: `database/migraciones/AAAA_MM_DD_HHMMSS_*.php` devuelven `new class implements Migracion { subir/bajar(Builder $esquema) }`. La primera (`transicion_desde_angular_ob`) convierte una copia de la base de producción; se probó con el volcado real (`../origamib_online.sql`, fuera del repo: tiene datos personales). `revertir` está bloqueado con `APP_ENV=production` salvo `--forzar`. Semillas: `database/semillas/NN_*.php` devuelven un callable idempotente (`updateOrCreate`). Usa en las migraciones solo lo que soporten MySQL **y** SQLite, porque las pruebas migran sobre SQLite.
 - Pruebas funcionales: extienden `CasoFuncional`, que arranca la app real migrada y sembrada, y usan `$this->pedir('GET', '/ruta')`.
 
 Trampas:
-- Los closures de `$rutas->group(...)` **no pueden ser `static`**: Slim los enlaza al contenedor (*Cannot bind an instance to a static closure*).
+- Los closures de rutas y de `$rutas->group(...)` **no pueden ser `static`**: Slim los enlaza al contenedor (*Cannot bind an instance to a static closure*).
 - Fuera de Docker no hay `vendor/` ni PHP: corre los comandos con `docker compose exec api …` (o `docker compose run --rm --no-deps api …` si el stack está apagado).
 - Despliegue en el hosting PHP: subir el proyecto **con `vendor/`** (`composer install --no-dev` antes de subir) y un `.env` real. Si se puede, la raíz web va a `public/`; si no, el `.htaccess` de la raíz reescribe todo hacia `public/` y `.env`, `src/` y `vendor/` responden 404. Si la API vive en una subcarpeta, define `APP_BASE_PATH` (p. ej. `/api`). Pon `APP_DEBUG=false` en producción: con `true`, los errores muestran trazas y rutas internas.
-- Al tocar MySQL a mano: `mysql --default-character-set=utf8mb4 …`. Sin esa opción, las tildes se guardan mal codificadas («FrancÃ©s»).
+- Al tocar MariaDB a mano: `mariadb --default-character-set=utf8mb4 …`. Sin esa opción, las tildes se guardan mal codificadas («FrancÃ©s»).
 - Las semillas buscan por clave natural (`slug`, `nombre`, `edicion`). Si renombras un registro en la base y vuelves a sembrar, se crea uno nuevo.
 - El hosting MUST tener PHP 8.5: las dependencias están resueltas para PHP 8.5 (`config.platform.php` en `composer.json`).
 - Dominio: el antiguo `Assistant`/`assistants` se llama **`Attendee`/`attendees`** (modelo, tabla, columnas `id_attendee` y rutas `/attendees`). No reintroducir «assistant».
 - Correo: Symfony Mailer configurado solo con `MAILER_DSN` en `.env` (SMTP con TLS; nunca credenciales en el código). Plantillas Twig con autoescape en `plantillas/correos/`.
+- SQLite (pruebas) no ve las claves foráneas ni el DDL no transaccional de MariaDB: cualquier migración que toque la base heredada se prueba también cargando el volcado en el MariaDB de Docker (ver `design.md`, plan de migración) y luego `docker compose down -v` para no dejar datos personales.

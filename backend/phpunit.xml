@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnPhpunitDeprecation="true">
+    <testsuites>
+        <testsuite name="backend">
+            <directory>tests</directory>
+            <exclude>tests/Fixtures</exclude>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+    <!-- Las pruebas usan SQLite en memoria: nunca tocan la base de Docker ni la de producción. -->
+    <php>
+        <env name="APP_ENV" value="testing" force="true"/>
+        <env name="APP_DEBUG" value="false" force="true"/>
+        <env name="APP_BASE_PATH" value="" force="true"/>
+        <env name="APP_URL" value="http://api.test" force="true"/>
+        <env name="DB_CONNECTION" value="sqlite" force="true"/>
+        <env name="DB_DATABASE" value=":memory:" force="true"/>
+        <env name="CORS_ORIGENES" value="http://sitio.test,http://cms.test" force="true"/>
+        <env name="MAILER_DSN" value="null://null" force="true"/>
+    </php>
+</phpunit>

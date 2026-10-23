@@ -8,14 +8,14 @@
 
 ## 2. Plataforma (spec `backend/plataforma`)
 
-- [ ] 2.1 `config/arranque.php` (dotenv con variables obligatorias → PHP-DI → Capsule de Eloquent → Slim con ruta base) compartido por `public/index.php`, `bin/consola` y `tests/CasoFuncional.php`; prueba: falta `DB_HOST` → error que la nombra
-- [ ] 2.2 Middleware de errores JSON (`{"error": {codigo, mensaje, campos?}}`, sin trazas con `APP_DEBUG=false`, log del detalle), errores de dominio en `src/Compartido/Errores/` y `Validador`; pruebas: 404 `no_encontrado`, 422 con `campos`, 500 genérico sin traza
-- [ ] 2.3 Middleware CORS con orígenes de `CORS_ORIGENES` y respuesta a `OPTIONS`; pruebas de origen permitido y no permitido
-- [ ] 2.4 Módulo `Salud` (`GET /salud` 200/503 con `cola_correo_minutos`); prueba funcional
-- [ ] 2.5 Ejecutor de migraciones por lotes (`migrar`, `revertir`, `sembrar`) en `bin/consola`; prueba: migrar + revertir deja el esquema vacío
-- [ ] 2.6 Migraciones del esquema de `design.md` D4 (attendees, workshops, partners, workshop_partner, rooms, activities, events, events_attendees, email_envios, users, tokens_acceso, enlaces_acceso, intentos) compatibles con MySQL y SQLite; verificar migrando en ambos motores
-- [ ] 2.7 Migración de transición `assistants` → `attendees`, `workshops.id_assistant` → `id_attendee`, borrado de tablas y columnas sin uso (`workshops_menu`, `email_*`, `jobs`, `personal_access_tokens`, `schedule`/`day`/`room`/`isactivity`) (no hace nada en base vacía); prueba con una base SQLite sembrada con el esquema heredado: mismos ids y conteos
-- [ ] 2.8 `.htaccess` de `public/` y de la raíz (reescritura a `public/`, 404 para `.env`, `src/`, `vendor/`, `plantillas/`, `almacen/`); verificar con `curl` contra Apache del contenedor sin raíz en `public/`
+- [x] 2.1 `config/arranque.php` (dotenv con variables obligatorias → PHP-DI → Capsule de Eloquent → Slim con ruta base) compartido por `public/index.php`, `bin/consola` y `tests/CasoFuncional.php`; prueba: falta `DB_HOST` → error que la nombra
+- [x] 2.2 Middleware de errores JSON (`{"error": {codigo, mensaje, campos?}}`, sin trazas con `APP_DEBUG=false`, log del detalle), errores de dominio en `src/Compartido/Errores/` y `Validador`; pruebas: 404 `no_encontrado`, 422 con `campos`, 500 genérico sin traza
+- [x] 2.3 Middleware CORS con orígenes de `CORS_ORIGENES` y respuesta a `OPTIONS`; pruebas de origen permitido y no permitido
+- [x] 2.4 Módulo `Salud` (`GET /salud` 200/503 con `cola_correo_minutos`); prueba funcional
+- [x] 2.5 Ejecutor de migraciones por lotes (`migrar`, `revertir`, `sembrar`) en `bin/consola`; prueba: migrar + revertir deja el esquema vacío
+- [x] 2.6 Migraciones del esquema de `design.md` D4 (attendees, workshops, partners, workshop_partner, rooms, activities, events, events_attendees, email_envios, users, tokens_acceso, enlaces_acceso, intentos) compatibles con MySQL y SQLite; verificar migrando en ambos motores
+- [x] 2.7 Migración de transición `assistants` → `attendees`, `workshops.id_assistant` → `id_attendee`, borrado de tablas y columnas sin uso (`workshops_menu`, `email_*`, `jobs`, `personal_access_tokens`, `schedule`/`day`/`room`/`isactivity`) (no hace nada en base vacía); prueba con una base SQLite sembrada con el esquema heredado: mismos ids y conteos
+- [x] 2.8 `.htaccess` de `public/` y de la raíz (reescritura a `public/`, 404 para `.env`, `src/`, `vendor/`, `plantillas/`, `almacen/`); verificar con `curl` contra Apache del contenedor sin raíz en `public/`
 
 ## 3. Autenticación (spec `backend/autenticacion`)
 

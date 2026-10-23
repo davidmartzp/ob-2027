@@ -1,0 +1,52 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Consola del backend: php bin/consola <comando>
+ *   migrar      aplica las migraciones pendientes (un lote)
+ *   revertir    deshace el último lote (bloqueado en producción salvo con --forzar)
+ *   sembrar     ejecuta las semillas (idempotentes)
+ */
+
+use App\Compartido\Ajustes;
+use App\Compartido\BaseDatos\Migrador;
+use App\Compartido\BaseDatos\Sembrador;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$contenedor = (require dirname(__DIR__) . '/config/arranque.php')()->getContainer();
+$comando = $argv[1] ?? 'ayuda';
+$opciones = array_slice($argv, 2);
+
+$listar = static function (string $titulo, array $nombres): void {
+    echo $nombres === [] ? "{$titulo}: nada que hacer.\n" : "{$titulo}:\n  " . implode("\n  ", $nombres) . "\n";
+};
+
+try {
+    switch ($comando) {
+        case 'migrar':
+            $listar('Migraciones aplicadas', $contenedor->get(Migrador::class)->migrar());
+            break;
+
+        case 'revertir':
+            if ($contenedor->get(Ajustes::class)->enProduccion() && !in_array('--forzar', $opciones, true)) {
+                fwrite(STDERR, "En producción, revertir puede borrar datos. Si es lo que quiere: revertir --forzar\n");
+                exit(1);
+            }
+            $listar('Migraciones revertidas', $contenedor->get(Migrador::class)->revertir());
+            break;
+
+        case 'sembrar':
+            $listar('Semillas ejecutadas', $contenedor->get(Sembrador::class)->sembrar());
+            break;
+
+        default:
+            echo "Uso: php bin/consola <migrar|revertir|sembrar>\n";
+            exit($comando === 'ayuda' ? 0 : 1);
+    }
+} catch (Throwable $error) {
+    fwrite(STDERR, 'Error: ' . $error->getMessage() . "\n");
+    exit(1);
+}

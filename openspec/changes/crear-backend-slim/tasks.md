@@ -59,9 +59,11 @@ Hecho (2026-10-23): `Domain/Workshop`, `Application/Workshop` (InstructorWorksho
 
 ## 7. Partners (spec `backend/partners`)
 
-- [ ] 7.1 Modelo `Partner` con `whatsapp_url`, `GET /partners` y CRUD del CMS; pruebas: URL de WhatsApp codificada, 422 con `+57 300-123`, desactivado no aparece en listados públicos
-- [ ] 7.2 `POST /partners/{id}/logo` reutilizando la validación de imágenes de 6.4; prueba: SVG 422
-- [ ] 7.3 `GET|PUT /workshops/{id}/partners`; pruebas: reemplazo [1,2] → [2,3], sin token 401, id inexistente 422
+Hecho (2026-10-23): `Application/Partner` (ManagePartners, WorkshopPartners, PartnerView), `EloquentPartnerRepository`, `PartnerController`. Verificado en MariaDB: crear socio, subir logo, asociarlo a un taller y verlo en `GET /workshops`.
+
+- [x] 7.1 Modelo `Partner` con `whatsapp_url`, `GET /partners` y CRUD del CMS; pruebas: URL de WhatsApp codificada, 422 con `+57 300-123`, desactivado no aparece en listados públicos
+- [x] 7.2 `POST /partners/{id}/logo` reutilizando la validación de imágenes de 6.4; prueba: SVG 422
+- [x] 7.3 `GET|PUT /workshops/{id}/partners`; pruebas: reemplazo [1,2] → [2,3], sin token 401, id inexistente 422
 
 ## 8. Agenda (spec `backend/agenda`)
 

@@ -15,6 +15,7 @@ use App\Infrastructure\Http\Controller\AuthController;
 use App\Infrastructure\Http\Controller\EmailController;
 use App\Infrastructure\Http\Controller\HealthController;
 use App\Infrastructure\Http\Controller\ImageController;
+use App\Infrastructure\Http\Controller\PartnerController;
 use App\Infrastructure\Http\Controller\WorkshopController;
 use App\Infrastructure\Http\Guards;
 use Slim\App;
@@ -53,6 +54,15 @@ return static function (App $app): void {
     $app->post('/workshops/{id:[0-9]+}/image', [WorkshopController::class, 'uploadImage'])->add($guards->cmsOrAttendee());
     $app->get('/cms/workshops', [WorkshopController::class, 'cmsList'])->add($guards->cms());
     $app->patch('/workshops/{id:[0-9]+}', [WorkshopController::class, 'patch'])->add($guards->cms());
+
+    // Partners (spec backend/partners)
+    $app->get('/partners', [PartnerController::class, 'index']);
+    $app->post('/partners', [PartnerController::class, 'create'])->add($guards->cms());
+    $app->put('/partners/{id:[0-9]+}', [PartnerController::class, 'update'])->add($guards->cms());
+    $app->delete('/partners/{id:[0-9]+}', [PartnerController::class, 'deactivate'])->add($guards->cms());
+    $app->post('/partners/{id:[0-9]+}/logo', [PartnerController::class, 'uploadLogo'])->add($guards->cms());
+    $app->get('/workshops/{id:[0-9]+}/partners', [PartnerController::class, 'ofWorkshop']);
+    $app->put('/workshops/{id:[0-9]+}/partners', [PartnerController::class, 'replaceForWorkshop'])->add($guards->cmsOrAttendee());
 
     // Emails sent by hand from the CMS (spec backend/correo)
     $app->get('/emails/log', [EmailController::class, 'log'])->add($guards->cms());

@@ -3,7 +3,7 @@
 ## 1. Andamiaje y Docker
 
 - [x] 1.1 Crear `backend/` con `composer.json` (PHP `^8.5`, `config.platform.php = 8.5`, autoload PSR-4 `App\\` → `src/`) y las dependencias de `proposal.md`; verificar que `composer install` termina sin conflictos dentro del contenedor
-- [x] 1.2 Crear `docker/Dockerfile` (`php:8.5-apache`, `pdo_mysql`, `pdo_sqlite`, `fileinfo`, `mod_rewrite`) y `compose.yaml` (api :8080, db `mysql:8.4` :3307 utf8mb4, correo Mailpit :8025, `cola` que ejecuta `correo:procesar` en bucle); verificar `docker compose up -d --wait` y `php -v` = 8.5 en el contenedor
+- [x] 1.2 Crear `docker/Dockerfile` (`php:8.5-apache`, `pdo_mysql`, `pdo_sqlite`, `fileinfo`, `mod_rewrite`) y `compose.yaml` (api :8080, db `mariadb:10.11` :3307 utf8mb4, correo Mailpit :8025, `cola` que ejecuta `correo:procesar` en bucle); verificar `docker compose up -d --wait` y `php -v` = 8.5 en el contenedor
 - [x] 1.3 Crear `.env.example` (BD, `MAILER_DSN`, remitentes, `CORS_ORIGENES`, `APP_BASE_PATH`, `APP_DEBUG`, `APP_ENV`, vigencias de tokens, turno) y entradas en `.gitignore` (`backend/.env`, `backend/vendor/`, `backend/almacen/`); verificar con `git status` que `.env` no aparece
 
 ## 2. Plataforma (spec `backend/plataforma`)
@@ -29,7 +29,7 @@
 
 - [ ] 4.1 Servicio `Correo` con Symfony Mailer (`MAILER_DSN`) y Twig (`autoescape: html`, versión texto); arranque que falla en producción con DSN sin TLS o `verify_peer=0`; pruebas con transporte en memoria: nombre con `<script>` escapado, salto de línea en nombre no añade encabezados
 - [ ] 4.2 Cola `email_envios` y comando `correo:procesar` (lote por minuto, reintentos 1/5/30 min, `clave_unica` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
-- [ ] 4.3 Tipos de correo (D6c) con plantillas portadas de `angular-ob/plantilla_*.html` y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `bienvenida`, `aviso-equipo`, `numero`, `instrucciones`, `libro`, `aviso-importante`, `informacion-general`, `correccion`, `enlace-acceso`, `recordatorio-numero`; prueba por tipo de que la consulta devuelve los destinatarios esperados
+- [ ] 4.3 Tipos de correo (D6c) con plantillas portadas de `angular-ob/app-ob/resources/views/mails/*` y de `email_triggers` (ids 3 y 8) del volcado, y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `bienvenida`, `aviso-equipo`, `numero`, `instrucciones`, `libro`, `aviso-importante`, `informacion-general`, `correccion`, `enlace-acceso`, `recordatorio-numero`; prueba por tipo de que la consulta devuelve los destinatarios esperados
 - [ ] 4.4 `POST /correos/{tipo}` (con `ids` y `prueba`), `GET /correos/{tipo}/destinatarios` y `GET /correos/registro`; pruebas: 80 confirmados de 100, doble lanzamiento → 0 encolados, reenvío de `numero` con `ids`, prueba sin marcar a nadie, tipo desconocido 404
 - [ ] 4.5 Verificar en Mailpit (`http://localhost:8025`) que una inscripción en Docker genera bienvenida y aviso al equipo tras correr la cola
 
@@ -65,7 +65,7 @@
 
 ## 9. Importación y documentación
 
-- [ ] 9.1 Comando `importar-legado` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado SQLite de ejemplo
+- [ ] 9.1 Comando `importar-legado` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado de ejemplo con la forma de `origamib_online.sql` (datos inventados) y verificación manual contra una copia del volcado real cargada en el MariaDB de Docker: mismos conteos por tabla
 - [ ] 9.2 Actualizar `CLAUDE.md` (sección Backend: comandos, módulos, rutas, trampas) y crear `backend/README.md` con el mapa de rutas de D3; verificar que los comandos documentados funcionan tal cual
 
 ## 10. Verificación integral
@@ -76,7 +76,7 @@
 ## Workflow follow-up
 
 - Confirmar con el hosting la disponibilidad de PHP 8.5 antes de desplegar.
-- Conseguir un volcado real de la base de producción del congreso para validar el esquema y `importar-legado`.
+- Activar PHP 8.5 en el hosting (hoy reporta 8.4.27).
 - Configurar en el hosting el cron de `bin/consola correo:procesar` cada minuto.
 - Cambios aparte: conectar `frontend/` a `POST /attendees` y crear el proyecto `cms/`.
 - Archivar el cambio cuando se apruebe la revisión.

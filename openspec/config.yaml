@@ -35,7 +35,7 @@ context: |
     Twig con autoescape. Sustituye a la idea inicial de PHPMailer.
   - Fuente de referencia: `../angular-ob` (la copia recuperada no trae `app-ob/app`,
     `database/migrations` ni `resources/views`; ver design de `crear-backend-slim`).
-  - Debe poder levantarse completo con Docker (API + MySQL) y desplegarse en hosting PHP.
+  - Debe poder levantarse completo con Docker (API + MariaDB 10.11, igual que el hosting) y desplegarse en hosting PHP.
   - Renombrado de dominio: el modelo `Assistant`/tabla `assistants` pasa a llamarse
     `Attendee`/`attendees` (término correcto en el contexto). Aplica a modelos, tablas,
     rutas de la API (`/attendees`), servicios, DTOs, CMS y frontend. Toda migración de datos

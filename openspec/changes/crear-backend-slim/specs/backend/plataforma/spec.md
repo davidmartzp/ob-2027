@@ -7,7 +7,7 @@ Define cómo se ejecuta, configura, versiona y despliega el backend del congreso
 ## ADDED Requirements
 
 ### Requirement: Entorno de ejecución PHP 8.5
-El backend SHALL ejecutarse sobre PHP 8.5 y sus dependencias MUST resolverse para esa versión. El entorno de desarrollo MUST levantarse completo (API y base de datos MySQL 8.4) con un solo comando de Docker Compose, sin PHP ni Composer instalados en la máquina.
+El backend SHALL ejecutarse sobre PHP 8.5 y sus dependencias MUST resolverse para esa versión. El entorno de desarrollo MUST levantarse completo (API y base de datos MariaDB 10.11, el mismo motor del hosting) con un solo comando de Docker Compose, sin PHP ni Composer instalados en la máquina.
 
 #### Scenario: Arranque en limpio
 - **WHEN** se copia `.env.example` a `.env` y se ejecuta `docker compose up -d --wait`
@@ -61,7 +61,7 @@ La API SHALL exponer `GET /salud`, público, que responda 200 con `{"estado": "o
 - **THEN** la respuesta es 200 con `estado` igual a `ok`
 
 ### Requirement: Esquema versionado con migraciones
-El esquema de la base de datos SHALL crearse y modificarse solo mediante migraciones ordenadas, aplicables y reversibles por lotes desde la consola, compatibles con MySQL y con SQLite (usado en las pruebas).
+El esquema de la base de datos SHALL crearse y modificarse solo mediante migraciones ordenadas, aplicables y reversibles por lotes desde la consola, compatibles con MariaDB y con SQLite (usado en las pruebas).
 
 #### Scenario: Migrar y revertir
 - **WHEN** se ejecuta la migración y luego la reversión del último lote

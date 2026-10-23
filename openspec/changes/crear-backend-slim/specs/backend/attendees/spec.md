@@ -46,7 +46,7 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 `POST /attendees/verificar-codigo` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "token"}` con un token de asistente; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
 
 #### Scenario: Código especial
-- **WHEN** un asistente sin `code` pero con `special_code` `K12` verifica con `K12` dentro de su turno
+- **WHEN** un asistente sin `code` pero con `special_code` `A12` verifica con `A12` dentro de su turno
 - **THEN** la respuesta es `valid: true` con su `id` y un token
 
 #### Scenario: Código maestro heredado
@@ -54,7 +54,7 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **THEN** se trata como cualquier otro código y, si no existe, la respuesta es `valid: false`
 
 ### Requirement: Turnos para elegir talleres
-El acceso SHALL abrirse solo en los días del congreso configurados que correspondan a `days` del asistente (`S` sábado, `D` domingo, `T` ambos), entre la hora de inicio (08:00) y de cierre (19:00) configuradas, por grupos: el grupo es `ceil(número / tamaño)` (25) y entra `(grupo − 1) × minutos` (10) después del inicio; con `special_code` el número son sus dígitos. Fuera del turno la respuesta es `valid: false` con la hora y el día a partir de los cuales podrá ingresar.
+El acceso SHALL abrirse solo en los días del congreso configurados que correspondan a `days` del asistente (`S` sábado, `D` domingo, `T` ambos), entre la hora de inicio (08:00) y de cierre (19:00) configuradas, por grupos: el grupo es `ceil(número / tamaño)` (25) y entra `(grupo − 1) × minutos` (10) después del inicio; con `special_code` (p. ej. `A12`) el número son sus dígitos. Fuera del turno la respuesta es `valid: false` con la hora y el día a partir de los cuales podrá ingresar.
 
 #### Scenario: Grupo aún no habilitado
 - **WHEN** el número 60 (grupo 3) verifica el sábado del congreso a las 08:05

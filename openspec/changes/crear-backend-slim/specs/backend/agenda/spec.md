@@ -14,7 +14,7 @@ Organiza la programación del congreso: salones, actividades, eventos (un taller
 - **THEN** recibe todos los salones con su nombre
 
 ### Requirement: Programar eventos
-`POST /events` (privado) con `id_room`, `day` (`saturday` o `sunday`), `start_time`, `end_time` (`HH:MM:SS`) y exactamente uno de `id_workshop` o `id_activity` SHALL crear el evento y responder 201. MUST rechazar con 422 si `end_time` no es posterior a `start_time`, si el salón, taller o actividad no existen o si el taller está retirado, y con 409 si en ese salón y día ya hay un evento que se solapa.
+`POST /events` (privado) con `id_room`, `day` (`Saturday` o `Sunday`, como en los datos heredados; se acepta en cualquier combinación de mayúsculas y se guarda así), `start_time`, `end_time` (`HH:MM:SS`) y exactamente uno de `id_workshop` o `id_activity` SHALL crear el evento y responder 201. MUST rechazar con 422 si `end_time` no es posterior a `start_time`, si el salón, taller o actividad no existen o si el taller está retirado, y con 409 si en ese salón y día ya hay un evento que se solapa.
 
 #### Scenario: Taller y actividad a la vez
 - **WHEN** se envían `id_workshop` e `id_activity` en el mismo evento
@@ -40,7 +40,7 @@ Organiza la programación del congreso: salones, actividades, eventos (un taller
 
 #### Scenario: Domingo abierto
 - **WHEN** se pide el domingo a las 08:11
-- **THEN** la respuesta solo incluye eventos con `day` igual a `sunday`
+- **THEN** la respuesta solo incluye eventos con `day` igual a `Sunday`
 
 #### Scenario: Ensayo fuera del congreso
 - **WHEN** la opción de ignorar el turno está activa en un entorno que no es de producción

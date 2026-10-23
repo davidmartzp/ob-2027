@@ -8,7 +8,7 @@ La guía del proyecto (concepto, sistema de diseño, microcopy, honestidad de co
 
 ## Proyectos
 
-- `backend/` — API en PHP 8.5 + Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MySQL, correo con Symfony Mailer. Reemplaza a `app-ob/` de `../angular-ob`. Ver sección «Backend».
+- `backend/` — API en PHP 8.5 + Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MariaDB, correo con Symfony Mailer. Reemplaza a `app-ob/` de `../angular-ob`. Ver sección «Backend».
 - `cms/` — (pendiente) frontend del CMS extraído de `../angular-ob`.
 - `frontend/` — **versión activa del sitio**. Angular 22, prerender estático (SSG). La home es una hoja de secciones que se navega por anclas (`#acerca`, `#itinerario`…); desde el 2026-10-19 hay además una página propia, `/actividades` (buscador y fichas). No crear más páginas salvo que se pida.
 - `app/` — sitio original (HTML + CSS + JS inline). Queda como referencia visual 1:1 hasta archivarlo; no desarrollar ahí.
@@ -71,7 +71,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 ## Backend (`backend/`)
 
-No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.5 + Apache con `.htaccess`, como el hosting; MySQL 8.4).
+No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.5 + Apache con `.htaccess`, como el hosting; MariaDB 10.11).
 
 ```sh
 cd backend

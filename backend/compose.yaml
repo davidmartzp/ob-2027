@@ -22,19 +22,19 @@ services:
         condition: service_started
 
   db:
-    image: mysql:8.4
+    image: mariadb:10.11
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     ports:
       - "${DB_PUERTO:-3307}:3306"
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
-      - datos_mysql:/var/lib/mysql
+      - datos_mariadb:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 3s
       timeout: 5s
       retries: 30
@@ -65,4 +65,4 @@ services:
         condition: service_healthy
 
 volumes:
-  datos_mysql:
+  datos_mariadb:

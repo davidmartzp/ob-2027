@@ -49,6 +49,28 @@ final class EloquentWorkshopRepository implements WorkshopRepository
         return $this->entities(WorkshopModel::query()->where('status', '!=', WorkshopStatus::Withdrawn->value)->orderBy('name')->get());
     }
 
+    public function continuationsOf(int $id): array
+    {
+        return $this->entities(WorkshopModel::query()->where('relation', $id)->where('part', 2)->orderBy('id')->get());
+    }
+
+    public function lockForUpdate(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+        sort($ids);
+
+        return WorkshopModel::query()->whereIn('id', $ids)->orderBy('id')->lockForUpdate()->get()
+            ->mapWithKeys(static fn (WorkshopModel $model): array => [$model->id => $model->toEntity()])
+            ->all();
+    }
+
+    public function adjustTickets(int $id, int $delta): void
+    {
+        WorkshopModel::query()->whereKey($id)->increment('tickets', $delta);
+    }
+
     /** @param Collection<int, WorkshopModel> $models @return list<Workshop> */
     private function entities(Collection $models): array
     {

@@ -32,7 +32,7 @@ Organiza la programación del congreso: salones, actividades, eventos (un taller
 - **THEN** el evento y sus 5 inscripciones desaparecen y el taller queda con 8 cupos
 
 ### Requirement: Ventana de inscripción a talleres
-`GET /events/active` (público) SHALL responder solo dentro de la ventana configurada (sábado de 08:00 a 19:00 y domingo desde las 08:00, hora de Bogotá), con los eventos de taller del día en curso. Fuera de la ventana MUST responder 403 con `{"error": {…}, "logout": true}` y el mensaje de cuándo abre.
+`GET /events/active` (público) SHALL responder solo dentro de la ventana configurada (el sábado del congreso de 08:00 a 19:00 y el domingo desde las 08:00, hora de Bogotá, con las fechas de `EVENT_SATURDAY`/`EVENT_SUNDAY`), con los eventos de taller del día en curso. Fuera de la ventana MUST responder 403 con `{"error": {"code": "enrolment_closed", …}, "logout": true}` y el mensaje de cuándo abre.
 
 #### Scenario: Sábado antes de abrir
 - **WHEN** se pide el sábado a las 07:59

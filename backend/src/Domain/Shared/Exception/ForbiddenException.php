@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Shared\Exception;
 
-final class ForbiddenException extends DomainException
+/** Not final: EnrolmentClosedException specialises it. */
+class ForbiddenException extends DomainException
 {
     public function __construct(string $message = 'No tiene permiso para esta operación.')
     {

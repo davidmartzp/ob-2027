@@ -13,6 +13,7 @@ use App\Application\Port\ImageStorage;
 use App\Application\Port\MailQueue;
 use App\Application\Port\PasswordHasher;
 use App\Application\Port\RateLimiter;
+use App\Application\Port\TransactionManager;
 use App\Domain\Attendee\AttendeeRepository;
 use App\Domain\Attendee\CodePolicy;
 use App\Domain\Attendee\TurnSettings;
@@ -20,6 +21,7 @@ use App\Domain\Auth\AccessLinkRepository;
 use App\Domain\Auth\AccessTokenRepository;
 use App\Domain\Auth\UserRepository;
 use App\Domain\Partner\PartnerRepository;
+use App\Domain\Schedule\ScheduleRepository;
 use App\Domain\Workshop\WorkshopOptions;
 use App\Domain\Workshop\WorkshopRepository;
 use App\Infrastructure\Clock\SystemClock;
@@ -28,6 +30,8 @@ use App\Infrastructure\Mail\MailSettings;
 use App\Infrastructure\Mail\TransportFactory;
 use App\Infrastructure\Mail\TwigMailQueue;
 use App\Infrastructure\Persistence\DbRateLimiter;
+use App\Infrastructure\Persistence\DbTransactionManager;
+use App\Infrastructure\Persistence\Repository\DbScheduleRepository;
 use App\Infrastructure\Persistence\Migration\Migrator;
 use App\Infrastructure\Persistence\Migration\Seeder;
 use App\Infrastructure\Persistence\Repository\DbAccessLinkRepository;
@@ -67,6 +71,8 @@ return static fn (Settings $settings, string $root): array => [
     PasswordHasher::class => autowire(NativePasswordHasher::class),
     WorkshopRepository::class => autowire(EloquentWorkshopRepository::class),
     PartnerRepository::class => autowire(EloquentPartnerRepository::class),
+    ScheduleRepository::class => autowire(DbScheduleRepository::class),
+    TransactionManager::class => autowire(DbTransactionManager::class),
     ImageStorage::class => get(LocalImageStorage::class),
     // Images live outside public/ and are served by GET /images/{file}; APP_URL must include APP_BASE_PATH.
     LocalImageStorage::class => static fn (): LocalImageStorage => new LocalImageStorage(

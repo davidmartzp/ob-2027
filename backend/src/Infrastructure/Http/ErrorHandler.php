@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http;
 
+use App\Domain\Schedule\EnrolmentClosedException;
 use App\Domain\Shared\Exception\ConflictException;
 use App\Domain\Shared\Exception\ForbiddenException;
 use App\Domain\Shared\Exception\NotFoundException;
@@ -36,6 +37,7 @@ final readonly class ErrorHandler
             $error instanceof ValidationException => [422, ['code' => 'validation_failed', 'message' => $error->getMessage(), 'fields' => $error->fields]],
             $error instanceof NotFoundException => [404, ['code' => 'not_found', 'message' => $error->getMessage()]],
             $error instanceof UnauthorizedException => [401, ['code' => 'unauthorized', 'message' => $error->getMessage()]],
+            $error instanceof EnrolmentClosedException => [403, ['code' => 'enrolment_closed', 'message' => $error->getMessage()]],
             $error instanceof ForbiddenException => [403, ['code' => 'forbidden', 'message' => $error->getMessage()]],
             $error instanceof ConflictException => [409, ['code' => 'conflict', 'message' => $error->getMessage()]],
             $error instanceof TooManyAttemptsException => [429, ['code' => 'too_many_requests', 'message' => $error->getMessage()]],
@@ -66,7 +68,12 @@ final readonly class ErrorHandler
             }
         }
 
-        $response = Json::respond($this->responses->createResponse(), ['error' => $body], $status);
+        $payload = ['error' => $body];
+        if ($error instanceof EnrolmentClosedException) {
+            // The site signs the attendee out when it sees this (legacy contract).
+            $payload['logout'] = true;
+        }
+        $response = Json::respond($this->responses->createResponse(), $payload, $status);
         if ($error instanceof HttpMethodNotAllowedException) {
             $response = $response->withHeader('Allow', implode(', ', $error->getAllowedMethods()));
         }

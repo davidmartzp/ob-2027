@@ -67,11 +67,13 @@ Hecho (2026-10-23): `Application/Partner` (ManagePartners, WorkshopPartners, Par
 
 ## 8. Agenda (spec `backend/agenda`)
 
-- [ ] 8.1 `GET /rooms` y `GET /activities` (CMS) y semillas de ejemplo; prueba con token
-- [ ] 8.2 `POST /events` (XOR taller/actividad, solape por salón y día), `GET /events`, `DELETE /events/{id}` devolviendo cupos; pruebas: 422 con ambos, 409 por solape, borrar con 5 inscritos deja 8 cupos
-- [ ] 8.3 `GET /events/active` con ventana (servicio `RegistrationTurns`) y la forma de la spec; pruebas con reloj fijo: sábado 07:59 → 403 `logout`, domingo 08:11 solo `sunday`, `TURN_BYPASS` fuera de producción devuelve ambos días
-- [ ] 8.4 `POST|GET /attendees/{id}/events` y `DELETE /attendees/{id}/events/{idEvento}` con transacción y bloqueo, partes 1/2 (D11) y menores en talleres `A`; pruebas: último cupo disputado, duplicado 409, choque 409 con nombre, menor 422, parte 2 sin cupo rechaza todo, cancelar una parte cancela ambas
-- [ ] 8.5 `GET /events/schedule` (público), `GET /events/workshops` y `GET /events/{id}/attendees` (CMS); pruebas: lista vacía 200, orden por número 3, 7, 12
+Hecho (2026-10-23): `Domain/Schedule` (Event, Day, Room, Activity, EnrolmentWindow, ScheduleRepository), `Application/Schedule` (ManageSchedule, PublicSchedule, WorkshopEnrolment, ScheduleView), puerto `TransactionManager`, `DbScheduleRepository`, `ScheduleController`, semillas `01_rooms` y `02_activities` con los datos de producción. Verificado en MariaDB: 10 inscripciones simultáneas al último cupo (entra 1), 10 simultáneas cruzadas a un taller de dos partes con 3 cupos (entran 3 en ambas partes, 0 errores) y la agenda del volcado real (137 eventos, 62 talleres programados).
+
+- [x] 8.1 `GET /rooms` y `GET /activities` (CMS) y semillas de ejemplo; prueba con token
+- [x] 8.2 `POST /events` (XOR taller/actividad, solape por salón y día), `GET /events`, `DELETE /events/{id}` devolviendo cupos; pruebas: 422 con ambos, 409 por solape, borrar con 5 inscritos deja 8 cupos
+- [x] 8.3 `GET /events/active` con ventana (servicio `RegistrationTurns`) y la forma de la spec; pruebas con reloj fijo: sábado 07:59 → 403 `logout`, domingo 08:11 solo `sunday`, `TURN_BYPASS` fuera de producción devuelve ambos días
+- [x] 8.4 `POST|GET /attendees/{id}/events` y `DELETE /attendees/{id}/events/{idEvento}` con transacción y bloqueo, partes 1/2 (D11) y menores en talleres `A`; pruebas: último cupo disputado, duplicado 409, choque 409 con nombre, menor 422, parte 2 sin cupo rechaza todo, cancelar una parte cancela ambas
+- [x] 8.5 `GET /events/schedule` (público), `GET /events/workshops` y `GET /events/{id}/attendees` (CMS); pruebas: lista vacía 200, orden por número 3, 7, 12
 
 ## 9. Importación y documentación
 

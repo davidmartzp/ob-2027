@@ -8,10 +8,13 @@ declare(strict_types=1);
  */
 
 use App\Application\Auth\AuthSettings;
+use App\Application\Mail\TeamMailbox;
 use App\Application\Port\MailQueue;
 use App\Application\Port\PasswordHasher;
 use App\Application\Port\RateLimiter;
 use App\Domain\Attendee\AttendeeRepository;
+use App\Domain\Attendee\CodePolicy;
+use App\Domain\Attendee\TurnSettings;
 use App\Domain\Auth\AccessLinkRepository;
 use App\Domain\Auth\AccessTokenRepository;
 use App\Domain\Auth\UserRepository;
@@ -63,6 +66,23 @@ return static fn (Settings $settings, string $root): array => [
         accessLinkUrl: rtrim($settings->string('SITE_URL', 'http://localhost:4200'), '/') . '/' . ltrim($settings->string('ACCESS_LINK_PATH', 'acceso'), '/'),
     ),
 
+    // Congress rules
+    CodePolicy::class => static fn (): CodePolicy => new CodePolicy(
+        minAge: $settings->int('CODE_MIN_AGE', 12),
+        excludedPaymentMethods: $settings->list('CODE_EXCLUDED_PAYMENT_METHODS') ?: ['Grupo de apoyo', 'Invitado', 'Invitado(a)'],
+    ),
+    TurnSettings::class => static fn (): TurnSettings => new TurnSettings(
+        saturday: $settings->string('EVENT_SATURDAY', '2027-06-05'),
+        sunday: $settings->string('EVENT_SUNDAY', '2027-06-06'),
+        startTime: $settings->string('TURN_START_TIME', '08:00'),
+        endTime: $settings->string('TURN_END_TIME', '19:00'),
+        groupSize: $settings->int('TURN_GROUP_SIZE', 25),
+        minutesPerGroup: $settings->int('TURN_MINUTES', 10),
+        // Rehearsal mode never applies in production, whatever .env says.
+        bypass: !$settings->isProduction() && $settings->bool('TURN_BYPASS'),
+    ),
+    TeamMailbox::class => static fn (): TeamMailbox => new TeamMailbox($settings->string('MAIL_TEAM_ADDRESS', 'inscripciones@origamibogota.com')),
+
     // Database
     Capsule::class => static function () use ($settings): Capsule {
         $capsule = new Capsule();
@@ -94,7 +114,6 @@ return static fn (Settings $settings, string $root): array => [
     MailSettings::class => static fn (): MailSettings => new MailSettings(
         fromAddress: $settings->string('MAIL_FROM_ADDRESS', 'inscripciones@origamibogota.com'),
         fromName: $settings->string('MAIL_FROM_NAME', 'Origami Bogotá'),
-        teamAddress: $settings->string('MAIL_TEAM_ADDRESS', 'inscripciones@origamibogota.com'),
         sendPerMinute: $settings->int('MAIL_SEND_PER_MINUTE', 30),
     ),
 

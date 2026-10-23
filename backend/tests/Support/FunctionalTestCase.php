@@ -29,7 +29,18 @@ abstract class FunctionalTestCase extends TestCase
         parent::setUp();
         $this->clock = new FrozenClock();
         $this->mailer = new RecordingMailer();
-        $this->app = self::bootApp($this->environment(), [
+        $this->setUpApp();
+    }
+
+    /**
+     * (Re)boots the app on a fresh database, keeping the clock and mailer. Tests that need
+     * a different environment mid-test call it with the extra variables.
+     *
+     * @param array<string, string> $extraEnvironment
+     */
+    protected function setUpApp(array $extraEnvironment = []): void
+    {
+        $this->app = self::bootApp($extraEnvironment + $this->environment(), [
             ClockInterface::class => $this->clock,
             MailerInterface::class => $this->mailer,
         ]);

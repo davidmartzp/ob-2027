@@ -128,6 +128,9 @@ Cada tipo es una clase pequeña en `src/Application/Mail/EmailType/` con su cons
 ### D7. Concurrencia de cupos
 La inscripción a eventos se hace en una transacción con `SELECT … FOR UPDATE` sobre la fila del evento, se cuenta `event_attendees` y se inserta; el índice único `(id_event, id_attendee)` impide duplicados. En SQLite (pruebas) la transacción serializa igual.
 
+### D7b. Números de participante sin colisiones
+La asignación del siguiente número (al inscribirse y en `/attendees/codes`) se hace bajo un candado con nombre de MariaDB (`GET_LOCK('origami.attendees.code')`), con el índice único de `code` como respaldo y reintento. Se descartó `SELECT MAX(code) … FOR UPDATE`: con inscripciones simultáneas provocaba *deadlocks* (error 1213) por los bloqueos de rango; lo destapó la prueba de 10 inscripciones en paralelo contra MariaDB (2026-10-23).
+
 ### D8. Validación sin dependencias pesadas
 Un `Validator` propio pequeño (requerido, correo, entero en rango, en lista, longitud, hora `HH:MM`) que devuelve los mensajes por campo para el 422. *Alternativa:* `illuminate/validation`, que arrastra traductor y contenedor de Laravel.
 

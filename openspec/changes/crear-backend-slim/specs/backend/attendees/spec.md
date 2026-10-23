@@ -49,6 +49,10 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **WHEN** un asistente sin `code` pero con `special_code` `A12` verifica con `A12` dentro de su turno
 - **THEN** la respuesta es `valid: true` con su `id` y un token
 
+#### Scenario: Adivinar números
+- **WHEN** se prueban 10 números equivocados para el mismo correo en 15 minutos
+- **THEN** el siguiente intento responde 429 aunque el número sea correcto
+
 #### Scenario: Código maestro heredado
 - **WHEN** alguien envía el código `99099` con cualquier correo
 - **THEN** se trata como cualquier otro código y, si no existe, la respuesta es `valid: false`
@@ -94,7 +98,7 @@ Para ensayar fuera de los días del congreso, la configuración SHALL permitir i
 - **THEN** ese asistente no aparece en el listado
 
 ### Requirement: Edición de asistentes en el CMS
-`PUT /attendees/{id}` (privado) SHALL actualizar los campos de la inscripción y además `code`, `special_code`, `staff`, `status` y `pay_amount`, con las mismas reglas de validación, y responder 200 con el asistente actualizado. Un `code` ya usado por otro asistente MUST rechazarse con 409.
+`PUT /attendees/{id}` (privado) SHALL actualizar los campos de la inscripción y además `code`, `special_code`, `staff`, `status` y `pay_amount`, con las mismas reglas de formato y longitud (solo nombre, apellido, edad y correo son obligatorios, para poder guardar registros heredados incompletos), y responder 200 con el asistente actualizado. Un `code` ya usado por otro asistente MUST rechazarse con 409.
 
 #### Scenario: Asistente inexistente
 - **WHEN** el CMS edita `PUT /attendees/999999`

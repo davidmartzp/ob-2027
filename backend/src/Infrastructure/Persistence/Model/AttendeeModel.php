@@ -6,11 +6,13 @@ namespace App\Infrastructure\Persistence\Model;
 
 use App\Domain\Attendee\Attendee;
 use App\Domain\Attendee\AttendeeStatus;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Eloquent model of `attendees` (the legacy `assistants` table, renamed by migration).
+ * Column names are the legacy ones, including the camelCase `printCertificate`.
  *
  * @property int         $id
  * @property int|null    $code
@@ -20,20 +22,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string      $email
  * @property int         $age
  * @property int         $status
- * @property string|null $phone
- * @property string|null $country
- * @property string|null $city
- * @property string|null $paymethod
- * @property string|null $paydate
- * @property string|null $receipt
- * @property string|null $companion
- * @property string|null $days
  */
 final class AttendeeModel extends Model
 {
     protected $table = 'attendees';
     protected $guarded = ['id'];
-    protected $casts = ['code' => 'integer', 'age' => 'integer', 'status' => 'integer'];
+    protected $casts = [
+        'code' => 'integer',
+        'age' => 'integer',
+        'status' => 'integer',
+        'cards' => 'boolean',
+        'cardsgroup' => 'integer',
+        'staff' => 'boolean',
+        'go_to_chiva' => 'boolean',
+        'printCertificate' => 'boolean',
+        'chiva_companions' => 'integer',
+    ];
 
     /** @param Builder<self> $query */
     public function scopeActive(Builder $query): void
@@ -60,6 +64,18 @@ final class AttendeeModel extends Model
             receipt: $this->receipt,
             companion: $this->companion,
             days: $this->days,
+            idname: $this->idname,
+            origamigroup: $this->origamigroup,
+            info: $this->info,
+            cards: (bool) $this->cards,
+            cardsgroup: $this->cardsgroup,
+            staff: (bool) $this->staff,
+            goToChiva: (bool) $this->go_to_chiva,
+            printCertificate: (bool) $this->printCertificate,
+            chivaCompanions: (int) $this->chiva_companions,
+            payAmount: (string) ($this->pay_amount ?? '0'),
+            createdAt: $this->created_at instanceof DateTimeInterface ? $this->created_at->format('Y-m-d H:i:s') : null,
+            updatedAt: $this->updated_at instanceof DateTimeInterface ? $this->updated_at->format('Y-m-d H:i:s') : null,
         );
     }
 }

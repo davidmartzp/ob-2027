@@ -9,7 +9,6 @@ final readonly class MailSettings
     public function __construct(
         public string $fromAddress,
         public string $fromName,
-        public string $teamAddress,
         public int $sendPerMinute,
     ) {
     }

@@ -67,6 +67,7 @@
 
 - [ ] 9.1 Comando `importar-legado` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado de ejemplo con la forma de `origamib_online.sql` (datos inventados) y verificación manual contra una copia del volcado real cargada en el MariaDB de Docker: mismos conteos por tabla
 - [ ] 9.2 Actualizar `CLAUDE.md` (sección Backend: comandos, módulos, rutas, trampas) y crear `backend/README.md` con el mapa de rutas de D3; verificar que los comandos documentados funcionan tal cual
+- [ ] 9.3 Comando `bin/empaquetar` que, dentro de Docker, instala dependencias sin las de desarrollo (`composer install --no-dev --optimize-autoloader`) y arma `dist/backend-AAAAMMDD.zip` solo con `public/`, `src/`, `config/`, `database/`, `plantillas/`, `bin/consola`, `vendor/`, `.htaccess`, `.env.example` y `almacen/` vacío (sin `tests/`, `docker/`, `compose.yaml` ni `.env`); verificar descomprimiendo el zip en un Apache con PHP 8.5 sin Docker de por medio (contenedor `php:8.5-apache` sin Composer) que `/salud` responde y `/.env` no
 
 ## 10. Verificación integral
 
@@ -77,6 +78,6 @@
 
 - Confirmar con el hosting la disponibilidad de PHP 8.5 antes de desplegar.
 - Activar PHP 8.5 en el hosting (hoy reporta 8.4.27).
-- Configurar en el hosting el cron de `bin/consola correo:procesar` cada minuto.
+- Despliegue (sin Docker): subir el zip de 9.3 por FTP/administrador de archivos, crear `.env` real en el servidor (`APP_ENV=production`, `APP_DEBUG=false`, `MAILER_DSN` del SMTP del hosting), ejecutar `php bin/consola migrar` desde la terminal o el cron del panel, y configurar el cron de `php bin/consola correo:procesar` cada minuto.
 - Cambios aparte: conectar `frontend/` a `POST /attendees` y crear el proyecto `cms/`.
 - Archivar el cambio cuando se apruebe la revisión.

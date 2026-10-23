@@ -93,6 +93,7 @@ Arquitectura orientada a servicios, ligera:
 Trampas:
 - Los closures de rutas y de `$rutas->group(...)` **no pueden ser `static`**: Slim los enlaza al contenedor (*Cannot bind an instance to a static closure*).
 - Fuera de Docker no hay `vendor/` ni PHP: corre los comandos con `docker compose exec api …` (o `docker compose run --rm --no-deps api …` si el stack está apagado).
+- **Producción no usa Docker**: Apache + PHP del hosting y el SMTP del servidor (`host51.latinoamericahosting.com:465`, SSL). Docker es solo el entorno local.
 - Despliegue en el hosting PHP: subir el proyecto **con `vendor/`** (`composer install --no-dev` antes de subir) y un `.env` real. Si se puede, la raíz web va a `public/`; si no, el `.htaccess` de la raíz reescribe todo hacia `public/` y `.env`, `src/` y `vendor/` responden 404. Si la API vive en una subcarpeta, define `APP_BASE_PATH` (p. ej. `/api`). Pon `APP_DEBUG=false` en producción: con `true`, los errores muestran trazas y rutas internas.
 - Al tocar MariaDB a mano: `mariadb --default-character-set=utf8mb4 …`. Sin esa opción, las tildes se guardan mal codificadas («FrancÃ©s»).
 - Las semillas buscan por clave natural (`slug`, `nombre`, `edicion`). Si renombras un registro en la base y vuelves a sembrar, se crea uno nuevo.

@@ -1,0 +1,41 @@
+{#- Ported as-is from angular-ob: email_triggers id 2. Only the variable syntax changed. -#}
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#f4f1ec;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:linear-gradient(135deg,#e8ddd0 0%,#f4f1ec 100%);">
+    <tr><td align="center" style="padding:40px 20px;">
+      <table role="presentation" width="100%" max-width="640" cellspacing="0" cellpadding="0" border="0" style="max-width:640px;width:100%;background:#ffffff;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(101,67,33,0.15);">
+        <tr>
+          <td style="padding:0;">
+            <img src="https://origamibogota.com/images/cover.png" alt="Origami Bogotá 2026" style="width:100%;height:auto;display:block;border:0;">
+          </td>
+        </tr>
+        <tr><td style="height:30px;background:#ffffff;border-radius:30px 30px 0 0;margin-top:-30px;position:relative;z-index:1;"></td></tr>
+        <tr>
+          <td style="padding:30px 45px;">
+            <h2 style="margin:0 0 20px;color:#5D3A1A;font-size:22px;font-weight:700;">📋 Nuevo registro en Origami Bogotá 2026</h2>
+            <p style="margin:0 0 18px;color:#4a4a4a;font-size:15px;line-height:1.7;">Estos son los datos del registro:</p>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#faf8f5;border:1px solid #ece5db;border-radius:12px;">
+              <tr><td style="padding:18px 22px;">
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>Fecha de pago:</strong> {{ paydate }}</p>
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>Nombre:</strong> {{ fullname }}</p>
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>País:</strong> {{ country }}</p>
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>Teléfono:</strong> {{ phone }}</p>
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>Email:</strong> {{ email }}</p>
+                <p style="margin:0 0 8px;color:#5D3A1A;font-size:14px;"><strong>Medio de pago:</strong> {{ paymethod }}</p>
+                <p style="margin:0;color:#5D3A1A;font-size:14px;"><strong>Comprobante:</strong> {{ receipt }}</p>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#f9f6f2;padding:20px 45px;text-align:center;border-top:1px solid #ece5db;">
+            <p style="margin:0;color:#aaa;font-size:12px;">© 2026 Origami Bogotá · Capibara Edition 🦫</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

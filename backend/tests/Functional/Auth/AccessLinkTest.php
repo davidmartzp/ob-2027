@@ -59,7 +59,8 @@ final class AccessLinkTest extends FunctionalTestCase
         $this->requestLink('FAMILIA@ejemplo.com');
 
         $email = $this->db()->table('email_outbox')->first();
-        self::assertSame('pending', $email->status);
+        self::assertSame('sent', $email->status, 'Sign-in links go out right away');
+        self::assertSame(['familia@ejemplo.com'], $this->mailer->recipients());
         self::assertStringContainsString('Entrar como Marta Rojas', $email->html);
         self::assertStringContainsString('Entrar como Tomás Rojas', $email->html);
         self::assertStringNotContainsString('Borrado', $email->html);

@@ -57,7 +57,7 @@ final class MigrationsTest extends TestCase
 
         $schema = $this->schema();
         self::assertFalse($schema->hasTable('assistants'));
-        self::assertSame([1, 2, 3], $this->db->table('attendees')->orderBy('id')->pluck('id')->map(intval(...))->all());
+        self::assertSame([1, 2, 3], $this->db->table('attendees')->orderBy('id')->pluck('id')->map(static fn (mixed $value): int => (int) $value)->all());
         self::assertSame('Ana', $this->db->table('attendees')->where('id', 1)->value('name'));
         self::assertNull($this->db->table('attendees')->where('id', 3)->value('code'), 'legacy code 0 becomes NULL');
         self::assertTrue($schema->hasColumn('workshops', 'id_attendee'));

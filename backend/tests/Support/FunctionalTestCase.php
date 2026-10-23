@@ -9,23 +9,30 @@ use Illuminate\Database\Connection;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Slim\App;
 use Slim\Psr7\Factory\ServerRequestFactory;
 
 /**
  * Base for functional tests: boots the real app (config/bootstrap.php) on in-memory
- * SQLite with every migration applied, and a FrozenClock instead of the system clock.
+ * SQLite with every migration applied, a FrozenClock instead of the system clock and a
+ * RecordingMailer instead of the SMTP server.
  */
 abstract class FunctionalTestCase extends TestCase
 {
     protected App $app;
     protected FrozenClock $clock;
+    protected RecordingMailer $mailer;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->clock = new FrozenClock();
-        $this->app = self::bootApp($this->environment(), [ClockInterface::class => $this->clock]);
+        $this->mailer = new RecordingMailer();
+        $this->app = self::bootApp($this->environment(), [
+            ClockInterface::class => $this->clock,
+            MailerInterface::class => $this->mailer,
+        ]);
         $this->app->getContainer()->get(Migrator::class)->migrate();
     }
 

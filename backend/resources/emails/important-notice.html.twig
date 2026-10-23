@@ -1,0 +1,701 @@
+{#- Ported as-is from angular-ob: email6.blade.php. Only the variable syntax changed. -#}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Origami Bogotá 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #1e1e1e;
+      font-family: 'DM Sans', Arial, sans-serif;
+    }
+
+    .wrapper {
+      width: 100%;
+      background-color: #1e1e1e;
+      padding: 32px 16px;
+    }
+
+    .card {
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 6px;
+    }
+
+    /* ────────────────────────────
+       HERO
+    ──────────────────────────── */
+    .hero {
+      background-color: #2d2d2d;
+      background-image:
+        radial-gradient(ellipse at 70% 40%, rgba(245,166,35,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(245,166,35,0.08) 0%, transparent 50%);
+      padding: 48px 40px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative dot grid */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(245,166,35,0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #f5a623;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 78px;
+      line-height: 0.88;
+      color: #ffffff;
+      letter-spacing: 3px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .hero-title .accent { color: #f5a623; }
+
+    .hero-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 10px;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-top: 4px;
+      position: relative;
+    }
+
+    .hero-dates-bar {
+      display: inline-block;
+      background-color: #f5a623;
+      color: #1e1e1e;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 5px;
+      padding: 8px 28px;
+      margin-top: 24px;
+      position: relative;
+    }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 12px;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    /* ────────────────────────────
+       XV ANIVERSARIO STRIP
+    ──────────────────────────── */
+    .xv-strip {
+      background: linear-gradient(90deg, #f5a623 0%, #e8960a 100%);
+      padding: 0;
+      display: table;
+      width: 100%;
+    }
+
+    .xv-cell {
+      display: table-cell;
+      padding: 14px 28px;
+      vertical-align: middle;
+    }
+
+    .xv-cell.right { text-align: right; }
+
+    .xv-roman {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 5px;
+      color: #1e1e1e;
+    }
+
+    .xv-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(30,30,30,0.6);
+      display: block;
+      margin-top: 1px;
+    }
+
+    .xv-right-text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(30,30,30,0.55);
+      text-transform: uppercase;
+    }
+
+    /* ────────────────────────────
+       SECTIONS
+    ──────────────────────────── */
+    .section-light {
+      background-color: #f7f4f0;
+      padding: 40px 40px;
+    }
+
+    .section-dark {
+      background-color: #2d2d2d;
+      padding: 40px 40px;
+    }
+
+    .section-orange {
+      background: linear-gradient(135deg, #f5a623 0%, #e07b0a 100%);
+      padding: 36px 40px;
+    }
+
+    .label-dark {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #f5a623;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .label-light {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #a07828;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .label-orange {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(30,30,30,0.55);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .heading-dark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 46px;
+      line-height: 0.95;
+      color: #ffffff;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .heading-light {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 46px;
+      line-height: 0.95;
+      color: #1e1e1e;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .heading-orange {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      line-height: 0.95;
+      color: #1e1e1e;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .body-dark {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 28px;
+    }
+
+    .body-light {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #555555;
+      margin-bottom: 28px;
+    }
+
+    .body-orange {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(30,30,30,0.7);
+      margin-bottom: 24px;
+    }
+
+    /* ────────────────────────────
+       LOCATION
+    ──────────────────────────── */
+    .location-box {
+      background-color: rgba(245,166,35,0.1);
+      border-left: 3px solid #f5a623;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+    }
+
+    .loc-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px;
+      letter-spacing: 2px;
+      color: #f5a623;
+      display: block;
+    }
+
+    .loc-addr {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* ────────────────────────────
+       BUTTONS
+    ──────────────────────────── */
+    .btn-orange {
+      display: inline-block;
+      background-color: #f5a623;
+      color: #1e1e1e !important;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 2px;
+    }
+
+    .btn-white {
+      display: inline-block;
+      background-color: #ffffff;
+      color: #1e1e1e !important;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 2px;
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #ffffff !important;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-decoration: none;
+      padding: 10px 30px;
+      border-radius: 2px;
+      margin-left: 10px;
+    }
+
+    .btn-dark {
+      display: inline-block;
+      border: 2px solid #1e1e1e;
+      color: #1e1e1e !important;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      text-decoration: none;
+      padding: 10px 30px;
+      border-radius: 2px;
+      margin-left: 10px;
+    }
+
+    /* ────────────────────────────
+       GUESTS
+    ──────────────────────────── */
+    .guest-row {
+      display: table;
+      width: 100%;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .guest-row:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .guest-badge-cell {
+      display: table-cell;
+      width: 72px;
+      vertical-align: top;
+      padding-right: 16px;
+      padding-top: 4px;
+    }
+
+    .guest-badge {
+      background-color: #f5a623;
+      color: #1e1e1e;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 3px 6px;
+      display: inline-block;
+      margin-bottom: 4px;
+      border-radius: 2px;
+    }
+
+    .guest-country {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      display: block;
+    }
+
+    .guest-info-cell { display: table-cell; vertical-align: top; }
+
+    .guest-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 2px;
+      color: #ffffff;
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .guest-bio {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ────────────────────────────
+       LINKS
+    ──────────────────────────── */
+    .link-row {
+      display: table;
+      width: 100%;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(30,30,30,0.1);
+    }
+
+    .link-row:last-child { border-bottom: none; }
+
+    .link-icon { display: table-cell; width: 38px; vertical-align: middle; font-size: 18px; }
+
+    .link-content { display: table-cell; vertical-align: middle; }
+
+    .link-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: #1e1e1e;
+      display: block;
+    }
+
+    .link-href {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: #a07828;
+      text-decoration: underline;
+    }
+
+    .link-arrow {
+      display: table-cell;
+      width: 20px;
+      vertical-align: middle;
+      text-align: right;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: #f5a623;
+    }
+
+    /* ────────────────────────────
+       SOCIAL
+    ──────────────────────────── */
+    .social-row {
+      background-color: #242424;
+      text-align: center;
+      padding: 22px 40px;
+    }
+
+    .social-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .social-icons { display: inline-table; }
+    .social-icons td { padding: 0 8px; }
+    .social-icons img { width: 28px; height: 28px; opacity: 0.6; display: block; }
+
+    /* ────────────────────────────
+       FOOTER
+    ──────────────────────────── */
+    .footer {
+      background-color: #151515;
+      padding: 24px 40px;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 6px;
+      color: #f5a623;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-copy {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+
+    /* ────────────────────────────
+       RESPONSIVE
+    ──────────────────────────── */
+    @media (max-width: 620px) {
+      .wrapper { padding: 0; }
+      .card { border-radius: 0; }
+      .hero { padding: 36px 24px 32px; }
+      .hero-title { font-size: 56px; }
+      .section-light, .section-dark, .section-orange { padding: 32px 24px; }
+      .social-row, .footer { padding: 20px 24px; }
+      .btn-ghost, .btn-dark { margin-left: 0; margin-top: 10px; display: inline-block; }
+      .heading-dark, .heading-light, .heading-orange { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+<table class="card" role="presentation" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+
+  <!-- HERO -->
+  <tr>
+    <td class="hero">
+      <img class="hero-logo"
+        src="https://origamibogota.com/images/cropped-AP-2-qep957ie0pzbkwpdzf4c2r01boqxpvvlttrkjq3bvs.png"
+        alt="Amigos Plegadores" />
+      <p class="hero-eyebrow">Encuentro Internacional · Colombia</p>
+      <h1 class="hero-title">ORIGAMI<br><span class="accent">BOGOTÁ</span></h1>
+      <span class="hero-year">2 0 2 6</span>
+      <br />
+      <span class="hero-dates-bar">JUNIO 12 — 14</span>
+      <p class="hero-sub">El congreso de origami más importante de Latinoamérica</p>
+    </td>
+  </tr>
+
+  <!-- XV STRIP -->
+  <tr>
+    <td>
+      <table class="xv-strip" role="presentation" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td class="xv-cell">
+            <span class="xv-roman">XV AÑOS</span>
+            <span class="xv-tag">Plegando Juntos</span>
+          </td>
+          <td class="xv-cell right">
+            <span class="xv-right-text">Amigos Plegadores · Bogotá</span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- INTRO DARK -->
+  <tr>
+    <td class="section-dark">
+      <span class="label-dark">· El Evento ·</span>
+      <h2 class="heading-dark">YA FALTA<br>MUY POCO</h2>
+      <p class="body-dark">
+        En pocas semanas nos reunimos de nuevo. Talleres para todos los niveles, exposición colectiva, chocogami, intercambio de tarjetas ATC, origami de pasillo, artistas invitados y mucho papel. Un fin de semana que no querrás perderte.
+      </p>
+
+      <div class="location-box">
+        <span class="loc-name">📍 Liceo Francés Louis Pasteur</span>
+        <span class="loc-addr">Cl. 87 #7-77 · Barrio La Cabrera · Bogotá, Colombia</span>
+      </div>
+
+      <a href="https://origamibogota.com/actividades" class="btn-orange">Ver Agenda</a>
+      <a style="display:none" href="https://origamibogota.com/inscripciones" class="btn-ghost">Inscribirme</a>
+    </td>
+  </tr>
+
+  <!-- GUESTS LIGHT -->
+  <tr>
+    <td class="section-light">
+      <span class="label-light">· Artistas Invitados 2026 ·</span>
+      <h2 class="heading-light">INVITADOS<br>ESPECIALES</h2>
+
+      <!-- Reuse dark guest layout but on light bg -->
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+        style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #e0d8cc;">
+        <tr>
+          <td style="width:80px;vertical-align:top;padding-right:16px;padding-top:4px;">
+            <span style="background:#f5a623;color:#1e1e1e;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;padding:3px 6px;display:inline-block;border-radius:2px;margin-bottom:4px;">INTL.</span>
+            <span style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:10px;color:#888;display:block;">Canadá 🍁</span>
+          </td>
+          <td style="vertical-align:top;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#1e1e1e;display:block;line-height:1;margin-bottom:6px;">Joseph Wu</span>
+            <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:12px;line-height:1.7;color:#666;">Artista de Vancouver con más de 40 años de trayectoria. Ha expuesto en museos, colaborado con marcas internacionales y producciones audiovisuales. Reseñado por The New York Times.</p>
+          </td>
+        </tr>
+      </table>
+
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="width:80px;vertical-align:top;padding-right:16px;padding-top:4px;">
+            <span style="background:#f5a623;color:#1e1e1e;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;padding:3px 6px;display:inline-block;border-radius:2px;margin-bottom:4px;">NAC.</span>
+            <span style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:10px;color:#888;display:block;">Colombia 🇨🇴</span>
+          </td>
+          <td style="vertical-align:top;">
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#1e1e1e;display:block;line-height:1;margin-bottom:6px;">Diana M. Vargas</span>
+            <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:12px;line-height:1.7;color:#666;">Diseñadora colombiana especializada en origami modular y geométrico. Sus kusudamas y estructuras simétricas han sido compartidas en convenciones internacionales.</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ORANGE CTA -->
+  <tr>
+    <td class="section-orange">
+      <span class="label-orange">· Únete ·</span>
+      <h2 class="heading-orange">MANTENTE<br>CONECTADO</h2>
+      <p class="body-orange">Recibe anuncios, cambios de último momento y conecta con otros asistentes antes del evento.</p>
+      <a href="https://chat.whatsapp.com/DPnXWxyk6Gr9iQVkhfHoLX" class="btn-white">¡Únete al WhatsApp aquí! </a>
+      <a href="https://calendar.app.google/M5feunNiYuXnfRZD7" class="btn-dark">¡Agregar a tú Calendario aquí!</a>
+    </td>
+  </tr>
+
+  <!-- LINKS LIGHT -->
+  <tr>
+    <td class="section-light">
+      <span class="label-light">· Recursos ·</span>
+
+      <table class="link-row" role="presentation" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="link-icon">📅</td>
+          <td class="link-content">
+            <span class="link-title">Agenda y Actividades</span>
+            <a href="https://origamibogota.com/actividades" class="link-href">origamibogota.com/actividades</a>
+          </td>
+          <td class="link-arrow">›</td>
+        </tr>
+      </table>
+
+      <table class="link-row" role="presentation" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="link-icon">🎟️</td>
+          <td class="link-content">
+            <span class="link-title">Inscripciones Abiertas</span>
+            <a href="https://origamibogota.com/inscripciones" class="link-href">origamibogota.com/inscripciones</a>
+          </td>
+          <td class="link-arrow">›</td>
+        </tr>
+      </table>
+
+      <table class="link-row" role="presentation" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="link-icon">🎨</td>
+          <td class="link-content">
+            <span class="link-title">Proponer un Taller</span>
+            <a href="https://origamibogota.com/talleres" class="link-href">origamibogota.com/talleres</a>
+          </td>
+          <td class="link-arrow">›</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- SOCIAL -->
+  <tr>
+    <td class="social-row">
+      <span class="social-label">Síguenos en redes</span>
+      <table class="social-icons" role="presentation" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <a href="https://www.facebook.com/origamibogota" target="_blank">
+              <img src="https://cdn.tools.unlayer.com/social/icons/circle-white/facebook.png" alt="Facebook" />
+            </a>
+          </td>
+          <td>
+            <a href="https://www.instagram.com/congresoorigamibogota" target="_blank">
+              <img src="https://cdn.tools.unlayer.com/social/icons/circle-white/instagram.png" alt="Instagram" />
+            </a>
+          </td>
+          <td>
+            <a href="https://api.whatsapp.com/send?phone=573152459839" target="_blank">
+              <img src="https://cdn.tools.unlayer.com/social/icons/circle-white/whatsapp.png" alt="WhatsApp" />
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- FOOTER -->
+  <tr>
+    <td class="footer">
+      <span class="footer-brand">ORIGAMI BOGOTÁ 2026</span>
+      <p class="footer-copy">©2026 Congreso Origami Bogotá · Todos los derechos reservados</p>
+    </td>
+  </tr>
+
+</tbody>
+</table>
+</div>
+</body>
+</html>

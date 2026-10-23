@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 
 use App\Infrastructure\Http\Controller\AuthController;
+use App\Infrastructure\Http\Controller\EmailController;
 use App\Infrastructure\Http\Controller\HealthController;
 use App\Infrastructure\Http\Guards;
 use Slim\App;
@@ -26,4 +27,9 @@ return static function (App $app): void {
     $app->get('/auth/me', [AuthController::class, 'me'])->add($guards->cms());
     $app->post('/auth/attendee-link', [AuthController::class, 'requestAttendeeLink']);
     $app->post('/auth/redeem-link', [AuthController::class, 'redeemLink']);
+
+    // Emails sent by hand from the CMS (spec backend/correo)
+    $app->get('/emails/log', [EmailController::class, 'log'])->add($guards->cms());
+    $app->get('/emails/{type}/recipients', [EmailController::class, 'recipients'])->add($guards->cms());
+    $app->post('/emails/{type}', [EmailController::class, 'send'])->add($guards->cms());
 };

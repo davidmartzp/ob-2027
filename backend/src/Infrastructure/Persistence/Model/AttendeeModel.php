@@ -20,6 +20,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string      $email
  * @property int         $age
  * @property int         $status
+ * @property string|null $phone
+ * @property string|null $country
+ * @property string|null $city
+ * @property string|null $paymethod
+ * @property string|null $paydate
+ * @property string|null $receipt
+ * @property string|null $companion
+ * @property string|null $days
  */
 final class AttendeeModel extends Model
 {
@@ -44,6 +52,14 @@ final class AttendeeModel extends Model
             status: AttendeeStatus::from($this->status),
             code: $this->code,
             specialCode: $this->special_code,
+            phone: $this->phone,
+            country: $this->country,
+            city: $this->city,
+            paymethod: $this->paymethod,
+            paydate: $this->paydate === null ? null : (string) $this->paydate,
+            receipt: $this->receipt,
+            companion: $this->companion,
+            days: $this->days,
         );
     }
 }

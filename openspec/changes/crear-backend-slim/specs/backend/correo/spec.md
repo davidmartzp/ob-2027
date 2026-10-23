@@ -32,11 +32,11 @@ Los correos SHALL enviarse en HTML con alternativa en texto plano, en UTF-8, con
 - **THEN** el correo no tiene destinatarios adicionales
 
 ### Requirement: Entrega verificable en desarrollo
-En desarrollo SHALL existir un buzón de pruebas en Docker que capture todos los correos sin entregarlos a direcciones reales, consultable desde el navegador.
+En desarrollo los correos SHALL ir a un buzón de pruebas (sandbox de Mailtrap configurado en `MAILER_DSN` del `.env` local) que los capture sin entregarlos a direcciones reales, consultable desde el navegador.
 
 #### Scenario: Correo de prueba
-- **WHEN** se inscribe un asistente en el entorno Docker de desarrollo
-- **THEN** ambos correos aparecen en el buzón de pruebas y no salen a internet
+- **WHEN** se inscribe un asistente en el entorno de desarrollo y corre la cola
+- **THEN** ambos correos aparecen en el sandbox de Mailtrap y no llegan a ningún buzón real
 
 ### Requirement: Correos de inscripción
 Al registrarse un asistente SHALL encolarse un correo de bienvenida al asistente y un aviso al buzón de inscripciones del equipo con nombre, correo, teléfono, país, método, fecha y comprobante de pago.
@@ -74,7 +74,7 @@ El enlace de acceso y el recordatorio del número de participante SHALL enviarse
 - **THEN** recibe 120 sin que se envíe ningún correo
 
 ### Requirement: Cola sin duplicados
-Los correos SHALL procesarse en una cola persistente con hasta 3 intentos (esperas de 1, 5 y 30 minutos) y un tope de envíos por minuto configurable. Un mismo tipo MUST NOT enviarse dos veces al mismo asistente, salvo `welcome` y `code` enviados con `ids` explícitos (reenvío). `GET /emails/log` (privado) SHALL devolver el estado de los envíos (`pending`, `sent`, `failed`) paginado y filtrable por tipo.
+Los correos SHALL procesarse en una cola persistente con hasta 3 intentos (reintentos a los 1 y 5 minutos) y un tope de envíos por minuto configurable. Un mismo tipo MUST NOT enviarse dos veces al mismo asistente, salvo `welcome` y `code` enviados con `ids` explícitos (reenvío). `GET /emails/log` (privado) SHALL devolver el estado de los envíos (`pending`, `sent`, `failed`) paginado y filtrable por tipo.
 
 #### Scenario: Doble lanzamiento
 - **WHEN** el CMS lanza dos veces `general-info`

@@ -1,0 +1,20 @@
+{% extends 'emails/layout.html.twig' %}
+
+{% block title %}Tu número de participante – Congreso de Origami Bogotá{% endblock %}
+
+{% block content %}
+<p class="greeting">¡Hola!</p>
+<p class="subtitle">Pediste recordar {{ participants|length > 1 ? 'los números de participante registrados' : 'tu número de participante' }} con este correo.</p>
+{% for participant in participants %}
+<p class="code-label">{{ participant.name }}</p>
+{% if participant.code %}
+<div class="code-box"><div class="code">{{ participant.code }}</div></div>
+{% else %}
+<p class="cta-text">Aún no tiene número asignado. Te lo enviaremos por correo cuando lo tenga.</p>
+{% endif %}
+{% endfor %}
+<div class="divider"></div>
+<div class="note">
+    <strong>Guarda este número.</strong> Lo necesitarás para elegir tus talleres. Si no pediste este correo, puedes ignorarlo.
+</div>
+{% endblock %}

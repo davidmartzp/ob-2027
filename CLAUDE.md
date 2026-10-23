@@ -71,12 +71,12 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 ## Backend (`backend/`)
 
-**Production does not use Docker**: the hosting's Apache + PHP 8.5 and its SMTP server (`host51.latinoamericahosting.com:465`, SSL). Docker is the local environment only (PHP 8.5 + Apache, MariaDB 10.11 like the hosting, Mailpit). No PHP or Composer on this machine: run everything through Docker.
+**Production does not use Docker**: the hosting's Apache + PHP 8.5 and its SMTP server (`host51.latinoamericahosting.com:465`, SSL). Docker is the local environment only (PHP 8.5 + Apache, MariaDB 10.11 like the hosting). Local email goes to a Mailtrap sandbox inbox (`MAILER_DSN` in your local `.env` only). No PHP or Composer on this machine: run everything through Docker.
 
 ```sh
 cd backend
 cp .env.example .env                                   # first time only
-docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 · Mailpit → http://localhost:8025 (ports in .env)
+docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 (ports in .env)
 docker compose exec api php bin/console                # lists commands: migrate, rollback, seed, user:create, user:password…
 docker compose exec api vendor/bin/phpunit             # tests (in-memory SQLite, never touch MariaDB)
 docker compose exec api vendor/bin/phpunit --filter LoginTest      # one class/test
@@ -99,6 +99,6 @@ Traps:
 - Deploy on the PHP hosting: upload the project **with `vendor/`** (`composer install --no-dev` first) and a real `.env`. If possible the web root goes to `public/`; otherwise the root `.htaccess` rewrites everything to `public/` and `.env`, `src/`, `vendor/` answer 403/404. If the API lives in a subfolder, set `APP_BASE_PATH` (e.g. `/api`). Use `APP_DEBUG=false` in production.
 - The hosting MUST run PHP 8.5 (today it reports 8.4.27): dependencies are resolved for 8.5 (`config.platform.php`).
 - Domain naming: the old `Assistant`/`assistants` is **`Attendee`/`attendees`** (entity, table, `id_attendee` columns, `/attendees` routes). Never reintroduce "assistant".
-- Email: Symfony Mailer configured only through `MAILER_DSN` in `.env` (SMTP with TLS; never credentials in code). Twig templates in `resources/emails/` (`.html.twig` escaped, `.txt.twig` not). Existing emails are ported as production sends them today (design D6c).
+- Email: Symfony Mailer configured only through `MAILER_DSN` in `.env` (SMTP with TLS; never credentials in code; production refuses anything else). Every email type, its subject, template and recipients: `src/Application/Mail/EmailCatalog.php`. Templates in `resources/emails/` (`.html.twig` escaped; text part from `.txt.twig` or derived from the HTML). Existing emails are ported as production sends them today (design D6c), so some subjects still say 2025/2026. Everything goes through the `email_outbox` table; `php bin/console mail:send` (hosting cron, every minute) delivers it. Functional tests use `RecordingMailer` (`$this->mailer`; `->failing = true` simulates a down server).
 - When touching MariaDB by hand: `mariadb --default-character-set=utf8mb4 …`, or accents get stored broken («FrancÃ©s»).
 - SQLite (tests) does not see MariaDB's foreign keys nor its non-transactional DDL: any migration that touches the legacy database is also tested by loading the dump into Docker's MariaDB, then `docker compose down -v` so no personal data is left behind.

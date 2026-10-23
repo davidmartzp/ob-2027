@@ -10,4 +10,5 @@ return [
     App\Infrastructure\Console\SeedCommand::class,
     App\Infrastructure\Console\CreateUserCommand::class,
     App\Infrastructure\Console\ChangePasswordCommand::class,
+    App\Infrastructure\Console\SendMailCommand::class,
 ];

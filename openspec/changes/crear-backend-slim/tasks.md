@@ -29,11 +29,13 @@ Nota: los grupos 1–3 se reorganizaron el 2026-10-23 a arquitectura hexagonal y
 
 ## 4. Correo (spec `backend/correo`)
 
-- [ ] 4.1 Adaptador de envío (`Infrastructure/Mail`) con Symfony Mailer (`MAILER_DSN`) y Twig (`autoescape: html`, versión texto); el arranque falla en producción con DSN sin TLS o `verify_peer=0`; pruebas con transporte en memoria: nombre con `<script>` escapado, salto de línea en nombre no añade encabezados
-- [ ] 4.2 Cola `email_outbox` (ya existe `MailQueue::queue()` con Twig y la plantilla `access-link`, adelantados en 3.5; falta el despacho): comando `mail:send` (lote por minuto, reintentos 1/5/30 min, `clave_unica` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
-- [ ] 4.3 Tipos de correo (D6c) con las plantillas que envía hoy producción, sin rediseñar (origen por tipo en D6c: `email_triggers` 1, 2, 3 y 8 del volcado; `email4`–`email7.blade.php`), y `access-link`/`code-reminder` con el aspecto de `code`; prueba de que cada plantilla renderiza sin variables sin resolver, y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `welcome`, `team-notice`, `code`, `instructions`, `book`, `important-notice`, `general-info`, `correction`, `access-link`, `code-reminder`; prueba por tipo de que la consulta devuelve los destinatarios esperados
-- [ ] 4.4 `POST /emails/{type}` (con `ids` y `prueba`), `GET /emails/{type}/recipients` y `GET /emails/log`; pruebas: 80 confirmados de 100, doble lanzamiento → 0 encolados, reenvío de `code` con `ids`, prueba sin marcar a nadie, tipo desconocido 404
-- [ ] 4.5 Verificar en Mailpit (`http://localhost:8025`) que una inscripción en Docker genera bienvenida y aviso al equipo tras correr la cola
+Hecho: `Application/Mail` (EmailCatalog, EmailType, EmailVariables, SendEmail, ListEmailRecipients, GetEmailLog), `Infrastructure/Mail` (TransportFactory, OutboxProcessor, TwigMailQueue, HtmlToText), `bin/console mail:send`, `resources/emails/*` portadas tal cual. Envío local al sandbox de Mailtrap verificado con un correo de cada tipo (2026-10-23). `team-notice` y `code-reminder` se disparan desde los casos de uso del grupo 5.
+
+- [x] 4.1 Adaptador de envío (`Infrastructure/Mail`) con Symfony Mailer (`MAILER_DSN`) y Twig (`autoescape: html`, versión texto); el arranque falla en producción con DSN sin TLS o `verify_peer=0`; pruebas con transporte en memoria: nombre con `<script>` escapado, salto de línea en nombre no añade encabezados
+- [x] 4.2 Cola `email_outbox` (ya existe `MailQueue::queue()` con Twig y la plantilla `access-link`, adelantados en 3.5; falta el despacho): comando `mail:send` (lote por minuto, 3 intentos con reintentos a los 1 y 5 min, `unique_key` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
+- [x] 4.3 Tipos de correo (D6c) con las plantillas que envía hoy producción, sin rediseñar (origen por tipo en D6c: `email_triggers` 1, 2, 3 y 8 del volcado; `email4`–`email7.blade.php`), y `access-link`/`code-reminder` con el aspecto de `code`; prueba de que cada plantilla renderiza sin variables sin resolver, y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `welcome`, `team-notice`, `code`, `instructions`, `book`, `important-notice`, `general-info`, `correction`, `access-link`, `code-reminder`; prueba por tipo de que la consulta devuelve los destinatarios esperados
+- [x] 4.4 `POST /emails/{type}` (con `ids` y `prueba`), `GET /emails/{type}/recipients` y `GET /emails/log`; pruebas: 80 confirmados de 100, doble lanzamiento → 0 encolados, reenvío de `code` con `ids`, prueba sin marcar a nadie, tipo desconocido 404
+- [x] 4.5 Verificar en el sandbox de Mailtrap que, tras correr la cola, llegan los correos de cada tipo con su diseño
 
 ## 5. Attendees (spec `backend/attendees`)
 

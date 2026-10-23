@@ -1,0 +1,7 @@
+¡Hola!
+
+Pediste recordar tu número de participante del Congreso de Origami Bogotá.
+{% for participant in participants %}
+- {{ participant.name }}: {{ participant.code ?: 'aún sin número asignado' }}
+{% endfor %}
+Guarda este número: lo necesitarás para elegir tus talleres. Si no pediste este correo, puedes ignorarlo.

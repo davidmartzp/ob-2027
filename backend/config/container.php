@@ -17,6 +17,8 @@ use App\Domain\Auth\AccessTokenRepository;
 use App\Domain\Auth\UserRepository;
 use App\Infrastructure\Clock\SystemClock;
 use App\Infrastructure\Config\Settings;
+use App\Infrastructure\Mail\MailSettings;
+use App\Infrastructure\Mail\TransportFactory;
 use App\Infrastructure\Mail\TwigMailQueue;
 use App\Infrastructure\Persistence\DbRateLimiter;
 use App\Infrastructure\Persistence\Migration\Migrator;
@@ -32,6 +34,8 @@ use Psr\Clock\ClockInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Psr7\Factory\ResponseFactory;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -82,6 +86,17 @@ return static fn (Settings $settings, string $root): array => [
     Connection::class => static fn (ContainerInterface $c): Connection => $c->get(Capsule::class)->getConnection(),
     Migrator::class => static fn (ContainerInterface $c): Migrator => new Migrator($c->get(Connection::class), $root . '/database/migrations'),
     Seeder::class => static fn (ContainerInterface $c): Seeder => new Seeder($c->get(Connection::class), $root . '/database/seeds'),
+
+    // Email: Symfony Mailer over MAILER_DSN (production refuses anything without TLS).
+    MailerInterface::class => static fn (): MailerInterface => new Mailer(
+        TransportFactory::create($settings->string('MAILER_DSN', 'null://null'), $settings->isProduction()),
+    ),
+    MailSettings::class => static fn (): MailSettings => new MailSettings(
+        fromAddress: $settings->string('MAIL_FROM_ADDRESS', 'inscripciones@origamibogota.com'),
+        fromName: $settings->string('MAIL_FROM_NAME', 'Origami Bogotá'),
+        teamAddress: $settings->string('MAIL_TEAM_ADDRESS', 'inscripciones@origamibogota.com'),
+        sendPerMinute: $settings->int('MAIL_SEND_PER_MINUTE', 30),
+    ),
 
     // Email templates: `.html.twig` is HTML-escaped, `.txt.twig` is not (escaping by file name).
     Environment::class => static fn (): Environment => new Environment(new FilesystemLoader($root . '/resources'), [

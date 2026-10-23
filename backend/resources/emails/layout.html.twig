@@ -1,35 +1,207 @@
-{#- Shared email layout. Tables and inline styles because email clients ignore most CSS.
-    To be replaced by the look of the existing "code" email (decision in design.md D6c). -#}
+{#- Shared look for new emails (access-link, code-reminder): the frame of the "code" email
+    (email_triggers id 3), with the same header, colours and footer. Blocks: title, content. -#}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Origami Bogotá{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Congreso de Origami Bogotá{% endblock %}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1a1008;
+      font-family: Poppins, Arial, sans-serif;
+    }
+
+    .wrapper {
+      width: 100%;
+      padding: 32px 16px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fdf6e3;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: #1a1008;
+      padding: 28px 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, #c8860a 0%, #f5b800 40%, #e07b00 75%, #c8860a 100%);
+      margin-bottom: 0;
+    }
+
+    .header-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #f5b800;
+      margin: 0 0 6px;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fdf6e3;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .header-title span {
+      color: #f5b800;
+    }
+
+    /* Body */
+    .body {
+      padding: 36px 32px 32px;
+      text-align: center;
+    }
+
+    .greeting {
+      font-size: 17px;
+      color: #1a1008;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6b5533;
+      margin: 0 0 32px;
+      line-height: 1.6;
+    }
+
+    .code-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b07b1a;
+      margin: 0 0 10px;
+    }
+
+    .code-box {
+      display: inline-block;
+      background: #1a1008;
+      border-radius: 16px;
+      padding: 20px 48px;
+      margin-bottom: 32px;
+      border: 2px solid #c8860a;
+    }
+
+    .code {
+      font-size: 56px;
+      font-weight: 700;
+      color: #f5b800;
+      line-height: 1;
+      letter-spacing: 6px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: #c8860a;
+      border-radius: 2px;
+      margin: 0 auto 28px;
+    }
+
+    .cta-text {
+      font-size: 14px;
+      color: #4a3520;
+      line-height: 1.7;
+      margin: 0 0 24px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #e07b00;
+      color: #fdf6e3 !important;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+    }
+
+    .cta-hint {
+      font-size: 12px;
+      color: #b07b1a;
+      margin: 0 0 32px;
+    }
+
+    .note {
+      background: #1a1008;
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 13px;
+      color: #d4a840;
+      line-height: 1.6;
+    }
+
+    .note strong {
+      color: #f5b800;
+    }
+
+    /* Footer */
+    .footer-stripe {
+      height: 4px;
+      background: linear-gradient(90deg, #c8860a 0%, #f5b800 40%, #e07b00 75%, #c8860a 100%);
+    }
+
+    .footer {
+      background: #1a1008;
+      padding: 20px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: #6b5533;
+      line-height: 1.8;
+    }
+
+    .footer a {
+      color: #c8860a;
+      text-decoration: none;
+    }
+  </style>
 </head>
-<body style="margin:0;padding:0;background:#EBE3C9;font-family:Helvetica,Arial,sans-serif;color:#27251B;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EBE3C9;">
-    <tr>
-        <td align="center" style="padding:24px 12px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#F5F0E0;border:1px solid #27251B;">
-                <tr>
-                    <td style="padding:20px 28px;border-bottom:1px dashed #27251B;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;">
-                        Origami Bogotá · Congreso
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding:28px;font-size:16px;line-height:1.6;">
-                        {% block content %}{% endblock %}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding:16px 28px;border-top:1px dashed #27251B;font-size:12px;color:#5c5848;">
-                        Recibes este correo porque estás inscrito en el Congreso Origami Bogotá.
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+<body>
+  <div class="wrapper">
+    <div class="card">
+
+      <div class="header-stripe"></div>
+
+      <div class="header">
+        <p class="header-eyebrow">Congreso de Origami Bogotá 2026</p>
+        <h1 class="header-title">15 <span>años</span> </h1>
+      </div>
+
+      <div class="body">
+{% block content %}{% endblock %}
+</div>
+<div class="footer-stripe"></div>
+
+      <div class="footer">
+        12 – 14 de junio de 2026 &nbsp;·&nbsp; Liceo Francés Louis Pasteur, Bogotá<br>
+        <a href="https://origamibogota.com">origamibogota.com</a>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

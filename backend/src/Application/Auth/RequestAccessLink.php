@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Auth;
 
+use App\Application\Mail\EmailCatalog;
 use App\Application\Port\EmailMessage;
 use App\Application\Port\MailQueue;
 use App\Application\Port\RateLimiter;
@@ -53,11 +54,12 @@ final readonly class RequestAccessLink
             $participants[] = ['name' => $attendee->fullName(), 'url' => $this->settings->accessLinkUrl . '?key=' . $secret];
         }
 
-        $this->mail->queue(new EmailMessage(
-            type: 'access-link',
+        $type = EmailCatalog::get('access-link');
+        $this->mail->queueAndDeliver(new EmailMessage(
+            type: $type->key,
             to: $attendees[0]->email,
-            subject: 'Tu enlace para entrar a Origami Bogotá',
-            template: 'access-link',
+            subject: $type->subject,
+            template: $type->template,
             data: ['participants' => $participants, 'minutes' => $this->settings->accessLinkMinutes],
         ));
     }

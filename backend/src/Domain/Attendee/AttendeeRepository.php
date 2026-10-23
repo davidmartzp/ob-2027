@@ -16,4 +16,12 @@ interface AttendeeRepository
      * @return list<Attendee>
      */
     public function findActiveByEmail(string $email): array;
+
+    /**
+     * Attendees in the group, ordered by id; with `$ids`, only those (still within the group).
+     *
+     * @param list<int>|null $ids
+     * @return list<Attendee>
+     */
+    public function findRecipients(RecipientGroup $group, ?array $ids = null): array;
 }

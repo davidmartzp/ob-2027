@@ -1,5 +1,6 @@
 # Local development only (production runs on the hosting's Apache + PHP).
 # Credentials come from .env (copy .env.example): never written here.
+# Email goes to the Mailtrap sandbox set in MAILER_DSN (no local mail container).
 name: origami-backend
 
 services:
@@ -15,12 +16,9 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      MAILER_DSN: smtp://mailpit:1025
     depends_on:
       db:
         condition: service_healthy
-      mailpit:
-        condition: service_started
 
   # Same engine as the hosting (MariaDB 10.11).
   db:
@@ -41,12 +39,6 @@ services:
       timeout: 5s
       retries: 30
 
-  # Test inbox: catches every email (UI at http://localhost:8025).
-  mailpit:
-    image: axllent/mailpit:v1.27
-    ports:
-      - "${MAILPIT_HOST_PORT:-8025}:8025"
-
   # Mail queue worker (like the hosting's cron, every minute). Enabled once `mail:send`
   # exists (task group 4): docker compose --profile queue up -d
   queue:
@@ -60,7 +52,6 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      MAILER_DSN: smtp://mailpit:1025
     command: ["sh", "-c", "while true; do php bin/console mail:send; sleep 60; done"]
     depends_on:
       db:

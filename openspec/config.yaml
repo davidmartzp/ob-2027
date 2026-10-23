@@ -42,8 +42,11 @@ context: |
     MUST preservar los registros existentes de `assistants`.
 
   ## Convenciones
-  - Identificadores y textos del sitio en español (colombiano, tono «rolo»), salvo los
-    nombres de dominio heredados de la API que se definan en inglés (p. ej. `attendees`).
+  - Backend (y CMS): código en inglés — clases, carpetas, tablas nuevas, variables de entorno,
+    rutas, claves JSON y códigos de error — con arquitectura hexagonal (Domain ← Application ←
+    Infrastructure, ver design de crear-backend-slim D2). Solo los mensajes al usuario final van
+    en español. Decisión del usuario del 2026-10-23.
+  - Frontend: identificadores y textos en español (colombiano, tono «rolo»), como ya está.
   - Sistema de diseño: `Sistema de diseño — Origami Bogotá 2027.md` (contrato visual).
   - Guía de agentes: `AGENTS.md` y `CLAUDE.md` (comandos, arquitectura y trampas de cada proyecto).
 

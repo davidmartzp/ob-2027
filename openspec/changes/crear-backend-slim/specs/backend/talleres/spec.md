@@ -39,7 +39,7 @@ Cada taller SHALL tener uno de estos estados: 1 (activo: se publica y se puede p
 - **THEN** la respuesta es 403 y el taller no cambia
 
 ### Requirement: Imagen del taller
-`POST /workshops/{id}/imagen` (multipart, campo `image`) SHALL guardar la imagen del modelo del taller y responder `{"image": <URL absoluta>}`. MUST aceptar solo JPEG, PNG o WebP verificados por su contenido (no por la extensión ni el tipo que declara el cliente), de hasta 5 MB, guardarlos con un nombre y extensión generados por el servidor en una carpeta donde no se ejecuta código, y reemplazar la imagen anterior. Mismos permisos que la edición.
+`POST /workshops/{id}/image` (multipart, campo `image`) SHALL guardar la imagen del modelo del taller y responder `{"image": <URL absoluta>}`. MUST aceptar solo JPEG, PNG o WebP verificados por su contenido (no por la extensión ni el tipo que declara el cliente), de hasta 5 MB, guardarlos con un nombre y extensión generados por el servidor en una carpeta donde no se ejecuta código, y reemplazar la imagen anterior. Mismos permisos que la edición.
 
 #### Scenario: Script disfrazado
 - **WHEN** se sube un archivo `.php` (o un `.jpg` que contiene código PHP)

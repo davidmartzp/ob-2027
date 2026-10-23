@@ -25,15 +25,15 @@ Toda credencial y parámetro dependiente del entorno (base de datos, correo, or�
 - **THEN** el arranque falla con un mensaje que nombra la variable que falta
 
 ### Requirement: Respuestas JSON uniformes
-Todas las respuestas de la API SHALL ser JSON UTF-8. Los errores MUST tener la forma `{"error": {"codigo": <texto>, "mensaje": <texto>}}` con el código HTTP correspondiente (400, 401, 403, 404, 409, 422, 500); los errores de validación MUST incluir `campos` con el mensaje de cada campo inválido.
+Todas las respuestas de la API SHALL ser JSON UTF-8. Los errores MUST tener la forma `{"error": {"code": <texto>, "message": <texto>}}` con el código HTTP correspondiente (400, 401, 403, 404, 409, 422, 500); los errores de validación MUST incluir `fields` con el mensaje de cada campo inválido.
 
 #### Scenario: Ruta inexistente
 - **WHEN** se pide `GET /no-existe`
-- **THEN** la respuesta es 404 con `error.codigo` igual a `no_encontrado`
+- **THEN** la respuesta es 404 con `error.code` igual a `not_found`
 
 #### Scenario: Validación fallida
 - **WHEN** se envía un cuerpo con campos obligatorios vacíos
-- **THEN** la respuesta es 422 y `error.campos` lista cada campo con su mensaje
+- **THEN** la respuesta es 422 y `error.fields` lista cada campo con su mensaje
 
 ### Requirement: Sin detalles internos en producción
 Con el modo de depuración desactivado, las respuestas de error 500 MUST NOT incluir trazas, rutas de archivos, consultas SQL ni mensajes de excepciones internas; el detalle SHALL registrarse en el log del servidor.
@@ -54,11 +54,11 @@ La API SHALL responder a peticiones de navegador solo desde los orígenes config
 - **THEN** la respuesta no incluye `Access-Control-Allow-Origin`
 
 ### Requirement: Salud del servicio
-La API SHALL exponer `GET /salud`, público, que responda 200 con `{"estado": "ok", "cola_correo_minutos": <antigüedad del envío pendiente más viejo>}` cuando la base de datos responde y 503 cuando no.
+La API SHALL exponer `GET /health`, público, que responda 200 con `{"status": "ok", "mail_queue_minutes": <antigüedad del envío pendiente más viejo>}` cuando la base de datos responde y 503 cuando no.
 
 #### Scenario: Servicio sano
-- **WHEN** se pide `GET /salud` con la base de datos disponible
-- **THEN** la respuesta es 200 con `estado` igual a `ok`
+- **WHEN** se pide `GET /health` con la base de datos disponible
+- **THEN** la respuesta es 200 con `status` igual a `ok`
 
 ### Requirement: Esquema versionado con migraciones
 El esquema de la base de datos SHALL crearse y modificarse solo mediante migraciones ordenadas, aplicables y reversibles por lotes desde la consola, compatibles con MariaDB y con SQLite (usado en las pruebas).

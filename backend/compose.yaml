@@ -1,4 +1,5 @@
-# Entorno de desarrollo. Las credenciales salen de .env (copiar .env.example): nunca se escriben aquí.
+# Local development only (production runs on the hosting's Apache + PHP).
+# Credentials come from .env (copy .env.example): never written here.
 name: origami-backend
 
 services:
@@ -7,48 +8,49 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     ports:
-      - "${API_PUERTO:-8080}:80"
+      - "${API_HOST_PORT:-8080}:80"
     volumes:
       - .:/var/www/html
     env_file: .env
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      MAILER_DSN: smtp://correo:1025
+      MAILER_DSN: smtp://mailpit:1025
     depends_on:
       db:
         condition: service_healthy
-      correo:
+      mailpit:
         condition: service_started
 
+  # Same engine as the hosting (MariaDB 10.11).
   db:
     image: mariadb:10.11
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     ports:
-      - "${DB_PUERTO:-3307}:3306"
+      - "${DB_HOST_PORT:-3307}:3306"
     environment:
       MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USERNAME}
       MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
-      - datos_mariadb:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 3s
       timeout: 5s
       retries: 30
 
-  # Buzón de pruebas: captura todo el correo (interfaz en http://localhost:8025).
-  correo:
+  # Test inbox: catches every email (UI at http://localhost:8025).
+  mailpit:
     image: axllent/mailpit:v1.27
     ports:
-      - "${CORREO_PUERTO:-8025}:8025"
+      - "${MAILPIT_HOST_PORT:-8025}:8025"
 
-  # Cola de correo (como el cron del hosting, cada minuto). Se activa cuando exista
-  # `correo:procesar` (grupo 4): docker compose --profile cola up -d
-  cola:
-    profiles: ["cola"]
+  # Mail queue worker (like the hosting's cron, every minute). Enabled once `mail:send`
+  # exists (task group 4): docker compose --profile queue up -d
+  queue:
+    profiles: ["queue"]
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -58,11 +60,11 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      MAILER_DSN: smtp://correo:1025
-    command: ["sh", "-c", "while true; do php bin/consola correo:procesar; sleep 60; done"]
+      MAILER_DSN: smtp://mailpit:1025
+    command: ["sh", "-c", "while true; do php bin/console mail:send; sleep 60; done"]
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
-  datos_mariadb:
+  mariadb_data:

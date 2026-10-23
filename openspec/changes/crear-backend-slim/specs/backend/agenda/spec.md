@@ -32,7 +32,7 @@ Organiza la programación del congreso: salones, actividades, eventos (un taller
 - **THEN** el evento y sus 5 inscripciones desaparecen y el taller queda con 8 cupos
 
 ### Requirement: Ventana de inscripción a talleres
-`GET /events/activos` (público) SHALL responder solo dentro de la ventana configurada (sábado de 08:00 a 19:00 y domingo desde las 08:00, hora de Bogotá), con los eventos de taller del día en curso. Fuera de la ventana MUST responder 403 con `{"error": {…}, "logout": true}` y el mensaje de cuándo abre.
+`GET /events/active` (público) SHALL responder solo dentro de la ventana configurada (sábado de 08:00 a 19:00 y domingo desde las 08:00, hora de Bogotá), con los eventos de taller del día en curso. Fuera de la ventana MUST responder 403 con `{"error": {…}, "logout": true}` y el mensaje de cuándo abre.
 
 #### Scenario: Sábado antes de abrir
 - **WHEN** se pide el sábado a las 07:59
@@ -87,14 +87,14 @@ Al inscribirse a un taller de parte 1 SHALL inscribirse también a cada taller d
 - **THEN** el taller pasa a tener 1 cupo
 
 ### Requirement: Programación pública
-`GET /events/programacion` (público) SHALL devolver los talleres activos que tienen evento, con `id`, `name`, `image`, `level`, `observations`, `public`, `duration`, `instructor: {id, name}`, `event: {id, day, start_time, end_time, room: {id, name}}` y `partners`, ordenados por día, hora de inicio y salón, a cualquier hora.
+`GET /events/schedule` (público) SHALL devolver los talleres activos que tienen evento, con `id`, `name`, `image`, `level`, `observations`, `public`, `duration`, `instructor: {id, name}`, `event: {id, day, start_time, end_time, room: {id, name}}` y `partners`, ordenados por día, hora de inicio y salón, a cualquier hora.
 
 #### Scenario: Programación sin eventos
 - **WHEN** no hay talleres programados
 - **THEN** la respuesta es 200 con una lista vacía
 
 ### Requirement: Listas de asistentes por taller
-`GET /events/talleres` (privado) SHALL devolver los eventos de taller con `id_event`, `workshop_name` e `instructor`, y `GET /events/{id}/attendees` (privado) los inscritos del evento con `id`, `code` y `name` (nombre y primer apellido), ordenados por número de participante.
+`GET /events/workshops` (privado) SHALL devolver los eventos de taller con `id_event`, `workshop_name` e `instructor`, y `GET /events/{id}/attendees` (privado) los inscritos del evento con `id`, `code` y `name` (nombre y primer apellido), ordenados por número de participante.
 
 #### Scenario: Lista de un taller
 - **WHEN** el CMS pide la lista de un evento con inscritos de números 12, 3 y 7

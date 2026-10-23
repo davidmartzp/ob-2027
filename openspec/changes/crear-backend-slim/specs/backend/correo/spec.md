@@ -53,33 +53,33 @@ El enlace de acceso y el recordatorio del número de participante SHALL enviarse
 - **THEN** recibe un correo con su nombre y el número 27
 
 ### Requirement: Envíos por tipo lanzados desde el CMS
-`POST /correos/{tipo}` (privado) SHALL encolar el correo de ese tipo para sus destinatarios y responder cuántos se encolaron. Tipos y destinatarios por defecto: `bienvenida` (no eliminados), `numero` (con número asignado), `instrucciones` y `libro` (confirmados), `aviso-importante` e `informacion-general` (no eliminados) y `correccion` (solo los `ids` indicados: sin `ids` MUST responder 422). Un tipo desconocido MUST responder 404.
+`POST /emails/{type}` (privado) SHALL encolar el correo de ese tipo para sus destinatarios y responder cuántos se encolaron. Tipos y destinatarios por defecto: `welcome` (no eliminados), `code` (con número asignado), `instructions` y `book` (confirmados), `important-notice` e `general-info` (no eliminados) y `correction` (solo los `ids` indicados: sin `ids` MUST responder 422). Un tipo desconocido MUST responder 404.
 
 #### Scenario: Envío de instrucciones
-- **WHEN** hay 80 confirmados y 20 pendientes y el CMS lanza `instrucciones`
+- **WHEN** hay 80 confirmados y 20 pendientes y el CMS lanza `instructions`
 - **THEN** la respuesta indica 80 encolados y solo los confirmados lo reciben
 
 ### Requirement: Acotar un envío
-`POST /correos/{tipo}` SHALL aceptar `{"ids": [...]}` para enviar solo a esos asistentes (dentro de los destinatarios del tipo) o `{"prueba": <correo>}` para enviar un único ejemplo, con los datos del primer destinatario, a esa dirección sin marcar a nadie como enviado.
+`POST /emails/{type}` SHALL aceptar `{"ids": [...]}` para enviar solo a esos asistentes (dentro de los destinatarios del tipo) o `{"test": <correo>}` para enviar un único ejemplo, con los datos del primer destinatario, a esa dirección sin marcar a nadie como enviado.
 
 #### Scenario: Prueba antes de enviar
-- **WHEN** el CMS lanza `libro` con `prueba` igual a su correo
+- **WHEN** el CMS lanza `book` con `test` igual a su correo
 - **THEN** solo llega un correo a esa dirección y ningún asistente queda marcado
 
 ### Requirement: Previsualizar destinatarios
-`GET /correos/{tipo}/destinatarios` (privado) SHALL devolver el conteo y la lista (`id`, `name`, `lastname`, `email`, `ya_enviado`) de quienes lo recibirían, sin enviar nada.
+`GET /emails/{type}/recipients` (privado) SHALL devolver el conteo y la lista (`id`, `name`, `lastname`, `email`, `already_sent`) de quienes lo recibirían, sin enviar nada.
 
 #### Scenario: Conteo previo
-- **WHEN** el CMS consulta los destinatarios de `numero` con 120 asistentes numerados
+- **WHEN** el CMS consulta los destinatarios de `code` con 120 asistentes numerados
 - **THEN** recibe 120 sin que se envíe ningún correo
 
 ### Requirement: Cola sin duplicados
-Los correos SHALL procesarse en una cola persistente con hasta 3 intentos (esperas de 1, 5 y 30 minutos) y un tope de envíos por minuto configurable. Un mismo tipo MUST NOT enviarse dos veces al mismo asistente, salvo `bienvenida` y `numero` enviados con `ids` explícitos (reenvío). `GET /correos/registro` (privado) SHALL devolver el estado de los envíos (`pending`, `sent`, `failed`) paginado y filtrable por tipo.
+Los correos SHALL procesarse en una cola persistente con hasta 3 intentos (esperas de 1, 5 y 30 minutos) y un tope de envíos por minuto configurable. Un mismo tipo MUST NOT enviarse dos veces al mismo asistente, salvo `welcome` y `code` enviados con `ids` explícitos (reenvío). `GET /emails/log` (privado) SHALL devolver el estado de los envíos (`pending`, `sent`, `failed`) paginado y filtrable por tipo.
 
 #### Scenario: Doble lanzamiento
-- **WHEN** el CMS lanza dos veces `informacion-general`
+- **WHEN** el CMS lanza dos veces `general-info`
 - **THEN** cada asistente lo recibe una sola vez y el segundo lanzamiento responde 0 encolados
 
 #### Scenario: Reenvío del número
-- **WHEN** el CMS lanza `numero` con `ids: [27]` a un asistente que ya lo recibió
+- **WHEN** el CMS lanza `code` con `ids: [27]` a un asistente que ya lo recibió
 - **THEN** se encola de nuevo para ese asistente

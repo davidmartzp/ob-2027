@@ -3,16 +3,16 @@ Options -Indexes -MultiViews
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Algunos hostings (PHP como CGI/FastCGI) no pasan el encabezado Authorization a PHP.
+    # Some hostings (PHP as CGI/FastCGI) do not pass the Authorization header to PHP.
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Todo va al controlador frontal.
+    # Everything goes to the front controller.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
-# Ningún archivo de esta carpeta, salvo index.php, debe ejecutarse como PHP.
+# No file in this folder except index.php may run as PHP.
 <FilesMatch "\.(php|phtml|phar)$">
     Require all denied
 </FilesMatch>

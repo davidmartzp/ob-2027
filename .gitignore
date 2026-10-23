@@ -4,6 +4,6 @@ node_modules/
 frontend/dist/
 backend/vendor/
 .env
-backend/almacen/*
-!backend/almacen/.gitkeep
+backend/storage/*
+!backend/storage/.gitkeep
 backend/.phpunit.cache/

@@ -3,41 +3,35 @@
 declare(strict_types=1);
 
 /*
- * Slim ejecuta el middleware en orden inverso al de alta: el último añadido es el más
- * externo. Por eso CORS y los encabezados van al final: así envuelven también las
- * respuestas de error.
+ * Slim runs middleware in reverse order of registration: the last one added is the
+ * outermost. CORS and the security headers go last so they also wrap error responses.
  */
 
-use App\Compartido\Ajustes;
-use App\Compartido\Errores\PeticionInvalida;
-use App\Compartido\Middleware\Cors;
-use App\Compartido\Middleware\EncabezadosSeguridad;
-use App\Compartido\Middleware\ManejadorErrores;
+use App\Infrastructure\Config\Settings;
+use App\Infrastructure\Http\ErrorHandler;
+use App\Infrastructure\Http\InvalidJsonException;
+use App\Infrastructure\Http\Middleware\Cors;
+use App\Infrastructure\Http\Middleware\SecurityHeaders;
 use Slim\App;
 use Slim\Middleware\BodyParsingMiddleware;
 
-return static function (App $app, Ajustes $ajustes): void {
-    $contenedor = $app->getContainer();
-
-    // JSON mal formado = 400 (por defecto Slim lo dejaría pasar como cuerpo vacío).
+return static function (App $app, Settings $settings): void {
+    // Malformed JSON = 400 (by default Slim would silently treat it as an empty body).
     $app->add(new BodyParsingMiddleware([
-        'application/json' => static function (string $entrada): ?array {
-            if (trim($entrada) === '') {
+        'application/json' => static function (string $input): ?array {
+            if (trim($input) === '') {
                 return null;
             }
-            $datos = json_decode($entrada, true);
-            if (!is_array($datos)) {
-                throw new PeticionInvalida('El cuerpo no es un JSON válido.');
-            }
+            $data = json_decode($input, true);
 
-            return $datos;
+            return is_array($data) ? $data : throw new InvalidJsonException();
         },
     ]));
     $app->addRoutingMiddleware();
 
-    $errores = $app->addErrorMiddleware($ajustes->depurar(), false, false);
-    $errores->setDefaultErrorHandler($contenedor->get(ManejadorErrores::class));
+    $errors = $app->addErrorMiddleware($settings->debug(), false, false);
+    $errors->setDefaultErrorHandler($app->getContainer()->get(ErrorHandler::class));
 
-    $app->add(EncabezadosSeguridad::class);
+    $app->add(SecurityHeaders::class);
     $app->add(Cors::class);
 };

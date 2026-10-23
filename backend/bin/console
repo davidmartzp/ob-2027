@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/* Backend console: php bin/console <command> [arguments]. Commands are listed in config/console.php. */
+
+use App\Domain\Shared\Exception\ValidationException;
+use App\Infrastructure\Console\Command;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$container = (require dirname(__DIR__) . '/config/bootstrap.php')()->getContainer();
+
+/** @var array<string, Command> $commands */
+$commands = [];
+foreach (require dirname(__DIR__) . '/config/console.php' as $class) {
+    $command = $container->get($class);
+    $commands[$command->name()] = $command;
+}
+
+$name = $argv[1] ?? 'help';
+if (!isset($commands[$name])) {
+    echo "Usage: php bin/console <command> [arguments]\n\n";
+    foreach ($commands as $command) {
+        printf("  %-16s %s\n", $command->name(), $command->description());
+    }
+    exit($name === 'help' ? 0 : 1);
+}
+
+try {
+    exit($commands[$name]->run(array_slice($argv, 2)));
+} catch (Throwable $error) {
+    $fields = $error instanceof ValidationException ? ' ' . implode(' ', $error->fields) : '';
+    fwrite(STDERR, 'Error: ' . $error->getMessage() . $fields . "\n");
+    exit(1);
+}

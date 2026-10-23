@@ -8,7 +8,7 @@ La guía del proyecto (concepto, sistema de diseño, microcopy, honestidad de co
 
 ## Proyectos
 
-- `backend/` — API en PHP 8.5 + Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MariaDB, correo con Symfony Mailer. Reemplaza a `app-ob/` de `../angular-ob`. Ver sección «Backend».
+- `backend/` — API en PHP 8.5 + Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MariaDB, correo con Symfony Mailer, arquitectura hexagonal y código en inglés. Reemplaza a `app-ob/` de `../angular-ob`. Ver sección «Backend».
 - `cms/` — (pendiente) frontend del CMS extraído de `../angular-ob`.
 - `frontend/` — **versión activa del sitio**. Angular 22, prerender estático (SSG). La home es una hoja de secciones que se navega por anclas (`#acerca`, `#itinerario`…); desde el 2026-10-19 hay además una página propia, `/actividades` (buscador y fichas). No crear más páginas salvo que se pida.
 - `app/` — sitio original (HTML + CSS + JS inline). Queda como referencia visual 1:1 hasta archivarlo; no desarrollar ahí.
@@ -71,33 +71,34 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 ## Backend (`backend/`)
 
-No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.5 + Apache con `.htaccess`, como el hosting; MariaDB 10.11).
+**Production does not use Docker**: the hosting's Apache + PHP 8.5 and its SMTP server (`host51.latinoamericahosting.com:465`, SSL). Docker is the local environment only (PHP 8.5 + Apache, MariaDB 10.11 like the hosting, Mailpit). No PHP or Composer on this machine: run everything through Docker.
 
 ```sh
 cd backend
-cp .env.example .env                                   # solo la primera vez
-docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 · Mailpit → http://localhost:8025 (puertos en .env)
-docker compose exec api php bin/consola migrar         # también: revertir (último lote), sembrar (idempotente)
-docker compose exec api vendor/bin/phpunit             # pruebas (SQLite en memoria, no tocan MySQL)
-docker compose exec api vendor/bin/phpunit --filter CorsTest         # una sola clase/prueba
-docker compose exec api composer require paquete/x     # dependencias
+cp .env.example .env                                   # first time only
+docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 · Mailpit → http://localhost:8025 (ports in .env)
+docker compose exec api php bin/console                # lists commands: migrate, rollback, seed, user:create, user:password…
+docker compose exec api vendor/bin/phpunit             # tests (in-memory SQLite, never touch MariaDB)
+docker compose exec api vendor/bin/phpunit --filter LoginTest      # one class/test
+docker compose exec api vendor/bin/phpunit --testsuite unit        # unit | integration | functional
+docker compose exec api composer require vendor/package
 ```
 
-Arquitectura orientada a servicios, ligera:
-- `config/arranque.php` arma todo: `.env` → contenedor PHP-DI (`dependencias.php`) → Eloquent → Slim (`middleware.php`, `rutas.php`). Lo comparten `public/index.php`, `bin/consola` y `tests/CasoFuncional.php`.
-- **Un módulo por servicio** en `src/Modulos/<Nombre>/`: `Rutas<Nombre>` (implementa `Modulo`), `Controlador<Nombre>` (solo HTTP), `Servicio<Nombre>` (lógica, devuelve arrays con la forma de la API) y modelos Eloquent. **Módulo nuevo = carpeta + alta en `config/rutas.php`**. Controladores y servicios se inyectan solos (autowiring).
-- Los servicios lanzan errores de dominio (`App\Compartido\Errores\*`: `NoEncontrado`, `Validacion`, `Conflicto`…) y `ManejadorErrores` los convierte en `{"error": {"codigo", "mensaje", …}}` con su estado HTTP; los controladores no capturan nada. Validación de cuerpos con `Validador::validar($datos, ['campo' => 'requerido|entero:1,120'])`.
-- Migraciones: `database/migraciones/AAAA_MM_DD_HHMMSS_*.php` devuelven `new class implements Migracion { subir/bajar(Builder $esquema) }`. La primera (`transicion_desde_angular_ob`) convierte una copia de la base de producción; se probó con el volcado real (`../origamib_online.sql`, fuera del repo: tiene datos personales). `revertir` está bloqueado con `APP_ENV=production` salvo `--forzar`. Semillas: `database/semillas/NN_*.php` devuelven un callable idempotente (`updateOrCreate`). Usa en las migraciones solo lo que soporten MySQL **y** SQLite, porque las pruebas migran sobre SQLite.
-- Pruebas funcionales: extienden `CasoFuncional`, que arranca la app real migrada y sembrada, y usan `$this->pedir('GET', '/ruta')`.
+**Code is in English** (classes, folders, new tables, env vars, routes, JSON keys, error codes); only user-facing messages are in Spanish. **Hexagonal architecture** — Domain ← Application ← Infrastructure, enforced by `tests/Unit/ArchitectureTest.php`:
+- `src/Domain/<Area>/` — plain PHP: entities, enums, rules, repository interfaces. Exceptions in `Domain/Shared/Exception` carry no HTTP status.
+- `src/Application/<Area>/` — one use case per action (`Login`, `RequestAccessLink`…), autowired; technical ports in `Application/Port` (`RateLimiter`, `PasswordHasher`, `MailQueue`); input validation with `Validator::validate($input, ['field' => 'required|int:1,120'])`.
+- `src/Infrastructure/` — adapters: `Http/Controller/*Controller` (HTTP only), `Http/Middleware`, `Http/ErrorHandler` (exception → `{"error": {"code", "message", "fields"?}}` + status), `Persistence/Model/*Model` (Eloquent, only here; `toEntity()`), `Persistence/Repository/*`, `Mail`, `Console/*Command`.
+- **Where things are**: every route and its guard in `config/routes.php`; which adapter implements each port in `config/container.php`; console commands in `config/console.php`.
+- **New feature** = entity/repository interface in Domain → use case in Application → Eloquent model + repository + controller in Infrastructure → bind the port in `container.php` → route in `routes.php`.
+- Migrations: `database/migrations/YYYY_MM_DD_HHMMSS_*.php` return `new class implements Migration { up/down(Builder $schema) }`. The first one (`migrate_from_angular_ob`) converts a copy of the production database; it was tested with the real dump (`../origamib_online.sql`, outside the repo: it has personal data). `rollback` is blocked with `APP_ENV=production` unless `--force`. Seeds: `database/seeds/NN_*.php` return an idempotent callable.
+- Functional tests extend `Tests\Support\FunctionalTestCase` (real app, migrated SQLite, `FrozenClock` in `$this->clock`) and use `$this->request('GET', '/path')`.
 
-Trampas:
-- Los closures de rutas y de `$rutas->group(...)` **no pueden ser `static`**: Slim los enlaza al contenedor (*Cannot bind an instance to a static closure*).
-- Fuera de Docker no hay `vendor/` ni PHP: corre los comandos con `docker compose exec api …` (o `docker compose run --rm --no-deps api …` si el stack está apagado).
-- **Producción no usa Docker**: Apache + PHP del hosting y el SMTP del servidor (`host51.latinoamericahosting.com:465`, SSL). Docker es solo el entorno local.
-- Despliegue en el hosting PHP: subir el proyecto **con `vendor/`** (`composer install --no-dev` antes de subir) y un `.env` real. Si se puede, la raíz web va a `public/`; si no, el `.htaccess` de la raíz reescribe todo hacia `public/` y `.env`, `src/` y `vendor/` responden 404. Si la API vive en una subcarpeta, define `APP_BASE_PATH` (p. ej. `/api`). Pon `APP_DEBUG=false` en producción: con `true`, los errores muestran trazas y rutas internas.
-- Al tocar MariaDB a mano: `mariadb --default-character-set=utf8mb4 …`. Sin esa opción, las tildes se guardan mal codificadas («FrancÃ©s»).
-- Las semillas buscan por clave natural (`slug`, `nombre`, `edicion`). Si renombras un registro en la base y vuelves a sembrar, se crea uno nuevo.
-- El hosting MUST tener PHP 8.5: las dependencias están resueltas para PHP 8.5 (`config.platform.php` en `composer.json`).
-- Dominio: el antiguo `Assistant`/`assistants` se llama **`Attendee`/`attendees`** (modelo, tabla, columnas `id_attendee` y rutas `/attendees`). No reintroducir «assistant».
-- Correo: Symfony Mailer configurado solo con `MAILER_DSN` en `.env` (SMTP con TLS; nunca credenciales en el código). Plantillas Twig con autoescape en `plantillas/correos/`.
-- SQLite (pruebas) no ve las claves foráneas ni el DDL no transaccional de MariaDB: cualquier migración que toque la base heredada se prueba también cargando el volcado en el MariaDB de Docker (ver `design.md`, plan de migración) y luego `docker compose down -v` para no dejar datos personales.
+Traps:
+- Route closures and `group(...)` closures **must not be `static`**: Slim binds them to the container (*Cannot bind an instance to a static closure*).
+- Outside Docker there is no `vendor/` nor PHP: use `docker compose exec api …` (or `docker compose run --rm --no-deps api …` when the stack is down).
+- Deploy on the PHP hosting: upload the project **with `vendor/`** (`composer install --no-dev` first) and a real `.env`. If possible the web root goes to `public/`; otherwise the root `.htaccess` rewrites everything to `public/` and `.env`, `src/`, `vendor/` answer 403/404. If the API lives in a subfolder, set `APP_BASE_PATH` (e.g. `/api`). Use `APP_DEBUG=false` in production.
+- The hosting MUST run PHP 8.5 (today it reports 8.4.27): dependencies are resolved for 8.5 (`config.platform.php`).
+- Domain naming: the old `Assistant`/`assistants` is **`Attendee`/`attendees`** (entity, table, `id_attendee` columns, `/attendees` routes). Never reintroduce "assistant".
+- Email: Symfony Mailer configured only through `MAILER_DSN` in `.env` (SMTP with TLS; never credentials in code). Twig templates in `resources/emails/` (`.html.twig` escaped, `.txt.twig` not). Existing emails are ported as production sends them today (design D6c).
+- When touching MariaDB by hand: `mariadb --default-character-set=utf8mb4 …`, or accents get stored broken («FrancÃ©s»).
+- SQLite (tests) does not see MariaDB's foreign keys nor its non-transactional DDL: any migration that touches the legacy database is also tested by loading the dump into Docker's MariaDB, then `docker compose down -v` so no personal data is left behind.

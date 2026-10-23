@@ -1,4 +1,4 @@
-# API del congreso: PHP 8.5 + Apache, como el hosting.
+# Congress API, local development: PHP 8.5 + Apache, like the hosting.
 FROM php:8.5-apache
 
 RUN apt-get update \
@@ -11,8 +11,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/php.ini /usr/local/etc/php/conf.d/congreso.ini
 
-# Por defecto la raíz web es public/; con APACHE_DOCUMENT_ROOT=/var/www/html se prueba
-# el despliegue en un hosting que no deja cambiarla (lo resuelve el .htaccess de la raíz).
+# The web root is public/ by default; APACHE_DOCUMENT_ROOT=/var/www/html simulates a hosting
+# that cannot change it (the root .htaccess handles that case).
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 WORKDIR /var/www/html

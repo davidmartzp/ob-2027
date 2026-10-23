@@ -43,7 +43,7 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **THEN** la respuesta es 201 pero no se guarda ningún asistente ni se envían correos
 
 ### Requirement: Verificación del número de participante
-`POST /attendees/verificar-codigo` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "token"}` con un token de asistente; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
+`POST /attendees/verify-code` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "token"}` con un token de asistente; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
 
 #### Scenario: Código especial
 - **WHEN** un asistente sin `code` pero con `special_code` `A12` verifica con `A12` dentro de su turno
@@ -80,7 +80,7 @@ Para ensayar fuera de los días del congreso, la configuración SHALL permitir i
 - **THEN** los turnos se aplican igualmente
 
 ### Requirement: Recordatorio del número de participante
-`POST /attendees/recordar-codigo` (público) con `{"email"}` SHALL enviar a ese correo un único mensaje con el nombre y el número (o código especial, o «sin número aún») de cada asistente no eliminado registrado con él, y responder siempre 202 con el mismo cuerpo. La API MUST NOT devolver números en la respuesta. Se limita a 3 solicitudes por hora por correo.
+`POST /attendees/remind-code` (público) con `{"email"}` SHALL enviar a ese correo un único mensaje con el nombre y el número (o código especial, o «sin número aún») de cada asistente no eliminado registrado con él, y responder siempre 202 con el mismo cuerpo. La API MUST NOT devolver números en la respuesta. Se limita a 3 solicitudes por hora por correo.
 
 #### Scenario: Familia con un mismo correo
 - **WHEN** una madre y dos hijos están inscritos con el mismo correo y se pide el recordatorio
@@ -112,26 +112,26 @@ Para ensayar fuera de los días del congreso, la configuración SHALL permitir i
 - **THEN** la fila sigue en la base con estado 5 y deja de aparecer en el listado
 
 ### Requirement: Confirmación masiva
-`POST /attendees/confirmar` (privado) con `{"ids": [<número>…]}` SHALL pasar a estado 1 solo a los asistentes indicados que estén en estado 0 y responder `{"confirmados": <número>}`.
+`POST /attendees/confirm` (privado) con `{"ids": [<número>…]}` SHALL pasar a estado 1 solo a los asistentes indicados que estén en estado 0 y responder `{"confirmed": <número>}`.
 
 #### Scenario: Mezcla de estados
 - **WHEN** se confirman 3 ids, de los cuales uno ya estaba confirmado
-- **THEN** la respuesta es `confirmados: 2`
+- **THEN** la respuesta es `confirmed: 2`
 
 ### Requirement: Números para inscritos sin número
-`POST /attendees/codigos` (privado) SHALL asignar números consecutivos, continuando desde el mayor asignado, a los asistentes no eliminados y elegibles que no tienen número, ordenados por `paydate` ascendente (y por `id` en empate), y responder cuántos se asignaron.
+`POST /attendees/codes` (privado) SHALL asignar números consecutivos, continuando desde el mayor asignado, a los asistentes no eliminados y elegibles que no tienen número, ordenados por `paydate` ascendente (y por `id` en empate), y responder cuántos se asignaron.
 
 #### Scenario: Inscritos tardíos
 - **WHEN** el mayor número es 120 y dos elegibles sin número pagaron el 3 y el 1 de mayo
 - **THEN** el del 1 de mayo recibe 121, el del 3 de mayo 122 y nadie más cambia
 
 ### Requirement: Regenerar todos los números
-`POST /attendees/codigos/regenerar` (privado) con `{"confirmacion": "regenerar"}` SHALL quitar el número a todos los asistentes y volver a numerar desde 1, por `paydate` ascendente, a los no eliminados y elegibles; sin esa confirmación literal MUST responder 422 sin cambiar nada.
+`POST /attendees/codes/regenerate` (privado) con `{"confirmation": "regenerate"}` SHALL quitar el número a todos los asistentes y volver a numerar desde 1, por `paydate` ascendente, a los no eliminados y elegibles; sin esa confirmación literal MUST responder 422 sin cambiar nada.
 
 #### Scenario: Orden por fecha de pago
 - **WHEN** se regenera con tres elegibles que pagaron el 3, el 1 y el 2 de marzo
 - **THEN** reciben los números 3, 1 y 2 respectivamente
 
 #### Scenario: Sin confirmación
-- **WHEN** el CMS pide regenerar sin el campo `confirmacion`
+- **WHEN** el CMS pide regenerar sin el campo `confirmation`
 - **THEN** la respuesta es 422 y los números se conservan

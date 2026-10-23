@@ -1,0 +1,35 @@
+{#- Shared email layout. Tables and inline styles because email clients ignore most CSS.
+    To be replaced by the look of the existing "code" email (decision in design.md D6c). -#}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Origami Bogotá{% endblock %}</title>
+</head>
+<body style="margin:0;padding:0;background:#EBE3C9;font-family:Helvetica,Arial,sans-serif;color:#27251B;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EBE3C9;">
+    <tr>
+        <td align="center" style="padding:24px 12px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#F5F0E0;border:1px solid #27251B;">
+                <tr>
+                    <td style="padding:20px 28px;border-bottom:1px dashed #27251B;font-family:'Courier New',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;">
+                        Origami Bogotá · Congreso
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:28px;font-size:16px;line-height:1.6;">
+                        {% block content %}{% endblock %}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:16px 28px;border-top:1px dashed #27251B;font-size:12px;color:#5c5848;">
+                        Recibes este correo porque estás inscrito en el Congreso Origami Bogotá.
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

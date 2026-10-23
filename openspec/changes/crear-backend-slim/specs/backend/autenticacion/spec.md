@@ -51,10 +51,10 @@ Cada token SHALL ser aleatorio criptográficamente (al menos 256 bits), guardars
 - **THEN** la respuesta es 401
 
 ### Requirement: Usuario actual
-`GET /auth/yo` con token válido SHALL responder los datos del usuario autenticado (`id`, `name`, `email`).
+`GET /auth/me` con token válido SHALL responder los datos del usuario autenticado (`id`, `name`, `email`).
 
 #### Scenario: Consultar sesión
-- **WHEN** el CMS pide `GET /auth/yo` con un token vigente
+- **WHEN** el CMS pide `GET /auth/me` con un token vigente
 - **THEN** la respuesta es 200 con los datos de ese usuario
 
 ### Requirement: Alta de usuarios por consola
@@ -76,7 +76,7 @@ Los servicios que un asistente usa sobre sus propios datos (sus talleres propues
 - **THEN** la respuesta es 401
 
 ### Requirement: Enlace de acceso por correo
-`POST /auth/enlace-asistente` (público) con `{"email"}` SHALL enviar, si existe un asistente no eliminado con ese correo, un enlace de un solo uso válido 30 minutos; `POST /auth/canjear-enlace` con su clave SHALL devolver un token de asistente. La respuesta del primer paso MUST ser la misma exista o no el correo, y se limita a 3 solicitudes por hora por correo.
+`POST /auth/attendee-link` (público) con `{"email"}` SHALL enviar, si existe un asistente no eliminado con ese correo, un enlace de un solo uso válido 30 minutos; `POST /auth/redeem-link` con su `key` SHALL devolver un token de asistente. La respuesta del primer paso MUST ser la misma exista o no el correo, y se limita a 3 solicitudes por hora por correo.
 
 #### Scenario: Correo no registrado
 - **WHEN** se pide el enlace para un correo que no está inscrito

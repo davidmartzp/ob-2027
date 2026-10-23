@@ -8,9 +8,14 @@
          failOnDeprecation="true"
          failOnPhpunitDeprecation="true">
     <testsuites>
-        <testsuite name="backend">
-            <directory>tests</directory>
-            <exclude>tests/Fixtures</exclude>
+        <testsuite name="unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
     <source>
@@ -18,7 +23,7 @@
             <directory>src</directory>
         </include>
     </source>
-    <!-- Las pruebas usan SQLite en memoria: nunca tocan la base de Docker ni la de producción. -->
+    <!-- Tests run on in-memory SQLite: they never touch the Docker or production database. -->
     <php>
         <env name="APP_ENV" value="testing" force="true"/>
         <env name="APP_DEBUG" value="false" force="true"/>
@@ -26,7 +31,7 @@
         <env name="APP_URL" value="http://api.test" force="true"/>
         <env name="DB_CONNECTION" value="sqlite" force="true"/>
         <env name="DB_DATABASE" value=":memory:" force="true"/>
-        <env name="CORS_ORIGENES" value="http://sitio.test,http://cms.test" force="true"/>
+        <env name="CORS_ORIGINS" value="http://site.test,http://cms.test" force="true"/>
         <env name="MAILER_DSN" value="null://null" force="true"/>
     </php>
 </phpunit>

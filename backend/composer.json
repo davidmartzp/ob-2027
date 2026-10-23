@@ -1,6 +1,6 @@
 {
     "name": "origami-bogota/backend",
-    "description": "API del Congreso Origami Bogotá: Slim 4 + Eloquent en PHP 8.5.",
+    "description": "Origami Bogotá congress API: Slim 4 + Eloquent on PHP 8.5, hexagonal architecture.",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -21,7 +21,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Pruebas\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "config": {

@@ -1,18 +1,18 @@
-# Solo para hostings donde la raíz web no puede apuntar a public/: aquí se publica todo
-# el proyecto y estas reglas dejan accesible únicamente public/.
+# Only for hostings where the web root cannot point to public/: the whole project is
+# uploaded here and these rules expose public/ only.
 Options -Indexes -MultiViews
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Cualquier ruta que no esté ya dentro de public/ se atiende desde public/
-    # (allí el .htaccess la pasa a index.php). Así .env, src/, vendor/, config/,
-    # database/, plantillas/, almacen/, bin/ y tests/ nunca se sirven.
+    # Any path not already inside public/ is served from public/ (whose .htaccess hands it
+    # to index.php). So .env, src/, vendor/, config/, database/, resources/, storage/,
+    # bin/ and tests/ are never served.
     RewriteCond %{REQUEST_URI} !/public/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
-# Respaldo por si mod_rewrite estuviera desactivado: denegar archivos ocultos y de configuración.
+# Fallback in case mod_rewrite is off: deny hidden and configuration files.
 <FilesMatch "^\.|\.(env|json|lock|yaml|yml|md|sql|xml|dist)$">
     Require all denied
 </FilesMatch>

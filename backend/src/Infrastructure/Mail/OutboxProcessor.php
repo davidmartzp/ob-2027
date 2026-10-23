@@ -13,6 +13,7 @@ use Throwable;
 
 /**
  * Delivers the `email_outbox`: up to MAIL_SEND_PER_MINUTE per run (cron every minute),
+ * pausing MAIL_SEND_INTERVAL_MS between emails (SMTP servers refuse bursts),
  * 3 attempts at most (retries after 1 and 5 minutes), then `failed`. Each row is
  * claimed with a conditional update so two workers never send the same email.
  */
@@ -52,7 +53,10 @@ final readonly class OutboxProcessor
             ->all();
 
         $result = ['sent' => 0, 'failed' => 0, 'retrying' => 0];
-        foreach ($ids as $id) {
+        foreach ($ids as $index => $id) {
+            if ($index > 0 && $this->settings->sendIntervalMs > 0) {
+                usleep($this->settings->sendIntervalMs * 1000);
+            }
             $outcome = $this->deliver((int) $id);
             if ($outcome !== null) {
                 $result[$outcome]++;

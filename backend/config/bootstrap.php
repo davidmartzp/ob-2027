@@ -19,7 +19,10 @@ use Slim\Factory\AppFactory;
 
 return static function (array $environment = [], array $definitions = []): App {
     $root = dirname(__DIR__);
-    Dotenv::createImmutable($root)->safeLoad();
+    // Tests are hermetic: they run on phpunit.xml's variables only, never on the local .env.
+    if (getenv('APP_ENV') !== 'testing') {
+        Dotenv::createImmutable($root)->safeLoad();
+    }
 
     $settings = Settings::fromEnvironment($environment);
     date_default_timezone_set('America/Bogota');

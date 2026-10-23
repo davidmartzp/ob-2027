@@ -11,4 +11,5 @@ return [
     App\Infrastructure\Console\CreateUserCommand::class,
     App\Infrastructure\Console\ChangePasswordCommand::class,
     App\Infrastructure\Console\SendMailCommand::class,
+    App\Infrastructure\Console\ImportLegacyCommand::class,
 ];

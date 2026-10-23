@@ -33,5 +33,27 @@
         <env name="DB_DATABASE" value=":memory:" force="true"/>
         <env name="CORS_ORIGINS" value="http://site.test,http://cms.test" force="true"/>
         <env name="MAILER_DSN" value="null://null" force="true"/>
+        <env name="MAIL_SEND_INTERVAL_MS" value="0" force="true"/>
+        <!-- Every congress setting is pinned so the container's environment (.env) never changes a test. -->
+        <env name="SITE_URL" value="http://localhost:4200" force="true"/>
+        <env name="MAIL_FROM_ADDRESS" value="inscripciones@origamibogota.com" force="true"/>
+        <env name="MAIL_FROM_NAME" value="Origami Bogotá" force="true"/>
+        <env name="MAIL_TEAM_ADDRESS" value="inscripciones@origamibogota.com" force="true"/>
+        <env name="MAIL_SEND_PER_MINUTE" value="30" force="true"/>
+        <env name="CMS_TOKEN_HOURS" value="12" force="true"/>
+        <env name="ATTENDEE_TOKEN_HOURS" value="2" force="true"/>
+        <env name="ACCESS_LINK_MINUTES" value="30" force="true"/>
+        <env name="ACCESS_LINK_PATH" value="acceso" force="true"/>
+        <env name="CODE_MIN_AGE" value="12" force="true"/>
+        <env name="CODE_EXCLUDED_PAYMENT_METHODS" value="Grupo de apoyo,Invitado,Invitado(a)" force="true"/>
+        <env name="EVENT_SATURDAY" value="2027-06-05" force="true"/>
+        <env name="EVENT_SUNDAY" value="2027-06-06" force="true"/>
+        <env name="TURN_START_TIME" value="08:00" force="true"/>
+        <env name="TURN_END_TIME" value="19:00" force="true"/>
+        <env name="TURN_GROUP_SIZE" value="25" force="true"/>
+        <env name="TURN_MINUTES" value="10" force="true"/>
+        <env name="TURN_BYPASS" value="false" force="true"/>
+        <env name="WORKSHOP_LEVELS" value="P,I,A" force="true"/>
+        <env name="WORKSHOP_AUDIENCES" value="A,N" force="true"/>
     </php>
 </phpunit>

@@ -29,6 +29,31 @@ final readonly class LocalImageStorage implements ImageStorage
 
     public function store(string $bytes, string $prefix, string $field = 'image'): string
     {
+        $extension = $this->assertImage($bytes, $field);
+        $file = strtolower(preg_replace('/[^a-z0-9-]/i', '', $prefix)) . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
+        $this->write($file, $bytes);
+
+        return $file;
+    }
+
+    /**
+     * Stores a legacy image under its original name (the database already references it),
+     * after the same content checks as an upload.
+     *
+     * @throws ValidationException when the file is not an acceptable image.
+     */
+    public function importAs(string $name, string $bytes): void
+    {
+        if (preg_match(self::NAME_PATTERN, $name) !== 1) {
+            throw ValidationException::field('image', "Nombre de imagen no admitido: {$name}");
+        }
+        $this->assertImage($bytes, 'image');
+        $this->write($name, $bytes);
+    }
+
+    /** @return string The extension for the detected type. */
+    private function assertImage(string $bytes, string $field): string
+    {
         $invalid = static fn (string $message) => ValidationException::field($field, $message);
         if ($bytes === '') {
             throw $invalid('Adjunta una imagen.');
@@ -36,8 +61,7 @@ final readonly class LocalImageStorage implements ImageStorage
         if (strlen($bytes) > self::MAX_BYTES) {
             throw $invalid('La imagen pesa más de 5 MB.');
         }
-        $mime = (new finfo(FILEINFO_MIME_TYPE))->buffer($bytes);
-        $extension = self::TYPES[$mime] ?? null;
+        $extension = self::TYPES[self::detectMime($bytes)] ?? null;
         if ($extension === null || @getimagesizefromstring($bytes) === false) {
             throw $invalid('Solo se aceptan imágenes JPEG, PNG o WebP.');
         }
@@ -45,15 +69,22 @@ final readonly class LocalImageStorage implements ImageStorage
             throw $invalid('La imagen contiene código y no se acepta.');
         }
 
+        return $extension;
+    }
+
+    private function write(string $file, string $bytes): void
+    {
         if (!is_dir($this->directory) && !mkdir($this->directory, 0755, true) && !is_dir($this->directory)) {
             throw new RuntimeException("Cannot create {$this->directory}");
         }
-        $file = strtolower(preg_replace('/[^a-z0-9-]/i', '', $prefix)) . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
         if (file_put_contents($this->directory . '/' . $file, $bytes, LOCK_EX) === false) {
             throw new RuntimeException("Cannot write image {$file}");
         }
+    }
 
-        return $file;
+    public static function detectMime(string $bytes): string
+    {
+        return (string) (new finfo(FILEINFO_MIME_TYPE))->buffer($bytes);
     }
 
     public function delete(?string $file): void
@@ -75,12 +106,11 @@ final readonly class LocalImageStorage implements ImageStorage
         return $file !== null && preg_match(self::NAME_PATTERN, $file) === 1 ? $this->directory . '/' . $file : null;
     }
 
-    public static function mimeOf(string $file): string
+    /** Content type from the file's content (legacy names may carry the wrong extension). */
+    public static function mimeOf(string $path): string
     {
-        return match (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
-            'png' => 'image/png',
-            'webp' => 'image/webp',
-            default => 'image/jpeg',
-        };
+        $mime = (string) (new finfo(FILEINFO_MIME_TYPE))->file($path);
+
+        return isset(self::TYPES[$mime]) ? $mime : 'application/octet-stream';
     }
 }

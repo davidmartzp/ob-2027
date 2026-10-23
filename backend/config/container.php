@@ -140,6 +140,7 @@ return static fn (Settings $settings, string $root): array => [
         fromAddress: $settings->string('MAIL_FROM_ADDRESS', 'inscripciones@origamibogota.com'),
         fromName: $settings->string('MAIL_FROM_NAME', 'Origami Bogotá'),
         sendPerMinute: $settings->int('MAIL_SEND_PER_MINUTE', 30),
+        sendIntervalMs: $settings->int('MAIL_SEND_INTERVAL_MS', 1000),
     ),
 
     // Email templates: `.html.twig` is HTML-escaped, `.txt.twig` is not (escaping by file name).

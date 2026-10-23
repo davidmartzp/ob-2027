@@ -77,14 +77,18 @@ Hecho (2026-10-23): `Domain/Schedule` (Event, Day, Room, Activity, EnrolmentWind
 
 ## 9. Importación y documentación
 
-- [ ] 9.1 Comando `import:legacy` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado de ejemplo con la forma de `origamib_online.sql` (datos inventados) y verificación manual contra una copia del volcado real cargada en el MariaDB de Docker: mismos conteos por tabla
-- [ ] 9.2 Actualizar `CLAUDE.md` (sección Backend: comandos, módulos, rutas, trampas) y crear `backend/README.md` con el mapa de rutas de D3; verificar que los comandos documentados funcionan tal cual
-- [ ] 9.3 Comando `bin/package` que, dentro de Docker, instala dependencias sin las de desarrollo (`composer install --no-dev --optimize-autoloader`) y arma `dist/backend-AAAAMMDD.zip` solo con `public/`, `src/`, `config/`, `database/`, `resources/`, `bin/console`, `vendor/`, `.htaccess`, `.env.example` y `storage/` vacío (sin `tests/`, `docker/`, `compose.yaml` ni `.env`); verificar descomprimiendo el zip en un Apache con PHP 8.5 sin Docker de por medio (contenedor `php:8.5-apache` sin Composer) que `/salud` responde y `/.env` no
+Hecho (2026-10-23): `bin/console import:legacy <carpeta>` (`Infrastructure/Persistence/Legacy/LegacyImport`): revisa el esquema, cuenta referencias rotas y copia las imágenes revalidándolas. Con el volcado real: esquema OK, 68 imágenes copiadas, 0 perdidas, 0 rechazadas; avisa de 370 inscripciones a eventos inexistentes y 137 de asistentes inexistentes (datos heredados). `backend/README.md` con comandos, arquitectura, las 47 rutas, despliegue sin Docker y migración de datos.
+
+- [x] 9.1 Comando `import:legacy` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado de ejemplo con la forma de `origamib_online.sql` (datos inventados) y verificación manual contra una copia del volcado real cargada en el MariaDB de Docker: mismos conteos por tabla
+- [x] 9.2 Actualizar `CLAUDE.md` (sección Backend: comandos, módulos, rutas, trampas) y crear `backend/README.md` con el mapa de rutas de D3; verificar que los comandos documentados funcionan tal cual
+- [ ] 9.3 (Descartada por el usuario el 2026-10-23: no se empaqueta en zip; el despliegue manual está en `backend/README.md`.) Comando `bin/package` que, dentro de Docker, instala dependencias sin las de desarrollo (`composer install --no-dev --optimize-autoloader`) y arma `dist/backend-AAAAMMDD.zip` solo con `public/`, `src/`, `config/`, `database/`, `resources/`, `bin/console`, `vendor/`, `.htaccess`, `.env.example` y `storage/` vacío (sin `tests/`, `docker/`, `compose.yaml` ni `.env`); verificar descomprimiendo el zip en un Apache con PHP 8.5 sin Docker de por medio (contenedor `php:8.5-apache` sin Composer) que `/salud` responde y `/.env` no
 
 ## 10. Verificación integral
 
-- [ ] 10.1 Suite completa `docker compose exec api vendor/bin/phpunit` en verde y recorrido manual con `curl`: login CMS → crear salón, actividad y evento → crear socio y asociarlo a un taller → inscripción pública → correr la cola → confirmar → generar códigos → prueba y envío de `code` → verificar código → inscribirse a evento → lista del evento
-- [ ] 10.2 `openspec validate crear-backend-slim --strict` sin errores
+Hecho (2026-10-23): 190 pruebas en verde, herméticas (no leen el `.env` local ni el entorno del contenedor). Recorrido de 14 pasos por HTTP real contra MariaDB y Mailtrap sin errores.
+
+- [x] 10.1 Suite completa `docker compose exec api vendor/bin/phpunit` en verde y recorrido manual con `curl`: login CMS → crear salón, actividad y evento → crear socio y asociarlo a un taller → inscripción pública → correr la cola → confirmar → generar códigos → prueba y envío de `code` → verificar código → inscribirse a evento → lista del evento
+- [x] 10.2 `openspec validate crear-backend-slim --strict` sin errores
 
 ## Workflow follow-up
 

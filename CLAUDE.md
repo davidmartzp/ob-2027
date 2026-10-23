@@ -77,7 +77,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 cd backend
 cp .env.example .env                                   # first time only
 docker compose up -d --wait                            # API → http://localhost:8080 · MariaDB → localhost:3307 (ports in .env)
-docker compose exec api php bin/console                # lists commands: migrate, rollback, seed, user:create, user:password…
+docker compose exec api php bin/console                # lists commands: migrate, rollback, seed, user:create, user:password, mail:send, import:legacy
 docker compose exec api vendor/bin/phpunit             # tests (in-memory SQLite, never touch MariaDB)
 docker compose exec api vendor/bin/phpunit --filter LoginTest      # one class/test
 docker compose exec api vendor/bin/phpunit --testsuite unit        # unit | integration | functional
@@ -88,7 +88,7 @@ docker compose exec api composer require vendor/package
 - `src/Domain/<Area>/` — plain PHP: entities, enums, rules, repository interfaces. Exceptions in `Domain/Shared/Exception` carry no HTTP status.
 - `src/Application/<Area>/` — one use case per action (`Login`, `RequestAccessLink`…), autowired; technical ports in `Application/Port` (`RateLimiter`, `PasswordHasher`, `MailQueue`); input validation with `Validator::validate($input, ['field' => 'required|int:1,120'])`.
 - `src/Infrastructure/` — adapters: `Http/Controller/*Controller` (HTTP only), `Http/Middleware`, `Http/ErrorHandler` (exception → `{"error": {"code", "message", "fields"?}}` + status), `Persistence/Model/*Model` (Eloquent, only here; `toEntity()`), `Persistence/Repository/*`, `Mail`, `Console/*Command`.
-- **Where things are**: every route and its guard in `config/routes.php`; which adapter implements each port in `config/container.php`; console commands in `config/console.php`.
+- **Where things are**: `backend/README.md` has the full route table, commands, deploy and data-migration steps; every route and its guard in `config/routes.php`; which adapter implements each port in `config/container.php`; console commands in `config/console.php`.
 - **New feature** = entity/repository interface in Domain → use case in Application → Eloquent model + repository + controller in Infrastructure → bind the port in `container.php` → route in `routes.php`.
 - Migrations: `database/migrations/YYYY_MM_DD_HHMMSS_*.php` return `new class implements Migration { up/down(Builder $schema) }`. The first one (`migrate_from_angular_ob`) converts a copy of the production database; it was tested with the real dump (`../origamib_online.sql`, outside the repo: it has personal data). `rollback` is blocked with `APP_ENV=production` unless `--force`. Seeds: `database/seeds/NN_*.php` return an idempotent callable.
 - Functional tests extend `Tests\Support\FunctionalTestCase` (real app, migrated SQLite, `FrozenClock` in `$this->clock`) and use `$this->request('GET', '/path')`.
@@ -105,3 +105,4 @@ Traps:
 - Participant numbers are assigned under a MariaDB named lock (`GET_LOCK`) in `EloquentAttendeeRepository`. Do not go back to `SELECT MAX(code) … FOR UPDATE`: concurrent registrations deadlock (error 1213). Anything concurrent must also be tested with parallel requests against Docker's MariaDB, not only SQLite.
 - Uploaded images (workshop photos, partner logos) go through the `ImageStorage` port: type checked from the content, files with PHP/script inside refused, stored in `storage/images/` (outside `public/`) under generated names and served only by `GET /images/{file}`. Legacy names (`taller_12.jpg`, `partner_3.png`) are still served. Never serve uploads as static files.
 - Workshop enrolment (`Application/Schedule/WorkshopEnrolment`) runs in one transaction (`TransactionManager` port) with the workshop rows locked in ascending id order; a two-part workshop is enrolled/cancelled as a unit. Keep that order if you add more locks, and re-run the parallel-request checks against MariaDB (design D7/D11).
+- Tests are hermetic: with `APP_ENV=testing` the bootstrap does not read `.env`, and `phpunit.xml` pins every congress setting, because Docker injects `.env` into the container's environment. A new setting must get a fixed value in `phpunit.xml` too.

@@ -47,9 +47,9 @@ abstract class CasoFuncional extends TestCase
      * @param array<string, mixed>|string|null $cuerpo Array = JSON; string = cuerpo tal cual.
      * @param array<string, string>            $encabezados
      */
-    protected function pedir(string $metodo, string $ruta, array|string|null $cuerpo = null, array $encabezados = []): ResponseInterface
+    protected function pedir(string $metodo, string $ruta, array|string|null $cuerpo = null, array $encabezados = [], string $ip = '203.0.113.10'): ResponseInterface
     {
-        $peticion = (new ServerRequestFactory())->createServerRequest($metodo, $ruta);
+        $peticion = (new ServerRequestFactory())->createServerRequest($metodo, $ruta, ['REMOTE_ADDR' => $ip]);
         if ($cuerpo !== null) {
             $encabezados += ['Content-Type' => 'application/json'];
             $peticion->getBody()->write(is_array($cuerpo) ? json_encode($cuerpo, JSON_THROW_ON_ERROR) : $cuerpo);
@@ -59,6 +59,17 @@ abstract class CasoFuncional extends TestCase
         }
 
         return $this->app->handle($peticion);
+    }
+
+    /** Encabezado de autorización para un token. @return array<string, string> */
+    protected static function bearer(string $token): array
+    {
+        return ['Authorization' => 'Bearer ' . $token];
+    }
+
+    protected function reloj(): \App\Compartido\Reloj
+    {
+        return $this->app->getContainer()->get(\App\Compartido\Reloj::class);
     }
 
     /** @return array<mixed> */

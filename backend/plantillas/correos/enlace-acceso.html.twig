@@ -1,0 +1,21 @@
+{% extends 'correos/_base.html.twig' %}
+
+{% block titulo %}Tu enlace para entrar{% endblock %}
+
+{% block contenido %}
+    <p style="margin:0 0 16px;font-size:22px;font-family:Georgia,serif;">¡Quiubo, sumercé!</p>
+    <p style="margin:0 0 16px;">
+        Pediste entrar al sitio del congreso.
+        {% if participantes|length > 1 %}Con este correo hay {{ participantes|length }} participantes inscritos: cada enlace es para uno.{% endif %}
+    </p>
+    {% for participante in participantes %}
+        <p style="margin:0 0 12px;">
+            <a href="{{ participante.url }}" style="display:inline-block;background:#EBA937;color:#27251B;padding:12px 18px;text-decoration:none;font-weight:bold;border:1px solid #27251B;">
+                Entrar como {{ participante.nombre }}
+            </a>
+        </p>
+    {% endfor %}
+    <p style="margin:16px 0 0;font-size:14px;color:#5c5848;">
+        Cada enlace sirve una sola vez durante {{ minutos }} minutos. Si no lo pediste, ignora este correo: nadie puede entrar sin él.
+    </p>
+{% endblock %}

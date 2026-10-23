@@ -1,0 +1,9 @@
+{% autoescape false %}¡Quiubo, sumercé!
+
+Pediste entrar al sitio del Congreso Origami Bogotá.
+{% for participante in participantes %}
+Entrar como {{ participante.nombre }}:
+{{ participante.url }}
+{% endfor %}
+Cada enlace sirve una sola vez durante {{ minutos }} minutos. Si no lo pediste, ignora este correo: nadie puede entrar sin él.
+{% endautoescape %}

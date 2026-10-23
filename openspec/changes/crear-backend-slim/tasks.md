@@ -19,16 +19,16 @@
 
 ## 3. Autenticación (spec `backend/autenticacion`)
 
-- [ ] 3.1 Modelo `User` sobre `users`, comandos `usuario:crear` y `usuario:clave`; prueba: usuario creado por consola inicia sesión
-- [ ] 3.2 Servicio de tokens (32 bytes aleatorios, SHA-256, tipo cms|asistente, caducidad, revocación) y middleware `Autenticacion` por tipo; pruebas: sin token 401, caducado 401, token de asistente en ruta CMS 401, el token no está en claro en la base
-- [ ] 3.3 `POST /auth/login`, `POST /auth/logout`, `GET /auth/yo`, con hash bcrypt heredado y rehash a Argon2id; pruebas: correcto, incorrecto (mismo mensaje), hash de Laravel válido, token revocado tras logout
-- [ ] 3.4 Middleware `LimiteIntentos` (tabla `intentos`) aplicado a login (5/15 min por correo e IP); prueba: el sexto intento devuelve 429
-- [ ] 3.5 `POST /auth/enlace-asistente` y `POST /auth/canjear-enlace` (un solo uso, 30 min, 3/hora por correo, misma respuesta 202); pruebas: correo inexistente sin envío, clave reutilizada 401
+- [x] 3.1 Modelo `User` sobre `users`, comandos `usuario:crear` y `usuario:clave`; prueba: usuario creado por consola inicia sesión
+- [x] 3.2 Servicio de tokens (32 bytes aleatorios, SHA-256, tipo cms|asistente, caducidad, revocación) y middleware `Autenticacion` por tipo; pruebas: sin token 401, caducado 401, token de asistente en ruta CMS 401, el token no está en claro en la base
+- [x] 3.3 `POST /auth/login`, `POST /auth/logout`, `GET /auth/yo`, con hash bcrypt heredado y rehash a Argon2id; pruebas: correcto, incorrecto (mismo mensaje), hash de Laravel válido, token revocado tras logout
+- [x] 3.4 Middleware `LimiteIntentos` (tabla `intentos`) aplicado a login (5/15 min por correo e IP); prueba: el sexto intento devuelve 429
+- [x] 3.5 `POST /auth/enlace-asistente` y `POST /auth/canjear-enlace` (un solo uso, 30 min, 3/hora por correo, misma respuesta 202); pruebas: correo inexistente sin envío, clave reutilizada 401
 
 ## 4. Correo (spec `backend/correo`)
 
 - [ ] 4.1 Servicio `Correo` con Symfony Mailer (`MAILER_DSN`) y Twig (`autoescape: html`, versión texto); arranque que falla en producción con DSN sin TLS o `verify_peer=0`; pruebas con transporte en memoria: nombre con `<script>` escapado, salto de línea en nombre no añade encabezados
-- [ ] 4.2 Cola `email_envios` y comando `correo:procesar` (lote por minuto, reintentos 1/5/30 min, `clave_unica` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
+- [ ] 4.2 Cola `email_envios` (ya existe `ColaCorreo::encolar()` con Twig y la plantilla `enlace-acceso`, adelantados en 3.5; falta el despacho): comando `correo:procesar` (lote por minuto, reintentos 1/5/30 min, `clave_unica` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
 - [ ] 4.3 Tipos de correo (D6c) con plantillas portadas de `angular-ob/app-ob/resources/views/mails/*` y de `email_triggers` (ids 3 y 8) del volcado, y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `bienvenida`, `aviso-equipo`, `numero`, `instrucciones`, `libro`, `aviso-importante`, `informacion-general`, `correccion`, `enlace-acceso`, `recordatorio-numero`; prueba por tipo de que la consulta devuelve los destinatarios esperados
 - [ ] 4.4 `POST /correos/{tipo}` (con `ids` y `prueba`), `GET /correos/{tipo}/destinatarios` y `GET /correos/registro`; pruebas: 80 confirmados de 100, doble lanzamiento → 0 encolados, reenvío de `numero` con `ids`, prueba sin marcar a nadie, tipo desconocido 404
 - [ ] 4.5 Verificar en Mailpit (`http://localhost:8025`) que una inscripción en Docker genera bienvenida y aviso al equipo tras correr la cola

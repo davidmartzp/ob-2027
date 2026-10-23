@@ -6,4 +6,5 @@ declare(strict_types=1);
 
 return [
     App\Modulos\Salud\RutasSalud::class,
+    App\Modulos\Autenticacion\RutasAutenticacion::class,
 ];

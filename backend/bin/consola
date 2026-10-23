@@ -8,17 +8,46 @@ declare(strict_types=1);
  *   migrar      aplica las migraciones pendientes (un lote)
  *   revertir    deshace el último lote (bloqueado en producción salvo con --forzar)
  *   sembrar     ejecuta las semillas (idempotentes)
+ *   usuario:crear <correo> <nombre…>   crea un usuario del CMS (pide la contraseña)
+ *   usuario:clave <correo>             cambia la contraseña y cierra sus sesiones
+ *
+ * La contraseña se pide por teclado sin mostrarla (o se lee de la entrada estándar si no
+ * hay terminal), nunca como argumento: así no queda en el historial del servidor.
  */
 
 use App\Compartido\Ajustes;
 use App\Compartido\BaseDatos\Migrador;
 use App\Compartido\BaseDatos\Sembrador;
+use App\Modulos\Autenticacion\ServicioUsuarios;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $contenedor = (require dirname(__DIR__) . '/config/arranque.php')()->getContainer();
 $comando = $argv[1] ?? 'ayuda';
 $opciones = array_slice($argv, 2);
+
+$leerClave = static function (): string {
+    $terminal = function_exists('posix_isatty') && posix_isatty(STDIN);
+    $pedir = static function (string $texto) use ($terminal): string {
+        if ($terminal) {
+            fwrite(STDOUT, $texto);
+            shell_exec('stty -echo');
+        }
+        $linea = rtrim((string) fgets(STDIN), "\r\n");
+        if ($terminal) {
+            shell_exec('stty echo');
+            fwrite(STDOUT, "\n");
+        }
+
+        return $linea;
+    };
+    $clave = $pedir('Contraseña (mínimo ' . ServicioUsuarios::LONGITUD_MINIMA . ' caracteres): ');
+    if ($terminal && $pedir('Repítala: ') !== $clave) {
+        throw new RuntimeException('Las contraseñas no coinciden.');
+    }
+
+    return $clave;
+};
 
 $listar = static function (string $titulo, array $nombres): void {
     echo $nombres === [] ? "{$titulo}: nada que hacer.\n" : "{$titulo}:\n  " . implode("\n  ", $nombres) . "\n";
@@ -42,11 +71,27 @@ try {
             $listar('Semillas ejecutadas', $contenedor->get(Sembrador::class)->sembrar());
             break;
 
+        case 'usuario:crear':
+            [$correo, $nombre] = [$opciones[0] ?? '', implode(' ', array_slice($opciones, 1))];
+            if ($correo === '' || $nombre === '') {
+                throw new RuntimeException('Uso: php bin/consola usuario:crear <correo> <nombre>');
+            }
+            $usuario = $contenedor->get(ServicioUsuarios::class)->crear($correo, $nombre, $leerClave());
+            echo "Usuario creado: {$usuario->email} (id {$usuario->id}).\n";
+            break;
+
+        case 'usuario:clave':
+            $correo = $opciones[0] ?? throw new RuntimeException('Uso: php bin/consola usuario:clave <correo>');
+            $usuario = $contenedor->get(ServicioUsuarios::class)->cambiarClave($correo, $leerClave());
+            echo "Contraseña cambiada para {$usuario->email}; sus sesiones abiertas se cerraron.\n";
+            break;
+
         default:
-            echo "Uso: php bin/consola <migrar|revertir|sembrar>\n";
+            echo "Uso: php bin/consola <migrar|revertir|sembrar|usuario:crear|usuario:clave>\n";
             exit($comando === 'ayuda' ? 0 : 1);
     }
 } catch (Throwable $error) {
-    fwrite(STDERR, 'Error: ' . $error->getMessage() . "\n");
+    $campos = $error instanceof App\Compartido\Errores\Validacion ? ' ' . implode(' ', $error->extra()['campos']) : '';
+    fwrite(STDERR, 'Error: ' . $error->getMessage() . $campos . "\n");
     exit(1);
 }

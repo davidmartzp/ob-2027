@@ -15,6 +15,8 @@ use Illuminate\Database\Connection;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Psr7\Factory\ResponseFactory;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 return static fn (Ajustes $ajustes, string $raiz): array => [
     Ajustes::class => $ajustes,
@@ -45,6 +47,13 @@ return static fn (Ajustes $ajustes, string $raiz): array => [
         return $capsula;
     },
     Connection::class => static fn (ContainerInterface $c): Connection => $c->get(Capsule::class)->getConnection(),
+
+    // Plantillas de correo: `.html.twig` se escapan como HTML; `.txt.twig`, no (estrategia por nombre).
+    Environment::class => static fn (): Environment => new Environment(new FilesystemLoader($raiz . '/plantillas'), [
+        'autoescape' => 'name',
+        'strict_variables' => true,
+        'cache' => false,
+    ]),
 
     Migrador::class => static fn (ContainerInterface $c): Migrador => new Migrador(
         $c->get(Connection::class),

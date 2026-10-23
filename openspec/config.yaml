@@ -1,0 +1,58 @@
+schema: spec-driven
+
+context: |
+  Language: es
+  All artifacts must be written in es.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  ## Proyecto: OB-2027 — reingeniería del sitio de Origami Bogotá
+  Reingeniería, en diseño y en arquitectura, de la página del Congreso Origami Bogotá
+  (edición 2027). Sustituye al proyecto antiguo `../angular-ob` (Angular 19 + SSR en la raíz y Laravel 9
+  en `app-ob/`). `../congreso-origami` es una copia anterior, solo de consulta. La API y el CMS antiguos cumplen funcionalmente; lo que se reemplaza es la base
+  tecnológica (Laravel y Angular obsoletos). `angular-ob` es solo referencia: no se
+  desarrolla allí.
+
+  ## Tres proyectos dentro de este repositorio
+  1. `frontend/` — sitio público (YA AVANZADO). Angular 22, prerender estático (SSG, sin
+     servidor Node en producción), contenido en `src/contenido/*.json`, español en la raíz e
+     inglés bajo `en/`. Debe cubrir todas las páginas públicas del proyecto antiguo
+     (home, inscripciones, talleres, recursos, booklet, amigos plegadores, listas,
+     asistentes públicos…) con el diseño nuevo «El Diagrama».
+  2. `cms/` — frontend del CMS. Se extrae del CMS que vive en `angular-ob`
+     (`src/app/pages/cms/*`, `components/cms/*`, `pages/login`, `guards/congreso-auth.guard.ts`:
+     login, dashboard, asistentes, horario/talleres) y se reutiliza en limpio, como app
+     independiente, sin nada del sitio público.
+  3. `backend/` — API en Slim 4 (PHP) que expone el mismo catálogo de servicios que usa hoy
+     `angular-ob` (`app-ob/routes/api.php`: assistants CRUD, confirmManyAttendees,
+     workshops, addworkshops, storeMenu/updateMenu/deleteMenu, getWorkshops, searchCode,
+     generateCodes, sendMails, getAttendees, upload-image, auth del CMS), con código más ligero.
+
+  ## Restricciones del backend
+  - PHP 8.5 obligatorio (código, imagen Docker y `config.platform.php` de Composer).
+  - Slim 4 + ORM Eloquent de Laravel (`illuminate/database`) sin el framework Laravel.
+  - Correo con Symfony Mailer standalone (`symfony/mailer`), decisión del 2026-10-23 por ser
+    lo más moderno y seguro: configuración solo por `MAILER_DSN`, TLS obligatorio, plantillas
+    Twig con autoescape. Sustituye a la idea inicial de PHPMailer.
+  - Fuente de referencia: `../angular-ob` (la copia recuperada no trae `app-ob/app`,
+    `database/migrations` ni `resources/views`; ver design de `crear-backend-slim`).
+  - Debe poder levantarse completo con Docker (API + MySQL) y desplegarse en hosting PHP.
+  - Renombrado de dominio: el modelo `Assistant`/tabla `assistants` pasa a llamarse
+    `Attendee`/`attendees` (término correcto en el contexto). Aplica a modelos, tablas,
+    rutas de la API (`/attendees`), servicios, DTOs, CMS y frontend. Toda migración de datos
+    MUST preservar los registros existentes de `assistants`.
+
+  ## Convenciones
+  - Identificadores y textos del sitio en español (colombiano, tono «rolo»), salvo los
+    nombres de dominio heredados de la API que se definan en inglés (p. ej. `attendees`).
+  - Sistema de diseño: `Sistema de diseño — Origami Bogotá 2027.md` (contrato visual).
+  - Guía de agentes: `AGENTS.md` y `CLAUDE.md` (comandos, arquitectura y trampas de cada proyecto).
+
+rules:
+  proposal:
+    - Indicar qué proyecto(s) afecta el cambio (frontend, cms, backend)
+    - Si el cambio porta algo de angular-ob, citar los archivos de origen
+    - Indicar siempre qué queda fuera de alcance
+  design:
+    - Si toca la API, documentar contrato (ruta, método, request y response JSON)
+  tasks:
+    - Incluir tareas de pruebas (Vitest en frontend/cms, PHPUnit en backend)

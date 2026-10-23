@@ -8,7 +8,8 @@ La guía del proyecto (concepto, sistema de diseño, microcopy, honestidad de co
 
 ## Proyectos
 
-- `backend/` — API en Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MySQL. Ver sección «Backend».
+- `backend/` — API en PHP 8.5 + Slim 4 + Eloquent (`illuminate/database`, sin Laravel) + MySQL, correo con Symfony Mailer. Reemplaza a `app-ob/` de `../angular-ob`. Ver sección «Backend».
+- `cms/` — (pendiente) frontend del CMS extraído de `../angular-ob`.
 - `frontend/` — **versión activa del sitio**. Angular 22, prerender estático (SSG). La home es una hoja de secciones que se navega por anclas (`#acerca`, `#itinerario`…); desde el 2026-10-19 hay además una página propia, `/actividades` (buscador y fichas). No crear más páginas salvo que se pida.
 - `app/` — sitio original (HTML + CSS + JS inline). Queda como referencia visual 1:1 hasta archivarlo; no desarrollar ahí.
 
@@ -29,7 +30,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 ## Contenido: `frontend/src/contenido/*.json` (lo único que hay que tocar para cambiar textos y datos)
 
-- **Un JSON por tema**: `evento` (fechas, sede, contacto, redes, `sitioUrl` e **interruptores**), `menu` (destinos y listas), `actividades`, `invitados`, `itinerario`, `patrocinadores`, `meta` (título/descripción de cada página e imagen al compartir), `comun` y uno por sección (`hero`, `acerca`, `comunidad`, `tallerista`, `leyenda`, `marquee`, `pie`).
+- **Un JSON por tema**: `evento` (fechas, sede, contacto, redes, `sitioUrl` e **interruptores**), `menu` (destinos y listas), `actividades`, `invitados`, `itinerario`, `patrocinadores`, `inscripciones` (precios, métodos de pago, formulario y `apiUrl`), `preguntas` (preguntas frecuentes), `meta` (título/descripción de cada página e imagen al compartir), `comun` y uno por sección (`hero`, `acerca`, `comunidad`, `tallerista`, `leyenda`, `marquee`, `pie`).
 - **Regla única de traducción**: cualquier objeto `{ "es": …, "en": … }` es un valor traducido, esté donde esté (un título, una lista de párrafos, el texto de un enlace). Lo que no cambia entre idiomas (fotos, `href`, ids, categorías) se escribe una sola vez. Ej.: cada actividad es un objeto con `id`, `categoria`, `foto?`, `titulo`, `resumen`, `parrafos`, `nota?`, `enlaces?`. Una prueba falla si a algún texto le falta un idioma.
 - **Nuevo invitado / actividad / patrocinador / entrada de menú = un objeto en su JSON**, sin tocar código. Menú: el destino en `menu.json → destinos` y su id en las listas que toque (`principal`, `congreso`, `suelto`, `movil`, `pie`).
 - **Interruptores** (`evento.json`, ocultan sin borrar): `inscripcionesAbiertas` (botones «Inscríbete»), `mostrarMenu` (enlaces del menú y hamburguesa; el logo queda) y `secciones` (comunidad, itinerario, actividades, tallerista, patrocinadores: oculta la sección, su doblez y los enlaces hacia ella; `actividades: false` también quita la ruta `/actividades`). Hoy solo `inscripcionesAbiertas` está en `false`.
@@ -40,6 +41,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 - `components/<nombre>/` — **un componente por carpeta** (`.ts`, `.html`, `.css`). Imports con alias: `@components/…`, `@paginas/…`, `@core/…`, `@contenido/…` (`tsconfig.json → paths`), nunca rutas relativas largas.
 - `paginas/` — las páginas con ruta: `inicio/` (orden de secciones en `HOJA`; los dobleces y el ritmo claro/oscuro salen solos del `fondo` de cada bloque) y `actividades/` (buscador sin tildes ni mayúsculas y fichas `<details name="actividad">`; `actividades#<id>` abre esa ficha). Página nueva = componente aquí + ruta en `PAGINAS` (`app.routes.ts`, se repite sola bajo `en/`) + envolverla en `<app-pagina-interna fondo="…">` (hero, doblez, contenido y patrocinadores) + su título en `meta.json`.
+- **Inscripciones** (`paginas/inscripciones/`, ruta `/inscripciones` y `/en/inscripciones`): réplica de la página de la rama `master` de `congreso-origami` con el diseño nuevo —cómo inscribirse → Paso I (precios por etapas y métodos de pago, con aviso antes de ir a la tienda) → Paso II (formulario en wizard de 5 pasos) → preguntas frecuentes—. La ruta existe siempre; los botones «Inscríbete» solo aparecen (y enlazan aquí) con `inscripcionesAbiertas: true`. La lógica del formulario está en `core/registro.ts` (validación por paso con los mensajes originales, campos dependientes, JSON del servicio `POST {apiUrl}/assistants` en `EnvioInscripcion`) y probada en `core/registro.spec.ts`. **Sin backend**: con `"apiUrl": null` el envío se simula y la pantalla de éxito lo avisa; al tener el servicio nuevo, basta con poner su URL. Precios con `porConfirmar: true` = se muestran todas las etapas con aviso ✳ (si no, se ocultan al pasar su `fechaLimite`).
 - `core/` — lógica sin vista: `idioma.ts` (`IdiomaActual`, `traducir()`, `rellenar()`, `sinEtiquetas()`), `idiomas.ts`, `navegacion.ts` (`seccionVisible()`, `enlaceVisible()`, listas del menú), `meta.ts` (`fijarMeta(pagina)`: título, descripción, `canonical` + `hreflang` y Open Graph), directivas `enlace.ts` y `reveal.ts`, `modelos.ts` (forma de las listas del contenido).
 - `app.html` — marco común: cabecera, `<router-outlet>`, leyenda y pie.
 - **Componentes clave**: `Menu` (`<app-menu lista="congreso"/>`: pinta cualquier lista de `menu.json`; su aspecto depende de la lista —barra, panel, móvil, pie—; `(elegido)` para cerrar desplegables), `Separador` (línea de pliegue valle/montaña y, opcional, la frase a mano —máximo una por sección; color con `--color-anotacion`—; reemplaza a las etiquetas «Paso 0X», retiradas el 2026-10-13), `Doblez`, `Simbolo`, `PapelPlegado` (icono de las actividades), `RedesSociales`, `SelectorIdioma`, `ResumenActividad` (fila compartida por la home y la ficha), `VistaFlotante` (`mostrarFoto`/`mostrarLogo`). `InvitadoCard`, `ActividadItem` y `FichaActividad` se montan como selector de atributo (`article[appInvitadoCard]`, `li[appActividad]`, `li[appFicha]`) para que `:nth-child` y `ul:hover > li` sigan funcionando entre hermanos.
@@ -51,6 +53,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 ## Idiomas y SEO
 
 - **Un solo build**; el idioma lo decide la URL: sin prefijo = español, `en/…` = inglés (`IdiomaActual`). Las rutas se repiten bajo cada prefijo y **todas se prerenderizan**, así que `/en/` sale en inglés en el HTML. El selector enlaza a la misma página en el otro idioma. Idiomas en `core/idiomas.ts`.
+- **Analítica** (`src/index.html`): Google Analytics 4 `G-YWKKW0SLJJ` (el mismo ID del sitio anterior) y `fb:app_id`. Como cada página es un HTML propio con recarga completa, la visita se registra sola (el sitio anterior tenía `send_page_view: false` sin registrar nada a mano). Solo se carga en `origamibogota.com` (y subdominios): en `localhost` y en la vista previa no, para no ensuciar las estadísticas. Si cambia el dominio, cambia esa comprobación.
 - `fijarMeta(pagina)` en el constructor de cada página pone `<title>`, descripción, `canonical` + `hreflang` (cada idioma es su propia URL: así Google los trata como traducciones, no como duplicados) y la tarjeta al compartir (Open Graph + Twitter/X), con URLs absolutas sobre `sitioUrl` de `evento.json`: **si cambia el dominio, cambia ahí**.
 - Imagen al compartir: `public/assets/og-es.jpg` y `og-en.jpg` (1200×630; entre idiomas solo cambian la anotación a mano y «Congreso/Convention»). Se generan desde `originales/og/og-*.html`: abrir en Chrome y capturar a 1200×630 (`"…/Google Chrome" --headless=new --window-size=1200,630 --force-device-scale-factor=1 --virtual-time-budget=8000 --screenshot=og.png file://…/og-es.html`), luego pasar a JPG. Si cambian fecha o sede, actualizar ahí.
 
@@ -68,7 +71,7 @@ Sigue haciendo falta verificar en navegador en 1020px, 760px y con `prefers-redu
 
 ## Backend (`backend/`)
 
-No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.3 + Apache con `.htaccess`, como el hosting; MySQL 8.4).
+No hay PHP ni Composer en la máquina: **todo corre en Docker** (PHP 8.5 + Apache con `.htaccess`, como el hosting; MySQL 8.4).
 
 ```sh
 cd backend
@@ -93,4 +96,6 @@ Trampas:
 - Despliegue en el hosting PHP: subir el proyecto **con `vendor/`** (`composer install --no-dev` antes de subir) y un `.env` real. Si se puede, la raíz web va a `public/`; si no, el `.htaccess` de la raíz reescribe todo hacia `public/` y `.env`, `src/` y `vendor/` responden 404. Si la API vive en una subcarpeta, define `APP_BASE_PATH` (p. ej. `/api`). Pon `APP_DEBUG=false` en producción: con `true`, los errores muestran trazas y rutas internas.
 - Al tocar MySQL a mano: `mysql --default-character-set=utf8mb4 …`. Sin esa opción, las tildes se guardan mal codificadas («FrancÃ©s»).
 - Las semillas buscan por clave natural (`slug`, `nombre`, `edicion`). Si renombras un registro en la base y vuelves a sembrar, se crea uno nuevo.
-- Hay que confirmar la versión de PHP del hosting: las dependencias están resueltas para PHP 8.3 (`config.platform.php` en `composer.json`).
+- El hosting MUST tener PHP 8.5: las dependencias están resueltas para PHP 8.5 (`config.platform.php` en `composer.json`).
+- Dominio: el antiguo `Assistant`/`assistants` se llama **`Attendee`/`attendees`** (modelo, tabla, columnas `id_attendee` y rutas `/attendees`). No reintroducir «assistant».
+- Correo: Symfony Mailer configurado solo con `MAILER_DSN` en `.env` (SMTP con TLS; nunca credenciales en el código). Plantillas Twig con autoescape en `plantillas/correos/`.

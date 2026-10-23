@@ -1,0 +1,85 @@
+# Spec Delta
+
+## Purpose
+
+Entrega los correos del congreso de forma segura: los automáticos (inscripción, enlace de acceso, recordatorio del número) y los envíos que el equipo lanza a mano por tipo, con cola, reintentos y sin duplicados.
+
+## ADDED Requirements
+
+### Requirement: Configuración segura del correo
+El transporte de correo SHALL configurarse solo con variables de entorno (`MAILER_DSN`, remitente, buzón del equipo). En producción MUST usar SMTP con TLS (implícito o STARTTLS) y verificación del certificado; MUST NOT haber credenciales de correo en el código ni en el repositorio.
+
+#### Scenario: Transporte sin cifrar en producción
+- **WHEN** la API arranca con `APP_ENV=production` y un `MAILER_DSN` que desactiva TLS o la verificación del certificado
+- **THEN** el arranque falla indicando que el transporte de correo no es seguro
+
+### Requirement: Un fallo de correo no rompe la operación
+Cuando una operación (inscripción, asignación de números, solicitud de enlace) dispara correos, un fallo del servidor de correo MUST NOT anular la operación ni cambiar su respuesta: el fallo se registra y el envío queda para reintento.
+
+#### Scenario: Servidor de correo caído
+- **WHEN** un asistente se inscribe y el servidor SMTP no responde
+- **THEN** la inscripción queda guardada, la respuesta es 201 y el correo queda pendiente de reintento
+
+### Requirement: Contenido seguro de los correos
+Los correos SHALL enviarse en HTML con alternativa en texto plano, en UTF-8, con el diseño del congreso. Todo dato aportado por el usuario MUST escaparse al insertarse en el HTML, y los encabezados MUST NOT admitir saltos de línea provenientes de datos del usuario.
+
+#### Scenario: Nombre con HTML
+- **WHEN** un asistente se inscribe con nombre `<script>alert(1)</script>`
+- **THEN** el correo muestra el texto literal y no contiene la etiqueta `<script>`
+
+#### Scenario: Inyección de encabezados
+- **WHEN** el nombre de un asistente contiene un salto de línea seguido de `Bcc: x@y.com`
+- **THEN** el correo no tiene destinatarios adicionales
+
+### Requirement: Entrega verificable en desarrollo
+En desarrollo SHALL existir un buzón de pruebas en Docker que capture todos los correos sin entregarlos a direcciones reales, consultable desde el navegador.
+
+#### Scenario: Correo de prueba
+- **WHEN** se inscribe un asistente en el entorno Docker de desarrollo
+- **THEN** ambos correos aparecen en el buzón de pruebas y no salen a internet
+
+### Requirement: Correos de inscripción
+Al registrarse un asistente SHALL encolarse un correo de bienvenida al asistente y un aviso al buzón de inscripciones del equipo con nombre, correo, teléfono, país, método, fecha y comprobante de pago.
+
+#### Scenario: Inscripción
+- **WHEN** se inscribe un asistente
+- **THEN** quedan encolados la bienvenida al asistente y el aviso al buzón del equipo
+
+### Requirement: Correos automáticos de acceso
+El enlace de acceso y el recordatorio del número de participante SHALL enviarse en cuanto se piden (y, si fallan, quedar en cola), en el idioma del sitio, y el enlace MUST apuntar a la URL del sitio configurada.
+
+#### Scenario: Recordatorio del número
+- **WHEN** el asistente 27 pide recordar su número
+- **THEN** recibe un correo con su nombre y el número 27
+
+### Requirement: Envíos por tipo lanzados desde el CMS
+`POST /correos/{tipo}` (privado) SHALL encolar el correo de ese tipo para sus destinatarios y responder cuántos se encolaron. Tipos y destinatarios por defecto: `bienvenida` (no eliminados), `numero` (con número asignado), `instrucciones` y `libro` (confirmados), `aviso-importante`, `informacion-general` y `correccion` (no eliminados). Un tipo desconocido MUST responder 404.
+
+#### Scenario: Envío de instrucciones
+- **WHEN** hay 80 confirmados y 20 pendientes y el CMS lanza `instrucciones`
+- **THEN** la respuesta indica 80 encolados y solo los confirmados lo reciben
+
+### Requirement: Acotar un envío
+`POST /correos/{tipo}` SHALL aceptar `{"ids": [...]}` para enviar solo a esos asistentes (dentro de los destinatarios del tipo) o `{"prueba": <correo>}` para enviar un único ejemplo, con los datos del primer destinatario, a esa dirección sin marcar a nadie como enviado.
+
+#### Scenario: Prueba antes de enviar
+- **WHEN** el CMS lanza `libro` con `prueba` igual a su correo
+- **THEN** solo llega un correo a esa dirección y ningún asistente queda marcado
+
+### Requirement: Previsualizar destinatarios
+`GET /correos/{tipo}/destinatarios` (privado) SHALL devolver el conteo y la lista (`id`, `name`, `lastname`, `email`, `ya_enviado`) de quienes lo recibirían, sin enviar nada.
+
+#### Scenario: Conteo previo
+- **WHEN** el CMS consulta los destinatarios de `numero` con 120 asistentes numerados
+- **THEN** recibe 120 sin que se envíe ningún correo
+
+### Requirement: Cola sin duplicados
+Los correos SHALL procesarse en una cola persistente con hasta 3 intentos (esperas de 1, 5 y 30 minutos) y un tope de envíos por minuto configurable. Un mismo tipo MUST NOT enviarse dos veces al mismo asistente, salvo `bienvenida` y `numero` enviados con `ids` explícitos (reenvío). `GET /correos/registro` (privado) SHALL devolver el estado de los envíos (`pending`, `sent`, `failed`) paginado y filtrable por tipo.
+
+#### Scenario: Doble lanzamiento
+- **WHEN** el CMS lanza dos veces `informacion-general`
+- **THEN** cada asistente lo recibe una sola vez y el segundo lanzamiento responde 0 encolados
+
+#### Scenario: Reenvío del número
+- **WHEN** el CMS lanza `numero` con `ids: [27]` a un asistente que ya lo recibió
+- **THEN** se encola de nuevo para ese asistente

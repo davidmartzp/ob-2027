@@ -16,7 +16,7 @@
         </div>
         <app-menu lista="suelto"/>
         @if (inscripcionesAbiertas) {
-          <a class="btn btn-naranja" appEnlace="#inscribete">{{ comun.inscribete }}</a>
+          <a class="btn btn-naranja" appEnlace="inscripciones">{{ comun.inscribete }}</a>
         }
       </nav>
       <button class="menu-toggle" [attr.aria-label]="t.abrirMenu" [attr.aria-expanded]="movilAbierto()"
@@ -31,7 +31,7 @@
   <nav class="movil" [attr.aria-label]="t.menuMovilAria" [class.abierta]="movilAbierto()">
     <app-menu lista="movil" (elegido)="movilAbierto.set(false)"/>
     @if (inscripcionesAbiertas) {
-      <a class="cta" appEnlace="#inscribete" (click)="movilAbierto.set(false)">{{ t.inscribeteMovil }}</a>
+      <a class="cta" appEnlace="inscripciones" (click)="movilAbierto.set(false)">{{ t.inscribeteMovil }}</a>
     }
   </nav>
 }

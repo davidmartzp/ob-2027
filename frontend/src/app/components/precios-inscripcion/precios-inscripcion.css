@@ -1,0 +1,24 @@
+:host{ display:block; }
+.aviso-precios{ display:block; margin-bottom:18px; }
+.fases, .por-dia{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:clamp(18px,3vw,32px); }
+.fase, .dia{
+  position:relative; background:var(--papel); border:1.5px solid var(--tinta); padding:26px 24px 22px;
+  display:grid; gap:8px; align-content:start;
+}
+.fase.destacada{ box-shadow:10px 10px 0 var(--ruana); }
+.insignia{
+  position:absolute; top:-13px; left:20px; background:var(--ruana); border:1.5px solid var(--tinta);
+  font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:3px 10px;
+}
+h4{ font-family:var(--serif); font-weight:520; font-size:24px; }
+.precio{ font-family:var(--serif); font-weight:600; font-size:clamp(34px,4vw,46px); line-height:1; letter-spacing:-.01em; }
+.moneda{ font-family:var(--mono); font-size:13px; letter-spacing:.14em; vertical-align:super; font-weight:500; }
+.hasta, .dia-nombre span{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-60); }
+ul{ list-style:none; border-top:1px dashed var(--tinta-30); padding-top:12px; margin-top:6px; display:grid; gap:6px; color:var(--tinta-80); }
+li::before{ content:"✓ "; color:var(--frailejon); font-weight:700; }
+.comprar{ margin:clamp(24px,3vw,34px) 0 clamp(40px,5vw,60px); }
+.por-dia-titulo{ font-family:var(--serif); font-weight:520; font-size:clamp(24px,2.6vw,32px); margin-bottom:18px; }
+.dia-nombre{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.dia-nombre b{ font-family:var(--serif); font-weight:520; font-size:22px; }
+.descripcion{ color:var(--tinta-80); font-size:calc(var(--fs-texto) - 1px); }
+.dia .btn{ justify-self:start; margin-top:8px; }

@@ -170,4 +170,68 @@ describe('App — la hoja completa', () => {
       expect(fichas(el).length).toBe(IDS_ACTIVIDADES.length);
     });
   });
+
+  describe('página de inscripciones', () => {
+    const esperar = () => new Promise((r) => setTimeout(r, 0));
+    async function escribir(el: HTMLElement, id: string, valor: string): Promise<void> {
+      const campo = el.querySelector<HTMLInputElement | HTMLSelectElement>(`#insc-${id}`)!;
+      campo.value = valor;
+      campo.dispatchEvent(new Event(campo instanceof HTMLSelectElement ? 'change' : 'input'));
+      await esperar();
+    }
+    async function pulsar(el: HTMLElement, selector: string): Promise<void> {
+      el.querySelector<HTMLElement>(selector)!.click();
+      await esperar();
+    }
+    const siguiente = (el: HTMLElement) => pulsar(el, '.navegacion button[type=submit]');
+    const titulo = (el: HTMLElement) => el.querySelector('.paso-titulo')?.textContent?.trim();
+
+    it('se prerenderiza con los precios, los métodos de pago y las preguntas', async () => {
+      const el = await render('/inscripciones');
+      expect(el.querySelectorAll('app-precios-inscripcion .fase').length).toBeGreaterThan(0);
+      expect(el.querySelectorAll('app-metodos-pago .metodo').length).toBe(4);
+      expect(el.querySelectorAll('app-preguntas-frecuentes details').length).toBeGreaterThan(0);
+      expect(el.querySelectorAll('.pasos li').length).toBe(5);
+    });
+
+    it('no avanza con el paso incompleto y muestra los errores', async () => {
+      const el = await render('/inscripciones');
+      const primero = titulo(el);
+      await siguiente(el);
+      expect(titulo(el)).toBe(primero);
+      expect(el.querySelector('.resumen[role=alert]')).toBeTruthy();
+      expect(el.querySelector('#insc-name')?.getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('completa los cinco pasos, muestra los campos condicionales y termina sin conexión', async () => {
+      const el = await render('/inscripciones');
+      const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
+      // 1 · personal
+      await escribir(el, 'name', 'Ana'); await escribir(el, 'lastname', 'Ruiz');
+      await escribir(el, 'age', '3a0'); await escribir(el, 'idname', 'Ana');
+      expect(el.querySelector<HTMLInputElement>('#insc-age')!.value).toBe('30'); // solo dígitos
+      await siguiente(el);
+      // 2 · contacto
+      await escribir(el, 'city', 'Bogotá'); await escribir(el, 'email', 'ana@correo.co'); await escribir(el, 'phone', '3001234567');
+      await siguiente(el);
+      // 3 · pago: con beca no hace falta comprobante
+      await escribir(el, 'paymethod', 'Becado(a)');
+      await siguiente(el);
+      // 4 · participación
+      await pulsar(el, 'input[name=days][value=T]');
+      await siguiente(el);
+      // 5 · opciones: la chiva despliega sus preguntas
+      await escribir(el, 'info', 'Redes Sociales');
+      expect(el.querySelector('#insc-chiva_accompanied')).toBeNull();
+      const chiva = [...el.querySelectorAll<HTMLInputElement>('.tarjeta input[type=checkbox]')].at(-1)!;
+      chiva.click(); await esperar();
+      expect(el.querySelector('#insc-chiva_accompanied')).toBeTruthy();
+      chiva.click(); await esperar();
+      await siguiente(el); // en el último paso, el botón envía
+      await new Promise((r) => setTimeout(r, 700));
+      expect(el.querySelector('.exito')?.textContent).toContain('ana@correo.co');
+      expect(el.querySelector('.exito .pend-nota')).toBeTruthy(); // aviso de modo sin conexión
+      info.mockRestore();
+    });
+  });
 });

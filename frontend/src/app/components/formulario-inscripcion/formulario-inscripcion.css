@@ -1,0 +1,99 @@
+/* ============ FORMULARIO DE INSCRIPCIÓN ============
+   Pensado para leer sin esfuerzo (al evento van muchas personas mayores): etiquetas
+   en sans a tamaño de lectura y sin mayúsculas forzadas, campos y casillas grandes,
+   ayudas y errores a ≥17px en tinta al 80 %. Aquí no se usa la mono pequeña del diagrama. */
+:host{
+  display:block;
+  --letra-campo: clamp(19px, calc(.4vw + 15px), 21px);
+  --letra-ayuda: clamp(17px, calc(.25vw + 14px), 18px);
+}
+
+/* indicador de pasos: números unidos por una línea de valle */
+.pasos{ list-style:none; display:flex; margin-bottom:26px; }
+.pasos li{ flex:1; position:relative; }
+.pasos li + li::before{
+  content:""; position:absolute; top:24px; right:calc(50% + 28px); width:calc(100% - 56px); height:0;
+  border-top:1.5px dashed var(--tinta-30);
+}
+.pasos li.hecho + li::before, .pasos li.activo::before{ border-top-color:var(--tinta); border-top-style:solid; }
+.pasos button{
+  width:100%; display:flex; flex-direction:column; align-items:center; gap:10px;
+  background:none; border:0; color:inherit; cursor:pointer; font:inherit; padding:0;
+}
+.pasos .num{
+  width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
+  font-family:var(--sans); font-weight:600; font-size:20px; border:1.5px solid var(--tinta-30); background:var(--papel); color:var(--tinta-60);
+  transition:.2s;
+}
+.pasos .nombre{ font-size:16px; font-weight:500; color:var(--tinta-60); }
+.pasos .hecho .num{ border-color:var(--tinta); color:var(--tinta); background:var(--papel-2); }
+.pasos .activo .num{ background:var(--tinta); border-color:var(--tinta); color:var(--papel); box-shadow:3px 3px 0 var(--pajizo); }
+.pasos .activo .nombre, .pasos .hecho .nombre{ color:var(--tinta); }
+.pasos .activo .nombre{ font-weight:700; }
+.pasos button:focus-visible .num{ outline:3px dashed var(--miel); outline-offset:3px; }
+
+/* la hoja */
+.hoja{
+  background:var(--papel-2); border:1.5px solid var(--tinta); box-shadow:10px 10px 0 var(--pajizo);
+  padding:clamp(22px,4vw,48px);
+}
+.contador{ font-size:var(--letra-ayuda); font-weight:600; color:var(--tinta-80); }
+.paso-titulo{ font-family:var(--serif); font-weight:520; font-size:clamp(28px,3.2vw,40px); letter-spacing:-.02em; margin:4px 0 26px; outline:none; }
+
+.resumen{ border-left:5px solid var(--ruana); background:var(--papel); padding:16px 20px; margin-bottom:26px; font-size:var(--letra-campo); }
+.resumen p{ font-weight:700; }
+.resumen ul{ margin:8px 0 0 22px; display:grid; gap:4px; }
+.resumen a{ color:var(--tinta); }
+
+/* campos */
+.campo{ display:grid; gap:8px; margin-bottom:26px; border:0; min-width:0; }
+.campo label, .campo legend, .anidado legend{ font-size:var(--letra-campo); font-weight:600; color:var(--tinta); line-height:1.3; }
+.campo legend, .anidado legend{ margin-bottom:10px; }
+abbr{ text-decoration:none; color:var(--miel); }
+input[type=text], input[type=email], input[type=tel], input[type=number], input[type=date], select{
+  font:inherit; font-size:var(--letra-campo); color:var(--tinta); background:var(--papel);
+  border:2px solid var(--tinta); border-radius:var(--marron); padding:12px 18px; min-height:58px; width:100%; max-width:600px;
+}
+input::placeholder{ color:var(--tinta-60); }
+/* corto = solo el campo (edad, fecha, números); su etiqueta y su error usan el ancho normal */
+input.corto, .campo.corto input{ max-width:240px; }
+input:focus-visible, select:focus-visible, fieldset:focus-visible{ outline:3px dashed var(--miel); outline-offset:3px; }
+.mal input[aria-invalid=true], .mal select[aria-invalid=true]{ border-color:var(--ruana); box-shadow:4px 4px 0 var(--ruana); }
+.error{ font-weight:700; color:var(--miel); font-size:var(--letra-ayuda); }
+.error:empty{ display:none; }
+.error::before{ content:"✳ "; }
+.ayuda{ color:var(--tinta-80); font-size:var(--letra-ayuda); line-height:1.5; max-width:62ch; }
+.ayuda:empty{ display:none; }
+
+/* casillas y radios: grandes, con toda la fila clicable */
+.opcion{ display:flex; align-items:flex-start; gap:14px; cursor:pointer; padding:8px 0; font-size:var(--letra-campo); line-height:1.4; color:var(--tinta); }
+.opcion input{ width:28px; height:28px; margin-top:1px; accent-color:var(--tinta); flex:none; cursor:pointer; }
+.opciones{ display:grid; gap:14px; }
+.tarjeta{ border:1.5px dashed var(--tinta-30); padding:12px 20px; background:var(--papel); display:grid; gap:8px; }
+.tarjeta.mal{ border-color:var(--ruana); border-style:solid; }
+.anidado{ margin:6px 0 0 42px; border:0; padding:0; min-width:0; }
+.aviso{ font-style:normal; color:var(--miel); font-weight:700; }
+
+.navegacion{ display:flex; justify-content:space-between; gap:14px; margin-top:32px; padding-top:26px; border-top:1px dashed var(--tinta-30); }
+.navegacion .btn{ font-size:16px; padding:16px 30px; }
+.navegacion .btn[disabled]{ opacity:.4; cursor:not-allowed; transform:none; }
+
+.notas{ list-style:none; margin-top:28px; display:grid; gap:10px; color:var(--tinta-80); font-size:var(--letra-ayuda); line-height:1.5; max-width:80ch; }
+
+/* éxito */
+.exito{ background:var(--papel-2); border:1.5px solid var(--tinta); box-shadow:10px 10px 0 var(--frailejon); padding:clamp(26px,5vw,56px); text-align:center; display:grid; justify-items:center; gap:14px; font-size:var(--letra-campo); }
+.exito-marca{ width:60px; height:60px; fill:none; stroke:var(--frailejon); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+.exito h3{ font-family:var(--serif); font-weight:520; font-size:clamp(28px,3.2vw,40px); outline:none; }
+.exito p{ max-width:56ch; color:var(--tinta-80); }
+.exito .pend-nota{ font-size:var(--letra-ayuda); }
+.exito .btn{ font-size:16px; padding:16px 30px; }
+
+@media (max-width: 760px){
+  .pasos .nombre{ display:none; }
+  .pasos .activo .nombre{ display:block; position:absolute; top:58px; white-space:nowrap; }
+  .pasos{ margin-bottom:48px; }
+  .pasos .num{ width:44px; height:44px; font-size:18px; }
+  .pasos li + li::before{ top:22px; right:calc(50% + 26px); width:calc(100% - 52px); }
+  .anidado{ margin-left:0; }
+  .navegacion .btn{ flex:1; justify-content:center; padding:16px 18px; }
+}

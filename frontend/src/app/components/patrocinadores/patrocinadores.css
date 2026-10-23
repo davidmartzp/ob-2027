@@ -5,10 +5,15 @@
   display:flex; flex-wrap:wrap; gap:18px 44px; align-items:center; justify-content:center;
   margin-top:36px;
 }
-.patros span{
+.patros > *{
   font-family:var(--serif); font-weight:480; font-size:clamp(17px,1.8vw,24px);
   color:var(--tinta-60); letter-spacing:.02em; transition:.25s; cursor:default;
-  display:inline-flex; align-items:center; gap:14px;
+  display:inline-flex; align-items:center; gap:14px; text-decoration:none;
 }
-.patros span:hover{ color:var(--miel); transform:translateY(-2px); }
-.patros span::before{ content:"✳"; font-size:.7em; color:var(--pajizo); }
+.patros > *:hover{ color:var(--miel); transform:translateY(-2px); }
+.patros > *::before{ content:"✳"; font-size:.7em; color:var(--pajizo); }
+/* con enlace: flecha ↗ y subrayado discontinuo al pasar */
+.patros a{ cursor:pointer; color:var(--tinta-80); }
+.patros a::after{ content:"↗"; font-family:var(--mono); font-size:.6em; margin-left:-8px; color:var(--miel); }
+.patros a:hover{ text-decoration:underline dashed; text-underline-offset:5px; text-decoration-thickness:1px; }
+.patros a:focus-visible{ outline:2px dashed var(--miel); outline-offset:4px; }

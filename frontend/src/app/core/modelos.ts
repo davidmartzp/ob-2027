@@ -13,6 +13,12 @@ export interface Enlace {
   href: string;
 }
 
+/** Patrocinador (contenido/patrocinadores.json → lista). Sin url, se muestra solo el nombre. */
+export interface Patrocinador {
+  nombre: string;
+  url?: string;
+}
+
 export interface Red {
   red: RedSocial;
   nombre: string;
@@ -62,4 +68,13 @@ export interface Actividad {
 export interface MomentoItinerario {
   momento: string;
   parrafos: string[];
+}
+
+/** Método de pago de la página de inscripciones (contenido/inscripciones.json → metodosPago.lista). */
+export interface MetodoPago {
+  id: string;
+  titulo: string;
+  descripcion: string;
+  /** avisar: true = pasa antes por el aviso de pago (la tienda en línea). */
+  enlace?: { url: string; texto: string; avisar?: boolean };
 }

@@ -1,0 +1,66 @@
+<app-pagina-interna fondo="var(--ruana)">
+  <!-- cómo inscribirse -->
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.volver }}</a>
+    <p class="estado" [class.abiertas]="abiertas" appReveal>{{ abiertas ? t.anuncio : t.anuncioCerradas }}</p>
+    <app-separador montana appReveal/>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.titulo"></h2>
+    <p class="intro" appReveal="2"><b>{{ t.comoTitulo }}</b> {{ t.comoTexto }}</p>
+    <ol class="dos-pasos">
+      @for (p of t.pasos; track p.destino; let i = $index) {
+        <li [appReveal]="i + 2">
+          <span class="numeral">{{ i + 1 }}</span>
+          <div>
+            <h3>{{ p.titulo }}</h3>
+            <p>{{ p.texto }}</p>
+            <button type="button" class="btn" (click)="irA(p.destino)">{{ p.boton }} ↓</button>
+          </div>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <app-doblez fondo="var(--papel)"/>
+
+  <!-- Paso I: pagar -->
+  <section class="paso" id="paso-pago">
+    <div class="sec-head">
+      <div>
+        <app-separador appReveal/>
+        <h2 class="titulo" appReveal="1">{{ precios.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ precios.subtitulo }}</p>
+    </div>
+    <app-precios-inscripcion/>
+
+    <h3 class="subtitulo" appReveal>{{ metodos.titulo }}</h3>
+    <p class="intro" appReveal="1">{{ metodos.descripcion }}</p>
+    <app-metodos-pago/>
+  </section>
+
+  <!-- Paso II: registrarse -->
+  <section class="paso" id="paso-registro">
+    <div class="sec-head">
+      <div>
+        <app-separador montana appReveal/>
+        <h2 class="titulo" appReveal="1">{{ formulario.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ formulario.subtitulo }}</p>
+    </div>
+    <app-formulario-inscripcion/>
+  </section>
+
+  <!-- preguntas frecuentes -->
+  <section class="paso" id="preguntas">
+    <div class="sec-head">
+      <div>
+        <app-separador appReveal/>
+        <h2 class="titulo" appReveal="1">{{ preguntas.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ preguntas.subtitulo }}</p>
+    </div>
+    <app-preguntas-frecuentes/>
+  </section>
+
+  <app-aviso-pago/>
+</app-pagina-interna>

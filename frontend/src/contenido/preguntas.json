@@ -1,0 +1,170 @@
+{
+  "titulo": {
+    "es": "Preguntas Frecuentes",
+    "en": "Frequently Asked Questions"
+  },
+  "subtitulo": {
+    "es": "Todo lo que necesitas saber sobre el evento Origami Bogotá",
+    "en": "Everything you need to know about the Origami Bogotá event"
+  },
+  "contactoTexto": {
+    "es": "¿No encuentras lo que buscas?",
+    "en": "Can't find what you're looking for?"
+  },
+  "contactoEnlace": {
+    "es": "Contáctanos vía WhatsApp",
+    "en": "Contact us via WhatsApp"
+  },
+  "items": [
+    {
+      "pregunta": {
+        "es": "¿Qué incluye la inscripción?",
+        "en": "What does the registration include?"
+      },
+      "respuesta": {
+        "es": "Incluye la entrada al evento, talleres, caja del evento con materiales, refrigerios, espacio de exposición, cóctel de bienvenida y chocolatada de despedida. Menores pueden asistir con un acompañante.",
+        "en": "It includes entry to the event, workshops, event box with materials, refreshments, exhibition space, welcome cocktail and farewell hot chocolate. Minors may attend with a companion."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cuál es la diferencia entre la inscripción completa o por día?",
+        "en": "What is the difference between a full registration and a single-day registration?"
+      },
+      "respuesta": {
+        "es": "La inscripción completa es para asistir a todas las actividades. La inscripción por días es para asistir solo el sábado o domingo. Todos reciben el kit del evento.",
+        "en": "The full registration allows you to attend all activities. A single-day registration is for Saturday or Sunday only. All attendees receive the event kit."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cuántos grupos hay de intercambio de tarjetas?",
+        "en": "How many artist trading card groups are there?"
+      },
+      "respuesta": {
+        "es": "Esto depende de la cantidad de personas inscritas, a veces hay 2 y otras solo 1. La información será confirmada a las personas inscritas una semana antes del evento.",
+        "en": "This depends on the number of registered participants; sometimes there are 2 groups and sometimes just 1. The information will be confirmed to registered participants one week before the event."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cómo selecciono mis talleres?",
+        "en": "How do I select my workshops?"
+      },
+      "respuesta": {
+        "es": "En la mañana de cada día, con tu número de inscripción, podrás seleccionar tus talleres en la página a partir de las 8 am. Es por cupos, así que ten listas varias opciones por si no hay cupo en tu preferido.",
+        "en": "On the morning of each day, using your registration number, you can select your workshops on the website starting at 8 am. Spots are limited, so have several options ready in case your first choice is full."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cómo se asignan los números para la inscripción?",
+        "en": "How are registration numbers assigned?"
+      },
+      "respuesta": {
+        "es": "Los números se asignan por orden de inscripción, es decir, por la fecha de pago. Entre más temprano te inscribas, menor número tendrás.",
+        "en": "Numbers are assigned in order of registration, i.e., by payment date. The earlier you register, the lower your number will be."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿A qué tengo derecho como acompañante?",
+        "en": "What am I entitled to as a companion?"
+      },
+      "respuesta": {
+        "es": "Podrás visitar los espacios comunes del evento, pero no asistir a talleres ni recibir materiales o refrigerios.",
+        "en": "You may visit the common areas of the event, but may not attend workshops or receive materials or refreshments."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Todos los menores de edad deben ir acompañados?",
+        "en": "Do all minors need to be accompanied?"
+      },
+      "respuesta": {
+        "es": "El evento no exige acompañante para todos los menores, pero los organizadores no se harán responsables. Es decisión del acompañante estar presente o no.",
+        "en": "The event does not require a companion for all minors, but the organizers will not be held responsible. It is the companion's decision whether to stay or not."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "Si no llegó el correo con el número, ¿qué hago?",
+        "en": "What if I didn't receive the email with my number?"
+      },
+      "respuesta": {
+        "es": "Tendremos una lista impresa con los números. Te recomendamos agregar como contacto el correo inscripciones@origamibogota.com para recibir toda la información.",
+        "en": "We will have a printed list with the numbers. We recommend adding inscripciones@origamibogota.com to your contacts to receive all information."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cuáles son los horarios del evento?",
+        "en": "What are the event hours?"
+      },
+      "respuesta": {
+        "es": "Consulta el cronograma en la sección \"Acerca del evento\" y haz clic en el botón \"Cronograma\".",
+        "en": "Check the schedule in the \"About the Event\" section and click the \"Schedule\" button."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Quiénes pueden participar en la chiva?",
+        "en": "Who can participate in the Chiva?"
+      },
+      "respuesta": {
+        "es": "Adultos participantes del evento, parejas o amigos de participantes (todos mayores de edad) que paguen el valor adicional de la actividad (incluye copa y aguardiente).",
+        "en": "Adult event participants, partners or friends of participants (all of legal age) who pay the additional activity fee (includes a drink and aguardiente)."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cuántos pines/prendedores debo hacer?",
+        "en": "How many pins/brooches should I make?"
+      },
+      "respuesta": {
+        "es": "Es una actividad libre, puedes hacer los que quieras regalar o intercambiar. El evento realiza 70 pines para todos los participantes que asistan al cóctel de bienvenida.",
+        "en": "It is a free activity; you can make as many as you want to give away or exchange. The event makes 70 pins for all participants attending the welcome cocktail."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿En qué momento reclamó mi kit?",
+        "en": "When can I pick up my kit?"
+      },
+      "respuesta": {
+        "es": "El viernes desde las 5pm hasta las 6pm o después del cóctel, Sábado o Domingo de 8am a 9am.",
+        "en": "Friday from 5pm to 6pm or after the cocktail; Saturday or Sunday from 8am to 9am."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Qué pasa si no puedo asistir al evento?",
+        "en": "What happens if I cannot attend the event?"
+      },
+      "respuesta": {
+        "es": "Podrás transferir tu inscripción a otra persona o reclamar el kit del evento. Las inscripciones no son reembolsables ni redimibles en ningún caso para eventos posteriores.",
+        "en": "You may transfer your registration to another person or pick up the event kit. Registrations are non-refundable and non-redeemable for future events under any circumstances."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿A dónde debo llegar?",
+        "en": "Where should I go when I arrive?"
+      },
+      "respuesta": {
+        "es": "Dirígete a la oficina del evento para reclamar tu escarapela y kit del evento. El cóctel de bienvenida es en el auditorio Cra 8 #56-50.",
+        "en": "Head to the event office to collect your badge and event kit. The welcome cocktail is held at the auditorium at Cra 8 #56-50."
+      }
+    },
+    {
+      "pregunta": {
+        "es": "¿Cómo organizo las tarjetas?",
+        "en": "How do I organize the cards?"
+      },
+      "respuesta": {
+        "es": "Por lo general hay 2 grupos de tarjetas, se deben hacer sets de 16 tarjetas por cada grupo.",
+        "en": "There are usually 2 card groups; sets of 16 cards must be made for each group."
+      }
+    }
+  ]
+}

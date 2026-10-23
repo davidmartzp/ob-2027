@@ -17,7 +17,7 @@
       <h3>{{ t.enlaces }}</h3>
       <app-menu lista="pie"/>
       @if (evento.inscripcionesAbiertas) {
-        <a class="btn btn-naranja f-cta" [appEnlace]="'mailto:' + evento.correo">{{ t.inscribete }}</a>
+        <a class="btn btn-naranja f-cta" appEnlace="inscripciones">{{ t.inscribete }}</a>
       }
     </div>
   </div>

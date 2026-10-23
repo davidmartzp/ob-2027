@@ -1,0 +1,270 @@
+@if (estado() === 'enviado') {
+  <div class="exito" role="status">
+    <svg class="exito-marca" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 25 L20 37 L40 11"/></svg>
+    <h3>{{ t.exito.titulo }}</h3>
+    <p>{{ t.exito.mensaje }} <b>{{ correoEnviado() }}</b> {{ t.exito.mensaje2 }}</p>
+    <p>{{ t.exito.revisa }}</p>
+    @if (simulado()) {
+      <p class="pend-nota">{{ t.exito.simulado }}</p>
+    }
+    <button type="button" class="btn btn-linea" (click)="nuevaInscripcion()">{{ t.exito.nueva }}</button>
+  </div>
+} @else {
+  <ol class="pasos" [attr.aria-label]="pasoDe()">
+    @for (n of numeros; track n) {
+      <li [class.activo]="paso() === n" [class.hecho]="paso() > n">
+        <button type="button" (click)="irA(n)" [attr.aria-current]="paso() === n ? 'step' : null">
+          <span class="num">{{ n }}</span>
+          <span class="nombre">{{ t.pasos[n - 1].corto }}</span>
+        </button>
+      </li>
+    }
+  </ol>
+
+  <form class="hoja" novalidate (submit)="$event.preventDefault(); paso() === total ? enviar() : siguiente()">
+    <p class="contador">{{ pasoDe() }}</p>
+    <h3 class="paso-titulo">{{ t.pasos[paso() - 1].titulo }}</h3>
+
+    @if (errores().length) {
+      <div class="resumen" role="alert">
+        <p>{{ t.revisa }}</p>
+        <ul>
+          @for (e of errores(); track e.campo) {
+            <li><a [href]="'#insc-' + e.campo" (click)="$event.preventDefault()">{{ e.mensaje }}</a></li>
+          }
+        </ul>
+      </div>
+    }
+
+    @switch (paso()) {
+      <!-- 1 · Personal -->
+      @case (1) {
+        <div class="campo" [class.mal]="error('name')">
+          <label for="insc-name">{{ t.campos.name }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-name" type="text" autocomplete="given-name" [value]="datos().name" (input)="poner('name', texto($event))"
+                 [attr.aria-invalid]="!!error('name')" aria-describedby="insc-name-error">
+          <small class="error" id="insc-name-error">{{ error('name') }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('lastname')">
+          <label for="insc-lastname">{{ t.campos.lastname }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-lastname" type="text" autocomplete="family-name" [value]="datos().lastname" (input)="poner('lastname', texto($event))"
+                 [attr.aria-invalid]="!!error('lastname')" aria-describedby="insc-lastname-error">
+          <small class="error" id="insc-lastname-error">{{ error('lastname') }}</small>
+        </div>
+        <div class="campo corto" [class.mal]="error('age')">
+          <label for="insc-age">{{ t.campos.age }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-age" type="text" inputmode="numeric" maxlength="2" [value]="datos().age" (input)="ponerDigitos('age', $event, 2)"
+                 [attr.aria-invalid]="!!error('age')" aria-describedby="insc-age-error">
+          <small class="error" id="insc-age-error">{{ error('age') }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('idname')">
+          <label for="insc-idname">{{ t.campos.idname }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-idname" type="text" [value]="datos().idname" (input)="poner('idname', texto($event))"
+                 [attr.aria-invalid]="!!error('idname')" aria-describedby="insc-idname-error">
+          <small class="error" id="insc-idname-error">{{ error('idname') }}</small>
+        </div>
+      }
+
+      <!-- 2 · Contacto -->
+      @case (2) {
+        <div class="campo" [class.mal]="error('country')">
+          <label for="insc-country">{{ t.campos.country }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <select id="insc-country" autocomplete="country" (change)="poner('country', texto($event))"
+                  [attr.aria-invalid]="!!error('country')" aria-describedby="insc-country-error">
+            @for (p of paises; track p.indicativo + p.nombre) {
+              <option [value]="p.indicativo" [selected]="datos().country === p.indicativo">{{ p.nombre }} (+{{ p.indicativo }})</option>
+            }
+          </select>
+          <small class="error" id="insc-country-error">{{ error('country') }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('city')">
+          <label for="insc-city">{{ t.campos.city }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-city" type="text" autocomplete="address-level2" [value]="datos().city" (input)="poner('city', texto($event))"
+                 [attr.aria-invalid]="!!error('city')" aria-describedby="insc-city-error">
+          <small class="error" id="insc-city-error">{{ error('city') }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('email')">
+          <label for="insc-email">{{ t.campos.email }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-email" type="email" autocomplete="email" [value]="datos().email" (input)="poner('email', texto($event))"
+                 [attr.aria-invalid]="!!error('email')" aria-describedby="insc-email-error insc-email-ayuda">
+          <small class="error" id="insc-email-error">{{ error('email') }}</small>
+          <small class="ayuda" id="insc-email-ayuda">{{ t.campos.emailAyuda }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('phone')">
+          <label for="insc-phone">{{ t.campos.phone }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <input id="insc-phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" [value]="datos().phone" (input)="ponerDigitos('phone', $event, 15)"
+                 [attr.aria-invalid]="!!error('phone')" aria-describedby="insc-phone-error">
+          <small class="error" id="insc-phone-error">{{ error('phone') }}</small>
+        </div>
+      }
+
+      <!-- 3 · Pago -->
+      @case (3) {
+        <div class="campo" [class.mal]="error('paymethod')">
+          <label for="insc-paymethod">{{ t.campos.paymethod }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <select id="insc-paymethod" (change)="poner('paymethod', texto($event))"
+                  [attr.aria-invalid]="!!error('paymethod')" aria-describedby="insc-paymethod-error insc-paymethod-nota">
+            <option value="" [selected]="!datos().paymethod">{{ t.campos.seleccione }}</option>
+            @for (tipo of t.tiposPago; track tipo.valor) {
+              <option [value]="tipo.valor" [selected]="datos().paymethod === tipo.valor">{{ tipo.texto }}</option>
+            }
+          </select>
+          <small class="error" id="insc-paymethod-error">{{ error('paymethod') }}</small>
+          <small class="ayuda" id="insc-paymethod-nota">{{ notaPago() }}</small>
+        </div>
+        <div class="campo corto" [class.mal]="error('paydate')">
+          <label for="insc-paydate">{{ t.campos.paydate }} @if (conComprobante()) {<abbr [title]="t.obligatorio">*</abbr>}</label>
+          <input id="insc-paydate" type="date" [max]="t.fechaPagoMaxima" [value]="datos().paydate" (input)="poner('paydate', texto($event))"
+                 [attr.aria-invalid]="!!error('paydate')" aria-describedby="insc-paydate-error">
+          <small class="error" id="insc-paydate-error">{{ error('paydate') }}</small>
+        </div>
+        <div class="campo" [class.mal]="error('receipt')">
+          <label for="insc-receipt">{{ t.campos.receipt }} @if (conComprobante()) {<abbr [title]="t.obligatorio">*</abbr>}</label>
+          <input id="insc-receipt" type="text" [value]="datos().receipt" (input)="poner('receipt', texto($event))"
+                 [attr.aria-invalid]="!!error('receipt')" aria-describedby="insc-receipt-error insc-receipt-ayuda">
+          <small class="error" id="insc-receipt-error">{{ error('receipt') }}</small>
+          <small class="ayuda" id="insc-receipt-ayuda">{{ t.campos.receiptAyuda }}</small>
+        </div>
+      }
+
+      <!-- 4 · Participación -->
+      @case (4) {
+        <fieldset class="campo" [class.mal]="error('days')" id="insc-days" tabindex="-1" aria-describedby="insc-days-error">
+          <legend>{{ t.campos.days }} <abbr [title]="t.obligatorio">*</abbr></legend>
+          @for (dia of t.dias; track dia.valor) {
+            <label class="opcion">
+              <input type="radio" name="days" [value]="dia.valor" [checked]="datos().days === dia.valor" (change)="poner('days', $any(dia.valor))">
+              <span>{{ dia.texto }}</span>
+            </label>
+          }
+          <small class="error" id="insc-days-error">{{ error('days') }}</small>
+        </fieldset>
+        <div class="campo">
+          <label for="insc-companion">{{ t.campos.companion }}</label>
+          <input id="insc-companion" type="text" [value]="datos().companion" (input)="poner('companion', texto($event))" aria-describedby="insc-companion-ayuda">
+          <small class="ayuda" id="insc-companion-ayuda">{{ t.campos.companionAyuda }}</small>
+        </div>
+      }
+
+      <!-- 5 · Opciones -->
+      @case (5) {
+        <div class="campo" [class.mal]="error('info') || error('otherInfo')">
+          <label for="insc-info">{{ t.campos.info }} <abbr [title]="t.obligatorio">*</abbr></label>
+          <select id="insc-info" (change)="poner('info', texto($event))" [attr.aria-invalid]="!!error('info')" aria-describedby="insc-info-error">
+            <option value="" [selected]="!datos().info">{{ t.campos.seleccione }}</option>
+            @for (m of t.medios; track m.valor) {
+              <option [value]="m.valor" [selected]="datos().info === m.valor">{{ m.texto }}</option>
+            }
+          </select>
+          <small class="error" id="insc-info-error">{{ error('info') }}</small>
+          @if (datos().info === 'Otro') {
+            <input id="insc-otherInfo" type="text" class="anidado" [placeholder]="t.campos.otherInfo" [attr.aria-label]="t.campos.otherInfo"
+                   [value]="datos().otherInfo" (input)="poner('otherInfo', texto($event))"
+                   [attr.aria-invalid]="!!error('otherInfo')" aria-describedby="insc-otherInfo-error">
+            <small class="error" id="insc-otherInfo-error">{{ error('otherInfo') }}</small>
+          }
+        </div>
+
+        <div class="opciones">
+          <div class="tarjeta">
+            <label class="opcion">
+              <input type="checkbox" [checked]="datos().printCertificate" (change)="poner('printCertificate', marcado($event))">
+              <span>{{ t.campos.printCertificate }}</span>
+            </label>
+          </div>
+
+          <div class="tarjeta" [class.mal]="error('origamigroup')">
+            <label class="opcion">
+              <input type="checkbox" [checked]="datos().group" (change)="poner('group', marcado($event))">
+              <span>{{ t.campos.group }}</span>
+            </label>
+            @if (datos().group) {
+              <input id="insc-origamigroup" type="text" class="anidado" [placeholder]="t.campos.origamigroup" [attr.aria-label]="t.campos.origamigroup"
+                     [value]="datos().origamigroup" (input)="poner('origamigroup', texto($event))"
+                     [attr.aria-invalid]="!!error('origamigroup')" aria-describedby="insc-origamigroup-error">
+              <small class="error" id="insc-origamigroup-error">{{ error('origamigroup') }}</small>
+            }
+          </div>
+
+          <div class="tarjeta" [class.mal]="error('cardGroup')">
+            <label class="opcion">
+              <input type="checkbox" [checked]="datos().cards" (change)="poner('cards', marcado($event))">
+              <span>{{ t.campos.cards }}</span>
+            </label>
+            @if (datos().cards) {
+              <small class="ayuda">{{ t.campos.cardsAyuda }}</small>
+              <input id="insc-cardGroup" type="number" min="1" max="2" class="anidado corto" [placeholder]="t.campos.cardGroup" [attr.aria-label]="t.campos.cardGroup"
+                     [value]="datos().cardGroup" (input)="poner('cardGroup', texto($event))"
+                     [attr.aria-invalid]="!!error('cardGroup')" aria-describedby="insc-cardGroup-error">
+              <small class="error" id="insc-cardGroup-error">{{ error('cardGroup') }}</small>
+            }
+          </div>
+
+          <div class="tarjeta">
+            <label class="opcion">
+              <input type="checkbox" [checked]="datos().workshops" (change)="poner('workshops', marcado($event))">
+              <span>{{ t.campos.workshops }}</span>
+            </label>
+            @if (datos().workshops) {
+              <small class="ayuda">{{ t.campos.workshopsAyuda }} <a [href]="t.campos.workshopsUrl" target="_blank" rel="noopener">origamibogota.com/talleres</a></small>
+            }
+          </div>
+
+          <div class="tarjeta" [class.mal]="error('chiva_accompanied') || error('chiva_companions')">
+            <label class="opcion">
+              <input type="checkbox" [checked]="datos().go_to_chiva" (change)="poner('go_to_chiva', marcado($event))">
+              <span>{{ t.campos.go_to_chiva }} <em class="aviso">{{ t.campos.soloAdultos }}</em></span>
+            </label>
+            @if (datos().go_to_chiva) {
+              <fieldset class="anidado" id="insc-chiva_accompanied" tabindex="-1" aria-describedby="insc-chiva_accompanied-error">
+                <legend>{{ t.campos.chiva_accompanied }} <abbr [title]="t.obligatorio">*</abbr></legend>
+                <label class="opcion">
+                  <input type="radio" name="chiva_accompanied" [checked]="datos().chiva_accompanied === false" (change)="poner('chiva_accompanied', false)">
+                  <span>{{ t.campos.chivaNo }}</span>
+                </label>
+                <label class="opcion">
+                  <input type="radio" name="chiva_accompanied" [checked]="datos().chiva_accompanied === true" (change)="poner('chiva_accompanied', true)">
+                  <span>{{ t.campos.chivaSi }}</span>
+                </label>
+                <small class="error" id="insc-chiva_accompanied-error">{{ error('chiva_accompanied') }}</small>
+              </fieldset>
+              @if (datos().chiva_accompanied) {
+                <div class="campo anidado">
+                  <label for="insc-chiva_companions">{{ t.campos.chiva_companions }} <abbr [title]="t.obligatorio">*</abbr></label>
+                  <input id="insc-chiva_companions" type="number" min="2" max="3" class="corto" [placeholder]="t.campos.chivaCompanionsPlaceholder"
+                         [value]="datos().chiva_companions" (input)="poner('chiva_companions', texto($event))"
+                         [attr.aria-invalid]="!!error('chiva_companions')" aria-describedby="insc-chiva_companions-error insc-chiva_companions-ayuda">
+                  <small class="error" id="insc-chiva_companions-error">{{ error('chiva_companions') }}</small>
+                  <small class="ayuda" id="insc-chiva_companions-ayuda">{{ t.campos.chivaCompanionsAyuda }}</small>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    }
+
+    @if (errorEnvio()) {
+      <div class="resumen" role="alert">
+        <p><b>{{ t.errorEnvio.titulo }}</b> — {{ t.errorEnvio.mensaje }}</p>
+      </div>
+    }
+
+    <div class="navegacion">
+      <button type="button" class="btn btn-linea" [disabled]="paso() === 1 || estado() === 'enviando'" (click)="anterior()">← {{ t.anterior }}</button>
+      @if (paso() < total) {
+        <button type="submit" class="btn">{{ t.siguiente }} →</button>
+      } @else {
+        <button type="submit" class="btn btn-naranja" [disabled]="estado() === 'enviando'">
+          {{ estado() === 'enviando' ? t.enviando : t.enviar + ' ✓' }}
+        </button>
+      }
+    </div>
+  </form>
+
+  <ul class="notas">
+    @for (nota of t.notas; track $index) {
+      <li>{{ nota }}</li>
+    }
+  </ul>
+}

@@ -13,12 +13,12 @@ import { IdiomaActual, traducir } from './idioma';
    · Open Graph (Facebook, WhatsApp, LinkedIn…) y Twitter/X, con la imagen del idioma.
    Todo con URLs absolutas sobre evento.sitioUrl; las páginas internas terminan en «/»
    (así las sirve Apache: /actividades → /actividades/).
-   Títulos y descripciones de cada página: contenido/meta.json.
+   Título, descripción y palabras clave de cada página: contenido/meta.json.
    Uso (en el constructor): fijarMeta('actividades'); */
 
-export function fijarMeta(pagina: '' | 'actividades' = ''): void {
+export function fijarMeta(pagina: '' | 'actividades' | 'inscripciones' = ''): void {
   const textos = traducir(textosMeta);
-  const { titulo, descripcion } = pagina ? textos[pagina] : textos.inicio;
+  const { titulo, descripcion, palabrasClave } = pagina ? textos[pagina] : textos.inicio;
   const idioma = inject(IdiomaActual).idioma;
   const meta = inject(Meta);
   inject(Title).setTitle(titulo);
@@ -33,6 +33,7 @@ export function fijarMeta(pagina: '' | 'actividades' = ''): void {
 
   const etiquetas: [string, string][] = [
     ['description', descripcion],
+    ['keywords', palabrasClave],
     ['og:type', 'website'],
     ['og:site_name', `Origami Bogotá ${evento.edicion}`],
     ['og:title', titulo],

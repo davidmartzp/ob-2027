@@ -25,7 +25,7 @@
       @if (evento.inscripcionesAbiertas || itinerarioVisible) {
         <div class="hero-cta" appReveal="3">
           @if (evento.inscripcionesAbiertas) {
-            <a class="btn btn-naranja" appEnlace="#inscribete">{{ comun.inscribeteAhora }}</a>
+            <a class="btn btn-naranja" appEnlace="inscripciones">{{ comun.inscribeteAhora }}</a>
           }
           @if (itinerarioVisible) {
             <a class="btn btn-linea" appEnlace="#itinerario">{{ t.verItinerario }}</a>

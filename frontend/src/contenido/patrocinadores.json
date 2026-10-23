@@ -4,18 +4,63 @@
     "en": "Our <em>sponsors</em>"
   },
   "lista": [
-    "Liceo Francés Louis Pasteur",
-    "Pliegues Origami",
-    "evoforma PLUS",
-    "nessan",
-    "Una Restrepo",
-    "ImpresionArte",
-    "Papelería San Sebastián",
-    "duopapel",
-    "Origamística",
     {
-      "es": "Embajada del Japón en Colombia",
-      "en": "Embassy of Japan in Colombia"
+      "nombre": "Liceo Francés Louis Pasteur"
+    },
+    {
+      "nombre": {
+        "es": "Embajada del Japón en Colombia",
+        "en": "Embassy of Japan in Colombia"
+      },
+      "url": "https://www.colombia.emb-japan.go.jp/itprtop_es/index.html"
+    },
+    {
+      "nombre": "Ely Mon",
+      "url": "https://www.instagram.com/elimonn/"
+    },
+    {
+      "nombre": "Pliegues Origami",
+      "url": "https://www.instagram.com/pliegues_origami/"
+    },
+    {
+      "nombre": "evoforma PLUS"
+    },
+    {
+      "nombre": "nessan"
+    },
+    {
+      "nombre": "ImpresionArte"
+    },
+    {
+      "nombre": "Papelería San Sebastián"
+    },
+    {
+      "nombre": "duopapel"
+    },
+    {
+      "nombre": "Origamística",
+      "url": "https://origamistica.com/"
+    },
+    {
+      "nombre": "Alhajas de Papel"
+    },
+    {
+      "nombre": "Sueños en Papel"
+    },
+    {
+      "nombre": "Andipal"
+    },
+    {
+      "nombre": "El Búho Real"
+    },
+    {
+      "nombre": "Parra Hermanos"
+    },
+    {
+      "nombre": "Artisan"
+    },
+    {
+      "nombre": "Gomezul"
     }
   ]
 }

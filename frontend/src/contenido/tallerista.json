@@ -15,9 +15,10 @@
     "es": "Proponer un taller ahora",
     "en": "Propose a workshop now"
   },
+  "foto": "assets/actividades/tallerista.jpg",
   "fotoAlt": {
-    "es": "Manos de varias personas plegando papel juntas en una mesa de taller",
-    "en": "Hands of several people folding paper together at a workshop table"
+    "es": "Quien dicta el taller pliega un papel rojo frente a dos asistentes, en un aula del congreso; en el tablero se lee «Origami Bogotá — Octágono regular estrellado»",
+    "en": "The workshop teacher folds a sheet of red paper in front of two attendees in a convention classroom; the whiteboard reads “Origami Bogotá — Octágono regular estrellado”"
   },
   "asunto": {
     "es": "Propuesta de taller",

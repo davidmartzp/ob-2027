@@ -1,0 +1,1117 @@
+{
+  "apiUrl": null,
+  "pagina": {
+    "titulo": {
+      "es": "Tu <em>inscripción</em>",
+      "en": "Your <em>registration</em>"
+    },
+    "volver": {
+      "es": "← Volver a la hoja",
+      "en": "← Back to the sheet"
+    },
+    "anuncio": {
+      "es": "¡Las inscripciones están abiertas!",
+      "en": "Registrations are open!"
+    },
+    "anuncioCerradas": {
+      "es": "Las inscripciones de {edicion} abren pronto",
+      "en": "Registration for {edicion} opens soon"
+    },
+    "comoTitulo": {
+      "es": "¿Cómo realizo mi inscripción?",
+      "en": "How do I register?"
+    },
+    "comoTexto": {
+      "es": "En esta oportunidad, la inscripción se debe realizar siguiendo estos dos pasos.",
+      "en": "This time, registration must be completed following these two steps."
+    },
+    "pasos": [
+      {
+        "titulo": {
+          "es": "Paso I",
+          "en": "Step I"
+        },
+        "texto": {
+          "es": "Realiza el pago de tu inscripción escogiendo cualquiera de nuestros métodos de pago, aprovecha las ofertas por etapas.",
+          "en": "Make your registration payment by choosing any of our payment methods. Take advantage of early-bird pricing."
+        },
+        "boton": {
+          "es": "Métodos de pago",
+          "en": "Payment methods"
+        },
+        "destino": "paso-pago"
+      },
+      {
+        "titulo": {
+          "es": "Paso II",
+          "en": "Step II"
+        },
+        "texto": {
+          "es": "Si ya escogiste y completaste tu pago, Regístrate en el formulario para que puedas acceder a los talleres.",
+          "en": "Once you have chosen and completed your payment, register in the form to access the workshops."
+        },
+        "boton": {
+          "es": "Formulario de registro",
+          "en": "Registration form"
+        },
+        "destino": "paso-registro"
+      }
+    ]
+  },
+  "precios": {
+    "porConfirmar": true,
+    "aviso": {
+      "es": "✳ Precios y fechas de la edición 2026 — por confirmar para 2027.",
+      "en": "✳ Prices and dates from the 2026 edition — to be confirmed for 2027."
+    },
+    "titulo": {
+      "es": "PASO I",
+      "en": "STEP I"
+    },
+    "subtitulo": {
+      "es": "Realiza el pago de tu inscripción escogiendo cualquiera de nuestros métodos de pago, aprovecha las ofertas por etapas.",
+      "en": "Make your registration payment by choosing any of our payment methods. Take advantage of early-bird pricing."
+    },
+    "moneda": "COP",
+    "tiendaUrl": "https://origamistica.com/producto/inscripcion-completa-origami-bogota/",
+    "comprar": {
+      "es": "COMPRA AQUÍ",
+      "en": "BUY HERE"
+    },
+    "fases": [
+      {
+        "nombre": {
+          "es": "Madrugadores",
+          "en": "Early Bird"
+        },
+        "insignia": {
+          "es": "Oferta especial",
+          "en": "Special offer"
+        },
+        "precio": 140000,
+        "hasta": {
+          "es": "Hasta enero 15, 2026",
+          "en": "Until January 15, 2026"
+        },
+        "fechaLimite": "2026-01-15",
+        "incluye": {
+          "es": [
+            "Kit de materiales",
+            "Refrigerios (no almuerzo)",
+            "Entrada a los talleres"
+          ],
+          "en": [
+            "Materials kit",
+            "Snacks (no lunch)",
+            "Access to workshops"
+          ]
+        }
+      },
+      {
+        "precio": 200000,
+        "hasta": {
+          "es": "Hasta Junio 14, 2026",
+          "en": "Until June 14, 2026"
+        },
+        "fechaLimite": "2026-06-14",
+        "incluye": {
+          "es": [
+            "Kit de materiales",
+            "Refrigerios (no almuerzo)",
+            "Entrada a los talleres"
+          ],
+          "en": [
+            "Materials kit",
+            "Snacks (no lunch)",
+            "Access to workshops"
+          ]
+        }
+      }
+    ],
+    "porDiaTitulo": {
+      "es": "Opciones por día",
+      "en": "Day options"
+    },
+    "seleccionar": {
+      "es": "Seleccionar",
+      "en": "Select"
+    },
+    "porDia": [
+      {
+        "dia": {
+          "es": "Día Sábado",
+          "en": "Saturday"
+        },
+        "fecha": "13/06",
+        "precio": 120000,
+        "descripcion": {
+          "es": "Inscripción para participar en el evento el día viernes y sábado, con acceso a los talleres, conferencias y concursos. Incluye materiales y refrigerios (no almuerzo).",
+          "en": "Registration to participate in the event on Friday and Saturday, with access to workshops, conferences and competitions. Includes materials and snacks (no lunch)."
+        },
+        "url": "https://origamistica.com/producto/inscripcion-dia-sabado-origami-bogota/"
+      },
+      {
+        "dia": {
+          "es": "Día Domingo",
+          "en": "Sunday"
+        },
+        "fecha": "14/06",
+        "precio": 120000,
+        "descripcion": {
+          "es": "Inscripción para participar en el evento el día viernes y domingo, con acceso a los talleres, conferencias y concursos. Incluye materiales y refrigerios (no almuerzo).",
+          "en": "Registration to participate in the event on Friday and Sunday, with access to workshops, conferences and competitions. Includes materials and snacks (no lunch)."
+        },
+        "url": "https://origamistica.com/producto/inscripcion-dia-domingo-origami-bogota/"
+      }
+    ]
+  },
+  "avisoPago": {
+    "titulo": {
+      "es": "Información de pago",
+      "en": "Payment information"
+    },
+    "html": {
+      "es": "<p>Serás redirigido al sitio de pagos en nuestro patrocinador origamistica.com.</p><p>Una vez realizado el pago, <strong>debes regresar a esta página</strong> para completar el formulario de inscripción por cada participante.</p>",
+      "en": "<p>You will be redirected to the payment site at our sponsor origamistica.com.</p><p>Once payment is completed, <strong>you must return to this page</strong> to complete the registration form for each participant.</p>"
+    },
+    "continuar": {
+      "es": "Continuar al pago",
+      "en": "Continue to payment"
+    },
+    "cancelar": {
+      "es": "Cancelar",
+      "en": "Cancel"
+    }
+  },
+  "metodosPago": {
+    "titulo": {
+      "es": "Métodos de pago",
+      "en": "Payment methods"
+    },
+    "descripcion": {
+      "es": "Puedes usar estos diferentes métodos. Recuerda completar el formulario de inscripción una vez realizado el pago para que puedas escoger los talleres.",
+      "en": "You can use any of these methods. Remember to complete the registration form once payment is done so you can choose your workshops."
+    },
+    "nota": {
+      "es": "¡Importante! Una vez realizado el pago, no olvides completar el formulario de inscripción para asegurar tu lugar y seleccionar los talleres a los que deseas asistir. ¡El último paso para ser parte de esta increíble experiencia!",
+      "en": "Important! Once payment is made, don't forget to complete the registration form to secure your spot and select the workshops you wish to attend. The last step to be part of this amazing experience!"
+    },
+    "lista": [
+      {
+        "id": "movil",
+        "titulo": "Nequi, Daviplata, Rappipay",
+        "descripcion": "+57 315 2459839"
+      },
+      {
+        "id": "banco",
+        "titulo": {
+          "es": "Depósito Bancario",
+          "en": "Bank Transfer"
+        },
+        "descripcion": {
+          "es": "Solicita la información de depósito bancario a través de whatsapp.",
+          "en": "Request bank transfer details via WhatsApp."
+        },
+        "enlace": {
+          "url": "https://api.whatsapp.com/send?phone=573152459839&text=Hola,%20quiero%20solicitar%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20cuentas%20para%20inscribirme%20en%20el%20evento",
+          "texto": "WhatsApp"
+        }
+      },
+      {
+        "id": "tarjeta",
+        "titulo": {
+          "es": "Tarjetas",
+          "en": "Cards"
+        },
+        "descripcion": {
+          "es": "Utilizando su tarjeta de crédito o débito en la tienda online.",
+          "en": "Using your credit or debit card in the online store."
+        },
+        "enlace": {
+          "url": "https://origamistica.com/producto/inscripcion-completa-origami-bogota/",
+          "texto": {
+            "es": "Click aquí",
+            "en": "Click here"
+          },
+          "avisar": true
+        }
+      },
+      {
+        "id": "efectivo",
+        "titulo": {
+          "es": "Efectivo",
+          "en": "Cash"
+        },
+        "descripcion": {
+          "es": "Comunicándose con nosotros por whatsapp",
+          "en": "Contact us via WhatsApp"
+        },
+        "enlace": {
+          "url": "https://api.whatsapp.com/send?phone=573152459839&text=Hola,%20quiero%20solicitar%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20pago%20en%20efectivo%20para%20inscribirme%20en%20el%20evento",
+          "texto": "WhatsApp"
+        }
+      }
+    ]
+  },
+  "formulario": {
+    "titulo": {
+      "es": "PASO II",
+      "en": "STEP II"
+    },
+    "subtitulo": {
+      "es": "Una vez realizado el pago por alguno de los medios, debes formalizar la inscripción completando este formulario.",
+      "en": "Once payment has been made through any of the methods, you must formalize your registration by completing this form."
+    },
+    "pasos": [
+      {
+        "corto": "Personal",
+        "titulo": {
+          "es": "Información Personal",
+          "en": "Personal Information"
+        }
+      },
+      {
+        "corto": {
+          "es": "Contacto",
+          "en": "Contact"
+        },
+        "titulo": {
+          "es": "Información de Contacto",
+          "en": "Contact Information"
+        }
+      },
+      {
+        "corto": {
+          "es": "Pago",
+          "en": "Payment"
+        },
+        "titulo": {
+          "es": "Información de Pago",
+          "en": "Payment Information"
+        }
+      },
+      {
+        "corto": {
+          "es": "Participación",
+          "en": "Participation"
+        },
+        "titulo": {
+          "es": "Participación en Evento",
+          "en": "Event Participation"
+        }
+      },
+      {
+        "corto": {
+          "es": "Opciones",
+          "en": "Options"
+        },
+        "titulo": {
+          "es": "Opciones de Participación",
+          "en": "Participation Options"
+        }
+      }
+    ],
+    "pasoDe": {
+      "es": "Paso {n} de {total}",
+      "en": "Step {n} of {total}"
+    },
+    "anterior": {
+      "es": "Anterior",
+      "en": "Previous"
+    },
+    "siguiente": {
+      "es": "Siguiente",
+      "en": "Next"
+    },
+    "enviar": {
+      "es": "Inscribirme",
+      "en": "Register"
+    },
+    "enviando": {
+      "es": "Enviando...",
+      "en": "Sending..."
+    },
+    "obligatorio": {
+      "es": "obligatorio",
+      "en": "required"
+    },
+    "revisa": {
+      "es": "Revisa este paso antes de continuar:",
+      "en": "Please review this step before continuing:"
+    },
+    "campos": {
+      "name": {
+        "es": "Nombre",
+        "en": "First name"
+      },
+      "lastname": {
+        "es": "Apellido",
+        "en": "Last name"
+      },
+      "age": {
+        "es": "Edad",
+        "en": "Age"
+      },
+      "idname": {
+        "es": "Nombre en la escarapela",
+        "en": "Name for badge"
+      },
+      "country": {
+        "es": "País",
+        "en": "Country"
+      },
+      "city": {
+        "es": "Ciudad",
+        "en": "City"
+      },
+      "email": {
+        "es": "Correo electrónico",
+        "en": "Email address"
+      },
+      "emailAyuda": {
+        "es": "Asegúrate de proporcionar un correo electrónico funcional, ya que recibirás información importante del evento.",
+        "en": "Make sure to provide a working email address, as you will receive important event information."
+      },
+      "phone": {
+        "es": "Teléfono",
+        "en": "Phone"
+      },
+      "paymethod": {
+        "es": "Tipo de pago / inscripción",
+        "en": "Payment / registration type"
+      },
+      "seleccione": {
+        "es": "Seleccione",
+        "en": "Select"
+      },
+      "paydate": {
+        "es": "Fecha de pago",
+        "en": "Payment date"
+      },
+      "receipt": {
+        "es": "Número de comprobante",
+        "en": "Receipt number"
+      },
+      "receiptAyuda": {
+        "es": "Aquí describe el tipo de beca, si eres becado por patrocinio indica la empresa, institución etc.",
+        "en": "Describe the scholarship type here; if sponsored, indicate the company or institution."
+      },
+      "days": {
+        "es": "¿Cómo será tu participación?",
+        "en": "How will you participate?"
+      },
+      "companion": {
+        "es": "Nombre de acompañante",
+        "en": "Companion name"
+      },
+      "companionAyuda": {
+        "es": "*Ingresa esta información si el participante es menor de edad y necesita acompañante, o si el participante es mayor de edad y requiere asistencia adicional.",
+        "en": "*Enter this information if the participant is a minor and needs a companion, or if the participant is an adult requiring additional assistance."
+      },
+      "info": {
+        "es": "¿Cómo se enteró del evento?",
+        "en": "How did you hear about the event?"
+      },
+      "otherInfo": {
+        "es": "Especifica",
+        "en": "Please specify"
+      },
+      "printCertificate": {
+        "es": "Deseo recibir certificado impreso",
+        "en": "I want to receive a printed certificate"
+      },
+      "group": {
+        "es": "Pertenezco a un grupo de origami",
+        "en": "I belong to an origami group"
+      },
+      "origamigroup": {
+        "es": "Especifica el nombre del grupo",
+        "en": "Specify the group name"
+      },
+      "cards": {
+        "es": "Participaré en el intercambio de tarjetas",
+        "en": "I will participate in the card exchange"
+      },
+      "cardsAyuda": {
+        "es": "Debes realizar 1 set de 16 tarjetas por cada grupo en el que desees participar.",
+        "en": "You must make 1 set of 16 cards per group you wish to participate in."
+      },
+      "cardGroup": {
+        "es": "Número de grupos",
+        "en": "Number of groups"
+      },
+      "workshops": {
+        "es": "Deseo dictar talleres",
+        "en": "I want to teach workshops"
+      },
+      "workshopsAyuda": {
+        "es": "Una vez inscrito podrás agregar la información de tus talleres en",
+        "en": "Once registered you can add your workshop information at"
+      },
+      "workshopsUrl": "https://origamibogota.com/talleres",
+      "go_to_chiva": {
+        "es": "Participaré en la chiva rumbera",
+        "en": "I will join the Chiva Rumbera"
+      },
+      "soloAdultos": {
+        "es": "(Sólo mayores de edad)",
+        "en": "(Adults only)"
+      },
+      "chiva_accompanied": {
+        "es": "¿Llevarás acompañantes?",
+        "en": "Will you bring companions?"
+      },
+      "chivaNo": {
+        "es": "No, iré solo",
+        "en": "No, I'll go alone"
+      },
+      "chivaSi": {
+        "es": "Sí, llevaré acompañante(s)",
+        "en": "Yes, I'll bring companion(s)"
+      },
+      "chiva_companions": {
+        "es": "Número de acompañantes",
+        "en": "Number of companions"
+      },
+      "chivaCompanionsPlaceholder": {
+        "es": "Ingresa el número de acompañantes",
+        "en": "Enter the number of companions"
+      },
+      "chivaCompanionsAyuda": {
+        "es": "Por favor indica cuántas personas te acompañarán (mínimo 2, máximo 3)",
+        "en": "Please indicate how many people will accompany you (minimum 2, maximum 3)"
+      }
+    },
+    "tiposPago": [
+      {
+        "valor": "Nequi",
+        "texto": "Nequi"
+      },
+      {
+        "valor": "Daviplata",
+        "texto": "Daviplata"
+      },
+      {
+        "valor": "Consignación",
+        "texto": {
+          "es": "Consignación",
+          "en": "Bank deposit"
+        }
+      },
+      {
+        "valor": "Efectivo",
+        "texto": {
+          "es": "Efectivo",
+          "en": "Cash"
+        },
+        "nota": {
+          "es": "*Debes confirmar el método de pago en efectivo contactándonos antes de realizar el registro.",
+          "en": "*You must confirm the cash payment method by contacting us before completing your registration."
+        }
+      },
+      {
+        "valor": "Página",
+        "texto": {
+          "es": "Página web",
+          "en": "Website"
+        }
+      },
+      {
+        "valor": "Becado(a)",
+        "texto": {
+          "es": "Becado(a)",
+          "en": "Scholarship"
+        },
+        "sinComprobante": true
+      },
+      {
+        "valor": "Patrocinio",
+        "texto": {
+          "es": "Patrocinio",
+          "en": "Sponsorship"
+        },
+        "sinComprobante": true
+      },
+      {
+        "valor": "Grupo de apoyo",
+        "texto": {
+          "es": "Grupo de apoyo",
+          "en": "Support group"
+        },
+        "sinComprobante": true
+      },
+      {
+        "valor": "Invitado(a)",
+        "texto": {
+          "es": "Invitado(a)",
+          "en": "Guest"
+        },
+        "sinComprobante": true
+      }
+    ],
+    "dias": [
+      {
+        "valor": "T",
+        "texto": {
+          "es": "Participaré todos los días",
+          "en": "I will attend all days"
+        }
+      },
+      {
+        "valor": "S",
+        "texto": {
+          "es": "Participaré sólo el día sábado",
+          "en": "Saturday only"
+        }
+      },
+      {
+        "valor": "D",
+        "texto": {
+          "es": "Participaré sólo el día domingo",
+          "en": "Sunday only"
+        }
+      }
+    ],
+    "medios": [
+      {
+        "valor": "Redes Sociales",
+        "texto": {
+          "es": "Redes Sociales",
+          "en": "Social Media"
+        }
+      },
+      {
+        "valor": "Prensa",
+        "texto": {
+          "es": "Prensa",
+          "en": "Press"
+        }
+      },
+      {
+        "valor": "Televisión",
+        "texto": {
+          "es": "Televisión",
+          "en": "Television"
+        }
+      },
+      {
+        "valor": "Referidos",
+        "texto": {
+          "es": "Referidos",
+          "en": "Referrals"
+        }
+      },
+      {
+        "valor": "Otro",
+        "texto": {
+          "es": "Otro",
+          "en": "Other"
+        }
+      }
+    ],
+    "fechaPagoMaxima": "2027-06-06",
+    "validaciones": {
+      "name": {
+        "es": "Debe ingresar el nombre",
+        "en": "Please enter your first name"
+      },
+      "lastname": {
+        "es": "Debe ingresar el apellido",
+        "en": "Please enter your last name"
+      },
+      "age": {
+        "es": "Debe ingresar la edad",
+        "en": "Please enter your age"
+      },
+      "idname": {
+        "es": "Debe ingresar el nombre para la escarapela",
+        "en": "Please enter the name for your badge"
+      },
+      "country": {
+        "es": "Debe seleccionar el país",
+        "en": "Please select your country"
+      },
+      "city": {
+        "es": "Debe ingresar la ciudad",
+        "en": "Please enter your city"
+      },
+      "email": {
+        "es": "Debe ingresar el correo electrónico",
+        "en": "Please enter your email address"
+      },
+      "emailInvalid": {
+        "es": "El correo electrónico debe ser una dirección válida",
+        "en": "The email address must be a valid address"
+      },
+      "phone": {
+        "es": "Debe ingresar el teléfono",
+        "en": "Please enter your phone number"
+      },
+      "phoneNumeric": {
+        "es": "El teléfono debe contener solo números",
+        "en": "Phone number must contain only digits"
+      },
+      "payMethod": {
+        "es": "Debe seleccionar el tipo de pago",
+        "en": "Please select the payment type"
+      },
+      "payDate": {
+        "es": "Debe ingresar la fecha de pago",
+        "en": "Please enter the payment date"
+      },
+      "receipt": {
+        "es": "Debe ingresar el número de comprobante",
+        "en": "Please enter the receipt number"
+      },
+      "days": {
+        "es": "Debe especificar el o los días que va a participar",
+        "en": "Please specify which day(s) you will attend"
+      },
+      "howHeard": {
+        "es": "Debe seleccionar cómo se enteró del evento",
+        "en": "Please select how you heard about the event"
+      },
+      "howHeardSpecify": {
+        "es": "Debe especificar cómo se enteró del evento",
+        "en": "Please specify how you heard about the event"
+      },
+      "origamiGroup": {
+        "es": "Debe especificar el grupo de origami al que pertenece",
+        "en": "Please specify the origami group you belong to"
+      },
+      "cardGroup": {
+        "es": "Debe especificar el número de grupos para el intercambio de tarjetas",
+        "en": "Please specify the number of groups for the card exchange"
+      },
+      "cardGroupRange": {
+        "es": "El número de grupos para intercambio de tarjetas debe ser 1 o 2",
+        "en": "The number of groups for card exchange must be 1 or 2"
+      },
+      "chivaAccompanied": {
+        "es": "Debe indicar si irá solo o con acompañantes a la chiva rumbera",
+        "en": "Please indicate whether you will go alone or with companions to the Chiva Rumbera"
+      },
+      "chivaCompanions": {
+        "es": "Debe indicar cuántos acompañantes llevará a la chiva rumbera",
+        "en": "Please indicate how many companions you will bring to the Chiva Rumbera"
+      },
+      "chivaMin": {
+        "es": "El número de acompañantes debe ser al menos 2",
+        "en": "The number of companions must be at least 2"
+      },
+      "chivaMax": {
+        "es": "El número máximo de acompañantes permitido es 3",
+        "en": "The maximum number of companions allowed is 3"
+      }
+    },
+    "exito": {
+      "titulo": {
+        "es": "¡Inscripción realizada con éxito!",
+        "en": "Registration successful!"
+      },
+      "mensaje": {
+        "es": "Hemos enviado un correo de confirmación a",
+        "en": "We have sent a confirmation email to"
+      },
+      "mensaje2": {
+        "es": "con los detalles de tu inscripción.",
+        "en": "with your registration details."
+      },
+      "revisa": {
+        "es": "Por favor revisa tu bandeja de entrada y la carpeta de spam.",
+        "en": "Please check your inbox and spam folder."
+      },
+      "nueva": {
+        "es": "Nueva inscripción",
+        "en": "New registration"
+      },
+      "simulado": {
+        "es": "✳ Modo sin conexión: la inscripción no se envió a ningún servidor (el backend se está rehaciendo).",
+        "en": "✳ Offline mode: the registration was not sent to any server (the backend is being rebuilt)."
+      }
+    },
+    "errorEnvio": {
+      "titulo": "Error",
+      "mensaje": {
+        "es": "Ocurrió un error al procesar la inscripción. Por favor, intente nuevamente.",
+        "en": "An error occurred while processing the registration. Please try again."
+      }
+    },
+    "notas": [
+      {
+        "es": "*Recuerda que es importante que formalices la inscripción para obtener tu número de asistente y recibir notificaciones.",
+        "en": "*Remember it is important to formalize your registration to get your attendee number and receive notifications."
+      },
+      {
+        "es": "*Recuerda generar el registro en este formulario por cada participante del evento que hayas confirmado en el pago.",
+        "en": "*Remember to submit this form for each event participant you confirmed in your payment."
+      },
+      {
+        "es": "*La información suministrada en este formulario es de uso exclusivo de origamibogota.com para recopilar información de asistencia y participantes del evento.",
+        "en": "*The information provided in this form is used exclusively by origamibogota.com to collect event attendance and participant data."
+      },
+      {
+        "es": "*Recuerda ingresar un correo electrónico real y funcional, agregar inscripciones@origamibogota.com como contacto y verificar la bandeja de entrada (o spam) de correo electrónico ya que estaremos enviando notificaciones sobre el evento a ese email suministrado.",
+        "en": "*Remember to enter a real, working email address, add inscripciones@origamibogota.com as a contact and check your inbox (or spam folder) as we will be sending event notifications to that email."
+      }
+    ]
+  },
+  "paises": [
+    {
+      "indicativo": "57",
+      "nombre": "Colombia"
+    },
+    {
+      "indicativo": "58",
+      "nombre": "Venezuela"
+    },
+    {
+      "indicativo": "1",
+      "nombre": "USA"
+    },
+    {
+      "indicativo": "44",
+      "nombre": "United Kingdom"
+    },
+    {
+      "indicativo": "91",
+      "nombre": "India"
+    },
+    {
+      "indicativo": "81",
+      "nombre": "Japan"
+    },
+    {
+      "indicativo": "49",
+      "nombre": "Germany"
+    },
+    {
+      "indicativo": "33",
+      "nombre": "France"
+    },
+    {
+      "indicativo": "39",
+      "nombre": "Italy"
+    },
+    {
+      "indicativo": "86",
+      "nombre": "China"
+    },
+    {
+      "indicativo": "7",
+      "nombre": "Russia"
+    },
+    {
+      "indicativo": "61",
+      "nombre": "Australia"
+    },
+    {
+      "indicativo": "55",
+      "nombre": "Brazil"
+    },
+    {
+      "indicativo": "34",
+      "nombre": "Spain"
+    },
+    {
+      "indicativo": "27",
+      "nombre": "South Africa"
+    },
+    {
+      "indicativo": "82",
+      "nombre": "South Korea"
+    },
+    {
+      "indicativo": "31",
+      "nombre": "Netherlands"
+    },
+    {
+      "indicativo": "46",
+      "nombre": "Sweden"
+    },
+    {
+      "indicativo": "47",
+      "nombre": "Norway"
+    },
+    {
+      "indicativo": "48",
+      "nombre": "Poland"
+    },
+    {
+      "indicativo": "351",
+      "nombre": "Portugal"
+    },
+    {
+      "indicativo": "90",
+      "nombre": "Turkey"
+    },
+    {
+      "indicativo": "62",
+      "nombre": "Indonesia"
+    },
+    {
+      "indicativo": "63",
+      "nombre": "Philippines"
+    },
+    {
+      "indicativo": "64",
+      "nombre": "New Zealand"
+    },
+    {
+      "indicativo": "65",
+      "nombre": "Singapore"
+    },
+    {
+      "indicativo": "66",
+      "nombre": "Thailand"
+    },
+    {
+      "indicativo": "92",
+      "nombre": "Pakistan"
+    },
+    {
+      "indicativo": "93",
+      "nombre": "Afghanistan"
+    },
+    {
+      "indicativo": "94",
+      "nombre": "Sri Lanka"
+    },
+    {
+      "indicativo": "95",
+      "nombre": "Myanmar"
+    },
+    {
+      "indicativo": "98",
+      "nombre": "Iran"
+    },
+    {
+      "indicativo": "212",
+      "nombre": "Morocco"
+    },
+    {
+      "indicativo": "213",
+      "nombre": "Algeria"
+    },
+    {
+      "indicativo": "216",
+      "nombre": "Tunisia"
+    },
+    {
+      "indicativo": "218",
+      "nombre": "Libya"
+    },
+    {
+      "indicativo": "220",
+      "nombre": "Gambia"
+    },
+    {
+      "indicativo": "221",
+      "nombre": "Senegal"
+    },
+    {
+      "indicativo": "222",
+      "nombre": "Mauritania"
+    },
+    {
+      "indicativo": "223",
+      "nombre": "Mali"
+    },
+    {
+      "indicativo": "224",
+      "nombre": "Guinea"
+    },
+    {
+      "indicativo": "225",
+      "nombre": "Ivory Coast"
+    },
+    {
+      "indicativo": "226",
+      "nombre": "Burkina Faso"
+    },
+    {
+      "indicativo": "227",
+      "nombre": "Niger"
+    },
+    {
+      "indicativo": "228",
+      "nombre": "Togo"
+    },
+    {
+      "indicativo": "229",
+      "nombre": "Benin"
+    },
+    {
+      "indicativo": "230",
+      "nombre": "Mauritius"
+    },
+    {
+      "indicativo": "231",
+      "nombre": "Liberia"
+    },
+    {
+      "indicativo": "232",
+      "nombre": "Sierra Leone"
+    },
+    {
+      "indicativo": "233",
+      "nombre": "Ghana"
+    },
+    {
+      "indicativo": "234",
+      "nombre": "Nigeria"
+    },
+    {
+      "indicativo": "235",
+      "nombre": "Chad"
+    },
+    {
+      "indicativo": "236",
+      "nombre": "Central African Republic"
+    },
+    {
+      "indicativo": "237",
+      "nombre": "Cameroon"
+    },
+    {
+      "indicativo": "238",
+      "nombre": "Cape Verde"
+    },
+    {
+      "indicativo": "239",
+      "nombre": "Sao Tome and Principe"
+    },
+    {
+      "indicativo": "240",
+      "nombre": "Equatorial Guinea"
+    },
+    {
+      "indicativo": "241",
+      "nombre": "Gabon"
+    },
+    {
+      "indicativo": "242",
+      "nombre": "Congo"
+    },
+    {
+      "indicativo": "244",
+      "nombre": "Angola"
+    },
+    {
+      "indicativo": "245",
+      "nombre": "Guinea-Bissau"
+    },
+    {
+      "indicativo": "246",
+      "nombre": "Diego Garcia"
+    },
+    {
+      "indicativo": "247",
+      "nombre": "Ascension Island"
+    },
+    {
+      "indicativo": "248",
+      "nombre": "Seychelles"
+    },
+    {
+      "indicativo": "249",
+      "nombre": "Sudan"
+    },
+    {
+      "indicativo": "250",
+      "nombre": "Rwanda"
+    },
+    {
+      "indicativo": "251",
+      "nombre": "Ethiopia"
+    },
+    {
+      "indicativo": "252",
+      "nombre": "Somalia"
+    },
+    {
+      "indicativo": "253",
+      "nombre": "Djibouti"
+    },
+    {
+      "indicativo": "254",
+      "nombre": "Kenya"
+    },
+    {
+      "indicativo": "255",
+      "nombre": "Tanzania"
+    },
+    {
+      "indicativo": "256",
+      "nombre": "Uganda"
+    },
+    {
+      "indicativo": "257",
+      "nombre": "Burundi"
+    },
+    {
+      "indicativo": "258",
+      "nombre": "Mozambique"
+    },
+    {
+      "indicativo": "260",
+      "nombre": "Zambia"
+    },
+    {
+      "indicativo": "261",
+      "nombre": "Madagascar"
+    },
+    {
+      "indicativo": "262",
+      "nombre": "Reunion"
+    },
+    {
+      "indicativo": "263",
+      "nombre": "Zimbabwe"
+    },
+    {
+      "indicativo": "264",
+      "nombre": "Namibia"
+    },
+    {
+      "indicativo": "265",
+      "nombre": "Malawi"
+    },
+    {
+      "indicativo": "266",
+      "nombre": "Lesotho"
+    },
+    {
+      "indicativo": "267",
+      "nombre": "Botswana"
+    },
+    {
+      "indicativo": "268",
+      "nombre": "Swaziland"
+    },
+    {
+      "indicativo": "269",
+      "nombre": "Comoros"
+    },
+    {
+      "indicativo": "290",
+      "nombre": "Saint Helena"
+    },
+    {
+      "indicativo": "291",
+      "nombre": "Eritrea"
+    },
+    {
+      "indicativo": "297",
+      "nombre": "Aruba"
+    },
+    {
+      "indicativo": "298",
+      "nombre": "Faroe Islands"
+    },
+    {
+      "indicativo": "299",
+      "nombre": "Greenland"
+    }
+  ]
+}

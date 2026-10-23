@@ -1,0 +1,24 @@
+:host{ display:block; }
+
+/* cómo inscribirse (sobre ruana) */
+.pagina-hero{ background:var(--ruana); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--paramo); }
+.pagina-hero .separador{ color:var(--tinta); --color-anotacion:var(--paramo); }
+.pagina-hero h2.titulo{ font-size:clamp(46px,7.5vw,110px); }
+.volver{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; }
+.estado{
+  display:inline-block; margin:clamp(22px,3vw,34px) 0 0; padding:5px 14px; border:1.5px dashed var(--tinta);
+  font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+}
+.estado.abiertas{ background:var(--tinta); color:var(--papel); border-style:solid; }
+.intro{ color:var(--tinta-80); max-width:60ch; margin-top:18px; }
+.dos-pasos{ list-style:none; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:clamp(18px,3vw,36px); margin-top:clamp(28px,4vw,44px); }
+.dos-pasos li{ display:flex; gap:18px; align-items:flex-start; background:var(--papel); border:1.5px solid var(--tinta); box-shadow:8px 8px 0 var(--paramo); padding:22px; }
+.numeral{ font-family:var(--serif); font-weight:600; font-size:56px; line-height:.8; color:var(--miel); }
+.dos-pasos h3{ font-family:var(--mono); font-size:13px; letter-spacing:.18em; text-transform:uppercase; }
+.dos-pasos p{ color:var(--tinta-80); margin:6px 0 14px; font-size:calc(var(--fs-texto) - 1px); }
+
+/* pasos (sobre papel) */
+.paso{ scroll-margin-top:70px; }
+.paso + .paso{ padding-top:0; }
+.subtitulo{ font-family:var(--serif); font-weight:520; font-size:clamp(26px,3vw,38px); margin-top:clamp(50px,6vw,80px); }
+.subtitulo + .intro{ margin:10px 0 clamp(22px,3vw,32px); }

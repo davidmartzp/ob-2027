@@ -12,6 +12,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Facebook: estadísticas de los enlaces compartidos (la misma app que el sitio anterior) -->
+  <meta property="fb:app_id" content="1470433841474883">
+  <!-- Google Analytics 4 (mismo ID que el sitio anterior). Cada página es un HTML propio
+       (recarga completa), así que la visita se registra sola al cargar.
+       Solo en el dominio real: en localhost y en la vista previa no se carga. -->
+  <script>
+    (function (id) {
+      if (!/(^|\.)origamibogota\.com$/.test(location.hostname)) return;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', id);
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+    })('G-YWKKW0SLJJ');
+  </script>
 </head>
 <body>
   <app-root></app-root>

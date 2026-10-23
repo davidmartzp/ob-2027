@@ -16,7 +16,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Requires a valid `Authorization: Bearer <token>` of one of the allowed types and stores
  * the Session on the request. A token of another type counts as missing (401).
- * Routes get it through `Guards` (cms(), attendee(), cmsOrAttendee()).
+ * Routes get it through `Guards::cms()`.
  */
 final readonly class Authenticate implements MiddlewareInterface
 {

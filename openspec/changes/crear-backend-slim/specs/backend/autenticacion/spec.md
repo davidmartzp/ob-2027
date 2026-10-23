@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Controla quién puede usar los servicios de administración del congreso: inicio y cierre de sesión del personal del CMS y protección por token de las rutas privadas.
+Controla quién puede usar los servicios de administración del congreso: inicio y cierre de sesión del personal del CMS y protección por token de las rutas privadas. Los asistentes no inician sesión.
 
 ## ADDED Requirements
 
@@ -63,25 +63,3 @@ Los usuarios del CMS SHALL crearse o cambiar su contraseña solo desde la consol
 #### Scenario: Crear usuario
 - **WHEN** se ejecuta el comando de consola para crear un usuario con correo y contraseña
 - **THEN** ese usuario puede iniciar sesión en el CMS
-
-### Requirement: Acceso de asistentes
-Los servicios que un asistente usa sobre sus propios datos (sus talleres propuestos y sus eventos elegidos) SHALL exigir un token de asistente, distinto del token del CMS, vigente 2 horas y válido solo para ese asistente. Se obtiene al verificar correo y número de participante, o con el enlace de acceso enviado por correo.
-
-#### Scenario: Token de otro asistente
-- **WHEN** un asistente con token válido intenta modificar los talleres de otro asistente
-- **THEN** la respuesta es 403
-
-#### Scenario: Token de asistente en ruta del CMS
-- **WHEN** se usa un token de asistente en `GET /attendees`
-- **THEN** la respuesta es 401
-
-### Requirement: Enlace de acceso por correo
-`POST /auth/attendee-link` (público) con `{"email"}` SHALL enviar, si existe un asistente no eliminado con ese correo, un enlace de un solo uso válido 30 minutos; `POST /auth/redeem-link` con su `key` SHALL devolver un token de asistente. La respuesta del primer paso MUST ser la misma exista o no el correo, y se limita a 3 solicitudes por hora por correo.
-
-#### Scenario: Correo no registrado
-- **WHEN** se pide el enlace para un correo que no está inscrito
-- **THEN** la respuesta es 202 igual que para uno inscrito y no se envía correo
-
-#### Scenario: Enlace reutilizado
-- **WHEN** se canjea por segunda vez la misma clave
-- **THEN** la respuesta es 401

@@ -5,7 +5,8 @@ declare(strict_types=1);
 /*
  * Every route of the API, in one place. Each points to a controller method in
  * src/Infrastructure/Http/Controller; the guard says who may call it:
- *   (none) public · cms() CMS token · attendee() attendee token · cmsOrAttendee() either.
+ *   (none) public · cms() CMS token. Attendees never sign in (decision of 2026-10-23,
+ *   design.md D5): their routes are public, identified by email or id as in the legacy site.
  *
  * Route closures/groups must not be `static`: Slim binds them to the container.
  */
@@ -31,8 +32,6 @@ return static function (App $app): void {
     $app->post('/auth/login', [AuthController::class, 'login']);
     $app->post('/auth/logout', [AuthController::class, 'logout'])->add($guards->cms());
     $app->get('/auth/me', [AuthController::class, 'me'])->add($guards->cms());
-    $app->post('/auth/attendee-link', [AuthController::class, 'requestAttendeeLink']);
-    $app->post('/auth/redeem-link', [AuthController::class, 'redeemLink']);
 
     // Attendees (spec backend/attendees)
     $app->post('/attendees', [AttendeeController::class, 'register']);
@@ -48,11 +47,12 @@ return static function (App $app): void {
 
     // Workshops (spec backend/talleres)
     $app->get('/workshops', [WorkshopController::class, 'publicList']);
-    $app->post('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'propose'])->add($guards->attendee());
-    $app->get('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'listMine'])->add($guards->attendee());
-    $app->put('/workshops/{id:[0-9]+}', [WorkshopController::class, 'update'])->add($guards->cmsOrAttendee());
-    $app->delete('/workshops/{id:[0-9]+}', [WorkshopController::class, 'withdraw'])->add($guards->cmsOrAttendee());
-    $app->post('/workshops/{id:[0-9]+}/image', [WorkshopController::class, 'uploadImage'])->add($guards->cmsOrAttendee());
+    $app->post('/workshops/by-email', [WorkshopController::class, 'byEmail']);
+    $app->post('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'propose']);
+    $app->get('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'listMine']);
+    $app->put('/workshops/{id:[0-9]+}', [WorkshopController::class, 'update']);
+    $app->delete('/workshops/{id:[0-9]+}', [WorkshopController::class, 'withdraw']);
+    $app->post('/workshops/{id:[0-9]+}/image', [WorkshopController::class, 'uploadImage']);
     $app->get('/cms/workshops', [WorkshopController::class, 'cmsList'])->add($guards->cms());
     $app->patch('/workshops/{id:[0-9]+}', [WorkshopController::class, 'patch'])->add($guards->cms());
 
@@ -63,7 +63,7 @@ return static function (App $app): void {
     $app->delete('/partners/{id:[0-9]+}', [PartnerController::class, 'deactivate'])->add($guards->cms());
     $app->post('/partners/{id:[0-9]+}/logo', [PartnerController::class, 'uploadLogo'])->add($guards->cms());
     $app->get('/workshops/{id:[0-9]+}/partners', [PartnerController::class, 'ofWorkshop']);
-    $app->put('/workshops/{id:[0-9]+}/partners', [PartnerController::class, 'replaceForWorkshop'])->add($guards->cmsOrAttendee());
+    $app->put('/workshops/{id:[0-9]+}/partners', [PartnerController::class, 'replaceForWorkshop']);
 
     // Schedule (spec backend/agenda)
     $app->get('/rooms', [ScheduleController::class, 'rooms'])->add($guards->cms());
@@ -75,9 +75,9 @@ return static function (App $app): void {
     $app->get('/events/{id:[0-9]+}/attendees', [ScheduleController::class, 'eventAttendees'])->add($guards->cms());
     $app->get('/events/active', [ScheduleController::class, 'activeEvents']);
     $app->get('/events/schedule', [ScheduleController::class, 'schedule']);
-    $app->get('/attendees/{id:[0-9]+}/events', [ScheduleController::class, 'myEvents'])->add($guards->attendee());
-    $app->post('/attendees/{id:[0-9]+}/events', [ScheduleController::class, 'enrol'])->add($guards->attendee());
-    $app->delete('/attendees/{id:[0-9]+}/events/{event:[0-9]+}', [ScheduleController::class, 'cancel'])->add($guards->attendee());
+    $app->get('/attendees/{id:[0-9]+}/events', [ScheduleController::class, 'myEvents']);
+    $app->post('/attendees/{id:[0-9]+}/events', [ScheduleController::class, 'enrol']);
+    $app->delete('/attendees/{id:[0-9]+}/events/{event:[0-9]+}', [ScheduleController::class, 'cancel']);
 
     // Emails sent by hand from the CMS (spec backend/correo)
     $app->get('/emails/log', [EmailController::class, 'log'])->add($guards->cms());

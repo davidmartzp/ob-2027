@@ -9,7 +9,6 @@ use App\Application\Workshop\InstructorWorkshops;
 use App\Application\Workshop\ManageWorkshops;
 use App\Domain\Shared\Exception\ValidationException;
 use App\Infrastructure\Http\Json;
-use App\Infrastructure\Http\RequestSession;
 use App\Infrastructure\Storage\LocalImageStorage;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +26,7 @@ final readonly class WorkshopController
     /** @param array{id: string} $args */
     public function propose(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $created = $this->instructor->propose(RequestSession::of($request), (int) $args['id'], (array) $request->getParsedBody());
+        $created = $this->instructor->propose((int) $args['id'], (array) $request->getParsedBody());
 
         return Json::respond($response, $created, 201);
     }
@@ -35,19 +34,19 @@ final readonly class WorkshopController
     /** @param array{id: string} $args */
     public function listMine(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return Json::respond($response, $this->instructor->list(RequestSession::of($request), (int) $args['id']));
+        return Json::respond($response, $this->instructor->list((int) $args['id']));
     }
 
     /** @param array{id: string} $args */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return Json::respond($response, $this->edit->update(RequestSession::of($request), (int) $args['id'], (array) $request->getParsedBody()));
+        return Json::respond($response, $this->edit->update((int) $args['id'], (array) $request->getParsedBody()));
     }
 
     /** @param array{id: string} $args */
     public function withdraw(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $this->edit->withdraw(RequestSession::of($request), (int) $args['id']);
+        $this->edit->withdraw((int) $args['id']);
 
         return Json::noContent($response);
     }
@@ -55,9 +54,14 @@ final readonly class WorkshopController
     /** @param array{id: string} $args */
     public function uploadImage(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $result = $this->edit->setImage(RequestSession::of($request), (int) $args['id'], self::uploadedBytes($request, 'image'));
+        $result = $this->edit->setImage((int) $args['id'], self::uploadedBytes($request, 'image'));
 
         return Json::respond($response, $result);
+    }
+
+    public function byEmail(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        return Json::respond($response, $this->instructor->byEmail((array) $request->getParsedBody()));
     }
 
     public function publicList(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface

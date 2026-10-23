@@ -40,7 +40,7 @@ final class MigrationsTest extends TestCase
         $migrator = new Migrator($this->db, dirname(__DIR__, 3) . '/database/migrations');
         $migrator->migrate();
 
-        foreach (['users', 'attendees', 'workshops', 'rooms', 'activities', 'events', 'events_attendees', 'partners', 'workshop_partner', 'access_tokens', 'access_links', 'rate_limit_hits', 'email_outbox'] as $table) {
+        foreach (['users', 'attendees', 'workshops', 'rooms', 'activities', 'events', 'events_attendees', 'partners', 'workshop_partner', 'access_tokens', 'rate_limit_hits', 'email_outbox'] as $table) {
             self::assertTrue($this->schema()->hasTable($table), "Missing table {$table}");
         }
 

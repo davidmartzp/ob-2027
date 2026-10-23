@@ -8,6 +8,8 @@
 
 ## 2. Plataforma (spec `backend/plataforma`)
 
+Nota (2026-10-23): por decisión del usuario se retiraron el token de asistente y el enlace de acceso por correo; las rutas de asistentes son públicas (design.md D5). Las tareas marcadas describen lo construido y luego ajustado.
+
 Nota: los grupos 1–3 se reorganizaron el 2026-10-23 a arquitectura hexagonal y nombres en inglés (design.md D2); las tareas describen el resultado actual.
 
 - [x] 2.1 `config/bootstrap.php` (dotenv con variables obligatorias → PHP-DI → Capsule de Eloquent → Slim con ruta base) compartido por `public/index.php`, `bin/console` y `tests/Support/FunctionalTestCase.php`; prueba: falta `DB_HOST` → error que la nombra
@@ -25,14 +27,14 @@ Nota: los grupos 1–3 se reorganizaron el 2026-10-23 a arquitectura hexagonal y
 - [x] 3.2 Servicio de tokens (32 bytes aleatorios, SHA-256, tipo cms|asistente, caducidad, revocación) (`Application/Auth/TokenService`) y middleware `Authenticate` + `Guards` por tipo; pruebas: sin token 401, caducado 401, token de asistente en ruta CMS 401, el token no está en claro en la base
 - [x] 3.3 `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, con hash bcrypt heredado y rehash a Argon2id; pruebas: correcto, incorrecto (mismo mensaje), hash de Laravel válido, token revocado tras logout
 - [x] 3.4 Puerto `RateLimiter` con adaptador `DbRateLimiter` (tabla `rate_limit_hits`) aplicado a login (5/15 min por correo e IP); prueba: el sexto intento devuelve 429
-- [x] 3.5 `POST /auth/attendee-link` y `POST /auth/redeem-link` (un solo uso, 30 min, 3/hora por correo, misma respuesta 202); pruebas: correo inexistente sin envío, clave reutilizada 401
+- [x] 3.5 (Retirada el 2026-10-23 a pedido del usuario: los asistentes no inician sesión, design.md D5.) `POST /auth/attendee-link` y `POST /auth/redeem-link` (un solo uso, 30 min, 3/hora por correo, misma respuesta 202); pruebas: correo inexistente sin envío, clave reutilizada 401
 
 ## 4. Correo (spec `backend/correo`)
 
 Hecho: `Application/Mail` (EmailCatalog, EmailType, EmailVariables, SendEmail, ListEmailRecipients, GetEmailLog), `Infrastructure/Mail` (TransportFactory, OutboxProcessor, TwigMailQueue, HtmlToText), `bin/console mail:send`, `resources/emails/*` portadas tal cual. Envío local al sandbox de Mailtrap verificado con un correo de cada tipo (2026-10-23). `team-notice` y `code-reminder` se disparan desde los casos de uso del grupo 5.
 
 - [x] 4.1 Adaptador de envío (`Infrastructure/Mail`) con Symfony Mailer (`MAILER_DSN`) y Twig (`autoescape: html`, versión texto); el arranque falla en producción con DSN sin TLS o `verify_peer=0`; pruebas con transporte en memoria: nombre con `<script>` escapado, salto de línea en nombre no añade encabezados
-- [x] 4.2 Cola `email_outbox` (ya existe `MailQueue::queue()` con Twig y la plantilla `access-link`, adelantados en 3.5; falta el despacho): comando `mail:send` (lote por minuto, 3 intentos con reintentos a los 1 y 5 min, `unique_key` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
+- [x] 4.2 Cola `email_outbox` : comando `mail:send` (lote por minuto, 3 intentos con reintentos a los 1 y 5 min, `unique_key` contra duplicados); pruebas: fallo SMTP → reintento, tres fallos → `failed`
 - [x] 4.3 Tipos de correo (D6c) con las plantillas que envía hoy producción, sin rediseñar (origen por tipo en D6c: `email_triggers` 1, 2, 3 y 8 del volcado; `email4`–`email7.blade.php`), y `access-link`/`code-reminder` con el aspecto de `code`; prueba de que cada plantilla renderiza sin variables sin resolver, y destinatarios de `MODULO_EMAIL_CMS.md` §1.2: `welcome`, `team-notice`, `code`, `instructions`, `book`, `important-notice`, `general-info`, `correction`, `access-link`, `code-reminder`; prueba por tipo de que la consulta devuelve los destinatarios esperados
 - [x] 4.4 `POST /emails/{type}` (con `ids` y `prueba`), `GET /emails/{type}/recipients` y `GET /emails/log`; pruebas: 80 confirmados de 100, doble lanzamiento → 0 encolados, reenvío de `code` con `ids`, prueba sin marcar a nadie, tipo desconocido 404
 - [x] 4.5 Verificar en el sandbox de Mailtrap que, tras correr la cola, llegan los correos de cada tipo con su diseño
@@ -43,7 +45,7 @@ Hecho (2026-10-23): dominio (`Attendee`, `CodePolicy`, `RegistrationTurns`, `Tur
 
 - [x] 5.1 Completar la entidad `Domain/Attendee/Attendee` (todos los campos), `AttendeeModel` (casts booleanos, `pay_amount` texto), `AttendeeRepository` y datos de prueba (`Tests\Support\Attendees`, sin semilla para no crear asistentes falsos en producción); prueba de serialización con todos los campos del listado
 - [x] 5.2 `POST /attendees` público con número al inscribirse para elegibles (sin duplicados concurrentes), con el JSON de `frontend/src/app/core/registro.ts` (`EnvioInscripcion`), validación, `othermedium` → `info`, estado 0, campo trampa `website`, límite 10/hora por IP y encola bienvenida y aviso al equipo; pruebas de cada escenario de la spec, incluido SMTP caído → 201
-- [x] 5.3 Servicio `RegistrationTurns` con reloj inyectable (D10), `POST /attendees/verify-code` (`code` o `special_code`, token de asistente) y `POST /attendees/remind-code` (un correo por dirección con todos sus participantes, 202 siempre, 3/hora); pruebas con los escenarios de turno de la spec (grupo 3 a las 08:05 → 08:20, día no elegido, después de las 19:00, grupo fuera de horario), `99099` sin efecto, `TURN_BYPASS` sin efecto en producción, la respuesta del recordatorio no contiene números
+- [x] 5.3 Servicio `RegistrationTurns` con reloj inyectable (D10), `POST /attendees/verify-code` (`code` o `special_code`; sin token desde el 2026-10-23) y `POST /attendees/remind-code` (un correo por dirección con todos sus participantes, 202 siempre, 3/hora); pruebas con los escenarios de turno de la spec (grupo 3 a las 08:05 → 08:20, día no elegido, después de las 19:00, grupo fuera de horario), `99099` sin efecto, `TURN_BYPASS` sin efecto en producción, la respuesta del recordatorio no contiene números
 - [x] 5.4 CMS: `GET /attendees` (por `paydate`), `GET /attendees/{id}`, `PUT /attendees/{id}` (incl. `code`, `special_code`, `staff`, `status`), `DELETE /attendees/{id}` (estado 5); pruebas: eliminados no se listan, 404 en inexistente, `code` repetido 409
 - [x] 5.5 CMS: `POST /attendees/confirm`, `POST /attendees/codes` (continúa desde el máximo) y `POST /attendees/codes/regenerate` (con confirmación); pruebas: `confirmed: 2` con mezcla de estados, tardíos 121/122 por `paydate`, regenerar 3/1/2, excluidos por edad e `Invitado(a)`, sin confirmación 422
 
@@ -52,8 +54,8 @@ Hecho (2026-10-23): dominio (`Attendee`, `CodePolicy`, `RegistrationTurns`, `Tur
 Hecho (2026-10-23): `Domain/Workshop`, `Application/Workshop` (InstructorWorkshops, EditWorkshop, ManageWorkshops, WorkshopView), puerto `ImageStorage` con `Infrastructure/Storage/LocalImageStorage` y `ImageController`. Adelantado del grupo 7: entidad `Partner` y su lectura por taller (`PartnerRepository::activeByWorkshop`) para el listado público. Verificado con Apache: subida multipart real, imagen con PHP y archivo de 8 MB rechazados.
 
 - [x] 6.1 Modelo `Workshop` (`duration`, `tickets`, `part`, `relation`) y servicio con estados 0/1/2 y niveles/públicos configurables; prueba de que un retirado no se lista ni se programa
-- [x] 6.2 `POST|GET /attendees/{id}/workshops` con token del asistente; pruebas: propuesta en estado 1, 403 con token de otro asistente
-- [x] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (autor o CMS) y `GET /cms/workshops`, `PATCH /workshops/{id}` (`status`, `tickets`, `part`, `relation`); pruebas de permisos, cupo y relación inválida 422
+- [x] 6.2 `POST|GET /attendees/{id}/workshops` y `POST /workshops/by-email` (públicos); pruebas: propuesta en estado 1, búsqueda por correo de toda la familia
+- [x] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (públicos) y `GET /cms/workshops`, `PATCH /workshops/{id}` (`status`, `tickets`, `part`, `relation`); pruebas de permisos, cupo y relación inválida 422
 - [x] 6.4 `POST /workshops/{id}/image` y `GET /images/{file}` (D9); pruebas: `.php` y `.jpg` con código PHP 422, 8 MB 422, sin token 401, imagen válida reemplaza la anterior
 - [x] 6.5 `GET /workshops` público aleatorio, solo activos, con socios activos y sin datos de contacto; prueba de los campos devueltos (requiere grupo 7)
 

@@ -21,7 +21,7 @@ final class TemplatesTest extends FunctionalTestCase
     public static function attendeeTemplates(): iterable
     {
         foreach (EmailCatalog::all() as $type) {
-            if (!in_array($type->key, ['access-link', 'code-reminder'], true)) {
+            if ($type->key !== 'code-reminder') {
                 yield $type->key => [$type->key];
             }
         }
@@ -63,13 +63,11 @@ final class TemplatesTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function the_new_emails_render(): void
+    public function the_code_reminder_renders(): void
     {
-        $link = $this->render(EmailCatalog::get('access-link'), ['participants' => [['name' => 'Zoé Peña', 'url' => 'https://x.test/acceso?key=abc']], 'minutes' => 30]);
         $reminder = $this->render(EmailCatalog::get('code-reminder'), ['participants' => [['name' => 'Zoé Peña', 'code' => '27'], ['name' => 'Tomás Peña', 'code' => null]]]);
 
-        self::assertStringContainsString('Entrar como Zoé Peña', $link->html);
-        self::assertStringContainsString('header-stripe', $link->html, 'Same frame as the code email');
+        self::assertStringContainsString('header-stripe', $reminder->html, 'Same frame as the code email');
         self::assertStringContainsString('27', $reminder->html);
         self::assertStringContainsString('Aún no tiene número asignado', $reminder->html);
     }

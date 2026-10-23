@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Partner;
 
-use App\Domain\Auth\Session;
 use App\Domain\Partner\PartnerRepository;
 use App\Domain\Shared\Exception\NotFoundException;
 use App\Domain\Shared\Exception\ValidationException;
@@ -30,15 +29,14 @@ final readonly class WorkshopPartners
     }
 
     /**
-     * Replaces the whole list. The workshop's author or the CMS.
+     * Replaces the whole list (no sign-in, as in the legacy site).
      *
      * @param array<string, mixed> $input `{"partner_ids": [1, 2]}`
      * @return list<array<string, mixed>>
      */
-    public function replace(Session $session, int $workshopId, array $input): array
+    public function replace(int $workshopId, array $input): array
     {
-        $workshop = $this->findWorkshop($workshopId);
-        $session->requireCmsOrOwner((int) $workshop->attendeeId);
+        $this->findWorkshop($workshopId);
 
         $ids = $input['partner_ids'] ?? null;
         if (!is_array($ids) || !array_is_list($ids) || array_filter($ids, static fn (mixed $id): bool => !is_int($id) && !ctype_digit((string) $id)) !== []) {

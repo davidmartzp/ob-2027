@@ -28,7 +28,6 @@ final class EmailCatalog
             new EmailType('correction', 'Importante - Corrección sobre tu número de participante', 'correction', RecipientGroup::Active, requiresIds: true),
             // Automatic only
             new EmailType('team-notice', 'Nuevo registro en Origami Bogotá 2025', 'team-notice', null),
-            new EmailType('access-link', 'Tu enlace para entrar a Origami Bogotá', 'access-link', null),
             new EmailType('code-reminder', 'Tu número de participante en Origami Bogotá', 'code-reminder', null),
         ];
 

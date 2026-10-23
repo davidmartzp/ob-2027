@@ -32,14 +32,14 @@ final class VerifyCodeTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function right_email_and_number_in_turn_give_an_attendee_token(): void
+    public function right_email_and_number_in_turn_are_valid(): void
     {
         $body = $this->json($this->verify('Zoe@Ejemplo.com', '27'));
 
         self::assertTrue($body['valid']);
         self::assertSame($this->id, $body['id']);
         self::assertSame('Zoé Peña', $body['name']);
-        self::assertSame('attendee', $this->db()->table('access_tokens')->where('hash', hash('sha256', $body['token']))->value('type'));
+        self::assertArrayNotHasKey('token', $body, 'Attendees do not sign in');
     }
 
     #[Test]
@@ -81,7 +81,7 @@ final class VerifyCodeTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function outside_the_turn_there_is_no_token(): void
+    public function outside_the_turn_it_is_not_valid(): void
     {
         $this->clock->set('2027-06-05 07:30');
 
@@ -89,7 +89,6 @@ final class VerifyCodeTest extends FunctionalTestCase
 
         self::assertFalse($body['valid']);
         self::assertStringContainsString('08:00', $body['message']);
-        self::assertSame(0, $this->db()->table('access_tokens')->count());
     }
 
     #[Test]

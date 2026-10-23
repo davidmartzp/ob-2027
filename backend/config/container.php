@@ -17,7 +17,6 @@ use App\Application\Port\TransactionManager;
 use App\Domain\Attendee\AttendeeRepository;
 use App\Domain\Attendee\CodePolicy;
 use App\Domain\Attendee\TurnSettings;
-use App\Domain\Auth\AccessLinkRepository;
 use App\Domain\Auth\AccessTokenRepository;
 use App\Domain\Auth\UserRepository;
 use App\Domain\Partner\PartnerRepository;
@@ -34,7 +33,6 @@ use App\Infrastructure\Persistence\DbTransactionManager;
 use App\Infrastructure\Persistence\Repository\DbScheduleRepository;
 use App\Infrastructure\Persistence\Migration\Migrator;
 use App\Infrastructure\Persistence\Migration\Seeder;
-use App\Infrastructure\Persistence\Repository\DbAccessLinkRepository;
 use App\Infrastructure\Persistence\Repository\DbAccessTokenRepository;
 use App\Infrastructure\Persistence\Repository\EloquentAttendeeRepository;
 use App\Infrastructure\Persistence\Repository\EloquentPartnerRepository;
@@ -65,7 +63,6 @@ return static fn (Settings $settings, string $root): array => [
     UserRepository::class => autowire(EloquentUserRepository::class),
     AttendeeRepository::class => autowire(EloquentAttendeeRepository::class),
     AccessTokenRepository::class => autowire(DbAccessTokenRepository::class),
-    AccessLinkRepository::class => autowire(DbAccessLinkRepository::class),
     RateLimiter::class => autowire(DbRateLimiter::class),
     MailQueue::class => autowire(TwigMailQueue::class),
     PasswordHasher::class => autowire(NativePasswordHasher::class),
@@ -80,12 +77,7 @@ return static fn (Settings $settings, string $root): array => [
         $settings->string('APP_URL', 'http://localhost:8080'),
     ),
 
-    AuthSettings::class => static fn (): AuthSettings => new AuthSettings(
-        cmsTokenHours: $settings->int('CMS_TOKEN_HOURS', 12),
-        attendeeTokenHours: $settings->int('ATTENDEE_TOKEN_HOURS', 2),
-        accessLinkMinutes: $settings->int('ACCESS_LINK_MINUTES', 30),
-        accessLinkUrl: rtrim($settings->string('SITE_URL', 'http://localhost:4200'), '/') . '/' . ltrim($settings->string('ACCESS_LINK_PATH', 'acceso'), '/'),
-    ),
+    AuthSettings::class => static fn (): AuthSettings => new AuthSettings($settings->int('CMS_TOKEN_HOURS', 12)),
 
     // Congress rules
     CodePolicy::class => static fn (): CodePolicy => new CodePolicy(

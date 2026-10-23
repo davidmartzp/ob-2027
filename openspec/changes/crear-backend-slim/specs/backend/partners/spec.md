@@ -32,12 +32,12 @@ Gestiona los socios (partners) que patrocinan talleres: su nombre, logo y contac
 - **THEN** la respuesta es 422
 
 ### Requirement: Socios de un taller
-`GET /workshops/{id}/partners` (público) SHALL devolver los socios activos del taller, y `PUT /workshops/{id}/partners` con `{"partner_ids": [...]}` SHALL reemplazar la lista completa de socios del taller. Este último MUST exigir token del CMS o del asistente autor del taller y rechazar ids de socios inexistentes con 422.
+`GET /workshops/{id}/partners` (público) SHALL devolver los socios activos del taller, y `PUT /workshops/{id}/partners` con `{"partner_ids": [...]}` SHALL reemplazar la lista completa de socios del taller. Este último es público, como en el sitio antiguo, y MUST rechazar ids de socios inexistentes con 422 sin cambiar nada.
 
 #### Scenario: Reemplazar socios
 - **WHEN** un taller tiene los socios 1 y 2 y se envían `partner_ids: [2, 3]`
 - **THEN** el taller queda con los socios 2 y 3
 
-#### Scenario: Sin permiso
-- **WHEN** se envía `PUT /workshops/{id}/partners` sin token
-- **THEN** la respuesta es 401 y los socios no cambian
+#### Scenario: Socio inexistente
+- **WHEN** se envía un id de socio que no existe
+- **THEN** la respuesta es 422 y los socios del taller no cambian

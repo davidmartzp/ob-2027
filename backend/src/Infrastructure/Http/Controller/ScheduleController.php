@@ -8,7 +8,6 @@ use App\Application\Schedule\ManageSchedule;
 use App\Application\Schedule\PublicSchedule;
 use App\Application\Schedule\WorkshopEnrolment;
 use App\Infrastructure\Http\Json;
-use App\Infrastructure\Http\RequestSession;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -73,19 +72,19 @@ final readonly class ScheduleController
     /** @param array{id: string} $args */
     public function myEvents(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return Json::respond($response, $this->enrolment->mine(RequestSession::of($request), (int) $args['id']));
+        return Json::respond($response, $this->enrolment->mine((int) $args['id']));
     }
 
     /** @param array{id: string} $args */
     public function enrol(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return Json::respond($response, $this->enrolment->enrol(RequestSession::of($request), (int) $args['id'], (array) $request->getParsedBody()), 201);
+        return Json::respond($response, $this->enrolment->enrol((int) $args['id'], (array) $request->getParsedBody()), 201);
     }
 
     /** @param array{id: string, event: string} $args */
     public function cancel(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $this->enrolment->cancel(RequestSession::of($request), (int) $args['id'], (int) $args['event']);
+        $this->enrolment->cancel((int) $args['id'], (int) $args['event']);
 
         return Json::noContent($response);
     }

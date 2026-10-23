@@ -82,11 +82,9 @@ final class PartnersTest extends FunctionalTestCase
     #[Test]
     public function management_requires_the_cms(): void
     {
-        $attendee = $this->service(TokenService::class)->issue(TokenType::Attendee, 1)['token'];
-
         self::assertSame(401, $this->request('POST', '/partners', self::partner())->getStatusCode());
-        self::assertSame(401, $this->request('POST', '/partners', self::partner(), self::bearer($attendee))->getStatusCode());
-        self::assertSame(401, $this->request('DELETE', '/partners/1', headers: self::bearer($attendee))->getStatusCode());
+        self::assertSame(401, $this->request('POST', '/partners', self::partner(), self::bearer(str_repeat('a', 64)))->getStatusCode());
+        self::assertSame(401, $this->request('DELETE', '/partners/1')->getStatusCode());
     }
 
     #[Test]
@@ -105,16 +103,14 @@ final class PartnersTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function the_author_replaces_the_partners_of_a_workshop(): void
+    public function the_partners_of_a_workshop_are_replaced(): void
     {
         $author = Attendees::create($this->db());
         $workshop = Workshops::create($this->db(), $author);
         $p1 = Workshops::partner($this->db(), [$workshop], ['name' => 'Uno']);
         $p2 = Workshops::partner($this->db(), [$workshop], ['name' => 'Dos']);
         $p3 = Workshops::partner($this->db(), [], ['name' => 'Tres']);
-        $token = $this->service(TokenService::class)->issue(TokenType::Attendee, $author)['token'];
-
-        $response = $this->request('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => [$p2, $p3]], self::bearer($token));
+        $response = $this->request('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => [$p2, $p3]]);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame(['Dos', 'Tres'], array_column($this->json($response), 'name'));
@@ -123,15 +119,12 @@ final class PartnersTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function replacing_needs_permission_and_existing_partners(): void
+    public function replacing_needs_existing_partners(): void
     {
         $author = Attendees::create($this->db());
         $workshop = Workshops::create($this->db(), $author);
         $p1 = Workshops::partner($this->db(), [$workshop]);
-        $stranger = $this->service(TokenService::class)->issue(TokenType::Attendee, 999)['token'];
 
-        self::assertSame(401, $this->request('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => []])->getStatusCode());
-        self::assertSame(403, $this->request('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => []], self::bearer($stranger))->getStatusCode());
         self::assertSame(422, $this->cms('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => [$p1, 999999]])->getStatusCode());
         self::assertSame(1, $this->db()->table('workshop_partner')->where('id_workshop', $workshop)->count(), 'Nothing changed');
         self::assertSame([], $this->json($this->cms('PUT', "/workshops/{$workshop}/partners", ['partner_ids' => []])), 'An empty list clears them');

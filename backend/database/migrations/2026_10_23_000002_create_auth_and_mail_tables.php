@@ -6,14 +6,14 @@ use App\Infrastructure\Persistence\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/* New backend tables: access tokens, access links, rate-limit hits and the email outbox. */
+/* New backend tables: CMS access tokens, rate-limit hits and the email outbox. */
 return new class implements Migration {
     public function up(Builder $schema): void
     {
         $schema->create('access_tokens', static function (Blueprint $t): void {
             $t->id();
-            $t->string('type', 12);                 // cms | attendee
-            $t->unsignedBigInteger('subject_id');   // users.id or attendees.id
+            $t->string('type', 12);                 // cms
+            $t->unsignedBigInteger('subject_id');   // users.id
             $t->char('hash', 64)->unique();         // SHA-256 of the token; the plain token is never stored
             $t->dateTime('expires_at');
             $t->dateTime('revoked_at')->nullable();
@@ -22,14 +22,6 @@ return new class implements Migration {
             $t->index(['type', 'subject_id']);
         });
 
-        $schema->create('access_links', static function (Blueprint $t): void {
-            $t->id();
-            $t->char('hash', 64)->unique();
-            $t->unsignedBigInteger('id_attendee')->index();
-            $t->dateTime('expires_at');
-            $t->dateTime('used_at')->nullable();
-            $t->dateTime('created_at');
-        });
 
         $schema->create('rate_limit_hits', static function (Blueprint $t): void {
             $t->id();
@@ -59,7 +51,7 @@ return new class implements Migration {
 
     public function down(Builder $schema): void
     {
-        foreach (['email_outbox', 'rate_limit_hits', 'access_links', 'access_tokens'] as $table) {
+        foreach (['email_outbox', 'rate_limit_hits', 'access_tokens'] as $table) {
             $schema->dropIfExists($table);
         }
     }

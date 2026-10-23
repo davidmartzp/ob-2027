@@ -43,11 +43,11 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **THEN** la respuesta es 201 pero no se guarda ningún asistente ni se envían correos
 
 ### Requirement: Verificación del número de participante
-`POST /attendees/verify-code` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "token"}` con un token de asistente; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
+`POST /attendees/verify-code` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "message"}`; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
 
 #### Scenario: Código especial
 - **WHEN** un asistente sin `code` pero con `special_code` `A12` verifica con `A12` dentro de su turno
-- **THEN** la respuesta es `valid: true` con su `id` y un token
+- **THEN** la respuesta es `valid: true` con su `id`
 
 #### Scenario: Adivinar números
 - **WHEN** se prueban 10 números equivocados para el mismo correo en 15 minutos

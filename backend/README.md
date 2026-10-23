@@ -49,8 +49,8 @@ Errors always look like `{"error": {"code": "validation_failed", "message": "…
 
 ## Routes
 
-Tokens go in `Authorization: Bearer <token>`: CMS tokens from `POST /auth/login`, attendee tokens from
-`POST /attendees/verify-code` or `POST /auth/redeem-link`.
+CMS routes need `Authorization: Bearer <token>` from `POST /auth/login`. Attendees never sign in: their routes
+are public and identify them by email or id, as in the legacy site (`design.md` D5, an accepted risk).
 
 | Method | Path | Who | Handler |
 |---|---|---|---|
@@ -59,8 +59,6 @@ Tokens go in `Authorization: Bearer <token>`: CMS tokens from `POST /auth/login`
 | `POST` | `/auth/login` | public | `AuthController::login` |
 | `POST` | `/auth/logout` | CMS | `AuthController::logout` |
 | `GET` | `/auth/me` | CMS | `AuthController::me` |
-| `POST` | `/auth/attendee-link` | public | `AuthController::requestAttendeeLink` |
-| `POST` | `/auth/redeem-link` | public | `AuthController::redeemLink` |
 | `POST` | `/attendees` | public | `AttendeeController::register` |
 | `POST` | `/attendees/verify-code` | public | `AttendeeController::verifyCode` |
 | `POST` | `/attendees/remind-code` | public | `AttendeeController::remindCode` |
@@ -72,11 +70,12 @@ Tokens go in `Authorization: Bearer <token>`: CMS tokens from `POST /auth/login`
 | `PUT` | `/attendees/{id}` | CMS | `AttendeeController::update` |
 | `DELETE` | `/attendees/{id}` | CMS | `AttendeeController::delete` |
 | `GET` | `/workshops` | public | `WorkshopController::publicList` |
-| `POST` | `/attendees/{id}/workshops` | attendee (self) | `WorkshopController::propose` |
-| `GET` | `/attendees/{id}/workshops` | attendee (self) | `WorkshopController::listMine` |
-| `PUT` | `/workshops/{id}` | CMS or owner | `WorkshopController::update` |
-| `DELETE` | `/workshops/{id}` | CMS or owner | `WorkshopController::withdraw` |
-| `POST` | `/workshops/{id}/image` | CMS or owner | `WorkshopController::uploadImage` |
+| `POST` | `/workshops/by-email` | public | `WorkshopController::byEmail` |
+| `POST` | `/attendees/{id}/workshops` | public | `WorkshopController::propose` |
+| `GET` | `/attendees/{id}/workshops` | public | `WorkshopController::listMine` |
+| `PUT` | `/workshops/{id}` | public | `WorkshopController::update` |
+| `DELETE` | `/workshops/{id}` | public | `WorkshopController::withdraw` |
+| `POST` | `/workshops/{id}/image` | public | `WorkshopController::uploadImage` |
 | `GET` | `/cms/workshops` | CMS | `WorkshopController::cmsList` |
 | `PATCH` | `/workshops/{id}` | CMS | `WorkshopController::patch` |
 | `GET` | `/partners` | public | `PartnerController::index` |
@@ -85,7 +84,7 @@ Tokens go in `Authorization: Bearer <token>`: CMS tokens from `POST /auth/login`
 | `DELETE` | `/partners/{id}` | CMS | `PartnerController::deactivate` |
 | `POST` | `/partners/{id}/logo` | CMS | `PartnerController::uploadLogo` |
 | `GET` | `/workshops/{id}/partners` | public | `PartnerController::ofWorkshop` |
-| `PUT` | `/workshops/{id}/partners` | CMS or owner | `PartnerController::replaceForWorkshop` |
+| `PUT` | `/workshops/{id}/partners` | public | `PartnerController::replaceForWorkshop` |
 | `GET` | `/rooms` | CMS | `ScheduleController::rooms` |
 | `GET` | `/activities` | CMS | `ScheduleController::activities` |
 | `GET` | `/events` | CMS | `ScheduleController::events` |
@@ -95,9 +94,9 @@ Tokens go in `Authorization: Bearer <token>`: CMS tokens from `POST /auth/login`
 | `GET` | `/events/{id}/attendees` | CMS | `ScheduleController::eventAttendees` |
 | `GET` | `/events/active` | public | `ScheduleController::activeEvents` |
 | `GET` | `/events/schedule` | public | `ScheduleController::schedule` |
-| `GET` | `/attendees/{id}/events` | attendee (self) | `ScheduleController::myEvents` |
-| `POST` | `/attendees/{id}/events` | attendee (self) | `ScheduleController::enrol` |
-| `DELETE` | `/attendees/{id}/events/{event}` | attendee (self) | `ScheduleController::cancel` |
+| `GET` | `/attendees/{id}/events` | public | `ScheduleController::myEvents` |
+| `POST` | `/attendees/{id}/events` | public | `ScheduleController::enrol` |
+| `DELETE` | `/attendees/{id}/events/{event}` | public | `ScheduleController::cancel` |
 | `GET` | `/emails/log` | CMS | `EmailController::log` |
 | `GET` | `/emails/{type}/recipients` | CMS | `EmailController::recipients` |
 | `POST` | `/emails/{type}` | CMS | `EmailController::send` |

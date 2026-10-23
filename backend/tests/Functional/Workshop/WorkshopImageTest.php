@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Workshop;
 
-use App\Application\Auth\TokenService;
-use App\Domain\Auth\TokenType;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Support\Attendees;
 use Tests\Support\FunctionalTestCase;
@@ -14,19 +12,16 @@ use Tests\Support\Workshops;
 final class WorkshopImageTest extends FunctionalTestCase
 {
     private int $workshop;
-    private string $token;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $author = Attendees::create($this->db());
-        $this->workshop = Workshops::create($this->db(), $author);
-        $this->token = $this->service(TokenService::class)->issue(TokenType::Attendee, $author)['token'];
+        $this->workshop = Workshops::create($this->db(), Attendees::create($this->db()));
     }
 
     private function uploadImage(string $bytes, string $name = 'modelo.png'): \Psr\Http\Message\ResponseInterface
     {
-        return $this->upload("/workshops/{$this->workshop}/image", 'image', $bytes, $name, self::bearer($this->token));
+        return $this->upload("/workshops/{$this->workshop}/image", 'image', $bytes, $name);
     }
 
     private function storedFiles(): array
@@ -89,12 +84,9 @@ final class WorkshopImageTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function uploading_requires_the_author_or_the_cms(): void
+    public function uploading_to_an_unknown_workshop_is_404(): void
     {
-        $stranger = $this->service(TokenService::class)->issue(TokenType::Attendee, 999)['token'];
-
-        self::assertSame(401, $this->upload("/workshops/{$this->workshop}/image", 'image', Workshops::png(), 'a.png')->getStatusCode());
-        self::assertSame(403, $this->upload("/workshops/{$this->workshop}/image", 'image', Workshops::png(), 'a.png', self::bearer($stranger))->getStatusCode());
+        self::assertSame(404, $this->upload('/workshops/999999/image', 'image', Workshops::png(), 'a.png')->getStatusCode());
         self::assertSame([], $this->storedFiles());
     }
 

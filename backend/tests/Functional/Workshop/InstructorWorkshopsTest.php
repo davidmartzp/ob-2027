@@ -4,28 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Workshop;
 
-use App\Application\Auth\TokenService;
-use App\Domain\Auth\TokenType;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Support\Attendees;
 use Tests\Support\FunctionalTestCase;
 use Tests\Support\Workshops;
 
+/** Instructors manage their workshops without signing in, as in the legacy site. */
 final class InstructorWorkshopsTest extends FunctionalTestCase
 {
     private int $me;
     private int $other;
-    private string $myToken;
-    private string $cmsToken;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->me = Attendees::create($this->db(), ['name' => 'Zoé']);
+        $this->me = Attendees::create($this->db(), ['name' => 'Zoé', 'lastname' => 'Peña', 'email' => 'familia@ejemplo.com']);
         $this->other = Attendees::create($this->db(), ['name' => 'Luis']);
-        $tokens = $this->service(TokenService::class);
-        $this->myToken = $tokens->issue(TokenType::Attendee, $this->me)['token'];
-        $this->cmsToken = $tokens->issue(TokenType::Cms, 1)['token'];
     }
 
     private static function workshop(array $overrides = []): array
@@ -36,7 +30,7 @@ final class InstructorWorkshopsTest extends FunctionalTestCase
     #[Test]
     public function an_attendee_proposes_two_workshops_which_are_active(): void
     {
-        $response = $this->request('POST', "/attendees/{$this->me}/workshops", ['workshops' => [self::workshop(), self::workshop(['name' => 'Dragón', 'level' => 'A', 'public' => 'A', 'duration' => 180])]], self::bearer($this->myToken));
+        $response = $this->request('POST', "/attendees/{$this->me}/workshops", ['workshops' => [self::workshop(), self::workshop(['name' => 'Dragón', 'level' => 'A', 'public' => 'A', 'duration' => 180])]]);
 
         self::assertSame(201, $response->getStatusCode());
         $created = $this->json($response);
@@ -48,7 +42,7 @@ final class InstructorWorkshopsTest extends FunctionalTestCase
     #[Test]
     public function one_invalid_workshop_saves_none(): void
     {
-        $response = $this->request('POST', "/attendees/{$this->me}/workshops", ['workshops' => [self::workshop(), self::workshop(['level' => 'X', 'duration' => 5])]], self::bearer($this->myToken));
+        $response = $this->request('POST', "/attendees/{$this->me}/workshops", ['workshops' => [self::workshop(), self::workshop(['level' => 'X', 'duration' => 5])]]);
 
         self::assertSame(422, $response->getStatusCode());
         self::assertSame(['workshops.1.level', 'workshops.1.duration'], array_keys($this->json($response)['error']['fields']));
@@ -56,11 +50,9 @@ final class InstructorWorkshopsTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function only_the_attendee_themself_can_propose_or_list(): void
+    public function proposing_for_an_unknown_attendee_is_404(): void
     {
-        self::assertSame(403, $this->request('POST', "/attendees/{$this->other}/workshops", ['workshops' => [self::workshop()]], self::bearer($this->myToken))->getStatusCode());
-        self::assertSame(403, $this->request('GET', "/attendees/{$this->other}/workshops", headers: self::bearer($this->myToken))->getStatusCode());
-        self::assertSame(401, $this->request('GET', "/attendees/{$this->me}/workshops")->getStatusCode());
+        self::assertSame(404, $this->request('POST', '/attendees/999999/workshops', ['workshops' => [self::workshop()]])->getStatusCode());
     }
 
     #[Test]
@@ -71,33 +63,38 @@ final class InstructorWorkshopsTest extends FunctionalTestCase
         Workshops::create($this->db(), $this->me, ['name' => 'Retirado', 'status' => 0]);
         Workshops::create($this->db(), $this->other, ['name' => 'Ajeno']);
 
-        $list = $this->json($this->request('GET', "/attendees/{$this->me}/workshops", headers: self::bearer($this->myToken)));
+        $list = $this->json($this->request('GET', "/attendees/{$this->me}/workshops"));
 
         self::assertSame(['Activo', 'Oculto'], array_column($list, 'name'));
     }
 
     #[Test]
-    public function the_author_edits_and_withdraws_but_another_attendee_cannot(): void
+    public function workshops_are_found_by_email_for_every_family_member(): void
     {
-        $mine = Workshops::create($this->db(), $this->me);
-        $otherToken = $this->service(TokenService::class)->issue(TokenType::Attendee, $this->other)['token'];
+        $son = Attendees::create($this->db(), ['name' => 'Tomás', 'lastname' => 'Peña', 'email' => 'Familia@Ejemplo.com']);
+        Workshops::create($this->db(), $this->me, ['name' => 'Grulla']);
+        Workshops::create($this->db(), $this->other, ['name' => 'Ajeno']);
 
-        self::assertSame(403, $this->request('PUT', "/workshops/{$mine}", self::workshop(), self::bearer($otherToken))->getStatusCode());
-        self::assertSame(403, $this->request('DELETE', "/workshops/{$mine}", headers: self::bearer($otherToken))->getStatusCode());
+        $response = $this->request('POST', '/workshops/by-email', ['email' => 'familia@ejemplo.com']);
 
-        $edited = $this->json($this->request('PUT', "/workshops/{$mine}", self::workshop(['level' => 'I']), self::bearer($this->myToken)));
-        self::assertSame('I', $edited['level']);
-
-        self::assertSame(204, $this->request('DELETE', "/workshops/{$mine}", headers: self::bearer($this->myToken))->getStatusCode());
-        self::assertSame(0, (int) $this->db()->table('workshops')->where('id', $mine)->value('status'));
-        self::assertSame(404, $this->request('PUT', "/workshops/{$mine}", self::workshop(), self::bearer($this->myToken))->getStatusCode(), 'A withdrawn workshop is gone');
+        self::assertSame(200, $response->getStatusCode());
+        $body = $this->json($response);
+        self::assertSame([[$this->me, 'Zoé Peña', ['Grulla']], [$son, 'Tomás Peña', []]], array_map(
+            static fn (array $a): array => [$a['id'], $a['name'], array_column($a['workshops'], 'name')],
+            $body,
+        ));
+        self::assertSame([], $this->json($this->request('POST', '/workshops/by-email', ['email' => 'nadie@ejemplo.com'])));
+        self::assertSame(422, $this->request('POST', '/workshops/by-email', ['email' => 'no-es-correo'])->getStatusCode());
     }
 
     #[Test]
-    public function the_cms_can_edit_any_workshop(): void
+    public function a_workshop_is_edited_and_withdrawn(): void
     {
         $mine = Workshops::create($this->db(), $this->me);
 
-        self::assertSame(200, $this->request('PUT', "/workshops/{$mine}", self::workshop(['name' => 'Corregido por el equipo']), self::bearer($this->cmsToken))->getStatusCode());
+        self::assertSame('I', $this->json($this->request('PUT', "/workshops/{$mine}", self::workshop(['level' => 'I'])))['level']);
+        self::assertSame(204, $this->request('DELETE', "/workshops/{$mine}")->getStatusCode());
+        self::assertSame(0, (int) $this->db()->table('workshops')->where('id', $mine)->value('status'));
+        self::assertSame(404, $this->request('PUT', "/workshops/{$mine}", self::workshop())->getStatusCode(), 'A withdrawn workshop is gone');
     }
 }

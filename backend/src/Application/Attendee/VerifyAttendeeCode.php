@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Application\Attendee;
 
-use App\Application\Auth\TokenService;
 use App\Application\Port\RateLimiter;
 use App\Domain\Attendee\AttendeeRepository;
 use App\Domain\Attendee\RegistrationTurns;
-use App\Domain\Auth\TokenType;
-use DateTimeInterface;
 use Psr\Clock\ClockInterface;
 
 /**
- * POST /attendees/verify-code: email + participant number (or special code). Within the
- * attendee's turn it returns an attendee token to pick workshops. There is no master code.
+ * POST /attendees/verify-code: email + participant number (or special code), checked
+ * against the attendee's turn, as in the legacy site. There is no master code.
  */
 final readonly class VerifyAttendeeCode
 {
@@ -24,7 +21,6 @@ final readonly class VerifyAttendeeCode
     public function __construct(
         private AttendeeRepository $attendees,
         private RegistrationTurns $turns,
-        private TokenService $tokens,
         private RateLimiter $limiter,
         private ClockInterface $clock,
     ) {
@@ -57,15 +53,11 @@ final readonly class VerifyAttendeeCode
             return ['valid' => false, 'message' => $turn->message];
         }
 
-        $issued = $this->tokens->issue(TokenType::Attendee, $attendee->id);
-
         return [
             'valid' => true,
             'id' => $attendee->id,
             'code' => $attendee->specialCode ?? $attendee->code,
             'name' => $attendee->fullName(),
-            'token' => $issued['token'],
-            'expires_at' => $issued['expires_at']->format(DateTimeInterface::ATOM),
             'message' => $turn->message,
         ];
     }

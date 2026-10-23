@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Schedule;
 
-use App\Application\Auth\TokenService;
-use App\Domain\Auth\TokenType;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Http\Message\ResponseInterface;
 use Tests\Support\Attendees;
@@ -18,7 +16,6 @@ final class EnrolmentTest extends FunctionalTestCase
     private int $room;
     private int $instructor;
     private int $me;
-    private string $token;
 
     protected function setUp(): void
     {
@@ -26,19 +23,13 @@ final class EnrolmentTest extends FunctionalTestCase
         $this->room = Schedule::room($this->db());
         $this->instructor = Attendees::create($this->db());
         $this->me = Attendees::create($this->db(), ['age' => 30]);
-        $this->token = $this->tokenFor($this->me);
     }
 
-    private function tokenFor(int $attendeeId): string
-    {
-        return $this->service(TokenService::class)->issue(TokenType::Attendee, $attendeeId)['token'];
-    }
-
-    private function enrol(int $eventId, ?int $attendee = null, ?string $token = null): ResponseInterface
+    private function enrol(int $eventId, ?int $attendee = null): ResponseInterface
     {
         $attendee ??= $this->me;
 
-        return $this->request('POST', "/attendees/{$attendee}/events", ['id_event' => $eventId], self::bearer($token ?? $this->token));
+        return $this->request('POST', "/attendees/{$attendee}/events", ['id_event' => $eventId]);
     }
 
     private function workshopEvent(array $workshop = [], string $start = '10:00:00', string $end = '12:00:00', string $day = 'Saturday'): array
@@ -63,7 +54,7 @@ final class EnrolmentTest extends FunctionalTestCase
         self::assertSame(201, $response->getStatusCode());
         self::assertSame(['enrolled' => [$event]], $this->json($response));
         self::assertSame(4, $this->tickets($workshop));
-        self::assertSame([$event], $this->json($this->request('GET', "/attendees/{$this->me}/events", headers: self::bearer($this->token))));
+        self::assertSame([$event], $this->json($this->request('GET', "/attendees/{$this->me}/events")));
     }
 
     #[Test]
@@ -73,7 +64,7 @@ final class EnrolmentTest extends FunctionalTestCase
         $other = Attendees::create($this->db());
 
         self::assertSame(201, $this->enrol($event)->getStatusCode());
-        $second = $this->enrol($event, $other, $this->tokenFor($other));
+        $second = $this->enrol($event, $other);
 
         self::assertSame(409, $second->getStatusCode());
         self::assertStringContainsString('No quedan cupos', $this->json($second)['error']['message']);
@@ -111,9 +102,9 @@ final class EnrolmentTest extends FunctionalTestCase
         [, $kids] = $this->workshopEvent(['public' => 'N'], '14:00:00', '15:00:00');
         $child = Attendees::create($this->db(), ['age' => 11]);
 
-        self::assertSame(422, $this->enrol($event, $child, $this->tokenFor($child))->getStatusCode());
+        self::assertSame(422, $this->enrol($event, $child)->getStatusCode());
         self::assertSame(5, $this->tickets($adult), 'No place was taken');
-        self::assertSame(201, $this->enrol($kids, $child, $this->tokenFor($child))->getStatusCode());
+        self::assertSame(201, $this->enrol($kids, $child)->getStatusCode());
     }
 
     #[Test]
@@ -168,10 +159,10 @@ final class EnrolmentTest extends FunctionalTestCase
         $this->enrol($event1);
         self::assertSame([0, 0], [$this->tickets($part1), $this->tickets($part2)]);
 
-        self::assertSame(204, $this->request('DELETE', "/attendees/{$this->me}/events/{$event2}", headers: self::bearer($this->token))->getStatusCode());
+        self::assertSame(204, $this->request('DELETE', "/attendees/{$this->me}/events/{$event2}")->getStatusCode());
 
         self::assertSame([1, 1], [$this->tickets($part1), $this->tickets($part2)]);
-        self::assertSame([], $this->json($this->request('GET', "/attendees/{$this->me}/events", headers: self::bearer($this->token))));
+        self::assertSame([], $this->json($this->request('GET', "/attendees/{$this->me}/events")));
     }
 
     #[Test]
@@ -179,19 +170,16 @@ final class EnrolmentTest extends FunctionalTestCase
     {
         [$workshop, $event] = $this->workshopEvent(['tickets' => 3]);
 
-        $this->request('DELETE', "/attendees/{$this->me}/events/{$event}", headers: self::bearer($this->token));
+        $this->request('DELETE', "/attendees/{$this->me}/events/{$event}");
 
         self::assertSame(3, $this->tickets($workshop));
     }
 
     #[Test]
-    public function only_the_attendee_themself_with_an_attendee_token(): void
+    public function an_unknown_attendee_is_404(): void
     {
         [, $event] = $this->workshopEvent();
-        $cms = $this->service(TokenService::class)->issue(TokenType::Cms, 1)['token'];
 
-        self::assertSame(401, $this->request('POST', "/attendees/{$this->me}/events", ['id_event' => $event])->getStatusCode());
-        self::assertSame(403, $this->enrol($event, $this->instructor)->getStatusCode(), 'Someone else\'s id');
-        self::assertSame(401, $this->enrol($event, token: $cms)->getStatusCode(), 'The CMS does not enrol people');
+        self::assertSame(404, $this->enrol($event, 999999)->getStatusCode());
     }
 }

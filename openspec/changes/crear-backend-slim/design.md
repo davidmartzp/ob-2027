@@ -36,16 +36,16 @@ backend/
 ├── config/
 │   ├── bootstrap.php                    ← .env → Settings → contenedor → Eloquent → Slim (web, consola y pruebas)
 │   ├── container.php                    ← qué adaptador implementa cada puerto
-│   ├── routes.php                       ← TODAS las rutas, con su guardia (cms / attendee / cmsOrAttendee)
+│   ├── routes.php                       ← TODAS las rutas; las del CMS llevan la guardia cms()
 │   ├── middleware.php, console.php
 ├── src/
 │   ├── Domain/                          ← PHP puro: entidades, enums, reglas, interfaces de repositorio, excepciones
 │   │   ├── Attendee/   Attendee, AttendeeStatus, AttendeeRepository, (RegistrationTurns…)
-│   │   ├── Auth/       User, Session, TokenType, UserRepository, AccessTokenRepository, AccessLinkRepository
+│   │   ├── Auth/       User, Session, TokenType, UserRepository, AccessTokenRepository
 │   │   ├── Workshop/  Schedule/  Partner/        (grupos 6–8)
 │   │   └── Shared/Exception/   NotFound, Validation, Conflict, Unauthorized, Forbidden, TooManyAttempts
 │   ├── Application/                     ← un caso de uso por acción + puertos técnicos
-│   │   ├── Auth/       Login, Logout, GetCurrentUser, CreateUser, ChangeUserPassword, RequestAccessLink, RedeemAccessLink, TokenService
+│   │   ├── Auth/       Login, Logout, GetCurrentUser, CreateUser, ChangeUserPassword, TokenService
 │   │   ├── Attendee/  Workshop/  Schedule/  Partner/  Mail/   (grupos 4–8)
 │   │   ├── Port/       RateLimiter, PasswordHasher, MailQueue, EmailMessage
 │   │   └── Shared/Validator
@@ -82,20 +82,20 @@ backend/
 | `/email-triggers` · `/email-trigger-events` | **eliminadas** (no se usan) | — |
 | `GET /partners` · `GET /workshops/{id}/partners` | iguales | público |
 | `POST|PUT|DELETE /partners` (id en el cuerpo; borrar = `status 0`) · `POST /partners/upload-logo` | `POST /partners` · `PUT|DELETE /partners/{id}` · `POST /partners/{id}/logo` | CMS |
-| `POST /workshops/{id}/partners` (público) | `PUT /workshops/{id}/partners` | autor o CMS |
-| `POST /workshops {email}` | `POST /auth/attendee-link` → `GET /attendees/{id}/workshops` | asistente |
+| `POST /workshops/{id}/partners` (público) | `PUT /workshops/{id}/partners` | público |
+| `POST /workshops {email}` | `POST /workshops/by-email` | público |
 | `POST /addworkshops` | `POST /attendees/{id}/workshops` | asistente |
-| `PUT /workshops` · `DELETE /workshops` (id en el cuerpo) | `PUT /workshops/{id}` · `DELETE /workshops/{id}` | asistente autor o CMS |
+| `PUT /workshops` · `DELETE /workshops` (id en el cuerpo) | `PUT /workshops/{id}` · `DELETE /workshops/{id}` | público |
 | (cupo, partes: a mano en la base) | `GET /cms/workshops` · `PATCH /workshops/{id}` | CMS |
-| `POST /upload-image` (público) | `POST /workshops/{id}/image` | asistente autor o CMS |
+| `POST /upload-image` (público) | `POST /workshops/{id}/image` (validada por contenido) | público |
 | `GET /getWorkshops` | `GET /workshops` | público |
 | `GET /rooms` · `GET /activities` | iguales | CMS |
 | `GET/POST /events` · `DELETE /events/{id}` | iguales | CMS |
 | `GET /events/get-active` (+ `X-Test-Mode`) | `GET /events/active` (ensayo solo fuera de producción) | público |
 | `GET /events/workshops` | `GET /events/schedule` | público |
-| `POST /events/storeEventAttendees` | `POST /attendees/{id}/events` | asistente |
-| `GET /events/getEventIdsByAttendee/{id}` | `GET /attendees/{id}/events` | asistente |
-| `POST /events/removeEventAttendee` | `DELETE /attendees/{id}/events/{idEvento}` | asistente |
+| `POST /events/storeEventAttendees` | `POST /attendees/{id}/events` | público |
+| `GET /events/getEventIdsByAttendee/{id}` | `GET /attendees/{id}/events` | público |
+| `POST /events/removeEventAttendee` | `DELETE /attendees/{id}/events/{idEvento}` | público |
 | `GET /events/getWorkshopsActive` | `GET /events/workshops` | CMS |
 | `GET /events/getAttendeesByEvent/{id}` · `POST /getAttendees` | `GET /events/{id}/attendees` | CMS |
 | `POST /login` · `POST /logout` · `GET /user` | `POST /auth/login` · `POST /auth/logout` · `GET /auth/me` | público / CMS |
@@ -109,21 +109,23 @@ Se conserva el esquema heredado (para que la importación sea un renombrado, no 
 - `rooms` (`name`), `activities` (`name`, `description`, `duration`), `events` (`id_room`, `day` = `Saturday`|`Sunday`, `start_time`, `end_time`, `id_workshop` | `id_activity`, timestamps; la regla «uno u otro» se valida en el servicio porque la tabla de producción no tiene el `CHECK`).
 - `partners` (`name`, `logo`, `whatsapp`, `message`, `status`) y `workshop_partner` (`id_workshop`, `id_partner`, único por par), como sus migraciones heredadas.
 - `email_outbox` (cola + registro: `tipo`, `id_attendee`, `email`, `subject`, `body`, `estado`, `intentos`, `disponible_en`, `enviado_en`, `error`, `clave_unica` = tipo+asistente, nula en reenvíos). No se crean `email_triggers`, `email_campaigns`, `email_filters`, `email_recipients`, `email_logs`, `email_templates` ni `jobs`.
-- `users` (heredada, hash bcrypt), `access_tokens` (`tipo` cms|asistente, `id_sujeto`, `hash` SHA-256 único, `caduca_en`, `revocado_en`; sustituye a `personal_access_tokens`), `access_links` (hash, `id_attendee`, `caduca_en`, `usado_en`), `rate_limit_hits` (limit_key, hit_at) para los límites.
+- `users` (heredada, hash bcrypt), `access_tokens` (`type` cms, `subject_id`, `hash` SHA-256 único, `caduca_en`, `revocado_en`; sustituye a `personal_access_tokens`), `rate_limit_hits` (limit_key, hit_at) para los límites.
 
-### D5. Autenticación con tokens opacos en base de datos
-Tokens aleatorios de 32 bytes (`random_bytes`), entregados en claro una sola vez y guardados como SHA-256; un middleware los resuelve por tipo (`cms` o `asistente`) y adjunta el sujeto a la petición. Contraseñas con `password_verify`/`password_hash` (bcrypt actual; `password_needs_rehash` las sube a Argon2id al iniciar sesión). *Alternativa descartada:* JWT, porque exige gestionar revocación aparte y no aporta nada en un solo servidor.
+### D5. Autenticación solo para el CMS; los asistentes no inician sesión (decisión del 2026-10-23)
+El CMS usa tokens opacos en base de datos: 32 bytes aleatorios (`random_bytes`), entregados en claro una sola vez y guardados como SHA-256; el middleware `Authenticate` los resuelve y adjunta la sesión a la petición. Contraseñas con `password_verify`/`password_hash` (bcrypt heredado; `password_needs_rehash` las sube a Argon2id al iniciar sesión). *Alternativa descartada:* JWT (revocación aparte, sin beneficio en un solo servidor).
+
+Los asistentes **no** inician sesión, como en el sitio antiguo: se identifican con su correo (`POST /workshops/by-email`) o con su id, y `verify-code` (correo + número, dentro de su turno) es solo la puerta del sitio. Se probó un token de asistente con enlace por correo y el usuario lo descartó por complicar el proceso. **Riesgo aceptado:** quien conozca el correo de un tallerista puede ver, editar o retirar sus talleres, cambiar su foto y sus socios; quien conozca o adivine el id de un asistente puede inscribirlo o desinscribirlo de talleres. Se mantienen las reglas de negocio (cupo, choques, edad, dos partes), la validación por contenido de las imágenes y todas las protecciones del CMS.
 
 ### D6. Correo: Symfony Mailer + Twig
 `symfony/mailer` standalone con `Transport::fromDsn(MAILER_DSN)`: soporta `smtps://` (TLS implícito, 465) y `smtp://` con STARTTLS automático, verifica el certificado por defecto y valida los encabezados (rechaza saltos de línea). Twig con `autoescape: 'html'` para todas las plantillas (versionadas en el repo, no editables desde el CMS) y una versión en texto plano. En producción el arranque rechaza DSN con `verify_peer=0` o sin cifrado. En desarrollo los correos van al sandbox de Mailtrap (credenciales solo en el `.env` local); no hay contenedor de correo. *Alternativa:* PHPMailer 7 — válido, pero mezcla transporte y mensaje en una clase, no tiene DSN ni plantillas, y Symfony Mailer es el que usa Laravel por debajo, así que el comportamiento de entrega no cambia. Se envía de forma síncrona tras guardar; los fallos se registran y no se propagan (spec `correo`).
 
 ### D6b. Cola de correo en base de datos + cron
-Todo correo (automático o lanzado con `POST /emails/{type}`) se inserta en `email_outbox` y lo despacha `bin/console mail:send` (lote limitado por minuto, 3 intentos con reintentos a los 1 y 5 min, pausa `MAIL_SEND_INTERVAL_MS` (1 s) entre correos porque los servidores SMTP rechazan ráfagas (lo confirmó el sandbox de Mailtrap), bloqueo por fila con `FOR UPDATE SKIP LOCKED` en MySQL). En el hosting corre por cron cada minuto; en Docker, un servicio `cola` lo ejecuta en bucle. Los automáticos de acceso (enlace y recordatorio) se intentan enviar en el acto y, si fallan, quedan en la cola. *Alternativas:* worker permanente (no disponible en hosting compartido), envío síncrono masivo (bloquea la petición y no reintenta).
+Todo correo (automático o lanzado con `POST /emails/{type}`) se inserta en `email_outbox` y lo despacha `bin/console mail:send` (lote limitado por minuto, 3 intentos con reintentos a los 1 y 5 min, pausa `MAIL_SEND_INTERVAL_MS` (1 s) entre correos porque los servidores SMTP rechazan ráfagas (lo confirmó el sandbox de Mailtrap), bloqueo por fila con `FOR UPDATE SKIP LOCKED` en MySQL). En el hosting corre por cron cada minuto; en Docker, un servicio `cola` lo ejecuta en bucle. El recordatorio del número se intenta enviar en el acto y, si fallan, quedan en la cola. *Alternativas:* worker permanente (no disponible en hosting compartido), envío síncrono masivo (bloquea la petición y no reintenta).
 
 ### D6c. Tipos de correo como código
 Cada tipo es una clase pequeña en `src/Application/Mail/EmailType/` con su consulta de destinatarios (los filtros heredados de `MODULO_EMAIL_CMS.md` §1.2), su asunto y su plantilla Twig en `resources/emails/`. Añadir un correo = una clase + una plantilla + su alta en la lista de tipos.
 
-**Origen de cada plantilla (decisión del 2026-10-23): se porta tal cual la versión que envía hoy producción**, sin rediseñar; solo cambia la sintaxis de variables (`{{ $name }}`/`{{$obj->name}}` → `{{ name }}`). `welcome` = `email_triggers` id 1, `team-notice` = id 2, `code` = id 3, `correction` = id 8 (del volcado); `instructions` = `email4.blade.php`, `book` = `email5.blade.php`, `important-notice` = `email6.blade.php`, `general-info` = `email7.blade.php` (de `angular-ob/app-ob/resources/views/mails/`). Las `plantilla_*.html` de la raíz de `angular-ob` no se usan. Los dos correos nuevos (`access-link`, `code-reminder`) reutilizan la cabecera, los colores y el pie de `code`, para que todos se vean iguales; el marco `_base` de 2027 hecho en el grupo 3 se reemplaza. *Alternativa descartada:* disparadores configurables en el CMS (el módulo heredado no se usa: los envíos se lanzan a mano).
+**Origen de cada plantilla (decisión del 2026-10-23): se porta tal cual la versión que envía hoy producción**, sin rediseñar; solo cambia la sintaxis de variables (`{{ $name }}`/`{{$obj->name}}` → `{{ name }}`). `welcome` = `email_triggers` id 1, `team-notice` = id 2, `code` = id 3, `correction` = id 8 (del volcado); `instructions` = `email4.blade.php`, `book` = `email5.blade.php`, `important-notice` = `email6.blade.php`, `general-info` = `email7.blade.php` (de `angular-ob/app-ob/resources/views/mails/`). Las `plantilla_*.html` de la raíz de `angular-ob` no se usan. El correo nuevo `code-reminder` reutilizan la cabecera, los colores y el pie de `code`, para que todos se vean iguales; el marco `_base` de 2027 hecho en el grupo 3 se reemplaza. *Alternativa descartada:* disparadores configurables en el CMS (el módulo heredado no se usa: los envíos se lanzan a mano).
 
 ### D7. Concurrencia de cupos
 La inscripción a eventos se hace en una transacción con `SELECT … FOR UPDATE` sobre la fila del evento, se cuenta `event_attendees` y se inserta; el índice único `(id_event, id_attendee)` impide duplicados. En SQLite (pruebas) la transacción serializa igual.
@@ -154,7 +156,6 @@ La inscripción reúne primero el conjunto de eventos afectados (el elegido y su
 - [Faltan `app-ob/app` y las migraciones heredadas] → si aparecen, se revisa la spec contra la lógica real antes de la tarea 8.1; mientras tanto la importación falla de forma explícita ante columnas desconocidas.
 - [`correction` y `important-notice` eran correos puntuales de 2026] → se portan con texto genérico; `correction` exige `ids` en lugar de la lista de correos escrita en el código.
 - [El cron del hosting no corre] → `GET /health` reporta la antigüedad del envío pendiente más viejo para detectarlo.
-- [Enlace mágico depende de que el correo llegue] → el número de participante sigue sirviendo como segunda vía de acceso.
 
 ## Migration Plan
 

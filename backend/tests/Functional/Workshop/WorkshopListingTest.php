@@ -93,11 +93,10 @@ final class WorkshopListingTest extends FunctionalTestCase
     }
 
     #[Test]
-    public function an_attendee_cannot_patch(): void
+    public function only_the_cms_can_patch(): void
     {
         $id = Workshops::create($this->db(), $this->instructor);
-        $token = $this->service(TokenService::class)->issue(TokenType::Attendee, $this->instructor)['token'];
 
-        self::assertSame(401, $this->request('PATCH', "/workshops/{$id}", ['tickets' => 999], self::bearer($token))->getStatusCode());
+        self::assertSame(401, $this->request('PATCH', "/workshops/{$id}", ['tickets' => 999])->getStatusCode());
     }
 }

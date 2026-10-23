@@ -41,9 +41,6 @@
         <env name="MAIL_TEAM_ADDRESS" value="inscripciones@origamibogota.com" force="true"/>
         <env name="MAIL_SEND_PER_MINUTE" value="30" force="true"/>
         <env name="CMS_TOKEN_HOURS" value="12" force="true"/>
-        <env name="ATTENDEE_TOKEN_HOURS" value="2" force="true"/>
-        <env name="ACCESS_LINK_MINUTES" value="30" force="true"/>
-        <env name="ACCESS_LINK_PATH" value="acceso" force="true"/>
         <env name="CODE_MIN_AGE" value="12" force="true"/>
         <env name="CODE_EXCLUDED_PAYMENT_METHODS" value="Grupo de apoyo,Invitado,Invitado(a)" force="true"/>
         <env name="EVENT_SATURDAY" value="2027-06-05" force="true"/>

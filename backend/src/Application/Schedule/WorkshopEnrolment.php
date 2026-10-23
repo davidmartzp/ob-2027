@@ -7,7 +7,6 @@ namespace App\Application\Schedule;
 use App\Application\Port\TransactionManager;
 use App\Application\Shared\Validator;
 use App\Domain\Attendee\AttendeeRepository;
-use App\Domain\Auth\Session;
 use App\Domain\Schedule\Event;
 use App\Domain\Schedule\ScheduleRepository;
 use App\Domain\Shared\Exception\ConflictException;
@@ -17,7 +16,8 @@ use App\Domain\Workshop\Workshop;
 use App\Domain\Workshop\WorkshopRepository;
 
 /**
- * An attendee picks or drops workshops (`/attendees/{id}/events`). A two-part workshop
+ * An attendee picks or drops workshops (`/attendees/{id}/events`, no sign-in, as in the
+ * legacy site). A two-part workshop
  * is one unit: enrolling in either part enrols in all of them, or in none.
  * Everything happens in one transaction with the workshop rows locked, so the last
  * place cannot be taken twice.
@@ -37,10 +37,8 @@ final readonly class WorkshopEnrolment
     }
 
     /** @return list<int> */
-    public function mine(Session $session, int $attendeeId): array
+    public function mine(int $attendeeId): array
     {
-        $session->requireAttendee($attendeeId);
-
         return $this->schedule->eventIdsOf($attendeeId);
     }
 
@@ -48,9 +46,8 @@ final readonly class WorkshopEnrolment
      * @param array<string, mixed> $input `{"id_event": 12}`
      * @return array{enrolled: list<int>}
      */
-    public function enrol(Session $session, int $attendeeId, array $input): array
+    public function enrol(int $attendeeId, array $input): array
     {
-        $session->requireAttendee($attendeeId);
         $eventId = Validator::validate($input, ['id_event' => 'required|int:1,100000000'])['id_event'];
         $attendee = $this->attendees->findActive($attendeeId) ?? throw new NotFoundException('No existe ese asistente.');
 
@@ -94,9 +91,8 @@ final readonly class WorkshopEnrolment
     }
 
     /** Drops the workshop (every part of it) and gives the places back. */
-    public function cancel(Session $session, int $attendeeId, int $eventId): void
+    public function cancel(int $attendeeId, int $eventId): void
     {
-        $session->requireAttendee($attendeeId);
 
         $this->transactions->run(function () use ($attendeeId, $eventId): void {
             [$events] = $this->unit($eventId);

@@ -14,32 +14,36 @@ Cada taller SHALL tener uno de estos estados: 1 (activo: se publica y se puede p
 - **THEN** deja de aparecer en el listado público, en los talleres del autor y en los disponibles para programar
 
 ### Requirement: Propuesta de talleres por el asistente
-`POST /attendees/{id}/workshops` con token de ese asistente SHALL crear uno o varios talleres con `name`, `level`, `public`, `duration` (minutos, 15 a 480) y `observations`, en estado 1, asociados al asistente, y responder 201 con los talleres creados. `level` y `public` MUST ser valores de las listas configuradas.
+`POST /attendees/{id}/workshops` (público, sin inicio de sesión) SHALL crear uno o varios talleres con `name`, `level`, `public`, `duration` (minutos, 15 a 480) y `observations`, en estado 1, asociados al asistente, y responder 201 con los talleres creados. `level` y `public` MUST ser valores de las listas configuradas.
 
 #### Scenario: Propuesta de dos talleres
 - **WHEN** un asistente autenticado propone dos talleres válidos
 - **THEN** la respuesta es 201 con ambos talleres en estado 1
 
+### Requirement: Talleres por correo
+`POST /workshops/by-email` (público) con `{"email"}` SHALL devolver cada asistente no eliminado registrado con ese correo (`id`, `name`) con sus talleres en estado 1 o 2, como el `POST /workshops` heredado.
+
+#### Scenario: Familia con un mismo correo
+- **WHEN** dos asistentes comparten correo y solo uno tiene talleres
+- **THEN** la respuesta lista a ambos, cada uno con sus talleres
+
 ### Requirement: Talleres del asistente
-`GET /attendees/{id}/workshops` con token de ese asistente SHALL devolver sus talleres en estado 1 o 2 con `id`, `name`, `public`, `level`, `duration`, `observations`, `image` (URL absoluta o `null`), `status` y sus socios.
+`GET /attendees/{id}/workshops` (público) SHALL devolver sus talleres en estado 1 o 2 con `id`, `name`, `public`, `level`, `duration`, `observations`, `image` (URL absoluta o `null`), `status` y sus socios.
 
 #### Scenario: Consultar mis talleres
 - **WHEN** un asistente autenticado consulta sus talleres
 - **THEN** recibe solo los suyos, sin los retirados
 
 ### Requirement: Edición y retiro de talleres
-`PUT /workshops/{id}` SHALL actualizar `name`, `public`, `level`, `duration` y `observations`, y `DELETE /workshops/{id}` SHALL pasar el taller a estado 0. Ambos MUST aceptar el token del CMS o el token del asistente autor del taller y rechazar con 403 a cualquier otro asistente.
+`PUT /workshops/{id}` SHALL actualizar `name`, `public`, `level`, `duration` y `observations`, y `DELETE /workshops/{id}` SHALL pasar el taller a estado 0. Son públicos, sin inicio de sesión, como en el sitio antiguo.
 
 #### Scenario: Autor edita su taller
 - **WHEN** el autor cambia el nivel de su taller
 - **THEN** la respuesta es 200 con el taller actualizado
 
-#### Scenario: Otro asistente intenta retirar
-- **WHEN** un asistente que no es el autor envía `DELETE /workshops/{id}`
-- **THEN** la respuesta es 403 y el taller no cambia
 
 ### Requirement: Imagen del taller
-`POST /workshops/{id}/image` (multipart, campo `image`) SHALL guardar la imagen del modelo del taller y responder `{"image": <URL absoluta>}`. MUST aceptar solo JPEG, PNG o WebP verificados por su contenido (no por la extensión ni el tipo que declara el cliente), de hasta 5 MB, guardarlos con un nombre y extensión generados por el servidor en una carpeta donde no se ejecuta código, y reemplazar la imagen anterior. Mismos permisos que la edición.
+`POST /workshops/{id}/image` (multipart, campo `image`) SHALL guardar la imagen del modelo del taller y responder `{"image": <URL absoluta>}`. MUST aceptar solo JPEG, PNG o WebP verificados por su contenido (no por la extensión ni el tipo que declara el cliente), de hasta 5 MB, guardarlos con un nombre y extensión generados por el servidor en una carpeta donde no se ejecuta código, y reemplazar la imagen anterior. Pública, como la edición.
 
 #### Scenario: Script disfrazado
 - **WHEN** se sube un archivo `.php` (o un `.jpg` que contiene código PHP)
@@ -49,9 +53,6 @@ Cada taller SHALL tener uno de estos estados: 1 (activo: se publica y se puede p
 - **WHEN** se sube una imagen de 8 MB
 - **THEN** la respuesta es 422
 
-#### Scenario: Sin sesión
-- **WHEN** se sube una imagen sin token
-- **THEN** la respuesta es 401
 
 ### Requirement: Listado público de talleres
 `GET /workshops` (público) SHALL devolver, en orden aleatorio, los talleres activos con `id`, `name`, `observations`, `duration`, `public`, `level`, `image`, el tallerista (`instructor: {id, name, lastname}`) y sus socios activos (`partners: [{id, name, logo, whatsapp, message, whatsapp_url}]`), sin datos de contacto del tallerista.

@@ -7,7 +7,6 @@ namespace App\Infrastructure\Http\Controller;
 use App\Application\Partner\ManagePartners;
 use App\Application\Partner\WorkshopPartners;
 use App\Infrastructure\Http\Json;
-use App\Infrastructure\Http\RequestSession;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -56,6 +55,6 @@ final readonly class PartnerController
     /** @param array{id: string} $args */
     public function replaceForWorkshop(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return Json::respond($response, $this->workshopPartners->replace(RequestSession::of($request), (int) $args['id'], (array) $request->getParsedBody()));
+        return Json::respond($response, $this->workshopPartners->replace((int) $args['id'], (array) $request->getParsedBody()));
     }
 }

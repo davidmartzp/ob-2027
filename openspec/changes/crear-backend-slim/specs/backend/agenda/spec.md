@@ -54,7 +54,7 @@ Cada evento activo SHALL devolverse como `{event: {id, day, start_time, end_time
 - **THEN** su `workshop.tickets` es 2
 
 ### Requirement: Inscripción de un asistente a un taller
-`POST /attendees/{id}/events` con token de ese asistente y `{"id_event"}` SHALL inscribirlo, descontar un cupo del taller y responder 201. MUST rechazar con 422 si el taller está retirado o si el asistente tiene menos de 13 años y el taller es de público adulto (`public` = `A`), y con 409 si no quedan cupos, si ya estaba inscrito o si se solapa en día y hora con otro taller suyo. Cupo e inscripción MUST resolverse de forma atómica.
+`POST /attendees/{id}/events` (público, sin inicio de sesión) con `{"id_event"}` SHALL inscribirlo, descontar un cupo del taller y responder 201. MUST rechazar con 422 si el taller está retirado o si el asistente tiene menos de 13 años y el taller es de público adulto (`public` = `A`), y con 409 si no quedan cupos, si ya estaba inscrito o si se solapa en día y hora con otro taller suyo. Cupo e inscripción MUST resolverse de forma atómica.
 
 #### Scenario: Último cupo disputado
 - **WHEN** queda 1 cupo y dos asistentes se inscriben a la vez
@@ -80,7 +80,7 @@ Al inscribirse a un taller de parte 1 SHALL inscribirse también a cada taller d
 - **THEN** la respuesta es 409 y no queda inscrito en ninguna parte
 
 ### Requirement: Eventos de un asistente
-`GET /attendees/{id}/events` con token de ese asistente SHALL devolver los ids de sus eventos, y `DELETE /attendees/{id}/events/{idEvento}` SHALL cancelar su inscripción, devolver el cupo y responder 204.
+`GET /attendees/{id}/events` (público) SHALL devolver los ids de sus eventos, y `DELETE /attendees/{id}/events/{idEvento}` SHALL cancelar su inscripción, devolver el cupo y responder 204.
 
 #### Scenario: Cancelar inscripción
 - **WHEN** un asistente cancela su inscripción a un taller con 0 cupos

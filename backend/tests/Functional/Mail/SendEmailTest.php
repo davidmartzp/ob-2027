@@ -36,8 +36,7 @@ final class SendEmailTest extends FunctionalTestCase
     public function requires_a_cms_session(): void
     {
         self::assertSame(401, $this->request('POST', '/emails/book')->getStatusCode());
-        $attendeeToken = $this->service(TokenService::class)->issue(TokenType::Attendee, 1)['token'];
-        self::assertSame(401, $this->request('POST', '/emails/book', [], self::bearer($attendeeToken))->getStatusCode());
+        self::assertSame(401, $this->request('POST', '/emails/book', [], self::bearer(str_repeat('a', 64)))->getStatusCode());
     }
 
     #[Test]

@@ -12,7 +12,7 @@ use Psr\Clock\ClockInterface;
 
 /**
  * Opaque access tokens: 32 random bytes handed out once (64 hex chars); only their
- * SHA-256 is stored. They expire (CMS and attendee lifetimes differ) and can be revoked.
+ * SHA-256 is stored. They expire after CMS_TOKEN_HOURS and can be revoked.
  */
 final readonly class TokenService
 {
@@ -27,7 +27,7 @@ final readonly class TokenService
     public function issue(TokenType $type, int $subjectId): array
     {
         $token = bin2hex(random_bytes(32));
-        $hours = $type === TokenType::Cms ? $this->settings->cmsTokenHours : $this->settings->attendeeTokenHours;
+        $hours = $this->settings->cmsTokenHours;
         $now = $this->clock->now();
         $expiresAt = $now->modify("+{$hours} hours");
 

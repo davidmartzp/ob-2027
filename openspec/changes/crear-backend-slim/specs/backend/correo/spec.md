@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Entrega los correos del congreso de forma segura: los automáticos (inscripción, enlace de acceso, recordatorio del número) y los envíos que el equipo lanza a mano por tipo, con cola, reintentos y sin duplicados.
+Entrega los correos del congreso de forma segura: los automáticos (inscripción, recordatorio del número) y los envíos que el equipo lanza a mano por tipo, con cola, reintentos y sin duplicados.
 
 ## ADDED Requirements
 
@@ -14,7 +14,7 @@ El transporte de correo SHALL configurarse solo con variables de entorno (`MAILE
 - **THEN** el arranque falla indicando que el transporte de correo no es seguro
 
 ### Requirement: Un fallo de correo no rompe la operación
-Cuando una operación (inscripción, asignación de números, solicitud de enlace) dispara correos, un fallo del servidor de correo MUST NOT anular la operación ni cambiar su respuesta: el fallo se registra y el envío queda para reintento.
+Cuando una operación (inscripción, asignación de números, recordatorio) dispara correos, un fallo del servidor de correo MUST NOT anular la operación ni cambiar su respuesta: el fallo se registra y el envío queda para reintento.
 
 #### Scenario: Servidor de correo caído
 - **WHEN** un asistente se inscribe y el servidor SMTP no responde
@@ -45,8 +45,8 @@ Al registrarse un asistente SHALL encolarse un correo de bienvenida al asistente
 - **WHEN** se inscribe un asistente
 - **THEN** quedan encolados la bienvenida al asistente y el aviso al buzón del equipo
 
-### Requirement: Correos automáticos de acceso
-El enlace de acceso y el recordatorio del número de participante SHALL enviarse en cuanto se piden (y, si fallan, quedar en cola), en el idioma del sitio, y el enlace MUST apuntar a la URL del sitio configurada.
+### Requirement: Recordatorio inmediato
+El recordatorio del número de participante SHALL enviarse en cuanto se pide y, si falla, quedar en cola para reintento.
 
 #### Scenario: Recordatorio del número
 - **WHEN** el asistente 27 pide recordar su número

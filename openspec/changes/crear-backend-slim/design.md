@@ -3,7 +3,9 @@
 ## Context
 
 - Motivación y alcance: ver `proposal.md`. Comportamiento exigido: ver `specs/backend/*`.
-- La API en producción es `app-ob/` dentro de `../angular-ob` (Laravel 9, PHP 8.2, Sanctum). La copia recuperada trae `routes/api.php` (catálogo completo), `config/`, `docker-compose.yml`, `MODULO_EMAIL_CMS.md` (diseño del módulo de correo del CMS), las plantillas `plantilla_*.html` y el CMS compilado en `dist/angular-ob/browser/`. **No trae** `app-ob/app`, `app-ob/database/migrations` ni `app-ob/resources/views` (carpetas vacías) ni el `src` de Angular. Los contratos se toman de las rutas, del build (servicio `partners`: `name`, `whatsapp`, `message`, `logo`), de `MODULO_EMAIL_CMS.md` (filtros heredados) y de la lógica de `congreso-origami` rama `main`.
+- La API en producción es `app-ob/` dentro de `../angular-ob` (Laravel 9, PHP 8.2, Sanctum), con el código completo: controladores `app/Http/Controllers/Api/V1/*`, modelos `app/Models/*`, `app/Services/EmailTriggerService.php`, correos `app/Mail/*` + `resources/views/mails/*`, y migraciones solo de `users`, tokens, cola y correo, `partners` y `workshop_partner`. Las tablas `assistants`, `workshops`, `rooms`, `activities`, `events` y `events_attendees` no tienen migración: su forma sale de los modelos (`app/Models/Event` trae el `CREATE TABLE` de `events`) y se confirmará contra un volcado de producción.
+- Reglas heredadas que se conservan: número al inscribirse para elegibles; turnos de 25 números cada 10 min de 08:00 a 19:00 según `days`; `special_code`; ventana de eventos activos (sábado 08–19, domingo desde 08) con solo los del día; cupo en `workshops.tickets`; menores de 13 fuera de talleres `public = 'A'`; talleres en dos partes (`part`/`relation`); socios con baja lógica (`status`).
+- Huecos heredados que se cierran: `POST /upload-image` público que guarda con la extensión del cliente en una carpeta servida por Apache (permite subir y ejecutar PHP); `/register` público + `/admin/migrate-fresh`; código maestro `99099` y cabecera `X-Test-Mode`; `lookup-code` devuelve números por correo; listas de correos personales escritas en el código (`sendCorrection`).
 - No hay PHP ni Composer en la máquina: todo corre en Docker. El hosting de producción es Apache + PHP (sin Node).
 - El frontend nuevo ya construye el JSON de inscripción (`frontend/src/app/core/registro.ts → EnvioInscripcion`), que este backend acepta tal cual en `POST /attendees`.
 
@@ -49,40 +51,42 @@ Identificadores en español salvo los nombres de dominio del contrato heredado (
 | `GET /assistants` | `GET /attendees` | CMS |
 | `PUT /assistants/{id}` (incl. `status: 5` para borrar) | `PUT /attendees/{id}` · `DELETE /attendees/{id}` | CMS |
 | `POST /confirmManyAttendees` | `POST /attendees/confirmar` | CMS |
-| `POST /assistants/verifyAttendeeCode` · `POST /searchCode` | `POST /attendees/verificar-codigo` | público |
+| `POST /assistants/verifyAttendeeCode` (incl. código `99099`) · `POST /searchCode` | `POST /attendees/verificar-codigo` (sin código maestro) | público |
 | `POST /assistants/lookup-code` (devolvía el número) | `POST /attendees/recordar-codigo` (lo envía por correo) | público |
-| `GET /generateCodes` · `/generateCodesAfter` · `/assignAssistantCodes` | `POST /attendees/codigos` | CMS |
-| `GET /resetCodes` | `POST /attendees/codigos/reiniciar` | CMS |
+| `GET /generateCodesAfter` | `POST /attendees/codigos` | CMS |
+| `GET /generateCodes` · `/assignAssistantCodes` · `/resetCodes` | `POST /attendees/codigos/regenerar` | CMS |
 | `GET /sendMails` · `/sendNumbers` · `/resendWelcomeEmail` · `/sendInstructions` · `/sendBook` · `/sendWhatsapp` · `/sendGeneralInfo` · `/sendCorrection` | `POST /correos/{tipo}` (`numero`, `bienvenida`, `instrucciones`, `libro`, `aviso-importante`, `informacion-general`, `correccion`) + `GET /correos/{tipo}/destinatarios` · `GET /correos/registro` | CMS |
 | `/email-triggers` · `/email-trigger-events` | **eliminadas** (no se usan) | — |
 | `GET /partners` · `GET /workshops/{id}/partners` | iguales | público |
-| `POST|PUT|DELETE /partners` (id en el cuerpo) · `POST /partners/upload-logo` | `POST /partners` · `PUT|DELETE /partners/{id}` · `POST /partners/{id}/logo` | CMS |
+| `POST|PUT|DELETE /partners` (id en el cuerpo; borrar = `status 0`) · `POST /partners/upload-logo` | `POST /partners` · `PUT|DELETE /partners/{id}` · `POST /partners/{id}/logo` | CMS |
 | `POST /workshops/{id}/partners` (público) | `PUT /workshops/{id}/partners` | autor o CMS |
 | `POST /workshops {email}` | `POST /auth/enlace-asistente` → `GET /attendees/{id}/workshops` | asistente |
 | `POST /addworkshops` | `POST /attendees/{id}/workshops` | asistente |
 | `PUT /workshops` · `DELETE /workshops` (id en el cuerpo) | `PUT /workshops/{id}` · `DELETE /workshops/{id}` | asistente autor o CMS |
-| `POST /upload-image` | `POST /workshops/{id}/imagen` | asistente autor o CMS |
+| (cupo, partes: a mano en la base) | `GET /cms/workshops` · `PATCH /workshops/{id}` | CMS |
+| `POST /upload-image` (público) | `POST /workshops/{id}/imagen` | asistente autor o CMS |
 | `GET /getWorkshops` | `GET /workshops` | público |
-| `GET /rooms` · `GET /activities` | iguales + CRUD en CMS | público / CMS |
+| `GET /rooms` · `GET /activities` | iguales | CMS |
 | `GET/POST /events` · `DELETE /events/{id}` | iguales | CMS |
-| `GET /events/get-active` | `GET /events/activos` | público |
+| `GET /events/get-active` (+ `X-Test-Mode`) | `GET /events/activos` (ensayo solo fuera de producción) | público |
+| `GET /events/workshops` | `GET /events/programacion` | público |
 | `POST /events/storeEventAttendees` | `POST /attendees/{id}/events` | asistente |
 | `GET /events/getEventIdsByAttendee/{id}` | `GET /attendees/{id}/events` | asistente |
 | `POST /events/removeEventAttendee` | `DELETE /attendees/{id}/events/{idEvento}` | asistente |
-| `GET /events/getWorkshopsActive` · `/events/workshops` | `GET /events/talleres` | CMS |
+| `GET /events/getWorkshopsActive` | `GET /events/talleres` | CMS |
 | `GET /events/getAttendeesByEvent/{id}` · `POST /getAttendees` | `GET /events/{id}/attendees` | CMS |
 | `POST /login` · `POST /logout` · `GET /user` | `POST /auth/login` · `POST /auth/logout` · `GET /auth/yo` | público / CMS |
 | `POST /register` · `/clearConfigCache` · `/clearAllCache` · `/admin/*` | **eliminadas** (consola del servidor) | — |
 | `storeMenu`, `deleteMenu`, `updateMenu` (modelo `workshops_menu`, 2024) | absorbidos por `events` + `event_attendees` | — |
 
 ### D4. Esquema
-- `attendees` (antes `assistants`): columnas de `attendee.model.ts` (`code`, `name`, `lastname`, `age`, `country`, `city`, `email` indexado, `phone`, `companion`, `idname`, `paydate`, `paymethod`, `receipt`, `origamigroup`, `info`, `cards`, `cardsgroup`, `days`, `staff`, `special_code`, `go_to_chiva`, `printCertificate`, `chiva_companions`, `pay_amount` texto, `status`, timestamps). Estados: 0 pendiente, 1 confirmado, 5 eliminado (heredados del CMS).
-- `workshops` (`id_attendee` FK, `name`, `public`, `level`, `time`, `observations`, `image`, `status`), `rooms` (`name`, `capacity`), `activities` (`name`, `public`, `level`, `time`, `observations`, `status`).
-- `events` (`id_room`, `id_workshop` | `id_activity`, `day`, `start_time`, `end_time`, `capacity` nulo = capacidad del salón, `active`).
-- `event_attendees` (`id_event`, `id_attendee`, único por par).
-- `partners` (`name`, `whatsapp`, `message`, `logo`) y `partner_workshop` (`id_partner`, `id_workshop`, único por par).
-- `email_envios` (cola + registro: `tipo`, `id_attendee`, `email`, `subject`, `body`, `estado`, `intentos`, `disponible_en`, `enviado_en`, `error`, `clave_unica` = tipo+asistente, nula en reenvíos). No se crean `email_triggers` ni las tablas `email_campaigns/filters/recipients/logs` de `MODULO_EMAIL_CMS.md`.
-- `users` (heredada, hash bcrypt), `tokens_acceso` (`tipo` cms|asistente, `id_sujeto`, `hash` SHA-256 único, `caduca_en`, `revocado_en`), `enlaces_acceso` (hash, `id_attendee`, `caduca_en`, `usado_en`), `intentos` (clave, ventana) para los límites.
+Se conserva el esquema heredado (para que la importación sea un renombrado, no una transformación) con estos cambios: `assistants` → `attendees`, `id_assistant` → `id_attendee` en `workshops`, `events_attendees` se mantiene con su nombre y columnas (`id_event`, `id_attendee`) más un índice único por par.
+- `attendees`: columnas de `App\Models\Assistant` + `status` (0 pendiente, 1 confirmado, 5 eliminado), `code` único cuando no es nulo, índice por `email`.
+- `workshops`: `id_attendee`, `name`, `public`, `level`, `time`, `duration`, `observations`, `image`, `status` (0/1/2), `tickets`, `part`, `relation`. Las columnas del modelo de 2024 (`schedule`, `day`, `room`, `isactivity`, `id_event`) no se crean; la importación las ignora.
+- `rooms` (`name`), `activities` (`name`, `description`, `duration`), `events` (`id_room`, `day`, `start_time`, `end_time`, `id_workshop` | `id_activity`, con la restricción «uno u otro» del `CREATE TABLE` heredado).
+- `partners` (`name`, `logo`, `whatsapp`, `message`, `status`) y `workshop_partner` (`id_workshop`, `id_partner`, único por par), como sus migraciones heredadas.
+- `email_envios` (cola + registro: `tipo`, `id_attendee`, `email`, `subject`, `body`, `estado`, `intentos`, `disponible_en`, `enviado_en`, `error`, `clave_unica` = tipo+asistente, nula en reenvíos). No se crean `email_triggers`, `email_campaigns`, `email_filters`, `email_recipients`, `email_logs`, `email_templates` ni `jobs`.
+- `users` (heredada, hash bcrypt), `tokens_acceso` (`tipo` cms|asistente, `id_sujeto`, `hash` SHA-256 único, `caduca_en`, `revocado_en`; sustituye a `personal_access_tokens`), `enlaces_acceso` (hash, `id_attendee`, `caduca_en`, `usado_en`), `intentos` (clave, ventana) para los límites.
 
 ### D5. Autenticación con tokens opacos en base de datos
 Tokens aleatorios de 32 bytes (`random_bytes`), entregados en claro una sola vez y guardados como SHA-256; un middleware los resuelve por tipo (`cms` o `asistente`) y adjunta el sujeto a la petición. Contraseñas con `password_verify`/`password_hash` (bcrypt actual; `password_needs_rehash` las sube a Argon2id al iniciar sesión). *Alternativa descartada:* JWT, porque exige gestionar revocación aparte y no aporta nada en un solo servidor.
@@ -105,25 +109,29 @@ Un `Validador` propio pequeño (requerido, correo, entero en rango, en lista, lo
 ### D9. Imágenes
 Se valida el tipo real con `finfo` y `getimagesize`, máximo 5 MB, se guarda como `taller-<id>-<aleatorio>.<ext>` en `almacen/imagenes/` (fuera de `public/`) y se sirve con `GET /imagenes/{archivo}` con `Content-Type` fijo y `X-Content-Type-Options: nosniff`. La importación copia las imágenes y logos heredados de `app-ob/storage/app/public/`.
 
-### D10. Turno de ingreso configurable
-La regla de 2024 (grupos de 20 números cada 10 minutos desde una hora fija) pasa a `.env`: `TURNO_INICIO` (fecha y hora, vacío = sin turno), `TURNO_TAMANO_GRUPO`, `TURNO_MINUTOS`, zona `America/Bogota`.
+### D10. Turnos y ventana configurables
+Lo que en `angular-ob` estaba escrito en el código pasa a `.env`: días del congreso (`EVENTO_SABADO`, `EVENTO_DOMINGO`, fechas concretas en vez de «cualquier sábado»), `TURNO_HORA_INICIO` (08:00), `TURNO_HORA_FIN` (19:00), `TURNO_TAMANO_GRUPO` (25), `TURNO_MINUTOS` (10), zona `America/Bogota`, y `TURNO_IGNORAR` para ensayar, que solo actúa si `APP_ENV` no es `production` (reemplaza al código `99099` y a `X-Test-Mode`). Un servicio `Turnos` con un reloj inyectable calcula grupo, hora de ingreso y mensajes, y lo usan `verificar-codigo` y `events/activos`; las pruebas fijan la hora como hacía `setEscenario()`.
+
+### D11. Talleres en dos partes como una sola operación
+La inscripción reúne primero el conjunto de eventos afectados (el elegido y sus partes relacionadas por `part`/`relation`), los bloquea con `FOR UPDATE`, valida cupo, duplicado, choque de horario y edad para todos, y solo entonces inserta y descuenta. En `angular-ob` la parte relacionada se saltaba en silencio si no tenía cupo; aquí se rechaza todo (spec `agenda`).
 
 ## Risks / Trade-offs
 
-- [El esquema real de `events`, `rooms`, `activities` y `event_attendees` en producción puede diferir del deducido] → `importar-legado` mapea columnas por nombre y falla con la lista de columnas que no reconoce; antes de migrar producción se revisa contra un volcado real.
+- [Las tablas sin migración heredada (`assistants`, `workshops`, `rooms`, `activities`, `events`, `events_attendees`) pueden tener columnas que los modelos no muestran] → `importar-legado` mapea por nombre y falla listando las columnas desconocidas; se valida con un volcado real antes de producción.
+- [Las plantillas de `numero` y `correccion` vivían en la tabla `email_triggers` de producción, no en archivos] → se toman de ese volcado (o de `plantilla_2_codigo.html`) al portar las plantillas.
 - [PHP 8.5 en el hosting] → si el proveedor no lo ofrece, no se despliega; confirmar antes de la fase de despliegue. La imagen Docker fija `php:8.5-apache` y `config.platform.php = 8.5`.
 - [Las rutas nuevas rompen el CMS y el sitio antiguos] → el corte es simultáneo: el backend nuevo se publica junto con `frontend/` y `cms/`; mientras tanto el antiguo sigue en `app-ob/` sin tocarlo.
 - [Correo síncrono alarga la respuesta de inscripción] → aceptable para el volumen (cientos de inscripciones); el envío masivo de números es una acción explícita del CMS que reporta enviados/fallidos.
 - [Faltan `app-ob/app` y las migraciones heredadas] → si aparecen, se revisa la spec contra la lógica real antes de la tarea 8.1; mientras tanto la importación falla de forma explícita ante columnas desconocidas.
-- [`correccion` y `aviso-importante` eran correos puntuales de 2026] → se portan con texto genérico y sus destinatarios por defecto; se ajustan antes de usarlos.
+- [`correccion` y `aviso-importante` eran correos puntuales de 2026] → se portan con texto genérico; `correccion` exige `ids` en lugar de la lista de correos escrita en el código.
 - [El cron del hosting no corre] → `GET /salud` reporta la antigüedad del envío pendiente más viejo para detectarlo.
 - [Enlace mágico depende de que el correo llegue] → el número de participante sigue sirviendo como segunda vía de acceso.
 
 ## Migration Plan
 
 1. Desarrollo y pruebas en Docker con datos sembrados.
-2. Obtener volcado de la base de producción (`mysqldump --default-character-set=utf8mb4`) y la carpeta de imágenes.
-3. Cargar el volcado (incluidos `partners` y su tabla pivote; `email_triggers` y tablas de campañas se ignoran) en el MySQL de Docker y ejecutar `migrar` (la migración de transición renombra `assistants` → `attendees` y `id_assistant` → `id_attendee`) e `importar-legado` para lo que no sea renombrado directo; comparar conteos por tabla.
+2. **Antes de todo, mitigar en producción** la subida de PHP por `/upload-image` y el registro público (ver proposal). Obtener volcado de la base de producción (`mysqldump --default-character-set=utf8mb4`) y la carpeta de imágenes.
+3. Cargar el volcado (incluidos `partners` y su tabla pivote; `email_triggers` y tablas de campañas se ignoran) en el MySQL de Docker y ejecutar `migrar` (la migración de transición renombra `assistants` → `attendees` y `workshops.id_assistant` → `id_attendee`, y elimina las tablas y columnas que ya no se usan) e `importar-legado` para lo que no sea renombrado directo; comparar conteos por tabla.
 4. Desplegar en una subcarpeta nueva (p. ej. `/api`) con `APP_BASE_PATH`, sin tocar `app-ob/`.
 5. Cambiar `apiUrl` en `frontend/` y `cms/` y publicar.
 6. **Rollback:** volver a apuntar los frontends a `app-ob/` y restaurar el volcado previo; el backend nuevo no modifica la base antigua si se migra sobre una copia.

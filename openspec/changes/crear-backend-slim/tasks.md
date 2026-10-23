@@ -13,8 +13,8 @@
 - [ ] 2.3 Middleware CORS con orígenes de `CORS_ORIGENES` y respuesta a `OPTIONS`; pruebas de origen permitido y no permitido
 - [ ] 2.4 Módulo `Salud` (`GET /salud` 200/503 con `cola_correo_minutos`); prueba funcional
 - [ ] 2.5 Ejecutor de migraciones por lotes (`migrar`, `revertir`, `sembrar`) en `bin/consola`; prueba: migrar + revertir deja el esquema vacío
-- [ ] 2.6 Migraciones del esquema de `design.md` D4 (attendees, workshops, partners, partner_workshop, rooms, activities, events, event_attendees, email_envios, users, tokens_acceso, enlaces_acceso, intentos) compatibles con MySQL y SQLite; verificar migrando en ambos motores
-- [ ] 2.7 Migración de transición `assistants` → `attendees`, `id_assistant`/`assistant_id` → `id_attendee`/`attendee_id` (no hace nada en base vacía); prueba con una base SQLite sembrada con el esquema heredado: mismos ids y conteos
+- [ ] 2.6 Migraciones del esquema de `design.md` D4 (attendees, workshops, partners, workshop_partner, rooms, activities, events, events_attendees, email_envios, users, tokens_acceso, enlaces_acceso, intentos) compatibles con MySQL y SQLite; verificar migrando en ambos motores
+- [ ] 2.7 Migración de transición `assistants` → `attendees`, `workshops.id_assistant` → `id_attendee`, borrado de tablas y columnas sin uso (`workshops_menu`, `email_*`, `jobs`, `personal_access_tokens`, `schedule`/`day`/`room`/`isactivity`) (no hace nada en base vacía); prueba con una base SQLite sembrada con el esquema heredado: mismos ids y conteos
 - [ ] 2.8 `.htaccess` de `public/` y de la raíz (reescritura a `public/`, 404 para `.env`, `src/`, `vendor/`, `plantillas/`, `almacen/`); verificar con `curl` contra Apache del contenedor sin raíz en `public/`
 
 ## 3. Autenticación (spec `backend/autenticacion`)
@@ -36,36 +36,36 @@
 ## 5. Attendees (spec `backend/attendees`)
 
 - [ ] 5.1 Modelo `Attendee` (casts booleanos, `pay_amount` texto) y semilla de ejemplo; prueba de serialización con todos los campos del listado
-- [ ] 5.2 `POST /attendees` público con el JSON de `frontend/src/app/core/registro.ts` (`EnvioInscripcion`), validación, `othermedium` → `info`, estado 0, campo trampa `website`, límite 10/hora por IP y encola bienvenida y aviso al equipo; pruebas de cada escenario de la spec, incluido SMTP caído → 201
-- [ ] 5.3 `POST /attendees/verificar-codigo` con token de asistente y turno configurable (D10) y `POST /attendees/recordar-codigo` (202 siempre, número solo por correo, 3/hora); pruebas: datos correctos, datos incorrectos con mensaje único, turno no habilitado con la hora correcta, la respuesta del recordatorio no contiene el número
-- [ ] 5.4 CMS: `GET /attendees`, `GET /attendees/{id}`, `PUT /attendees/{id}`, `DELETE /attendees/{id}` (estado 5); pruebas: eliminados no se listan, 404 en inexistente
-- [ ] 5.5 CMS: `POST /attendees/confirmar`, `POST /attendees/codigos` (continúa desde el máximo, exclusiones configurables) y `POST /attendees/codigos/reiniciar`; pruebas: `confirmados: 2` con mezcla de estados, orden por `paydate`, tardíos 121/122, excluidos por edad e `Invitado`, reinicio sin confirmación 422
+- [ ] 5.2 `POST /attendees` público con número al inscribirse para elegibles (sin duplicados concurrentes), con el JSON de `frontend/src/app/core/registro.ts` (`EnvioInscripcion`), validación, `othermedium` → `info`, estado 0, campo trampa `website`, límite 10/hora por IP y encola bienvenida y aviso al equipo; pruebas de cada escenario de la spec, incluido SMTP caído → 201
+- [ ] 5.3 Servicio `Turnos` con reloj inyectable (D10), `POST /attendees/verificar-codigo` (`code` o `special_code`, token de asistente) y `POST /attendees/recordar-codigo` (un correo por dirección con todos sus participantes, 202 siempre, 3/hora); pruebas con los escenarios de turno de la spec (grupo 3 a las 08:05 → 08:20, día no elegido, después de las 19:00, grupo fuera de horario), `99099` sin efecto, `TURNO_IGNORAR` sin efecto en producción, la respuesta del recordatorio no contiene números
+- [ ] 5.4 CMS: `GET /attendees` (por `paydate`), `GET /attendees/{id}`, `PUT /attendees/{id}` (incl. `code`, `special_code`, `staff`, `status`), `DELETE /attendees/{id}` (estado 5); pruebas: eliminados no se listan, 404 en inexistente, `code` repetido 409
+- [ ] 5.5 CMS: `POST /attendees/confirmar`, `POST /attendees/codigos` (continúa desde el máximo) y `POST /attendees/codigos/regenerar` (con confirmación); pruebas: `confirmados: 2` con mezcla de estados, tardíos 121/122 por `paydate`, regenerar 3/1/2, excluidos por edad e `Invitado(a)`, sin confirmación 422
 
 ## 6. Talleres (spec `backend/talleres`)
 
-- [ ] 6.1 Modelo `Workshop` y servicio con estados 0/1/2 y niveles/públicos configurables; prueba de que un retirado no se lista ni se programa
-- [ ] 6.2 `POST|GET /attendees/{id}/workshops` con token del asistente; pruebas: propuesta en estado 2, 403 con token de otro asistente
-- [ ] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (autor o CMS) y `GET /cms/workshops`, `PATCH /workshops/{id}/estado`; pruebas de permisos y de aprobación 2 → 1
-- [ ] 6.4 `POST /workshops/{id}/imagen` y `GET /imagenes/{archivo}` (D9); pruebas: `.php` renombrado 422, 8 MB 422, imagen válida reemplaza la anterior
-- [ ] 6.5 `GET /workshops` público aleatorio, solo activos con imagen, con socios y sin datos de contacto; prueba de los campos devueltos (requiere grupo 7)
+- [ ] 6.1 Modelo `Workshop` (`duration`, `tickets`, `part`, `relation`) y servicio con estados 0/1/2 y niveles/públicos configurables; prueba de que un retirado no se lista ni se programa
+- [ ] 6.2 `POST|GET /attendees/{id}/workshops` con token del asistente; pruebas: propuesta en estado 1, 403 con token de otro asistente
+- [ ] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (autor o CMS) y `GET /cms/workshops`, `PATCH /workshops/{id}` (`status`, `tickets`, `part`, `relation`); pruebas de permisos, cupo y relación inválida 422
+- [ ] 6.4 `POST /workshops/{id}/imagen` y `GET /imagenes/{archivo}` (D9); pruebas: `.php` y `.jpg` con código PHP 422, 8 MB 422, sin token 401, imagen válida reemplaza la anterior
+- [ ] 6.5 `GET /workshops` público aleatorio, solo activos, con socios activos y sin datos de contacto; prueba de los campos devueltos (requiere grupo 7)
 
 ## 7. Partners (spec `backend/partners`)
 
-- [ ] 7.1 Modelo `Partner` con `whatsapp_url`, `GET /partners` y CRUD del CMS; pruebas: URL de WhatsApp codificada, 422 con `+57 300-123`, eliminar quita de los talleres
+- [ ] 7.1 Modelo `Partner` con `whatsapp_url`, `GET /partners` y CRUD del CMS; pruebas: URL de WhatsApp codificada, 422 con `+57 300-123`, desactivado no aparece en listados públicos
 - [ ] 7.2 `POST /partners/{id}/logo` reutilizando la validación de imágenes de 6.4; prueba: SVG 422
 - [ ] 7.3 `GET|PUT /workshops/{id}/partners`; pruebas: reemplazo [1,2] → [2,3], sin token 401, id inexistente 422
 
 ## 8. Agenda (spec `backend/agenda`)
 
-- [ ] 8.1 Salones y actividades: `GET` públicos y CRUD del CMS; pruebas: eliminar salón con eventos 409, actividad retirada no se lista
-- [ ] 8.2 `POST /events` con validación de solapamiento por salón y día, `GET /events`, `DELETE /events/{id}` en cascada; pruebas de 409 por solape, 422 con taller y actividad a la vez, borrado con inscritos
-- [ ] 8.3 `GET /events/activos` con la forma de `design.md` y `cupos_libres`; prueba con capacidad 20 e inscritos 18
-- [ ] 8.4 `POST|GET /attendees/{id}/events` y `DELETE /attendees/{id}/events/{idEvento}` con transacción y bloqueo (D7); pruebas: sin cupo 409, duplicado 409, choque de horario 409 con el nombre, cancelar libera cupo
-- [ ] 8.5 `GET /events/{id}/attendees` (orden por `code`) y `GET /events/talleres`; prueba del orden 3, 7, 12
+- [ ] 8.1 `GET /rooms` y `GET /activities` (CMS) y semillas de ejemplo; prueba con token
+- [ ] 8.2 `POST /events` (XOR taller/actividad, solape por salón y día), `GET /events`, `DELETE /events/{id}` devolviendo cupos; pruebas: 422 con ambos, 409 por solape, borrar con 5 inscritos deja 8 cupos
+- [ ] 8.3 `GET /events/activos` con ventana (servicio `Turnos`) y la forma de la spec; pruebas con reloj fijo: sábado 07:59 → 403 `logout`, domingo 08:11 solo `sunday`, `TURNO_IGNORAR` fuera de producción devuelve ambos días
+- [ ] 8.4 `POST|GET /attendees/{id}/events` y `DELETE /attendees/{id}/events/{idEvento}` con transacción y bloqueo, partes 1/2 (D11) y menores en talleres `A`; pruebas: último cupo disputado, duplicado 409, choque 409 con nombre, menor 422, parte 2 sin cupo rechaza todo, cancelar una parte cancela ambas
+- [ ] 8.5 `GET /events/programacion` (público), `GET /events/talleres` y `GET /events/{id}/attendees` (CMS); pruebas: lista vacía 200, orden por número 3, 7, 12
 
 ## 9. Importación y documentación
 
-- [ ] 9.1 Comando `importar-legado` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos); prueba con un volcado SQLite de ejemplo
+- [ ] 9.1 Comando `importar-legado` (lee una base heredada configurada aparte, mapea columnas por nombre, falla listando columnas desconocidas, copia imágenes y logos de `app-ob/storage/app/public/images`); prueba con un volcado SQLite de ejemplo
 - [ ] 9.2 Actualizar `CLAUDE.md` (sección Backend: comandos, módulos, rutas, trampas) y crear `backend/README.md` con el mapa de rutas de D3; verificar que los comandos documentados funcionan tal cual
 
 ## 10. Verificación integral
@@ -76,7 +76,7 @@
 ## Workflow follow-up
 
 - Confirmar con el hosting la disponibilidad de PHP 8.5 antes de desplegar.
-- Conseguir `angular-ob/app-ob/app`, `database/migrations` y un volcado real de producción para validar las specs y `importar-legado`.
+- Conseguir un volcado real de la base de producción del congreso para validar el esquema y `importar-legado`.
 - Configurar en el hosting el cron de `bin/consola correo:procesar` cada minuto.
 - Cambios aparte: conectar `frontend/` a `POST /attendees` y crear el proyecto `cms/`.
 - Archivar el cambio cuando se apruebe la revisión.

@@ -2,23 +2,34 @@
 
 ## Purpose
 
-Gestiona a los asistentes (attendees) del congreso: su inscripción desde el sitio público, la verificación de su número de participante y su administración desde el CMS.
+Gestiona a los asistentes (attendees) del congreso: su inscripción desde el sitio público, su número de participante, el acceso por turnos para elegir talleres y su administración desde el CMS.
 
 ## ADDED Requirements
 
 ### Requirement: Inscripción pública
-`POST /attendees` (público) SHALL registrar un asistente con el JSON que envía el formulario del sitio (`name`, `lastname`, `age`, `country`, `city`, `email`, `phone`, `companion`, `idname`, `paymethod`, `paydate`, `receipt`, `group`, `origamigroup`, `medium`, `othermedium`, `info`, `cards`, `cardgroup`, `days`, `printCertificate`, `go_to_chiva`, `chiva_companions`) y responder 201 con `{"id": <número>, "status": 0}`. El asistente nuevo MUST quedar en estado pendiente (0).
+`POST /attendees` (público) SHALL registrar un asistente con el JSON que envía el formulario del sitio (`name`, `lastname`, `age`, `country`, `city`, `email`, `phone`, `companion`, `idname`, `paymethod`, `paydate`, `receipt`, `group`, `origamigroup`, `medium`, `othermedium`, `info`, `cards`, `cardgroup`, `days`, `printCertificate`, `go_to_chiva`, `chiva_companions`) y responder 201 con `{"id", "status": 0, "code"}`. El asistente nuevo MUST quedar en estado pendiente (0).
 
 #### Scenario: Inscripción válida
 - **WHEN** el sitio envía una inscripción completa y válida
-- **THEN** la respuesta es 201, el asistente queda guardado con estado 0 y se disparan los correos de inscripción
+- **THEN** la respuesta es 201, el asistente queda guardado con estado 0 y se encolan los correos de inscripción
 
 #### Scenario: Medio «otro»
 - **WHEN** la inscripción trae `othermedium` no vacío
 - **THEN** el valor guardado en `info` es el de `othermedium`
 
+### Requirement: Número al inscribirse
+Al inscribirse, un asistente elegible SHALL recibir de inmediato el número siguiente al mayor asignado. Es elegible quien no es staff, tiene edad mayor o igual a la mínima configurada (12) y paga con un método fuera de la lista excluida configurada (`Grupo de apoyo`, `Invitado`, `Invitado(a)`); los demás quedan sin número (`code` nulo). Dos inscripciones simultáneas MUST NOT recibir el mismo número.
+
+#### Scenario: Inscripción elegible
+- **WHEN** el mayor número asignado es 140 y se inscribe un adulto que paga por transferencia
+- **THEN** recibe el número 141
+
+#### Scenario: Niño o invitado
+- **WHEN** se inscribe un niño de 9 años o alguien que paga como `Invitado(a)`
+- **THEN** queda sin número
+
 ### Requirement: Validación de la inscripción
-La inscripción MUST rechazarse con 422 cuando falten `name`, `lastname`, `age`, `email`, `phone`, `idname`, `paymethod` o `days`; cuando `email` no sea un correo válido; cuando `age` no esté entre 1 y 120; cuando `days` no sea `T`, `S` o `D`; o cuando algún texto supere su longitud máxima.
+La inscripción MUST rechazarse con 422 cuando falten `name`, `lastname`, `age`, `email`, `phone`, `idname`, `paymethod` o `days`; cuando `email` no sea un correo válido; cuando `age` no esté entre 1 y 120; cuando `days` no sea `T`, `S` o `D`; o cuando algún texto supere su longitud máxima. Varios asistentes MAY compartir correo (familias).
 
 #### Scenario: Correo inválido
 - **WHEN** se envía `email` igual a `pepito`
@@ -32,29 +43,66 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **THEN** la respuesta es 201 pero no se guarda ningún asistente ni se envían correos
 
 ### Requirement: Verificación del número de participante
-`POST /attendees/verificar-codigo` (público) con `{"email", "code"}` SHALL responder `{"valid": true, "id": <número>, "token": <token de asistente>}` si existe un asistente no eliminado con ese correo (sin distinguir mayúsculas) y ese número; si no, `{"valid": false, "message": <texto>}` sin revelar cuál de los dos datos falla. Si hay un turno de ingreso configurado y aún no le toca al grupo del número, MUST responder `valid: false` con la hora a partir de la cual podrá ingresar.
+`POST /attendees/verificar-codigo` (público) con `{"email", "code"}` SHALL buscar un asistente no eliminado con ese correo cuyo `code` o `special_code` coincida. Si existe y su turno está abierto, responde `{"valid": true, "id", "code", "name", "token"}` con un token de asistente; si no existe, `{"valid": false, "message"}` sin revelar qué dato falla. MUST NOT existir ningún código maestro que salte la verificación o el turno.
 
-#### Scenario: Datos correctos
-- **WHEN** se envía el correo y el número de un asistente confirmado
-- **THEN** la respuesta es `valid: true` con su `id` y un token de asistente
+#### Scenario: Código especial
+- **WHEN** un asistente sin `code` pero con `special_code` `K12` verifica con `K12` dentro de su turno
+- **THEN** la respuesta es `valid: true` con su `id` y un token
 
-#### Scenario: Turno aún no habilitado
-- **WHEN** el turno empieza a las 08:00, cada grupo de 20 números entra cada 10 minutos, y el número 45 verifica a las 08:05
+#### Scenario: Código maestro heredado
+- **WHEN** alguien envía el código `99099` con cualquier correo
+- **THEN** se trata como cualquier otro código y, si no existe, la respuesta es `valid: false`
+
+### Requirement: Turnos para elegir talleres
+El acceso SHALL abrirse solo en los días del congreso configurados que correspondan a `days` del asistente (`S` sábado, `D` domingo, `T` ambos), entre la hora de inicio (08:00) y de cierre (19:00) configuradas, por grupos: el grupo es `ceil(número / tamaño)` (25) y entra `(grupo − 1) × minutos` (10) después del inicio; con `special_code` el número son sus dígitos. Fuera del turno la respuesta es `valid: false` con la hora y el día a partir de los cuales podrá ingresar.
+
+#### Scenario: Grupo aún no habilitado
+- **WHEN** el número 60 (grupo 3) verifica el sábado del congreso a las 08:05
 - **THEN** la respuesta es `valid: false` con un mensaje que indica las 08:20
 
+#### Scenario: Día no elegido
+- **WHEN** un asistente con `days` igual a `D` verifica el sábado del congreso
+- **THEN** la respuesta es `valid: false` indicando que su inscripción empieza el domingo
+
+#### Scenario: Después del cierre
+- **WHEN** un asistente con `days` igual a `T` verifica el sábado a las 19:30
+- **THEN** la respuesta es `valid: false` indicando su hora de ingreso del domingo
+
+#### Scenario: Grupo fuera de horario
+- **WHEN** el turno de un número empezaría después de la hora de cierre
+- **THEN** la respuesta es `valid: false` indicando que el horario de su grupo ya concluyó
+
+### Requirement: Pruebas del turno sin puerta trasera
+Para ensayar fuera de los días del congreso, la configuración SHALL permitir ignorar el turno solo cuando el entorno no es de producción; en producción esa opción MUST ignorarse.
+
+#### Scenario: Opción activa en producción
+- **WHEN** `APP_ENV` es `production` y la opción de ignorar el turno está activa
+- **THEN** los turnos se aplican igualmente
+
+### Requirement: Recordatorio del número de participante
+`POST /attendees/recordar-codigo` (público) con `{"email"}` SHALL enviar a ese correo un único mensaje con el nombre y el número (o código especial, o «sin número aún») de cada asistente no eliminado registrado con él, y responder siempre 202 con el mismo cuerpo. La API MUST NOT devolver números en la respuesta. Se limita a 3 solicitudes por hora por correo.
+
+#### Scenario: Familia con un mismo correo
+- **WHEN** una madre y dos hijos están inscritos con el mismo correo y se pide el recordatorio
+- **THEN** llega un correo con los tres participantes y la respuesta no contiene ningún número
+
 ### Requirement: Listado de asistentes en el CMS
-`GET /attendees` (privado) SHALL devolver los asistentes no eliminados con todos sus campos (`id`, `code`, `name`, `lastname`, `age`, `country`, `city`, `email`, `phone`, `companion`, `idname`, `paydate`, `paymethod`, `receipt`, `origamigroup`, `info`, `cardsgroup`, `cards`, `days`, `staff`, `special_code`, `go_to_chiva`, `printCertificate`, `chiva_companions`, `pay_amount`, `status`, `created_at`, `updated_at`), con booleanos como `true`/`false`. `GET /attendees/{id}` SHALL devolver uno.
+`GET /attendees` (privado) SHALL devolver los asistentes no eliminados ordenados por `paydate`, con todos sus campos (`id`, `code`, `special_code`, `name`, `lastname`, `age`, `country`, `city`, `email`, `phone`, `companion`, `idname`, `paydate`, `paymethod`, `receipt`, `origamigroup`, `info`, `cardsgroup`, `cards`, `days`, `staff`, `go_to_chiva`, `printCertificate`, `chiva_companions`, `pay_amount`, `status`, `created_at`, `updated_at`). `GET /attendees/{id}` SHALL devolver uno.
 
 #### Scenario: Asistente eliminado
 - **WHEN** el CMS lista los asistentes y uno tiene estado 5
 - **THEN** ese asistente no aparece en el listado
 
 ### Requirement: Edición de asistentes en el CMS
-`PUT /attendees/{id}` (privado) SHALL actualizar los campos editables del asistente con las mismas reglas de validación de la inscripción y responder 200 con el asistente actualizado; `pay_amount` MUST guardarse como texto.
+`PUT /attendees/{id}` (privado) SHALL actualizar los campos de la inscripción y además `code`, `special_code`, `staff`, `status` y `pay_amount`, con las mismas reglas de validación, y responder 200 con el asistente actualizado. Un `code` ya usado por otro asistente MUST rechazarse con 409.
 
 #### Scenario: Asistente inexistente
 - **WHEN** el CMS edita `PUT /attendees/999999`
 - **THEN** la respuesta es 404
+
+#### Scenario: Número repetido
+- **WHEN** el CMS asigna a un asistente el número que ya tiene otro
+- **THEN** la respuesta es 409
 
 ### Requirement: Baja lógica de asistentes
 `DELETE /attendees/{id}` (privado) SHALL marcar al asistente con estado 5 (eliminado) sin borrar la fila y responder 204.
@@ -70,31 +118,20 @@ La inscripción pública SHALL limitarse a 10 envíos por hora por IP (429 al su
 - **WHEN** se confirman 3 ids, de los cuales uno ya estaba confirmado
 - **THEN** la respuesta es `confirmados: 2`
 
-### Requirement: Asignación de números de participante
-`POST /attendees/codigos` (privado) SHALL asignar números consecutivos, continuando desde el mayor ya asignado, a los asistentes sin número (`code` 0 o nulo) que cumplan: no staff, no eliminados, edad mayor o igual a la mínima configurada (12) y método de pago fuera de la lista excluida configurada (`Grupo de apoyo`, `Invitado`). El orden es por `paydate` ascendente y por `id` en empate. Responde cuántos se asignaron.
-
-#### Scenario: Orden por fecha de pago
-- **WHEN** no hay números asignados y tres asistentes válidos tienen fechas de pago 3, 1 y 2 de marzo
-- **THEN** reciben los números 3, 1 y 2 respectivamente
+### Requirement: Números para inscritos sin número
+`POST /attendees/codigos` (privado) SHALL asignar números consecutivos, continuando desde el mayor asignado, a los asistentes no eliminados y elegibles que no tienen número, ordenados por `paydate` ascendente (y por `id` en empate), y responder cuántos se asignaron.
 
 #### Scenario: Inscritos tardíos
-- **WHEN** el mayor número asignado es 120 y se asignan números a dos inscritos nuevos
-- **THEN** reciben 121 y 122 y nadie más cambia de número
+- **WHEN** el mayor número es 120 y dos elegibles sin número pagaron el 3 y el 1 de mayo
+- **THEN** el del 1 de mayo recibe 121, el del 3 de mayo 122 y nadie más cambia
 
-#### Scenario: Excluidos
-- **WHEN** un asistente tiene 10 años o paga como `Invitado`
-- **THEN** no recibe número
+### Requirement: Regenerar todos los números
+`POST /attendees/codigos/regenerar` (privado) con `{"confirmacion": "regenerar"}` SHALL quitar el número a todos los asistentes y volver a numerar desde 1, por `paydate` ascendente, a los no eliminados y elegibles; sin esa confirmación literal MUST responder 422 sin cambiar nada.
 
-### Requirement: Reinicio de números de participante
-`POST /attendees/codigos/reiniciar` (privado) con `{"confirmacion": "reiniciar"}` SHALL poner sin número a todos los asistentes y responder cuántos cambiaron; sin esa confirmación literal MUST responder 422 sin cambiar nada.
+#### Scenario: Orden por fecha de pago
+- **WHEN** se regenera con tres elegibles que pagaron el 3, el 1 y el 2 de marzo
+- **THEN** reciben los números 3, 1 y 2 respectivamente
 
 #### Scenario: Sin confirmación
-- **WHEN** el CMS pide el reinicio sin el campo `confirmacion`
+- **WHEN** el CMS pide regenerar sin el campo `confirmacion`
 - **THEN** la respuesta es 422 y los números se conservan
-
-### Requirement: Recordatorio del número de participante
-`POST /attendees/recordar-codigo` (público) con `{"email"}` SHALL enviar por correo el número de participante al asistente con ese correo, si existe y tiene número, y responder siempre 202 con el mismo cuerpo. La API MUST NOT devolver el número en la respuesta. Se limita a 3 solicitudes por hora por correo.
-
-#### Scenario: Consulta de un tercero
-- **WHEN** alguien pide el recordatorio con el correo de otra persona
-- **THEN** la respuesta es 202 sin el número, y el número solo llega al buzón del asistente

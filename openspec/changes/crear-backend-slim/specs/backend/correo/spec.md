@@ -53,7 +53,7 @@ El enlace de acceso y el recordatorio del número de participante SHALL enviarse
 - **THEN** recibe un correo con su nombre y el número 27
 
 ### Requirement: Envíos por tipo lanzados desde el CMS
-`POST /correos/{tipo}` (privado) SHALL encolar el correo de ese tipo para sus destinatarios y responder cuántos se encolaron. Tipos y destinatarios por defecto: `bienvenida` (no eliminados), `numero` (con número asignado), `instrucciones` y `libro` (confirmados), `aviso-importante`, `informacion-general` y `correccion` (no eliminados). Un tipo desconocido MUST responder 404.
+`POST /correos/{tipo}` (privado) SHALL encolar el correo de ese tipo para sus destinatarios y responder cuántos se encolaron. Tipos y destinatarios por defecto: `bienvenida` (no eliminados), `numero` (con número asignado), `instrucciones` y `libro` (confirmados), `aviso-importante` e `informacion-general` (no eliminados) y `correccion` (solo los `ids` indicados: sin `ids` MUST responder 422). Un tipo desconocido MUST responder 404.
 
 #### Scenario: Envío de instrucciones
 - **WHEN** hay 80 confirmados y 20 pendientes y el CMS lanza `instrucciones`

@@ -21,6 +21,14 @@ interface AttendeeRepository
      */
     public function findActiveByEmail(string $email): array;
 
+    /**
+     * Attendees by id in any status (e.g. the instructor of a workshop), keyed by id.
+     *
+     * @param list<int> $ids
+     * @return array<int, Attendee>
+     */
+    public function findByIds(array $ids): array;
+
     /** A non-deleted attendee with that email whose code or special code is `$code`. */
     public function findActiveByEmailAndCode(string $email, string $code): ?Attendee;
 

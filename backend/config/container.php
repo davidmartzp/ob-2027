@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use App\Application\Auth\AuthSettings;
 use App\Application\Mail\TeamMailbox;
+use App\Application\Port\ImageStorage;
 use App\Application\Port\MailQueue;
 use App\Application\Port\PasswordHasher;
 use App\Application\Port\RateLimiter;
@@ -18,6 +19,9 @@ use App\Domain\Attendee\TurnSettings;
 use App\Domain\Auth\AccessLinkRepository;
 use App\Domain\Auth\AccessTokenRepository;
 use App\Domain\Auth\UserRepository;
+use App\Domain\Partner\PartnerRepository;
+use App\Domain\Workshop\WorkshopOptions;
+use App\Domain\Workshop\WorkshopRepository;
 use App\Infrastructure\Clock\SystemClock;
 use App\Infrastructure\Config\Settings;
 use App\Infrastructure\Mail\MailSettings;
@@ -29,8 +33,11 @@ use App\Infrastructure\Persistence\Migration\Seeder;
 use App\Infrastructure\Persistence\Repository\DbAccessLinkRepository;
 use App\Infrastructure\Persistence\Repository\DbAccessTokenRepository;
 use App\Infrastructure\Persistence\Repository\EloquentAttendeeRepository;
+use App\Infrastructure\Persistence\Repository\EloquentPartnerRepository;
+use App\Infrastructure\Persistence\Repository\EloquentWorkshopRepository;
 use App\Infrastructure\Persistence\Repository\EloquentUserRepository;
 use App\Infrastructure\Security\NativePasswordHasher;
+use App\Infrastructure\Storage\LocalImageStorage;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Connection;
 use Psr\Clock\ClockInterface;
@@ -58,6 +65,14 @@ return static fn (Settings $settings, string $root): array => [
     RateLimiter::class => autowire(DbRateLimiter::class),
     MailQueue::class => autowire(TwigMailQueue::class),
     PasswordHasher::class => autowire(NativePasswordHasher::class),
+    WorkshopRepository::class => autowire(EloquentWorkshopRepository::class),
+    PartnerRepository::class => autowire(EloquentPartnerRepository::class),
+    ImageStorage::class => get(LocalImageStorage::class),
+    // Images live outside public/ and are served by GET /images/{file}; APP_URL must include APP_BASE_PATH.
+    LocalImageStorage::class => static fn (): LocalImageStorage => new LocalImageStorage(
+        $root . '/storage/images',
+        $settings->string('APP_URL', 'http://localhost:8080'),
+    ),
 
     AuthSettings::class => static fn (): AuthSettings => new AuthSettings(
         cmsTokenHours: $settings->int('CMS_TOKEN_HOURS', 12),
@@ -80,6 +95,10 @@ return static fn (Settings $settings, string $root): array => [
         minutesPerGroup: $settings->int('TURN_MINUTES', 10),
         // Rehearsal mode never applies in production, whatever .env says.
         bypass: !$settings->isProduction() && $settings->bool('TURN_BYPASS'),
+    ),
+    WorkshopOptions::class => static fn (): WorkshopOptions => new WorkshopOptions(
+        levels: $settings->list('WORKSHOP_LEVELS') ?: ['P', 'I', 'A'],
+        audiences: $settings->list('WORKSHOP_AUDIENCES') ?: ['A', 'N'],
     ),
     TeamMailbox::class => static fn (): TeamMailbox => new TeamMailbox($settings->string('MAIL_TEAM_ADDRESS', 'inscripciones@origamibogota.com')),
 

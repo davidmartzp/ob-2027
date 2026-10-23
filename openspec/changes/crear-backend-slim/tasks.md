@@ -49,11 +49,13 @@ Hecho (2026-10-23): dominio (`Attendee`, `CodePolicy`, `RegistrationTurns`, `Tur
 
 ## 6. Talleres (spec `backend/talleres`)
 
-- [ ] 6.1 Modelo `Workshop` (`duration`, `tickets`, `part`, `relation`) y servicio con estados 0/1/2 y niveles/públicos configurables; prueba de que un retirado no se lista ni se programa
-- [ ] 6.2 `POST|GET /attendees/{id}/workshops` con token del asistente; pruebas: propuesta en estado 1, 403 con token de otro asistente
-- [ ] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (autor o CMS) y `GET /cms/workshops`, `PATCH /workshops/{id}` (`status`, `tickets`, `part`, `relation`); pruebas de permisos, cupo y relación inválida 422
-- [ ] 6.4 `POST /workshops/{id}/image` y `GET /images/{file}` (D9); pruebas: `.php` y `.jpg` con código PHP 422, 8 MB 422, sin token 401, imagen válida reemplaza la anterior
-- [ ] 6.5 `GET /workshops` público aleatorio, solo activos, con socios activos y sin datos de contacto; prueba de los campos devueltos (requiere grupo 7)
+Hecho (2026-10-23): `Domain/Workshop`, `Application/Workshop` (InstructorWorkshops, EditWorkshop, ManageWorkshops, WorkshopView), puerto `ImageStorage` con `Infrastructure/Storage/LocalImageStorage` y `ImageController`. Adelantado del grupo 7: entidad `Partner` y su lectura por taller (`PartnerRepository::activeByWorkshop`) para el listado público. Verificado con Apache: subida multipart real, imagen con PHP y archivo de 8 MB rechazados.
+
+- [x] 6.1 Modelo `Workshop` (`duration`, `tickets`, `part`, `relation`) y servicio con estados 0/1/2 y niveles/públicos configurables; prueba de que un retirado no se lista ni se programa
+- [x] 6.2 `POST|GET /attendees/{id}/workshops` con token del asistente; pruebas: propuesta en estado 1, 403 con token de otro asistente
+- [x] 6.3 `PUT /workshops/{id}`, `DELETE /workshops/{id}` (autor o CMS) y `GET /cms/workshops`, `PATCH /workshops/{id}` (`status`, `tickets`, `part`, `relation`); pruebas de permisos, cupo y relación inválida 422
+- [x] 6.4 `POST /workshops/{id}/image` y `GET /images/{file}` (D9); pruebas: `.php` y `.jpg` con código PHP 422, 8 MB 422, sin token 401, imagen válida reemplaza la anterior
+- [x] 6.5 `GET /workshops` público aleatorio, solo activos, con socios activos y sin datos de contacto; prueba de los campos devueltos (requiere grupo 7)
 
 ## 7. Partners (spec `backend/partners`)
 

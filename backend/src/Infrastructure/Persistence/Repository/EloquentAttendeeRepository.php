@@ -41,6 +41,17 @@ final readonly class EloquentAttendeeRepository implements AttendeeRepository
             ->get());
     }
 
+    public function findByIds(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+
+        return AttendeeModel::query()->whereIn('id', $ids)->get()
+            ->mapWithKeys(static fn (AttendeeModel $model): array => [$model->id => $model->toEntity()])
+            ->all();
+    }
+
     public function findActiveByEmailAndCode(string $email, string $code): ?Attendee
     {
         return AttendeeModel::query()

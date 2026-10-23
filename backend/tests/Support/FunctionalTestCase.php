@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Support;
 
 use App\Infrastructure\Persistence\Migration\Migrator;
+use App\Infrastructure\Storage\LocalImageStorage;
 use Illuminate\Database\Connection;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
@@ -12,24 +13,37 @@ use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Slim\App;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\UploadedFile;
 
 /**
  * Base for functional tests: boots the real app (config/bootstrap.php) on in-memory
  * SQLite with every migration applied, a FrozenClock instead of the system clock and a
- * RecordingMailer instead of the SMTP server.
+ * RecordingMailer instead of the SMTP server. Uploaded images go to a temporary folder.
  */
 abstract class FunctionalTestCase extends TestCase
 {
     protected App $app;
     protected FrozenClock $clock;
     protected RecordingMailer $mailer;
+    protected string $imageDir;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->clock = new FrozenClock();
         $this->mailer = new RecordingMailer();
+        $this->imageDir = sys_get_temp_dir() . '/ob-test-images-' . bin2hex(random_bytes(4));
         $this->setUpApp();
+    }
+
+    protected function tearDown(): void
+    {
+        foreach (glob($this->imageDir . '/*') ?: [] as $file) {
+            unlink($file);
+        }
+        @rmdir($this->imageDir);
+        parent::tearDown();
     }
 
     /**
@@ -43,6 +57,7 @@ abstract class FunctionalTestCase extends TestCase
         $this->app = self::bootApp($extraEnvironment + $this->environment(), [
             ClockInterface::class => $this->clock,
             MailerInterface::class => $this->mailer,
+            LocalImageStorage::class => new LocalImageStorage($this->imageDir, 'http://api.test'),
         ]);
         $this->app->getContainer()->get(Migrator::class)->migrate();
     }
@@ -84,6 +99,18 @@ abstract class FunctionalTestCase extends TestCase
             $headers += ['Content-Type' => 'application/json'];
             $request->getBody()->write(is_array($body) ? json_encode($body, JSON_THROW_ON_ERROR) : $body);
         }
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $this->app->handle($request);
+    }
+
+    /** Multipart upload of one file field. @param array<string, string> $headers */
+    protected function upload(string $path, string $field, string $bytes, string $clientName, array $headers = []): ResponseInterface
+    {
+        $request = (new ServerRequestFactory())->createServerRequest('POST', $path, ['REMOTE_ADDR' => '203.0.113.10'])
+            ->withUploadedFiles([$field => new UploadedFile((new StreamFactory())->createStream($bytes), $clientName, 'image/jpeg', strlen($bytes), UPLOAD_ERR_OK)]);
         foreach ($headers as $name => $value) {
             $request = $request->withHeader($name, $value);
         }

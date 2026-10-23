@@ -61,7 +61,7 @@ Cada taller SHALL tener uno de estos estados: 1 (activo: se publica y se puede p
 - **THEN** ninguna entrada incluye correo, teléfono ni documento del tallerista
 
 ### Requirement: Talleres en el CMS
-`GET /cms/workshops` (privado) SHALL devolver todos los talleres no retirados con sus datos, el tallerista y sus campos de programación. `PATCH /workshops/{id}` (privado) SHALL cambiar `status`, `tickets` (cupo restante, entero mayor o igual a 0), `part` (nulo, 1 o 2) y `relation` (id del taller del que es continuación).
+`GET /cms/workshops` (privado) SHALL devolver todos los talleres no retirados con sus datos, el tallerista y sus campos de programación. `PATCH /workshops/{id}` (privado) SHALL cambiar `status`, `tickets` (cupo restante, entero mayor o igual a 0), `part` (1 o 2; 1 sin `relation` es un taller de una sola parte, como todos los heredados) y `relation` (id del taller del que es continuación). Solo cambian las claves enviadas.
 
 #### Scenario: Fijar cupo
 - **WHEN** el CMS fija `tickets` en 20 para un taller

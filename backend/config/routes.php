@@ -14,6 +14,8 @@ use App\Infrastructure\Http\Controller\AttendeeController;
 use App\Infrastructure\Http\Controller\AuthController;
 use App\Infrastructure\Http\Controller\EmailController;
 use App\Infrastructure\Http\Controller\HealthController;
+use App\Infrastructure\Http\Controller\ImageController;
+use App\Infrastructure\Http\Controller\WorkshopController;
 use App\Infrastructure\Http\Guards;
 use Slim\App;
 
@@ -21,6 +23,7 @@ return static function (App $app): void {
     $guards = $app->getContainer()->get(Guards::class);
 
     $app->get('/health', [HealthController::class, 'show']);
+    $app->get('/images/{file}', [ImageController::class, 'show']);
 
     // Auth (spec backend/autenticacion)
     $app->post('/auth/login', [AuthController::class, 'login']);
@@ -40,6 +43,16 @@ return static function (App $app): void {
     $app->get('/attendees/{id:[0-9]+}', [AttendeeController::class, 'show'])->add($guards->cms());
     $app->put('/attendees/{id:[0-9]+}', [AttendeeController::class, 'update'])->add($guards->cms());
     $app->delete('/attendees/{id:[0-9]+}', [AttendeeController::class, 'delete'])->add($guards->cms());
+
+    // Workshops (spec backend/talleres)
+    $app->get('/workshops', [WorkshopController::class, 'publicList']);
+    $app->post('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'propose'])->add($guards->attendee());
+    $app->get('/attendees/{id:[0-9]+}/workshops', [WorkshopController::class, 'listMine'])->add($guards->attendee());
+    $app->put('/workshops/{id:[0-9]+}', [WorkshopController::class, 'update'])->add($guards->cmsOrAttendee());
+    $app->delete('/workshops/{id:[0-9]+}', [WorkshopController::class, 'withdraw'])->add($guards->cmsOrAttendee());
+    $app->post('/workshops/{id:[0-9]+}/image', [WorkshopController::class, 'uploadImage'])->add($guards->cmsOrAttendee());
+    $app->get('/cms/workshops', [WorkshopController::class, 'cmsList'])->add($guards->cms());
+    $app->patch('/workshops/{id:[0-9]+}', [WorkshopController::class, 'patch'])->add($guards->cms());
 
     // Emails sent by hand from the CMS (spec backend/correo)
     $app->get('/emails/log', [EmailController::class, 'log'])->add($guards->cms());

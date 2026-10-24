@@ -2,6 +2,9 @@
   <div class="exito" role="status">
     <svg class="exito-marca" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 25 L20 37 L40 11"/></svg>
     <h3>{{ t.exito.titulo }}</h3>
+    @if (numero() !== null) {
+      <p class="numero">{{ t.exito.numero }} <b>{{ numero() }}</b></p>
+    }
     <p>{{ t.exito.mensaje }} <b>{{ correoEnviado() }}</b> {{ t.exito.mensaje2 }}</p>
     <p>{{ t.exito.revisa }}</p>
     @if (simulado()) {
@@ -246,7 +249,7 @@
 
     @if (errorEnvio()) {
       <div class="resumen" role="alert">
-        <p><b>{{ t.errorEnvio.titulo }}</b> — {{ t.errorEnvio.mensaje }}</p>
+        <p><b>{{ t.errorEnvio.titulo }}</b> — {{ mensajeEnvio() || t.errorEnvio.mensaje }}</p>
       </div>
     }
 

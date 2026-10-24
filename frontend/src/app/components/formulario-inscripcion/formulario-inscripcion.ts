@@ -1,5 +1,6 @@
 import { Component, computed, ElementRef, inject, signal } from '@angular/core';
 import inscripciones from '@contenido/inscripciones.json';
+import { ErrorApi } from '@core/api';
 import { traducir } from '@core/idioma';
 import {
   CampoInscripcion, construirEnvio, DatosInscripcion, datosVacios, enviarInscripcion,
@@ -14,6 +15,19 @@ import {
    Los errores salen junto a cada campo y resumidos arriba (role="alert"). */
 
 type Estado = 'editando' | 'enviando' | 'enviado';
+
+/** Paso del wizard en el que está cada campo que puede rechazar el servicio (fields del 422). */
+const PASO_DE_CAMPO: Partial<Record<string, number>> = {
+  name: 1, lastname: 1, age: 1, idname: 1,
+  country: 2, city: 2, email: 2, phone: 2,
+  paymethod: 3, paydate: 3, receipt: 3,
+  days: 4, companion: 4,
+  info: 5, medium: 5, othermedium: 5, origamigroup: 5, cardgroup: 5, chiva_companions: 5,
+};
+/** Nombre del campo del servicio → campo del formulario, cuando no coinciden. */
+const CAMPO_DEL_SERVICIO: Partial<Record<string, CampoInscripcion>> = {
+  medium: 'info', othermedium: 'otherInfo', cardgroup: 'cardGroup',
+};
 
 @Component({
   selector: 'app-formulario-inscripcion',
@@ -33,6 +47,12 @@ export class FormularioInscripcion {
   protected readonly correoEnviado = signal('');
   protected readonly simulado = signal(false);
   protected readonly errorEnvio = signal(false);
+  /** Mensaje del servicio cuando lo trae (si no, el genérico de inscripciones.json). */
+  protected readonly mensajeEnvio = signal('');
+  /** Número de participante devuelto por el servicio (null = aún no le corresponde). */
+  protected readonly numero = signal<number | null>(null);
+  /** Errores por campo que devolvió el servicio (422); se borran al corregir el campo. */
+  private readonly erroresServidor = signal<Partial<Record<CampoInscripcion, string>>>({});
   /** Pasos en los que ya se intentó avanzar: solo ahí se muestran los errores (y se recalculan al escribir). */
   private readonly intentados = signal<ReadonlySet<number>>(new Set());
 
@@ -50,6 +70,7 @@ export class FormularioInscripcion {
 
   /** Escribe un campo y vacía los que dependen de él (como el formulario original). */
   protected poner<K extends CampoInscripcion>(campo: K, valor: DatosInscripcion[K]): void {
+    if (this.erroresServidor()[campo]) this.erroresServidor.update(({ [campo]: _, ...resto }) => resto as typeof resto);
     this.datos.update((d) => {
       const nuevo = { ...d, [campo]: valor };
       if (campo === 'info' && valor !== 'Otro') nuevo.otherInfo = '';
@@ -78,7 +99,7 @@ export class FormularioInscripcion {
   }
 
   protected error(campo: CampoInscripcion): string {
-    return this.errores().find((e) => e.campo === campo)?.mensaje ?? '';
+    return this.errores().find((e) => e.campo === campo)?.mensaje ?? this.erroresServidor()[campo] ?? '';
   }
 
   protected siguiente(): void {
@@ -105,24 +126,49 @@ export class FormularioInscripcion {
     }
     this.estado.set('enviando');
     this.errorEnvio.set(false);
+    this.mensajeEnvio.set('');
+    this.erroresServidor.set({});
     try {
       const respuesta = await enviarInscripcion(construirEnvio(this.datos()));
       this.correoEnviado.set(this.datos().email.trim());
       this.simulado.set(respuesta.simulado);
+      this.numero.set(respuesta.code);
       this.estado.set('enviado');
       this.enfocar('.exito h3');
-    } catch {
+    } catch (e) {
       this.errorEnvio.set(true);
       this.estado.set('editando');
+      if (e instanceof ErrorApi) this.mostrarErroresServidor(e);
     }
   }
 
   protected nuevaInscripcion(): void {
     this.datos.set(datosVacios());
     this.intentados.set(new Set());
+    this.erroresServidor.set({});
+    this.numero.set(null);
     this.paso.set(1);
     this.estado.set('editando');
     this.enfocar('.paso-titulo');
+  }
+
+  /** 422 del servicio: cada mensaje junto a su campo y el wizard en el primer paso con errores; lo escrito se conserva. */
+  private mostrarErroresServidor(e: ErrorApi): void {
+    this.mensajeEnvio.set(e.message);
+    const porCampo: Partial<Record<CampoInscripcion, string>> = {};
+    let primero: { campo: CampoInscripcion; paso: number } | null = null;
+    for (const [servicio, mensaje] of Object.entries(e.fields)) {
+      const campo = (CAMPO_DEL_SERVICIO[servicio] ?? servicio) as CampoInscripcion;
+      const paso = PASO_DE_CAMPO[servicio];
+      if (!paso) continue;
+      porCampo[campo] = mensaje;
+      if (!primero || paso < primero.paso) primero = { campo, paso };
+    }
+    this.erroresServidor.set(porCampo);
+    if (primero) {
+      this.paso.set(primero.paso);
+      this.enfocar(`#insc-${primero.campo}`);
+    }
   }
 
   /** Marca el paso como intentado; si tiene errores, se queda en él y enfoca el primer campo. */
@@ -147,7 +193,7 @@ export class FormularioInscripcion {
       if (!el) return;
       if (!el.hasAttribute('tabindex') && !/^(INPUT|SELECT|BUTTON|TEXTAREA)$/.test(el.tagName)) el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
-      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      el.scrollIntoView?.({ block: 'center', behavior: 'smooth' }); // jsdom (pruebas) no lo tiene
     });
   }
 }

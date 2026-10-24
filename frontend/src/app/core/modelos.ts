@@ -78,3 +78,40 @@ export interface MetodoPago {
   /** avisar: true = pasa antes por el aviso de pago (la tienda en línea). */
   enlace?: { url: string; texto: string; avisar?: boolean };
 }
+
+/* ---------- datos vivos del backend (core/api.ts) ---------- */
+
+/** Nivel de un taller: Principiante, Intermedio, Avanzado (etiquetas en comun.json → taller.niveles). */
+export type NivelTaller = 'P' | 'I' | 'A';
+/** Público de un taller: Adultos o Niños (comun.json → taller.publicos). */
+export type PublicoTaller = 'A' | 'N';
+export type DiaCongreso = 'Saturday' | 'Sunday';
+
+/** Socio comercial de un taller (GET /partners y dentro de cada taller). */
+export interface Socio {
+  id: number;
+  name: string;
+  logo: string | null;
+  whatsapp: string;
+  message: string;
+  whatsapp_url: string;
+}
+
+/** Un taller listo para pintar en FichaTaller, venga de la galería, del programa o de los talleres del día
+ *  (core/talleres.ts lo arma desde cada respuesta del backend). */
+export interface Taller {
+  id: number;
+  nombre: string;
+  nivel: NivelTaller;
+  publico: PublicoTaller;
+  duracion: number;
+  observaciones: string | null;
+  foto: string | null;
+  /** Nombre y primer apellido; nunca datos de contacto. */
+  tallerista: string | null;
+  socios: Socio[];
+  /** Solo en el programa y en los talleres del día. */
+  evento?: { id: number; dia: DiaCongreso; inicio: string; fin: string; salon: string | null };
+  /** Cupos restantes (talleres del día). */
+  cupos?: number;
+}

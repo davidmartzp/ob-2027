@@ -86,6 +86,8 @@ input:focus-visible, select:focus-visible, fieldset:focus-visible{ outline:3px d
 .exito h3{ font-family:var(--serif); font-weight:520; font-size:clamp(28px,3.2vw,40px); outline:none; }
 .exito p{ max-width:56ch; color:var(--tinta-80); }
 .exito .pend-nota{ font-size:var(--letra-ayuda); }
+.exito .numero{ font-family:var(--mono); font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta); }
+.exito .numero b{ display:block; font-family:var(--serif); font-weight:600; font-size:clamp(56px,8vw,96px); letter-spacing:0; line-height:1; color:var(--miel); margin-top:6px; }
 .exito .btn{ font-size:16px; padding:16px 30px; }
 
 @media (max-width: 760px){

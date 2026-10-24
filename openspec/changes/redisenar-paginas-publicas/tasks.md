@@ -2,10 +2,10 @@
 
 ## 1. Piezas compartidas (spec `frontend/conexion-api`)
 
-- [ ] 1.1 `core/api.ts` (`api()`, `ErrorApi`, `ErrorRed`) y `apiUrl` movido a `evento.json`; pruebas Vitest: respuesta 2xx, error 422 con `fields`, fallo de red, `apiUrl` nulo
-- [ ] 1.2 `core/registro.ts` envía a `POST /attendees` y la pantalla de éxito muestra el `code` devuelto; actualizar `registro.spec.ts` y verificar contra el backend en Docker (201 con número)
-- [ ] 1.3 Componente `estado-datos` (cargando, vacío, error con reintentar, modo demostración, cerrado) con sus textos en `comun.json`; prueba de cada estado
-- [ ] 1.4 Componentes `ficha-taller` (variantes galería, programa, inscripción) y `socios-taller`, etiquetas de nivel y público en `comun.json`; pruebas: taller sin foto muestra `PapelPlegado`, enlace de WhatsApp con `rel="noopener"`
+- [x] 1.1 `core/api.ts` (`api()`, `ErrorApi`, `ErrorRed`) y `apiUrl` movido a `evento.json`; pruebas Vitest: respuesta 2xx, error 422 con `fields`, fallo de red, `apiUrl` nulo
+- [x] 1.2 `core/registro.ts` envía a `POST /attendees` y la pantalla de éxito muestra el `code` devuelto; actualizar `registro.spec.ts` y verificar contra el backend en Docker (201 con número)
+- [x] 1.3 Componente `estado-datos` (cargando, vacío, error con reintentar, modo demostración, cerrado) con sus textos en `comun.json`; prueba de cada estado
+- [x] 1.4 Componentes `ficha-taller` (variantes galería, programa, inscripción) y `socios-taller`, etiquetas de nivel y público en `comun.json`; pruebas: taller sin foto muestra `PapelPlegado`, enlace de WhatsApp con `rel="noopener"`
 
 ## 2. Páginas estáticas (specs `frontend/recursos`, `frontend/pagina-no-encontrada`)
 

@@ -1,0 +1,34 @@
+<div class="foto">
+  @if (taller().foto) {
+    <img [src]="taller().foto" [alt]="fotoAlt()" loading="lazy">
+  } @else {
+    <div class="sin-foto"><app-papel-plegado/></div>
+  }
+</div>
+
+<div class="cuerpo">
+  @if (variante() !== 'galeria' && taller().evento; as e) {
+    <p class="cuando mono">{{ dia() }} · {{ e.inicio }}–{{ e.fin }}@if (e.salon) { · {{ e.salon }}}</p>
+  }
+  @if (nivelTitulo() === 3) {
+    <h3 class="nombre">{{ taller().nombre }}</h3>
+  } @else {
+    <h4 class="nombre">{{ taller().nombre }}</h4>
+  }
+  <ul class="chips" [attr.aria-label]="t.nivel + ', ' + t.publico + ', ' + t.duracion">
+    <li class="chip nivel" [attr.data-nivel]="taller().nivel">{{ nivel() }}</li>
+    <li class="chip">{{ publico() }}</li>
+    <li class="chip">{{ duracion() }}</li>
+    @if (variante() === 'inscripcion') {
+      <li class="chip cupos" [class.agotado]="(taller().cupos ?? 0) <= 0">{{ cupos() }}</li>
+    }
+  </ul>
+  @if (taller().tallerista) {
+    <p class="tallerista"><span class="mono">{{ t.tallerista }}</span> {{ taller().tallerista }}</p>
+  }
+  @if (variante() !== 'galeria' && taller().observaciones) {
+    <p class="observaciones"><span class="mono">{{ t.observaciones }}</span> {{ taller().observaciones }}</p>
+  }
+  <app-socios-taller [socios]="taller().socios"/>
+  <ng-content/>
+</div>

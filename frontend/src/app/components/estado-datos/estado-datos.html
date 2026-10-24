@@ -1,0 +1,25 @@
+@switch (estado()) {
+  @case ('listo') {}
+  @case ('cargando') {
+    <div class="hoja cargando" role="status" aria-live="polite">
+      <span class="grulla" aria-hidden="true"><span></span></span>
+      <p>{{ textoVisible() }}</p>
+    </div>
+  }
+  @default {
+    <div class="hoja" [attr.role]="estado() === 'error' ? 'alert' : 'status'">
+      <svg class="marca" viewBox="0 0 48 48" aria-hidden="true">
+        @if (estado() === 'error') {
+          <path d="M8 8 L40 40 M40 8 L8 40"/>
+        } @else {
+          <path class="valle" d="M6 24 H42"/><path d="M24 6 V42"/>
+        }
+      </svg>
+      <h3>{{ tituloVisible() }}</h3>
+      <p>{{ textoVisible() }}</p>
+      @if (estado() === 'error') {
+        <button type="button" class="btn btn-linea" (click)="reintentar.emit()">{{ t.reintentar }} ↻</button>
+      }
+    </div>
+  }
+}

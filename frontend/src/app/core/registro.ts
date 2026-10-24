@@ -1,4 +1,5 @@
 import inscripciones from '@contenido/inscripciones.json';
+import { api, apiUrl } from './api';
 import { Traducido } from './idioma';
 
 /* ============ INSCRIPCIÓN: DATOS, VALIDACIÓN Y ENVÍO ============
@@ -9,8 +10,8 @@ import { Traducido } from './idioma';
      · acompañantes de la chiva: de 2 a 3 en el campo y en el texto (decían 9);
      · el correo admite subdominios (nombre@unal.edu.co era rechazado);
      · un solo listado de países para mostrar y para enviar (había indicativos cruzados).
-   Sin backend: `enviarInscripcion` simula la respuesta mientras inscripciones.json
-   tenga "apiUrl": null. El contrato del servicio está en `EnvioInscripcion`. */
+   Sin backend: `enviarInscripcion` simula la respuesta mientras evento.json tenga
+   "apiUrl": null. El contrato del servicio está en `EnvioInscripcion`. */
 
 type TextosFormulario = Traducido<typeof inscripciones.formulario>;
 export type CampoInscripcion = keyof DatosInscripcion;
@@ -46,7 +47,7 @@ export interface DatosInscripcion {
   chiva_companions: string;
 }
 
-/** Lo que se envía al servicio: POST {apiUrl}/assistants con este JSON (igual que el sitio anterior). */
+/** Lo que se envía al servicio: POST {apiUrl}/attendees con este JSON (igual que el sitio anterior). */
 export interface EnvioInscripcion {
   name: string;
   lastname: string;
@@ -197,21 +198,18 @@ export function construirEnvio(d: DatosInscripcion, hoy = new Date()): EnvioInsc
 export interface RespuestaEnvio {
   /** true = no hubo servidor: la respuesta es simulada. */
   simulado: boolean;
+  /** Número de participante asignado al inscribirse (null si aún no le corresponde: menores, staff…). */
+  code: number | null;
 }
 
-/** Envía la inscripción. Sin `apiUrl` en inscripciones.json, la simula (y la deja en la consola). */
+/** Envía la inscripción a POST {apiUrl}/attendees. Sin `apiUrl` (evento.json), la simula (y la deja en la consola).
+ *  Los errores del servicio llegan como ErrorApi / ErrorRed (core/api.ts). */
 export async function enviarInscripcion(envio: EnvioInscripcion): Promise<RespuestaEnvio> {
-  const apiUrl = inscripciones.apiUrl as string | null;
-  if (!apiUrl) {
-    console.info('[inscripción sin conexión] Se enviaría a POST /assistants:', envio);
+  if (!apiUrl()) {
+    console.info('[inscripción sin conexión] Se enviaría a POST /attendees:', envio);
     await new Promise((listo) => setTimeout(listo, 600));
-    return { simulado: true };
+    return { simulado: true, code: null };
   }
-  const respuesta = await fetch(`${apiUrl.replace(/\/$/, '')}/assistants`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(envio),
-  });
-  if (!respuesta.ok) throw new Error(`El servicio respondió ${respuesta.status}`);
-  return { simulado: false };
+  const respuesta = await api<{ id: number; status: number; code: number | null }>('POST', 'attendees', envio);
+  return { simulado: false, code: respuesta.code };
 }

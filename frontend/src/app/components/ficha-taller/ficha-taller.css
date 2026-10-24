@@ -1,0 +1,22 @@
+:host{ display:grid; gap:16px; align-content:start; }
+:host([data-variante="programa"]), :host([data-variante="inscripcion"]){ grid-template-columns:minmax(110px, 180px) 1fr; gap:clamp(16px,2.4vw,28px); }
+
+.foto{ aspect-ratio:1; background:var(--papel-2); border:1.5px solid var(--tinta); box-shadow:6px 6px 0 var(--tinta); overflow:hidden; }
+.foto img{ width:100%; height:100%; object-fit:cover; }
+.sin-foto{ display:grid; place-items:center; height:100%; padding:22%; }
+
+.cuerpo{ display:grid; gap:10px; align-content:start; min-width:0; }
+.cuando{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--miel); }
+.nombre{ font-family:var(--serif); font-weight:520; font-size:clamp(22px,2.2vw,28px); line-height:1.1; overflow-wrap:anywhere; }
+.chips{ list-style:none; display:flex; flex-wrap:wrap; gap:6px; }
+.chip.nivel[data-nivel="P"]{ border-style:solid; border-color:var(--frailejon); }
+.chip.nivel[data-nivel="I"]{ border-style:solid; border-color:var(--miel); }
+.chip.nivel[data-nivel="A"]{ border-style:solid; border-color:var(--teja); }
+.chip.cupos{ background:var(--tinta); color:var(--papel); border-style:solid; border-color:var(--tinta); }
+.chip.cupos.agotado{ background:transparent; color:var(--tinta-60); text-decoration:line-through; }
+.tallerista, .observaciones{ color:var(--tinta-80); font-size:calc(var(--fs-texto) - 2px); }
+.tallerista .mono, .observaciones .mono{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta-60); margin-right:6px; }
+
+@media (max-width: 760px){
+  :host([data-variante="programa"]), :host([data-variante="inscripcion"]){ grid-template-columns:88px 1fr; }
+}

@@ -14,5 +14,139 @@
   "idiomaAria": {
     "es": "Idioma",
     "en": "Language"
+  },
+  "estados": {
+    "cargando": {
+      "es": "Desdoblando la información…",
+      "en": "Unfolding the information…"
+    },
+    "vacioTitulo": {
+      "es": "Aquí todavía no hay nada",
+      "en": "Nothing here yet"
+    },
+    "vacioTexto": {
+      "es": "Cuando haya datos, los verás en esta hoja.",
+      "en": "When there is data, you will see it on this sheet."
+    },
+    "errorTitulo": {
+      "es": "No pudimos conectar",
+      "en": "We couldn't connect"
+    },
+    "errorTexto": {
+      "es": "El servidor no respondió. Revisa tu conexión y vuelve a intentarlo, sumercé.",
+      "en": "The server did not answer. Check your connection and try again."
+    },
+    "reintentar": {
+      "es": "Reintentar",
+      "en": "Try again"
+    },
+    "demoTitulo": {
+      "es": "✳ Modo demostración",
+      "en": "✳ Demo mode"
+    },
+    "demoTexto": {
+      "es": "Esta parte aún no está conectada al servidor del congreso: aquí aparecerán los datos en vivo.",
+      "en": "This part is not connected to the convention server yet: live data will appear here."
+    },
+    "cerradoTitulo": {
+      "es": "Todavía no abre",
+      "en": "Not open yet"
+    },
+    "cerradoTexto": {
+      "es": "Esta parte se abre durante el congreso. ¡Tómate un tinto y vuelve en un rato!",
+      "en": "This opens during the convention. Grab a coffee and come back later!"
+    }
+  },
+  "taller": {
+    "niveles": {
+      "P": {
+        "es": "Principiante",
+        "en": "Beginner"
+      },
+      "I": {
+        "es": "Intermedio",
+        "en": "Intermediate"
+      },
+      "A": {
+        "es": "Avanzado",
+        "en": "Advanced"
+      }
+    },
+    "publicos": {
+      "A": {
+        "es": "Adultos",
+        "en": "Adults"
+      },
+      "N": {
+        "es": "Niños",
+        "en": "Kids"
+      }
+    },
+    "nivel": {
+      "es": "Nivel",
+      "en": "Level"
+    },
+    "publico": {
+      "es": "Público",
+      "en": "Audience"
+    },
+    "duracion": {
+      "es": "Duración",
+      "en": "Length"
+    },
+    "minutos": {
+      "es": "{n} min",
+      "en": "{n} min"
+    },
+    "tallerista": {
+      "es": "Tallerista",
+      "en": "Instructor"
+    },
+    "salon": {
+      "es": "Salón",
+      "en": "Room"
+    },
+    "horario": {
+      "es": "Horario",
+      "en": "Time"
+    },
+    "observaciones": {
+      "es": "Observaciones",
+      "en": "Notes"
+    },
+    "cupos": {
+      "es": "{n} cupos",
+      "en": "{n} places"
+    },
+    "unCupo": {
+      "es": "1 cupo",
+      "en": "1 place"
+    },
+    "sinCupos": {
+      "es": "Sin cupos",
+      "en": "Full"
+    },
+    "socios": {
+      "es": "Con el apoyo de",
+      "en": "Supported by"
+    },
+    "whatsapp": {
+      "es": "Escribir por WhatsApp a {nombre}",
+      "en": "Message {nombre} on WhatsApp"
+    },
+    "fotoAlt": {
+      "es": "Modelo del taller «{nombre}»",
+      "en": "Model of the workshop “{nombre}”"
+    },
+    "dias": {
+      "Saturday": {
+        "es": "Sábado",
+        "en": "Saturday"
+      },
+      "Sunday": {
+        "es": "Domingo",
+        "en": "Sunday"
+      }
+    }
   }
 }

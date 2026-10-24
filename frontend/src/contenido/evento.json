@@ -11,6 +11,7 @@
     "href": "tel:+573152459839"
   },
   "correo": "inscripciones@origamibogota.com",
+  "apiUrl": null,
   "recursosUrl": null,
   "fecha": {
     "es": "04 al 06 de junio",
@@ -21,6 +22,7 @@
     "en": "June 4–6, {edicion} — Bogotá"
   },
   "inscripcionesAbiertas": false,
+  "inscripcionTalleresAbierta": false,
   "mostrarMenu": true,
   "secciones": {
     "comunidad": true,

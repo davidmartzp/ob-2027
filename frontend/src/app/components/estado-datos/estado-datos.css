@@ -1,0 +1,25 @@
+:host{ display:block; }
+:host([data-estado="listo"]){ display:none; }
+
+.hoja{
+  display:grid; justify-items:center; text-align:center; gap:12px;
+  padding:clamp(28px,4vw,48px) clamp(18px,3vw,36px);
+  border:1.5px dashed var(--tinta-30); background:var(--papel-2);
+}
+:host([data-estado="error"]) .hoja{ border:1.5px solid var(--tinta); box-shadow:8px 8px 0 var(--teja); background:var(--papel); }
+:host([data-estado="demo"]) .hoja{ border-color:var(--miel); }
+h3{ font-family:var(--serif); font-weight:520; font-size:clamp(24px,2.6vw,32px); }
+p{ color:var(--tinta-80); max-width:52ch; }
+.btn{ margin-top:6px; }
+
+.marca{ width:44px; height:44px; fill:none; stroke:var(--tinta); stroke-width:2; stroke-linecap:round; }
+:host([data-estado="error"]) .marca{ stroke:var(--teja); }
+.marca .valle{ stroke-dasharray:4 3; }
+
+/* cargando: un cuadrado que se dobla por la diagonal una y otra vez */
+.cargando{ border-style:dashed; background:transparent; }
+.grulla{ width:38px; height:38px; position:relative; perspective:120px; }
+.grulla::before, .grulla span{ content:""; position:absolute; inset:0; }
+.grulla::before{ background:var(--ruana); clip-path:polygon(0 0, 0 100%, 100% 100%); }
+.grulla span{ background:var(--pajizo); clip-path:polygon(0 0, 100% 0, 100% 100%); animation:doblar 1.4s var(--ease) infinite alternate; }
+@keyframes doblar{ to{ transform:rotate3d(1, 1, 0, 180deg); } }

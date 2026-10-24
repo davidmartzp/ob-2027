@@ -1,5 +1,4 @@
 {
-  "apiUrl": null,
   "pagina": {
     "titulo": {
       "es": "Tu <em>inscripción</em>",
@@ -708,6 +707,10 @@
       "titulo": {
         "es": "¡Inscripción realizada con éxito!",
         "en": "Registration successful!"
+      },
+      "numero": {
+        "es": "Tu número de participante es",
+        "en": "Your participant number is"
       },
       "mensaje": {
         "es": "Hemos enviado un correo de confirmación a",

@@ -1,10 +1,12 @@
 import inscripciones from '@contenido/inscripciones.json';
+import evento from '@contenido/evento.json';
 import { TestBed } from '@angular/core/testing';
 import { traducir } from './idioma';
 import {
   capitalizar, construirEnvio, DatosInscripcion, datosVacios, enviarInscripcion,
   requiereComprobante, validarPaso,
 } from './registro';
+import { fijarApiUrl } from './api';
 
 /** Un formulario completo y válido, para variar un campo cada vez. */
 function completo(cambios: Partial<DatosInscripcion> = {}): DatosInscripcion {
@@ -78,10 +80,21 @@ describe('Inscripción — lógica del formulario', () => {
   });
 
   it('sin apiUrl, el envío se simula (no hay backend todavía)', async () => {
-    expect(inscripciones.apiUrl).toBeNull();
+    expect(evento.apiUrl).toBeNull();
     const info = vi.spyOn(console, 'info').mockImplementation(() => undefined);
-    await expect(enviarInscripcion(construirEnvio(completo()))).resolves.toEqual({ simulado: true });
+    await expect(enviarInscripcion(construirEnvio(completo()))).resolves.toEqual({ simulado: true, code: null });
     expect(info).toHaveBeenCalled();
     info.mockRestore();
+  });
+
+  it('con apiUrl, envía a POST /attendees y devuelve el número asignado', async () => {
+    fijarApiUrl('http://api.test');
+    const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ id: 9, status: 0, code: 141 }), { status: 201 }));
+    vi.stubGlobal('fetch', fetch);
+    await expect(enviarInscripcion(construirEnvio(completo()))).resolves.toEqual({ simulado: false, code: 141 });
+    expect(fetch.mock.calls[0][0]).toBe('http://api.test/attendees');
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toMatchObject({ name: 'María José', email: 'majo@unal.edu.co' });
+    vi.unstubAllGlobals();
+    fijarApiUrl(evento.apiUrl);
   });
 });

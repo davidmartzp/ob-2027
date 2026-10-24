@@ -83,6 +83,13 @@
         "es": "Sé tallerista",
         "en": "Teach a workshop"
       }
+    },
+    "amigos": {
+      "href": "amigos-plegadores",
+      "texto": {
+        "es": "Amigos Plegadores",
+        "en": "Amigos Plegadores"
+      }
     }
   },
   "listas": {
@@ -98,7 +105,8 @@
       "talleres",
       "exposicion",
       "patrocinadores",
-      "contacto"
+      "contacto",
+      "amigos"
     ],
     "suelto": [
       "tallerista"
@@ -116,7 +124,8 @@
       "inicio",
       "itinerario",
       "invitados",
-      "talleres"
+      "talleres",
+      "amigos"
     ]
   },
   "textos": {

@@ -1,0 +1,234 @@
+{
+  "pagina": {
+    "volver": {
+      "es": "← Volver al inicio",
+      "en": "← Back to home"
+    },
+    "titulo": {
+      "es": "¿Qué es <em>Amigos Plegadores</em> en Bogotá?",
+      "en": "What is <em>Amigos Plegadores</em> in Bogotá?"
+    },
+    "bajada": {
+      "es": "Un parche de amigos con una obsesión compartida por el origami, la cerveza y el caos creativo.",
+      "en": "A crew of friends with a shared obsession for origami, beer and creative chaos."
+    },
+    "frase": {
+      "es": "aquí nadie dobla solo ✳",
+      "en": "nobody folds alone here ✳"
+    },
+    "logoAlt": {
+      "es": "Logo de Amigos Plegadores",
+      "en": "Amigos Plegadores logo"
+    },
+    "paso": {
+      "es": "Paso",
+      "en": "Step"
+    }
+  },
+  "pasos": [
+    {
+      "id": "origen",
+      "titulo": {
+        "es": "El origen",
+        "en": "The origin"
+      },
+      "parrafos": {
+        "es": [
+          "Amigos Plegadores no es una organización formal ni un colectivo académico. Es, ante todo, un parche de amigos con una obsesión compartida por el origami, la cerveza (a veces más la cerveza que el origami), las buenas conversaciones y el caos creativo.",
+          "Este grupo nació del gusto común por el arte de plegar papel, pero rápidamente se volvió mucho más: un espacio donde caben desde plegadores obsesionados con modelos figurativos hasta fans del origami geométrico (aunque hablar de módulos chinos puede ser motivo de excomunión simbólica)."
+        ],
+        "en": [
+          "Amigos Plegadores is neither a formal organization nor an academic collective. It is, above all, a crew of friends with a shared obsession for origami, beer (sometimes more beer than origami), good conversation and creative chaos.",
+          "The group was born from a common love for the art of folding paper, but it quickly became much more: a place for everyone from folders obsessed with figurative models to fans of geometric origami (although bringing up Chinese modules may get you symbolically excommunicated)."
+        ]
+      },
+      "foto": "assets/ap/origen3.webp",
+      "fotoAlt": {
+        "es": "Modelos de origami creados por el grupo sobre una mesa",
+        "en": "Origami models created by the group on a table"
+      }
+    },
+    {
+      "id": "reuniones",
+      "titulo": {
+        "es": "Las reuniones",
+        "en": "The meetings"
+      },
+      "parrafos": {
+        "es": [
+          "Las reuniones no siempre consisten en plegar. A veces la conversación se apodera de la mesa, y se habla de todo: ciencia, arte, cine, series, Star Wars, el último bar que se quiere probar o qué restaurante merece una segunda visita. En realidad, cualquier excusa es buena para encontrarse. Y si se pliega, pues mejor.",
+          "El lugar habitual de reunión es <a href=\"http://aseismanos.com.co/\" target=\"_blank\" rel=\"noopener\">AseisManos</a>, una guarida en el centro de Bogotá donde el café, la pola y el papel conviven sin muchas reglas. Allí no hay jerarquías, ni exigencias: el grupo está formado por personas de todo tipo de profesiones y trasfondos —químicos, maestros, psicólogos, ingenieros, antropólogos— pero lo que los une es la pasión (y la tolerancia) por compartir el tiempo alrededor del origami y la conversación."
+        ],
+        "en": [
+          "Meetings are not always about folding. Sometimes the conversation takes over the table and we talk about everything: science, art, films, series, Star Wars, the latest bar we want to try or which restaurant deserves a second visit. Really, any excuse is good to get together. And if we fold, even better.",
+          "Our usual meeting place is <a href=\"http://aseismanos.com.co/\" target=\"_blank\" rel=\"noopener\">AseisManos</a>, a hideout in downtown Bogotá where coffee, beer and paper coexist without many rules. There are no hierarchies or demands: the group is made of people from all kinds of professions and backgrounds —chemists, teachers, psychologists, engineers, anthropologists— but what brings us together is the passion (and patience) for sharing time around origami and conversation."
+        ]
+      },
+      "foto": "assets/ap/r1.webp",
+      "fotoAlt": {
+        "es": "Reunión del grupo plegando alrededor de una mesa en AseisManos",
+        "en": "The group folding around a table at AseisManos"
+      }
+    },
+    {
+      "id": "evento",
+      "titulo": {
+        "es": "El evento anual",
+        "en": "The yearly event"
+      },
+      "parrafos": {
+        "es": [
+          "Uno de los momentos cumbre del año es el evento que el grupo impulsa con entusiasmo: una reunión que busca traer artistas internacionales de origami para compartir con la comunidad local. Aunque surge del deseo genuino de conocer a quienes admiran, no es un evento exclusivo: es una celebración abierta a toda la comunidad origamista, un espacio para aprender, conectar y disfrutar. Se organiza con amor, entre cervezas, diagramas arrugados, ideas espontáneas y mucha colaboración."
+        ],
+        "en": [
+          "One of the highlights of the year is the event the group drives with enthusiasm: a gathering that brings international origami artists to share with the local community. Although it comes from a genuine wish to meet the people we admire, it is not an exclusive event: it is a celebration open to the whole origami community, a place to learn, connect and have fun. It is organized with love, between beers, crumpled diagrams, spontaneous ideas and lots of collaboration."
+        ]
+      },
+      "foto": "assets/ap/organizadores.webp",
+      "fotoAlt": {
+        "es": "El equipo organizador del congreso posando junto",
+        "en": "The convention's organizing team posing together"
+      },
+      "enlace": {
+        "href": "./",
+        "texto": {
+          "es": "Conoce el congreso {edicion} →",
+          "en": "Discover the {edicion} convention →"
+        }
+      }
+    },
+    {
+      "id": "chiva",
+      "titulo": {
+        "es": "La chiva",
+        "en": "The party bus"
+      },
+      "parrafos": {
+        "es": [
+          "Para el grupo, la chiva es mucho más que una actividad dentro del evento anual: es una tradición esperada durante todo el año. Es el momento en que los plegadores se reúnen para celebrar la amistad, la música, el papel y la alegría de compartir, recorriendo juntos las calles de Bogotá en una fiesta sobre ruedas. La chiva es el reflejo del espíritu del grupo: espontáneo, divertido y siempre dispuesto a sumar nuevas historias a la memoria colectiva."
+        ],
+        "en": [
+          "For the group, the chiva is much more than an activity of the yearly event: it is a tradition we look forward to all year. It is when folders get together to celebrate friendship, music, paper and the joy of sharing, riding through the streets of Bogotá in a party on wheels. The chiva reflects the spirit of the group: spontaneous, fun and always ready to add new stories to our collective memory."
+        ]
+      },
+      "foto": "assets/ap/chiva.webp",
+      "fotoAlt": {
+        "es": "La chiva rumbera, un bus colorido de fiesta, en las calles de Bogotá",
+        "en": "The chiva, a colourful party bus, on the streets of Bogotá"
+      }
+    }
+  ],
+  "parche": {
+    "titulo": {
+      "es": "El parche",
+      "en": "The crew"
+    },
+    "lema": {
+      "es": "Fotos de reuniones, congresos y pliegues compartidos",
+      "en": "Photos of meetings, conventions and shared folds"
+    },
+    "abrir": {
+      "es": "Ver foto ampliada: {alt}",
+      "en": "View larger photo: {alt}"
+    },
+    "cerrar": {
+      "es": "Cerrar",
+      "en": "Close"
+    },
+    "anterior": {
+      "es": "Foto anterior",
+      "en": "Previous photo"
+    },
+    "siguiente": {
+      "es": "Foto siguiente",
+      "en": "Next photo"
+    },
+    "contador": {
+      "es": "Foto {n} de {total}",
+      "en": "Photo {n} of {total}"
+    },
+    "dialogoAria": {
+      "es": "Galería de fotos de Amigos Plegadores",
+      "en": "Amigos Plegadores photo gallery"
+    },
+    "fotos": [
+      {
+        "foto": "mechas",
+        "alt": {
+          "es": "Los inicios del grupo: amigos reunidos con sus primeros modelos",
+          "en": "The group's beginnings: friends gathered with their first models"
+        }
+      },
+      {
+        "foto": "amigos2",
+        "alt": {
+          "es": "Primeras reuniones de Amigos Plegadores",
+          "en": "Early Amigos Plegadores meetings"
+        }
+      },
+      {
+        "foto": "origen3",
+        "alt": {
+          "es": "Creaciones originales de los miembros del grupo",
+          "en": "Original creations by group members"
+        }
+      },
+      {
+        "foto": "r1",
+        "alt": {
+          "es": "Reunión en AseisManos, en el centro de Bogotá",
+          "en": "Meeting at AseisManos, downtown Bogotá"
+        }
+      },
+      {
+        "foto": "r2",
+        "alt": {
+          "es": "Taller de origami durante una reunión",
+          "en": "Origami workshop during a meeting"
+        }
+      },
+      {
+        "foto": "r3",
+        "alt": {
+          "es": "Conversación entre amigos alrededor de la mesa de plegado",
+          "en": "Friends chatting around the folding table"
+        }
+      },
+      {
+        "foto": "r4",
+        "alt": {
+          "es": "Sesión de plegado con papeles de colores",
+          "en": "Folding session with coloured paper"
+        }
+      },
+      {
+        "foto": "organizadores",
+        "alt": {
+          "es": "Los organizadores del evento internacional de origami",
+          "en": "The organizers of the international origami event"
+        }
+      },
+      {
+        "foto": "convencion1",
+        "alt": {
+          "es": "Talleres con artistas invitados en la convención",
+          "en": "Workshops with guest artists at the convention"
+        }
+      },
+      {
+        "foto": "convencion2",
+        "alt": {
+          "es": "La comunidad origamista reunida en la convención",
+          "en": "The origami community gathered at the convention"
+        }
+      },
+      {
+        "foto": "cetsu",
+        "alt": {
+          "es": "Exposición de trabajos de origami",
+          "en": "Exhibition of origami works"
+        }
+      }
+    ]
+  }
+}

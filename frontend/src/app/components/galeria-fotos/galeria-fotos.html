@@ -1,0 +1,28 @@
+<ul class="cuadricula">
+  @for (f of fotos(); track f.grande; let i = $index) {
+    <li>
+      <button type="button" aria-haspopup="dialog" [attr.aria-label]="etiqueta(f)" (click)="abrir(i)">
+        <img [src]="f.mini" [alt]="f.alt" loading="lazy">
+      </button>
+    </li>
+  }
+</ul>
+
+<dialog #dialogo class="vista" [attr.aria-label]="textos().dialogoAria" (keydown)="alTeclear($event)" (click)="alHacerClic($event)" (close)="abierta.set(false)">
+  <div class="hoja">
+    <button type="button" class="cerrar" [attr.aria-label]="textos().cerrar" (click)="cerrar()">×</button>
+    <figure>
+      @if (abierta()) {
+        <img [src]="foto().grande" [alt]="foto().alt">
+      }
+      <figcaption>
+        <span class="mono" aria-live="polite">{{ contador() }}</span>
+        {{ foto().alt }}
+      </figcaption>
+    </figure>
+    <div class="flechas">
+      <button type="button" class="btn btn-linea" [attr.aria-label]="textos().anterior" (click)="mover(-1)">←</button>
+      <button type="button" class="btn btn-linea" [attr.aria-label]="textos().siguiente" (click)="mover(1)">→</button>
+    </div>
+  </div>
+</dialog>

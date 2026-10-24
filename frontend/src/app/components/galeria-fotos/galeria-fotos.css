@@ -1,0 +1,31 @@
+:host{ display:block; }
+.cuadricula{ list-style:none; display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:clamp(12px,1.8vw,22px); }
+.cuadricula li:nth-child(5n+1){ grid-row:span 2; }
+.cuadricula button{
+  display:block; width:100%; height:100%; padding:0; border:1.5px solid var(--tinta); background:var(--papel-2);
+  cursor:zoom-in; box-shadow:6px 6px 0 var(--tinta); transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.cuadricula button:hover{ transform:translate(-2px,-2px); box-shadow:9px 9px 0 var(--ruana); }
+.cuadricula button:focus-visible{ outline:2px dashed var(--miel); outline-offset:4px; }
+.cuadricula img{ width:100%; height:100%; aspect-ratio:4/3; object-fit:cover; }
+.cuadricula li:nth-child(5n+1) img{ aspect-ratio:auto; }
+
+.vista{ margin:auto; border:0; padding:0; background:transparent; max-width:min(1100px, calc(100vw - 32px)); width:100%; }
+.vista::backdrop{ background:rgba(20,17,10,.82); }
+.hoja{ position:relative; background:var(--papel); border:1.5px solid var(--tinta); box-shadow:12px 12px 0 var(--ruana); padding:clamp(14px,2vw,22px); display:grid; gap:14px; }
+figure{ display:grid; gap:10px; }
+figure img{ width:100%; max-height:72vh; object-fit:contain; background:var(--papel-2); }
+figcaption{ color:var(--tinta-80); font-size:calc(var(--fs-texto) - 2px); }
+figcaption .mono{ display:block; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--miel); }
+.flechas{ display:flex; justify-content:space-between; }
+.cerrar{
+  position:absolute; top:-18px; right:-18px; width:40px; height:40px; border-radius:50%;
+  border:1.5px solid var(--tinta); background:var(--ruana); font-size:24px; line-height:1; cursor:pointer;
+}
+.cerrar:focus-visible, .flechas button:focus-visible{ outline:2px dashed var(--miel); outline-offset:3px; }
+
+@media (max-width: 760px){
+  .cuadricula{ grid-template-columns:repeat(2, 1fr); }
+  .cuadricula li:nth-child(5n+1){ grid-row:auto; grid-column:span 2; }
+  .cerrar{ top:-14px; right:-6px; }
+}

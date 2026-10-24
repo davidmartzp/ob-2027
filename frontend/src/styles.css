@@ -180,6 +180,8 @@ h2.titulo{
   color:var(--color-enfasis, var(--miel)); text-transform:var(--transformar-enfasis, inherit);
 }
 .rico b{ font-weight:600; color:var(--tinta); }
+.rico a{ color:inherit; text-decoration-style:dashed; text-underline-offset:.2em; text-decoration-color:var(--color-enfasis, var(--miel)); }
+.rico a:hover{ color:var(--color-enfasis, var(--miel)); }
 /* z-index:0 = capa propia: sin ella el subrayado (z-index:-1) queda detrás del fondo de la sección */
 .rico mark{ background:none; color:inherit; position:relative; z-index:0; white-space:nowrap; }
 .rico mark::after{

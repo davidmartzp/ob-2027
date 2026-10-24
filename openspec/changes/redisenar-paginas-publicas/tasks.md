@@ -15,9 +15,9 @@
 
 ## 3. Amigos Plegadores (spec `frontend/amigos-plegadores`)
 
-- [ ] 3.1 `amigos-plegadores.json` con los cuatro apartados (es del original, en nuevo) y fotos de `originales/congreso/images/ap` exportadas a WebP en `public/assets/ap/`
-- [ ] 3.2 Página con pasos I–IV y galería «El parche» en `<dialog>` con flechas y Escape; pruebas: textos en ambos idiomas, navegación con teclado de la galería
-- [ ] 3.3 Enlaces desde el menú del congreso y el pie
+- [x] 3.1 `amigos-plegadores.json` con los cuatro apartados (es del original, en nuevo) y fotos de `originales/congreso/images/ap` exportadas a WebP en `public/assets/ap/`
+- [x] 3.2 Página con pasos I–IV y galería «El parche» en `<dialog>` con flechas y Escape; pruebas: textos en ambos idiomas, navegación con teclado de la galería
+- [x] 3.3 Enlaces desde el menú del congreso y el pie
 
 ## 4. Programa (spec `frontend/programa`)
 

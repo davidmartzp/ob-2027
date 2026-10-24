@@ -1,0 +1,40 @@
+:host{ display:block; }
+
+/* ============ HERO (frailejón) ============ */
+.pagina-hero{ background:var(--frailejon); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--paramo); --color-anotacion:var(--paramo-txt); }
+.pagina-hero .separador{ color:var(--tinta); margin-top:clamp(28px,4vw,48px); }
+.pagina-hero h2.titulo{ font-size:clamp(42px,6.6vw,100px); max-width:14ch; }
+.cabeza{ display:flex; justify-content:space-between; align-items:flex-end; gap:clamp(20px,4vw,60px); }
+.logo{ width:clamp(120px,16vw,220px); height:auto; mix-blend-mode:multiply; }
+.intro{ color:var(--tinta-80); max-width:52ch; margin-top:22px; }
+.volver{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-bottom:1px dashed transparent; }
+.volver:hover{ border-bottom-color:currentColor; }
+
+/* ============ PASOS I–IV (alternan papel y papel-2, foto a un lado) ============ */
+.paso{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(28px,5vw,80px); align-items:center; background:var(--papel-2); scroll-margin-top:70px; }
+.paso.par{ background:var(--papel); }
+.paso:not(.par) .foto{ order:-1; }
+.numeral{ font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--miel); margin-bottom:14px; }
+.prosa{ color:var(--tinta-80); max-width:60ch; margin-top:18px; }
+.paso .btn{ margin-top:24px; }
+.foto{ border:1.5px solid var(--tinta); box-shadow:12px 12px 0 var(--frailejon); background:var(--blanco); padding:10px; transform:rotate(1.2deg); }
+.paso:not(.par) .foto{ box-shadow:-12px 12px 0 var(--ruana); transform:rotate(-1.2deg); }
+.foto img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+
+/* ============ EL PARCHE (páramo) ============ */
+.parche{ background:var(--paramo); color:var(--paramo-txt); }
+.parche .lema{ color:var(--paramo-txt); opacity:.85; }
+.parche .separador{ color:var(--pajizo); }
+
+@media (prefers-reduced-motion: reduce){
+  .foto, .paso:not(.par) .foto{ transform:none; }
+}
+@media (max-width: 1020px){
+  .paso{ grid-template-columns:1fr; }
+  .paso:not(.par) .foto{ order:0; }
+  .foto{ max-width:640px; }
+}
+@media (max-width: 760px){
+  .cabeza{ flex-direction:column-reverse; align-items:flex-start; }
+  .logo{ width:110px; }
+}

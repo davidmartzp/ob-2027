@@ -1,0 +1,45 @@
+<app-pagina-interna fondo="var(--frailejon)">
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.pagina.volver }}</a>
+    <div class="cabeza">
+      <div>
+        <app-separador [frase]="t.pagina.frase" appReveal/>
+        <h2 class="titulo rico" appReveal="1" [innerHTML]="t.pagina.titulo"></h2>
+        <p class="intro" appReveal="2">{{ t.pagina.bajada }}</p>
+      </div>
+      <img class="logo" src="assets/logo-amigos-plegadores.png" [alt]="t.pagina.logoAlt" appReveal="3" width="220" height="220">
+    </div>
+  </section>
+
+  @for (p of t.pasos; track p.id; let i = $index, par = $even) {
+    <app-doblez [fondo]="par ? 'var(--papel)' : 'var(--papel-2)'" [montana]="!par"/>
+    <section class="paso" [class.par]="par" [id]="p.id">
+      <div class="texto">
+        <p class="numeral mono" appReveal>{{ t.pagina.paso }} {{ romanos[i] }}</p>
+        @if (par) { <app-separador appReveal/> } @else { <app-separador montana appReveal/> }
+        <h2 class="titulo" appReveal="1">{{ p.titulo }}</h2>
+        @for (parrafo of p.parrafos; track $index) {
+          <p class="prosa rico" appReveal="2" [innerHTML]="parrafo"></p>
+        }
+        @if (p.enlace; as e) {
+          <a class="btn btn-linea" [appEnlace]="e.href" appReveal="2">{{ e.texto }}</a>
+        }
+      </div>
+      <figure class="foto" appReveal="1">
+        <img [src]="p.foto" [alt]="p.fotoAlt" loading="lazy">
+      </figure>
+    </section>
+  }
+
+  <app-doblez fondo="var(--paramo)" tinta="var(--paramo-txt)"/>
+  <section class="parche" id="el-parche">
+    <div class="sec-head">
+      <div>
+        <app-separador appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.parche.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.parche.lema }}</p>
+    </div>
+    <app-galeria-fotos [fotos]="fotos" [textos]="t.parche"/>
+  </section>
+</app-pagina-interna>

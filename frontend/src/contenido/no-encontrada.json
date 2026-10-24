@@ -1,6 +1,9 @@
 {
   "codigo": "404",
-  "titulo": { "es": "¡Ups! Esta página se perdió en un <em>pliegue</em>", "en": "Oops! This page got lost in a <em>fold</em>" },
+  "titulo": {
+    "es": "¡Ups! Esta página se perdió en un <em>pliegue</em>",
+    "en": "Oops! This page got lost in a <em>fold</em>"
+  },
   "texto": {
     "es": "Parece que intentaste desplegar una página que no existe. Incluso con las mejores técnicas de origami, no podemos crear esta página de la nada.",
     "en": "Looks like you tried to unfold a page that doesn't exist. Even with the best origami techniques, we can't make this page out of thin air."
@@ -9,12 +12,39 @@
     "es": "¿Por qué el origami es tan relajante? Porque siempre encuentra la manera de desdoblar tus problemas.",
     "en": "Why is origami so relaxing? Because it always finds a way to unfold your problems."
   },
-  "anotacion": { "es": "vuelve a doblar por aquí ↓", "en": "fold back this way ↓" },
-  "enlacesTitulo": { "es": "Puedes visitar estas páginas:", "en": "You can visit these pages:" },
+  "anotacion": "vuelve a doblar por aquí ↓",
+  "enlacesTitulo": {
+    "es": "Puedes visitar estas páginas:",
+    "en": "You can visit these pages:"
+  },
   "enlaces": [
-    { "href": "./", "texto": { "es": "Inicio", "en": "Home" } },
-    { "href": "talleres", "texto": { "es": "Talleres", "en": "Workshops" } },
-    { "href": "inscripciones", "texto": { "es": "Inscripciones", "en": "Registration" } },
-    { "href": "recursos", "texto": { "es": "Recursos", "en": "Resources" } }
+    {
+      "href": "./",
+      "texto": {
+        "es": "Inicio",
+        "en": "Home"
+      }
+    },
+    {
+      "href": "talleres",
+      "texto": {
+        "es": "Talleres",
+        "en": "Workshops"
+      }
+    },
+    {
+      "href": "inscripciones",
+      "texto": {
+        "es": "Inscripciones",
+        "en": "Registration"
+      }
+    },
+    {
+      "href": "recursos",
+      "texto": {
+        "es": "Recursos",
+        "en": "Resources"
+      }
+    }
   ]
 }

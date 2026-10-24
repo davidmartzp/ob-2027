@@ -11,10 +11,7 @@
     "es": "La <em>comunidad</em>",
     "en": "The <em>community</em>"
   },
-  "frase": {
-    "es": "aquí nadie dobla solo ✳",
-    "en": "nobody folds alone here ✳"
-  },
+  "frase": "aquí nadie dobla solo ✳",
   "texto": {
     "es": "Se llega con una hoja en blanco y se sale con amigos, modelos a medio terminar y ganas de volver. En esta mesa el que lleva años plegando le explica al que llegó ayer, y los niños preguntan sin pena. Esta es la foto de {edicionAnterior}. En la de {edicion} hay un puesto guardado para usted.",
     "en": "You arrive with a blank sheet and leave with friends, half-finished models and the urge to come back. At this table, the person who's been folding for years explains things to the one who arrived yesterday, and kids ask questions without a second thought. This is the {edicionAnterior} photo. In the {edicion} one, there's a spot saved for you."

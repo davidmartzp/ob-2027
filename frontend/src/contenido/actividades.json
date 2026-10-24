@@ -6,10 +6,7 @@
   ],
   "logoSinFoto": "assets/logo-amigos-plegadores.png",
   "seccion": {
-    "frase": {
-      "es": "¡del chocogami a la chiva, hay pa' todos los gustos!",
-      "en": "from Chocogami to the party bus, there's something for everyone!"
-    },
+    "frase": "¡del chocogami a la chiva, hay pa' todos los gustos!",
     "titulo": {
       "es": "Nuestras <em>actividades</em>",
       "en": "Our <em>activities</em>"
@@ -84,10 +81,7 @@
       "es": "Revisa la búsqueda o quita los filtros, que el papel no se va a doblar solo.",
       "en": "Check your search or clear the filters — the paper won't fold itself."
     },
-    "vacioAnotacion": {
-      "es": "¡ni el frailejón la encontró!",
-      "en": "not even the frailejón could find it!"
-    },
+    "vacioAnotacion": "¡ni el frailejón la encontró!",
     "limpiar": {
       "es": "Limpiar búsqueda",
       "en": "Clear search"
@@ -129,7 +123,7 @@
     {
       "id": "publica-diagramas",
       "categoria": "convocatorias",
-      "foto": "assets/actividades/publica-diagramas.webp",
+      "foto": "assets/actividades/publica-diagramas.jpeg",
       "titulo": {
         "es": "Publica tus diagramas: deja tu <em>huella</em>",
         "en": "Publish your diagrams: leave your <em>mark</em>"
@@ -195,7 +189,16 @@
         "en": [
           "Are you passionate about teaching origami? This is your moment! Sign up to be a workshop teacher in our categories (Basic, Intermediate, Advanced, Kids) and share your magic with other folders. When registering, tell us what cool figures you want to teach — or if you prefer, send us the details later! Go ahead and inspire others with your folds."
         ]
-      }
+      },
+      "enlaces": [
+        {
+          "href": "talleres#tallerista",
+          "texto": {
+            "es": "Propón tu taller",
+            "en": "Propose your workshop"
+          }
+        }
+      ]
     },
     {
       "id": "pines",

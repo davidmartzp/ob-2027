@@ -9,10 +9,10 @@ header.oculto{ transform:translateY(-110%); }
 header.solido{ background:color-mix(in srgb, var(--paramo-txt) 92%, transparent); backdrop-filter:blur(8px); box-shadow:0 1px 0 var(--tinta-12); }
 .marca{ display:flex; align-items:center; gap:12px; text-decoration:none; }
 .marca img{ width:38px; height:38px; }
-.marca b{ font-family:var(--serif); font-weight:600; font-size:18px; letter-spacing:.01em; }
+.marca b{ white-space:nowrap; font-family:var(--serif); font-weight:600; font-size:18px; letter-spacing:.01em; }
 .marca small{ font-family:var(--mono); font-size:11px; letter-spacing:.2em; display:block; color:var(--tinta-80); }
 .lado{ display:flex; gap:26px; align-items:center; }
-nav.principal{ display:flex; gap:26px; align-items:center; }
+nav.principal{ display:flex; gap:26px; align-items:center; white-space:nowrap; }
 header .btn{ padding:10px 20px; font-size:12px; }
 .menu-toggle{ display:none; }
 nav.movil{ display:none; }
@@ -36,7 +36,8 @@ nav.movil{ display:none; }
 .despliegue.abierto .panel{ opacity:1; visibility:visible; transform:none; }
 
 /* ============ RESPONSIVE ============ */
-@media (max-width: 760px){
+/* la barra (6 destinos + idioma) no cabe por debajo de ~1180px: ahí pasa a la hamburguesa */
+@media (max-width: 1180px){
   nav.principal{ display:none; }
   .lado{ gap:14px; flex-direction:row-reverse; }
   .menu-toggle{
@@ -56,4 +57,11 @@ nav.movil{ display:none; }
     font-family:var(--serif); font-size:clamp(26px,7vw,40px); font-weight:520;
     text-decoration:none; padding:12px 0; color:var(--miel); /* ruana sobre papel no llega a 3:1 */
   }
+}
+/* pantallas muy estrechas (≤400px): marca, idiomas y hamburguesa no caben con los huecos normales */
+@media (max-width: 400px){
+  .marca{ gap:8px; }
+  .marca img{ width:32px; height:32px; }
+  .marca b{ font-size:16px; }
+  .lado{ gap:6px; }
 }

@@ -27,17 +27,36 @@
     "bioProvisional": {
       "es": "✳ biografía provisional — se actualiza al confirmar el nombre.",
       "en": "✳ provisional bio — updated once the name is confirmed."
+    },
+    "modelosAria": {
+      "es": "Modelos de origami del invitado",
+      "en": "The guest's origami models"
+    },
+    "modeloPendiente": {
+      "es": "✳ foto del modelo por llegar",
+      "en": "✳ model photo coming soon"
+    },
+    "ampliarModelo": {
+      "es": "Ampliar: {alt}",
+      "en": "Enlarge: {alt}"
+    },
+    "cerrar": {
+      "es": "Cerrar",
+      "en": "Close"
+    },
+    "modelosRotulo": {
+      "es": "Sus modelos — toca una foto para verla en grande",
+      "en": "The models — tap a photo to see it bigger"
     }
   },
   "lista": [
     {
       "id": "anice-claudeon",
-      "numero": "INV. 01",
       "origen": "internacional",
       "provisional": false,
       "foto": "assets/anice-claudeon.jpg",
       "retrato": "foto",
-      "nombre": "Anicé <em>Claudeón</em>",
+      "nombre": "Anicé <em>Claudéon</em>",
       "rol": {
         "es": "Figuras complejas de una sola hoja · Amiens, Francia",
         "en": "Complex single-sheet figures · Amiens, France"
@@ -47,18 +66,63 @@
         "en": "Born in 1999 in Amiens, France. Discovered origami in 2010 and very soon became passionate about creating original designs. At first the inspiration came from the animal world: those early models stood out for being tender and expressive. Over time, the work evolved towards hybrid figures, shaped by studies in art and design. Specializes in folding complex subjects from a single sheet and explores the “half illusion” of movement, texture and the lightness of the material. The work is internationally recognized and has led to exhibiting and teaching all over the world."
       },
       "fotoAlt": {
-        "es": "Anicé Claudeón sonríe mientras pliega una figura de papel",
-        "en": "Anicé Claudeón smiles while folding a paper figure"
+        "es": "Anicé Claudéon sonríe mientras pliega una figura de papel",
+        "en": "Anicé Claudéon smiles while folding a paper figure"
       },
       "enlace": {
         "tipo": "instagram",
         "texto": "@anice_cldn",
         "href": "https://www.instagram.com/anice_cldn/"
-      }
+      },
+      "modelos": [
+        {
+          "foto": "assets/anice-octopus.jpg",
+          "nombre": {
+            "es": "Pulpo",
+            "en": "Octopus"
+          },
+          "alt": {
+            "es": "Modelo de Anicé Claudéon: pulpo de papel rojo",
+            "en": "Anicé Claudéon's model: red paper octopus"
+          }
+        },
+        {
+          "foto": "assets/anice-cocker.jpg",
+          "nombre": {
+            "es": "Cocker spaniel",
+            "en": "Cocker spaniel"
+          },
+          "alt": {
+            "es": "Modelo de Anicé Claudéon: cocker spaniel de papel kraft",
+            "en": "Anicé Claudéon's model: kraft paper cocker spaniel"
+          }
+        },
+        {
+          "foto": "assets/anice-quokka.jpg",
+          "nombre": {
+            "es": "Quokka",
+            "en": "Quokka"
+          },
+          "alt": {
+            "es": "Modelo de Anicé Claudéon: quokka de papel",
+            "en": "Anicé Claudéon's model: paper quokka"
+          }
+        },
+        {
+          "foto": "assets/anice-musketeers.jpg",
+          "nombre": {
+            "es": "Los tres mosqueteros",
+            "en": "The Three Musketeers"
+          },
+          "alt": {
+            "es": "Modelo de Anicé Claudéon: los tres mosqueteros",
+            "en": "Anicé Claudéon's model: the three musketeers"
+          }
+        }
+      ]
     },
     {
       "id": "convocatoria-nacional",
-      "numero": "INV. 02",
       "origen": "nacional",
       "provisional": false,
       "foto": "assets/logo-amigos-plegadores.png",

@@ -117,6 +117,7 @@
     "principal": [
       "evento",
       "comunidad",
+      "actividades",
       "inscripciones"
     ],
     "congreso": [

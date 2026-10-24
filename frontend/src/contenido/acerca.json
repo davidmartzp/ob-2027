@@ -1,8 +1,5 @@
 {
-  "frase": {
-    "es": "¡Bienvenidos a la nevera!",
-    "en": "Welcome to the fridge!"
-  },
+  "frase": "¡Bienvenidos a la nevera!",
   "titulo": {
     "es": "Un evento pensado para <mark>todos los apasionados</mark> y <em>curiosos</em> por doblar papel — un espacio para conocer personas con los mismos intereses.",
     "en": "An event made for <mark>everyone passionate</mark> and <em>curious</em> about folding paper — a place to meet people who share your interests."

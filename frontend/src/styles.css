@@ -44,9 +44,6 @@
   /* texto de lectura: 18px en móvil → 20px en escritorio */
   --fs-texto: clamp(18px, calc(.35vw + 15px), 20px);
   --ease: cubic-bezier(.32,.94,.6,1);
-  /* fila de actividad (ResumenActividad) y sangría de su ficha */
-  --actividad-icono: clamp(40px, 4.4vw, 60px);
-  --actividad-hueco: clamp(16px, 3vw, 40px);
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
@@ -141,6 +138,8 @@ a{ color:inherit; }
 
 /* Con un modal (<dialog>) abierto, la página de fondo no hace scroll */
 html:has(dialog[open]){ overflow:hidden; }
+/* …ni con el menú de hamburguesa abierto (≤1180px) */
+html:has(nav.movil.abierta){ overflow:hidden; }
 
 /* ---------- botones ---------- */
 .btn{
@@ -224,8 +223,6 @@ h2.titulo{
   .desliza{ -webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); }
   /* enlaces sueltos en mono («← Volver a la hoja»…): área táctil de 44px */
   .volver, .enlace, .recursos-link{ display:inline-flex; align-items:center; min-height:44px; }
-  /* con el menú móvil abierto, la página de fondo no hace scroll */
-  html:has(nav.movil.abierta){ overflow:hidden; }
   .separador .linea{ width:72px; }
   .doblez{ height:44px; }
 }

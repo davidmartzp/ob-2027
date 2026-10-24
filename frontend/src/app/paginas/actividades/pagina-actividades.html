@@ -1,4 +1,4 @@
-<app-pagina-interna fondo="var(--frailejon)">
+<app-pagina-interna fondo="var(--paramo)">
   <section class="pagina-hero">
     <a class="volver" appEnlace="./">{{ t.volver }}</a>
     <app-separador appReveal/>
@@ -29,8 +29,18 @@
 
     @if (filtradas().length) {
       <ul class="fichas">
-        @for (a of filtradas(); track a.id) {
+        @for (a of conFoto(); track a.id) {
           <li appFicha [actividad]="a" [id]="a.id"></li>
+        }
+        <!-- las que no tienen foto: notas apiladas en el espacio de una tarjeta, al final -->
+        @if (sinFoto().length) {
+          <li class="pila">
+            <ul>
+              @for (a of sinFoto(); track a.id) {
+                <li appFicha [actividad]="a" [id]="a.id"></li>
+              }
+            </ul>
+          </li>
         }
       </ul>
     } @else {
@@ -42,9 +52,15 @@
         </svg>
         <h2 class="titulo rico" [innerHTML]="t.vacioTitulo"></h2>
         <p>{{ t.vacioTexto }}</p>
-        <span class="anotacion">{{ t.vacioAnotacion }}</span>
+        <span class="anotacion" lang="es">{{ t.vacioAnotacion }}</span>
         <button type="button" class="btn btn-linea" (click)="limpiar(campo)">{{ t.limpiar }}</button>
       </div>
     }
   </section>
+
+  <!-- el itinerario de la home, con su modal; se apaga con evento.secciones.itinerario -->
+  @if (itinerarioVisible) {
+    <app-doblez fondo="var(--paramo)" tinta="var(--paramo-txt)" montana/>
+    <app-itinerario/>
+  }
 </app-pagina-interna>

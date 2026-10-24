@@ -7,3 +7,6 @@ backend/vendor/
 backend/storage/*
 !backend/storage/.gitkeep
 backend/.phpunit.cache/
+
+# original de alta resolución (25 MB): solo local
+originales/invitados/anice-octopus.jpg

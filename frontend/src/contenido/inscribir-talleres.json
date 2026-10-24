@@ -16,10 +16,7 @@
       "es": "La inscripción abre a las 08:00 por turnos: grupos de 25 participantes, uno cada 10 minutos, según tu número. Solo puedes inscribir talleres de los días que elegiste al inscribirte.",
       "en": "Sign-up opens at 08:00 in turns: groups of 25 participants, one every 10 minutes, by participant number. You can only sign up for workshops on the days you chose when registering."
     },
-    "frase": {
-      "es": "¡que no te ganen el cupo! ✳",
-      "en": "don't miss your spot! ✳"
-    },
+    "frase": "¡que no te ganen el cupo! ✳",
     "verPrograma": {
       "es": "Ver el programa completo →",
       "en": "See the full programme →"

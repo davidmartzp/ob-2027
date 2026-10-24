@@ -31,7 +31,8 @@ const SECCIONES_VISIBLES = evento.secciones;
 /** Interruptores que son secciones de la home (los demás apagan páginas propias). */
 const PAGINAS_PROPIAS = crearPaginas(() => true).map((r) => r.path);
 const SECCIONES_HOME = Object.fromEntries(Object.entries(SECCIONES_VISIBLES).filter(([id]) => !PAGINAS_PROPIAS.includes(id)));
-const IDS_ACTIVIDADES = actividades.items.map((a) => a.id);
+/** Orden de la página: las actividades con foto primero y las que no tienen, al final (apiladas). */
+const IDS_ACTIVIDADES = [...actividades.items].sort((a, b) => Number(!a.foto) - Number(!b.foto)).map((a) => a.id);
 /** Todos los JSON de contenido, para revisar que cada texto traducido tenga sus dos idiomas. */
 const CONTENIDO: Record<string, unknown> = {
   acerca, actividades, comun, comunidad, evento, hero, invitados, itinerario, leyenda, marquee, menu, meta, patrocinadores, pie, tallerista,
@@ -81,11 +82,35 @@ describe('App — la hoja completa', () => {
     }
   });
 
+  it('las frases a mano (rolas) van en español también en inglés', async () => {
+    const el = await render('/en/');
+    const frase = el.querySelector('#acerca .separador .anotacion');
+    expect(frase?.textContent).toBe(acerca.frase);
+    expect(frase?.getAttribute('lang')).toBe('es');
+  });
+
   it('marca como provisional el contenido no confirmado', async () => {
     const el = await render();
     const provisionales = invitados.lista.filter((i) => i.provisional).length;
-    expect(el.querySelectorAll('.invitado-card .pend-nota').length).toBe(provisionales);
+    expect(el.querySelectorAll('.invitado-card .bio .pend-nota').length).toBe(provisionales);
     expect(!!el.querySelector('.invitados .aviso')).toBe(provisionales > 0);
+    // cada modelo sin foto lleva su aviso ✳
+    const modelosSinFoto = invitados.lista.flatMap((i) => ('modelos' in i ? i.modelos : []) as { foto: string | null }[]).filter((m) => !m.foto).length;
+    expect(el.querySelectorAll('.invitado-card .modelos .pend-nota').length).toBe(modelosSinFoto);
+  });
+
+  it('amplía la foto de un modelo del invitado y la cierra', async () => {
+    const el = await render();
+    const boton = el.querySelector<HTMLButtonElement>('.modelos button');
+    if (!boton) return; // ningún invitado con fotos de modelos
+    const zoom = el.querySelector<HTMLDialogElement>('dialog.zoom')!;
+    boton.click();
+    await new Promise((r) => setTimeout(r));
+    expect(zoom.hasAttribute('open')).toBe(true);
+    expect(zoom.querySelector('img')?.getAttribute('src')).toBe(boton.querySelector('img')?.getAttribute('src'));
+    expect(zoom.querySelector('figcaption span')?.textContent).toBe('Anicé Claudéon'); // autor sin <em>
+    zoom.querySelector<HTMLButtonElement>('.cerrar')!.click();
+    expect(zoom.hasAttribute('open')).toBe(false);
   });
 
   it('abre el itinerario completo en un modal y lo cierra', async () => {
@@ -191,14 +216,28 @@ describe('App — la hoja completa', () => {
       campo.dispatchEvent(new Event('input'));
       await new Promise((r) => setTimeout(r)); // sin zone.js: deja que se pinten los signals
     }
-    const fichas = (el: HTMLElement): string[] => [...el.querySelectorAll('.fichas > li')].map((li) => li.id);
+    const fichas = (el: HTMLElement): string[] => [...el.querySelectorAll('.fichas li[id]')].map((li) => li.id);
 
     it('muestra todas las fichas completas, con su texto en el HTML', async () => {
       const el = await render('/actividades');
       expect(fichas(el)).toEqual(IDS_ACTIVIDADES);
-      expect(el.querySelectorAll('.fichas details').length).toBe(IDS_ACTIVIDADES.length);
+      expect(el.querySelectorAll('.fichas dialog').length).toBe(IDS_ACTIVIDADES.length);
+      // después del catálogo, el itinerario de la home
+      expect(!!el.querySelector('.catalogo ~ app-itinerario #itinerario')).toBe(SECCIONES_VISIBLES.itinerario);
+      // las que no tienen foto van apiladas en una sola celda, al final
+      expect([...el.querySelectorAll('.pila li[id]')].map((li) => li.id)).toEqual(actividades.items.filter((a) => !a.foto).map((a) => a.id));
       const chocogami = actividades.items.find((a) => a.id === 'chocogami')!;
-      expect(el.querySelector('#chocogami .prosa')?.textContent).toContain(sinEtiquetas(chocogami.parrafos.es[0]));
+      expect(el.querySelector('#chocogami .detalle')?.textContent).toContain(sinEtiquetas(chocogami.parrafos.es[0]));
+    });
+
+    it('abre el detalle en un diálogo y lo cierra', async () => {
+      const el = await render('/actividades');
+      const dialogo = el.querySelector<HTMLDialogElement>('#chocogami dialog')!;
+      expect(dialogo.hasAttribute('open')).toBe(false);
+      el.querySelector<HTMLButtonElement>('#chocogami .tarjeta')!.click();
+      expect(dialogo.hasAttribute('open')).toBe(true);
+      dialogo.querySelector<HTMLButtonElement>('.cerrar')!.click();
+      expect(dialogo.hasAttribute('open')).toBe(false);
     });
 
     it('busca sin importar tildes ni mayúsculas', async () => {
@@ -215,7 +254,7 @@ describe('App — la hoja completa', () => {
       chip.click();
       await new Promise((r) => setTimeout(r));
       expect(chip.getAttribute('aria-pressed')).toBe('true');
-      expect(fichas(el)).toEqual(actividades.items.filter((a) => a.categoria === 'convocatorias').map((a) => a.id));
+      expect(fichas(el)).toEqual(IDS_ACTIVIDADES.filter((id) => actividades.items.find((a) => a.id === id)!.categoria === 'convocatorias'));
     });
 
     it('sin resultados muestra el estado vacío y lo limpia', async () => {

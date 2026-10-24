@@ -28,7 +28,6 @@ export interface Red {
 
 export interface Invitado {
   id: string;
-  numero: string;
   origen: 'internacional' | 'nacional';
   /** HTML: el apellido o la palabra de acento va en <em>. */
   nombre: string;
@@ -42,6 +41,8 @@ export interface Invitado {
   retrato: 'foto' | 'papel' | 'logo';
   /** Enlace opcional bajo la bio: Instagram del invitado o correo de la convocatoria. */
   enlace?: { tipo: 'instagram' | 'correo'; texto: string; href: string };
+  /** Hasta 4 fotos de sus modelos, apiladas a la derecha (solo escritorio). Sin foto (null) = espacio con aviso ✳. */
+  modelos?: { foto: string | null; nombre?: string; alt?: string }[];
 }
 
 /** Filtros de la página de actividades (etiquetas en contenido/actividades.json → categorias). */

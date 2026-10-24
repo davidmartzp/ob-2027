@@ -8,8 +8,6 @@ export type CodigoIdioma = 'es' | 'en';
 
 export interface Idioma {
   codigo: CodigoIdioma;
-  /** Bandera del selector (componente SelectorIdioma). */
-  bandera: 'co' | 'us';
   /** Nombre en su propio idioma, para lectores de pantalla. */
   nombre: string;
   /** Prefijo de ruta relativo al <base href>: '' = raíz; si no, con «/» final. */
@@ -22,6 +20,6 @@ export interface Idioma {
 
 /** El primero es el idioma por defecto (sin prefijo). */
 export const IDIOMAS: Idioma[] = [
-  { codigo: 'es', bandera: 'co', nombre: 'Español', ruta: '', localeOg: 'es_CO', imagenOg: 'assets/og-es.jpg' },
-  { codigo: 'en', bandera: 'us', nombre: 'English', ruta: 'en/', localeOg: 'en_US', imagenOg: 'assets/og-en.jpg' },
+  { codigo: 'es', nombre: 'Español', ruta: '', localeOg: 'es_CO', imagenOg: 'assets/og-es.jpg' },
+  { codigo: 'en', nombre: 'English', ruta: 'en/', localeOg: 'en_US', imagenOg: 'assets/og-en.jpg' },
 ];

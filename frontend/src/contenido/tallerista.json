@@ -1,8 +1,5 @@
 {
-  "frase": {
-    "es": "¡tu modelo puede ser el próximo paso!",
-    "en": "your model could be the next step!"
-  },
+  "frase": "¡tu modelo puede ser el próximo paso!",
   "titulo": {
     "es": "¡Comparte tu pasión!<br><em>Sé tallerista</em> en nuestro evento",
     "en": "Share your passion!<br><em>Teach a workshop</em> at our event"

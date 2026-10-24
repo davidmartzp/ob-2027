@@ -12,10 +12,7 @@
       "es": "Consulta la programación completa de talleres del congreso {edicion}: qué se pliega, a qué hora, en qué salón y con quién. Filtra por día, nivel o tallerista y comparte el enlace de tu vista.",
       "en": "Browse the full workshop programme of the {edicion} convention: what is folded, when, in which room and with whom. Filter by day, level or instructor and share the link to your view."
     },
-    "frase": {
-      "es": "pa' armar tu finde ✳",
-      "en": "plan your weekend ✳"
-    },
+    "frase": "pa' armar tu finde ✳",
     "imprimir": {
       "es": "Imprimir programa",
       "en": "Print programme"

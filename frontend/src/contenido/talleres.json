@@ -1,0 +1,180 @@
+{
+  "pagina": {
+    "volver": { "es": "← Volver al inicio", "en": "← Back to home" },
+    "titulo": { "es": "Ta<em>lle</em>res", "en": "Work<em>shops</em>" },
+    "intro": {
+      "es": "Descubre los talleres de origami del congreso {edicion}: aprende con maestros internacionales y nacionales, en todos los niveles. Reserva tu lugar el día del evento y, si tienes un modelo que quieras enseñar, propón tu propio taller.",
+      "en": "Discover the origami workshops of the {edicion} convention: learn from international and national teachers, at every level. Save your spot on the day and, if you have a model you want to teach, propose your own workshop."
+    },
+    "frase": { "es": "¡manos al papel! ✳", "en": "hands on paper! ✳" },
+    "verPrograma": { "es": "Ver el programa por horas →", "en": "See the timetable →" },
+    "dictar": { "es": "¿Vas a dictar un taller? ↓", "en": "Teaching a workshop? ↓" }
+  },
+  "internacionales": {
+    "titulo": { "es": "Talleres internacionales", "en": "International workshops" },
+    "lema": {
+      "es": "Una experiencia única para dominar técnicas avanzadas y crear una pieza espectacular",
+      "en": "A unique experience to master advanced techniques and create a spectacular piece"
+    },
+    "etiqueta": { "es": "Taller internacional", "en": "International workshop" },
+    "modelo": { "es": "Modelo a plegar", "en": "Model to fold" },
+    "tallerista": { "es": "Tallerista", "en": "Instructor" },
+    "nivel": { "es": "Nivel", "en": "Level" },
+    "papel": { "es": "Papel", "en": "Paper" },
+    "duracion": { "es": "Duración", "en": "Length" },
+    "dia": { "es": "Día", "en": "Day" },
+    "porConfirmar": {
+      "es": "✳ Por confirmar para {edicion}: modelo, día y detalles pueden cambiar.",
+      "en": "✳ To be confirmed for {edicion}: model, day and details may change."
+    },
+    "lista": [
+      {
+        "id": "murcielago",
+        "modelo": { "es": "Murciélago", "en": "Bat" },
+        "tallerista": "Juan Landeta",
+        "pais": { "es": "Ecuador", "en": "Ecuador" },
+        "dia": { "es": "Sábado", "en": "Saturday" },
+        "nivel": { "es": "Intermedio – Avanzado", "en": "Intermediate – Advanced" },
+        "papel": { "es": "30–35 cm cuadrado", "en": "30–35 cm square" },
+        "papelNota": { "es": "Doble seda recomendado", "en": "Double tissue recommended" },
+        "duracion": { "es": "90 minutos", "en": "90 minutes" },
+        "bio": {
+          "es": [
+            "<b>Juan Landeta</b> nació y creció en Quito, Ecuador. Tiene una gran pasión por diseñar modelos figurativos que conectan con su vida personal y su estilo de vida en el momento de crearlos.",
+            "Sus creaciones reflejan experiencias y momentos vividos, y transforman emociones y recuerdos en piezas de origami con gran sentido personal y artístico."
+          ],
+          "en": [
+            "<b>Juan Landeta</b> was born and raised in Quito, Ecuador. He has a great passion for designing figurative models that connect with his personal life and lifestyle at the time he creates them.",
+            "His creations reflect lived experiences and moments, turning emotions and memories into origami pieces with great personal and artistic meaning."
+          ]
+        },
+        "porConfirmar": true
+      },
+      {
+        "id": "thunder-bird",
+        "modelo": { "es": "Thunder Bird", "en": "Thunder Bird" },
+        "tallerista": "Anicé Claudéon",
+        "pais": { "es": "Francia", "en": "France" },
+        "dia": { "es": "Domingo", "en": "Sunday" },
+        "nivel": { "es": "Intermedio – Avanzado", "en": "Intermediate – Advanced" },
+        "papel": { "es": "35–45 cm cuadrado", "en": "35–45 cm square" },
+        "papelNota": { "es": "Kraft o doble seda recomendado", "en": "Kraft or double tissue recommended" },
+        "duracion": { "es": "90 minutos", "en": "90 minutes" },
+        "foto": "assets/anice-claudeon.jpg",
+        "fotoAlt": { "es": "Retrato de Anicé Claudéon", "en": "Portrait of Anicé Claudéon" },
+        "red": { "texto": "@anice_cldn", "href": "https://www.instagram.com/anice_cldn/" },
+        "bio": {
+          "es": [
+            "<b>Anicé Claudéon</b> es de Amiens, Francia. Estudia diseño de producto y empezó a plegar hace diez años: sus estudios de artes aplicadas alimentan sus creaciones de origami, y viceversa.",
+            "Se especializa en animales y figuras humanas, y busca que sus modelos se vean lo más vivos posible, con mucho cuidado en la postura y la expresión de cada pieza."
+          ],
+          "en": [
+            "<b>Anicé Claudéon</b> is from Amiens, France. A product design student, Anicé started folding ten years ago: applied arts studies feed the origami creations, and vice versa.",
+            "Anicé specializes in animals and human figures, trying to make each model as lively as possible, with great care for posture and expression."
+          ]
+        },
+        "porConfirmar": true
+      }
+    ]
+  },
+  "galeria": {
+    "titulo": { "es": "Nuestros talleres", "en": "Our workshops" },
+    "lema": { "es": "Lo que se va a plegar en el congreso", "en": "What will be folded at the convention" },
+    "ver": { "es": "Ver ficha", "en": "View details" },
+    "verAria": { "es": "Ver ficha del taller «{nombre}»", "en": "View details of “{nombre}”" },
+    "cerrar": { "es": "Cerrar", "en": "Close" },
+    "filtrosAria": { "es": "Filtrar talleres", "en": "Filter workshops" },
+    "todos": { "es": "Todos", "en": "All" },
+    "contador": { "es": "{n} talleres", "en": "{n} workshops" },
+    "sinCoincidencias": { "es": "Ningún taller con esos filtros, sumercé.", "en": "No workshop matches those filters." },
+    "vacioTitulo": { "es": "Aún no hay talleres publicados", "en": "No workshops published yet" },
+    "vacioTexto": {
+      "es": "Los talleristas están afinando sus modelos. ¡Vuelve pronto o propón el tuyo!",
+      "en": "Instructors are fine-tuning their models. Come back soon or propose yours!"
+    },
+    "demo": {
+      "es": "La galería todavía no está conectada al servidor del congreso: aquí aparecerán los talleres propuestos por los talleristas.",
+      "en": "The gallery is not connected to the convention server yet: workshops proposed by instructors will appear here."
+    }
+  },
+  "tallerista": {
+    "titulo": { "es": "¿Vas a dictar un taller?", "en": "Teaching a workshop?" },
+    "lema": { "es": "Todos los participantes pueden dictar talleres", "en": "Every participant can teach a workshop" },
+    "texto": {
+      "es": "¡Sí! Puedes inscribirte para dictar talleres en las diferentes categorías (principiante, intermedio, avanzado, niños) y así compartir tus conocimientos. Esta es la sección para registrar tus talleres, actualizarlos o retirarlos: escribe el correo con el que te inscribiste al congreso.",
+      "en": "Yes! You can sign up to teach workshops in any category (beginner, intermediate, advanced, kids) and share what you know. This is where you register your workshops, update them or withdraw them: enter the email you used to register for the convention."
+    },
+    "cerrado": {
+      "es": "El registro de talleres abre junto con las inscripciones al congreso. Mientras tanto, ve pensando qué modelo vas a enseñar.",
+      "en": "Workshop registration opens together with convention registration. Meanwhile, start thinking about which model you will teach."
+    },
+    "correo": { "es": "Correo de tu inscripción", "en": "Your registration email" },
+    "buscar": { "es": "Buscar mis talleres", "en": "Find my workshops" },
+    "buscando": { "es": "Buscando…", "en": "Searching…" },
+    "correoInvalido": { "es": "Escribe un correo válido.", "en": "Enter a valid email." },
+    "sinInscripcion": {
+      "es": "No encontramos ninguna inscripción con ese correo. Para dictar un taller primero tienes que inscribirte al congreso.",
+      "en": "We couldn't find any registration with that email. To teach a workshop you first need to register for the convention."
+    },
+    "irInscripciones": { "es": "Ir a inscripciones →", "en": "Go to registration →" },
+    "otroCorreo": { "es": "Usar otro correo", "en": "Use another email" },
+    "talleresDe": { "es": "Talleres de {nombre}", "en": "{nombre}'s workshops" },
+    "sinTalleres": { "es": "Todavía no tienes talleres registrados.", "en": "You have no workshops registered yet." },
+    "proponer": { "es": "Proponer un taller", "en": "Propose a workshop" },
+    "editar": { "es": "Editar", "en": "Edit" },
+    "retirar": { "es": "Retirar", "en": "Withdraw" },
+    "foto": { "es": "Foto del modelo", "en": "Model photo" },
+    "cambiarFoto": { "es": "Cambiar foto", "en": "Change photo" },
+    "socios": { "es": "Socios", "en": "Partners" },
+    "oculto": { "es": "✳ Oculto por el equipo", "en": "✳ Hidden by the team" },
+    "formulario": {
+      "nuevo": { "es": "Nuevo taller", "en": "New workshop" },
+      "edicion": { "es": "Editar taller", "en": "Edit workshop" },
+      "nombre": { "es": "Nombre del taller (modelo)", "en": "Workshop name (model)" },
+      "nivel": { "es": "Nivel", "en": "Level" },
+      "publico": { "es": "Público", "en": "Audience" },
+      "duracion": { "es": "Duración (minutos)", "en": "Length (minutes)" },
+      "observaciones": { "es": "Observaciones (papel, materiales, requisitos)", "en": "Notes (paper, materials, requirements)" },
+      "guardar": { "es": "Guardar taller", "en": "Save workshop" },
+      "guardando": { "es": "Guardando…", "en": "Saving…" },
+      "cancelar": { "es": "Cancelar", "en": "Cancel" },
+      "guardado": { "es": "¡Listo! Taller guardado.", "en": "Done! Workshop saved." },
+      "errores": {
+        "nombre": { "es": "Escribe el nombre del taller.", "en": "Enter the workshop name." },
+        "nombreLargo": { "es": "El nombre admite hasta 200 caracteres.", "en": "The name allows up to 200 characters." },
+        "nivel": { "es": "Elige el nivel.", "en": "Choose the level." },
+        "publico": { "es": "Elige el público.", "en": "Choose the audience." },
+        "duracion": { "es": "La duración debe estar entre 15 y 480 minutos.", "en": "Length must be between 15 and 480 minutes." },
+        "observaciones": { "es": "Las observaciones admiten hasta 500 caracteres.", "en": "Notes allow up to 500 characters." }
+      }
+    },
+    "imagen": {
+      "elegir": { "es": "Elegir foto (JPEG, PNG o WebP, hasta 5 MB)", "en": "Choose a photo (JPEG, PNG or WebP, up to 5 MB)" },
+      "subir": { "es": "Subir foto", "en": "Upload photo" },
+      "subiendo": { "es": "Subiendo…", "en": "Uploading…" },
+      "vistaPrevia": { "es": "Vista previa de la foto nueva", "en": "Preview of the new photo" },
+      "tipo": { "es": "Solo se aceptan imágenes JPEG, PNG o WebP.", "en": "Only JPEG, PNG or WebP images are accepted." },
+      "peso": { "es": "La imagen pesa más de 5 MB.", "en": "The image is larger than 5 MB." },
+      "lista": { "es": "Foto actualizada.", "en": "Photo updated." }
+    },
+    "sociosPanel": {
+      "texto": {
+        "es": "Elige los socios comerciales que apoyan tu taller (papelerías, tiendas): su logo y su WhatsApp saldrán en la ficha.",
+        "en": "Choose the business partners supporting your workshop (paper shops, stores): their logo and WhatsApp will appear on the card."
+      },
+      "ninguno": { "es": "Todavía no hay socios disponibles.", "en": "No partners available yet." },
+      "guardar": { "es": "Guardar socios", "en": "Save partners" },
+      "guardados": { "es": "Socios guardados.", "en": "Partners saved." }
+    },
+    "confirmarRetiro": {
+      "titulo": { "es": "¿Retirar este taller?", "en": "Withdraw this workshop?" },
+      "texto": {
+        "es": "«{nombre}» dejará de aparecer en la galería y en el programa. Si te arrepientes, escríbele al equipo.",
+        "en": "“{nombre}” will no longer appear in the gallery or the programme. If you change your mind, write to the team."
+      },
+      "si": { "es": "Sí, retirar", "en": "Yes, withdraw" },
+      "no": { "es": "No, dejarlo", "en": "No, keep it" },
+      "retirado": { "es": "Taller retirado.", "en": "Workshop withdrawn." }
+    }
+  }
+}

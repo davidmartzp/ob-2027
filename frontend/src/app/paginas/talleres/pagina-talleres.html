@@ -1,0 +1,124 @@
+<app-pagina-interna fondo="var(--ruana)">
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.pagina.volver }}</a>
+    <app-separador [frase]="t.pagina.frase" appReveal/>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.pagina.titulo"></h2>
+    <p class="intro" appReveal="2">{{ t.pagina.intro }}</p>
+    <div class="acciones" appReveal="3">
+      <button type="button" class="btn" (click)="irA('tallerista')">{{ t.pagina.dictar }}</button>
+      @if (programaVisible) {
+        <a class="btn btn-linea" appEnlace="booklet">{{ t.pagina.verPrograma }}</a>
+      }
+    </div>
+  </section>
+
+  <!-- Paso I: talleres internacionales -->
+  <app-doblez fondo="var(--paramo)" tinta="var(--paramo-txt)"/>
+  <section class="paso internacionales" id="internacionales">
+    <div class="sec-head">
+      <div>
+        <app-separador montana appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.internacionales.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.internacionales.lema }}</p>
+    </div>
+    <div class="tarjetas">
+      @for (i of internacionales; track i.id; let n = $index) {
+        <article class="internacional" [id]="i.id" [appReveal]="n + 1">
+          <p class="etiqueta mono">{{ t.internacionales.etiqueta }} · {{ i.dia }}</p>
+          <div class="cabeza">
+            <div class="retrato">
+              @if (i.foto) {
+                <img [src]="i.foto" [alt]="i.fotoAlt" loading="lazy">
+              } @else {
+                <app-papel-plegado/>
+              }
+            </div>
+            <div>
+              <p class="mono rotulo">{{ t.internacionales.modelo }}</p>
+              <h3>{{ i.modelo }}</h3>
+              <p class="quien">{{ i.tallerista }} · {{ i.pais }}</p>
+              @if (i.red) {
+                <a class="red" [appEnlace]="i.red.href">{{ i.red.texto }} ↗</a>
+              }
+            </div>
+          </div>
+          <dl class="ficha mono">
+            <div><dt>{{ t.internacionales.dia }}</dt><dd>{{ i.dia }}</dd></div>
+            <div><dt>{{ t.internacionales.nivel }}</dt><dd>{{ i.nivel }}</dd></div>
+            <div><dt>{{ t.internacionales.papel }}</dt><dd>{{ i.papel }}<small>{{ i.papelNota }}</small></dd></div>
+            <div><dt>{{ t.internacionales.duracion }}</dt><dd>{{ i.duracion }}</dd></div>
+          </dl>
+          @for (p of i.bio; track $index) {
+            <p class="bio rico" [innerHTML]="p"></p>
+          }
+          @if (i.porConfirmar) {
+            <p class="pend-nota">{{ t.internacionales.porConfirmar }}</p>
+          }
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- Paso II: galería -->
+  <app-doblez fondo="var(--papel)" montana/>
+  <section class="paso galeria" id="galeria">
+    <div class="sec-head">
+      <div>
+        <app-separador appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.galeria.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.galeria.lema }}</p>
+    </div>
+
+    @if (galeria.estado() === 'listo') {
+      <div class="filtros" role="group" [attr.aria-label]="t.galeria.filtrosAria">
+        <button type="button" class="chip" [attr.aria-pressed]="!nivel() && !publico()" (click)="nivel.set(null); publico.set(null)">{{ t.galeria.todos }}</button>
+        @for (n of niveles; track n.id) {
+          <button type="button" class="chip" [attr.aria-pressed]="nivel() === n.id" (click)="nivel.set(nivel() === n.id ? null : n.id)">{{ n.nombre }}</button>
+        }
+        <span class="divisor" aria-hidden="true"></span>
+        @for (p of publicos; track p.id) {
+          <button type="button" class="chip" [attr.aria-pressed]="publico() === p.id" (click)="publico.set(publico() === p.id ? null : p.id)">{{ p.nombre }}</button>
+        }
+        <p class="contador mono" role="status" aria-live="polite">{{ contador() }}</p>
+      </div>
+      <ul class="cuadricula">
+        @for (taller of filtrados(); track taller.id) {
+          <li>
+            <app-ficha-taller [taller]="taller" variante="galeria"/>
+            <button type="button" class="btn btn-linea ver" aria-haspopup="dialog" [attr.aria-label]="verAria(taller)" (click)="ampliar(taller)">{{ t.galeria.ver }} →</button>
+          </li>
+        } @empty {
+          <li class="sin-coincidencias">{{ t.galeria.sinCoincidencias }}</li>
+        }
+      </ul>
+    } @else {
+      <app-estado-datos [estado]="galeria.estado()" [mensaje]="galeria.mensaje()" (reintentar)="galeria.cargar()"
+                        [titulo]="galeria.estado() === 'vacio' ? t.galeria.vacioTitulo : ''"
+                        [texto]="galeria.estado() === 'vacio' ? t.galeria.vacioTexto : galeria.estado() === 'demo' ? t.galeria.demo : ''"/>
+    }
+
+    <dialog #dialogo class="ampliada" (click)="alHacerClic($event)" [attr.aria-label]="ampliado()?.nombre">
+      <div class="hoja">
+        <button type="button" class="cerrar" [attr.aria-label]="t.galeria.cerrar" (click)="cerrar()">×</button>
+        @if (ampliado(); as taller) {
+          <app-ficha-taller [taller]="taller" variante="programa"/>
+        }
+      </div>
+    </dialog>
+  </section>
+
+  <!-- Paso III: espacio del tallerista -->
+  <app-doblez fondo="var(--frailejon)"/>
+  <section class="paso tallerista" id="tallerista">
+    <div class="sec-head">
+      <div>
+        <app-separador montana appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.tallerista.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.tallerista.lema }}</p>
+    </div>
+    <app-espacio-tallerista/>
+  </section>
+</app-pagina-interna>

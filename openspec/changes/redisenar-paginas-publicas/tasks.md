@@ -27,10 +27,10 @@
 
 ## 5. Talleres (spec `frontend/talleres`)
 
-- [ ] 5.1 `talleres.json` (textos, talleres internacionales con `porConfirmar`) y página `/talleres` con Paso I (internacionales) y Paso II (galería de `GET /workshops` con vista ampliada); pruebas: aviso ✳, galería con y sin foto
-- [ ] 5.2 Paso III espacio del tallerista: búsqueda por correo, bloque por persona, proponer/editar/retirar con validación en el navegador; pruebas: familia con dos personas, correo no inscrito, duración fuera de rango no se envía
-- [ ] 5.3 Foto del taller (tipo y tamaño en el navegador, vista previa, error 422 del backend) y selección de socios (`GET /partners` + `PUT /workshops/{id}/partners`); pruebas de cada caso
-- [ ] 5.4 Verificación contra el backend en Docker: proponer, subir foto, asociar socio y verlo en la galería
+- [x] 5.1 `talleres.json` (textos, talleres internacionales con `porConfirmar`) y página `/talleres` con Paso I (internacionales) y Paso II (galería de `GET /workshops` con vista ampliada); pruebas: aviso ✳, galería con y sin foto
+- [x] 5.2 Paso III espacio del tallerista: búsqueda por correo, bloque por persona, proponer/editar/retirar con validación en el navegador; pruebas: familia con dos personas, correo no inscrito, duración fuera de rango no se envía
+- [x] 5.3 Foto del taller (tipo y tamaño en el navegador, vista previa, error 422 del backend) y selección de socios (`GET /partners` + `PUT /workshops/{id}/partners`); pruebas de cada caso
+- [x] 5.4 Verificación contra el backend en Docker: proponer, subir foto, asociar socio y verlo en la galería
 
 ## 6. Inscripción a talleres (spec `frontend/inscripcion-talleres`)
 

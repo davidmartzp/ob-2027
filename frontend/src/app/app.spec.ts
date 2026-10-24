@@ -225,6 +225,10 @@ describe('App — la hoja completa', () => {
 
   describe('página de inscripciones', () => {
     const esperar = () => new Promise((r) => setTimeout(r, 0));
+    const abiertas = evento.inscripcionesAbiertas;
+    const fijarAbiertas = (valor: boolean) => { (evento as { inscripcionesAbiertas: boolean }).inscripcionesAbiertas = valor; };
+    beforeEach(() => fijarAbiertas(true));
+    afterEach(() => fijarAbiertas(abiertas));
     async function escribir(el: HTMLElement, id: string, valor: string): Promise<void> {
       const campo = el.querySelector<HTMLInputElement | HTMLSelectElement>(`#insc-${id}`)!;
       campo.value = valor;
@@ -244,6 +248,14 @@ describe('App — la hoja completa', () => {
       expect(el.querySelectorAll('app-metodos-pago .metodo').length).toBe(4);
       expect(el.querySelectorAll('app-preguntas-frecuentes details').length).toBeGreaterThan(0);
       expect(el.querySelectorAll('.pasos li').length).toBe(5);
+    });
+
+    it('con las inscripciones cerradas, el Paso II avisa que abre pronto en vez del formulario', async () => {
+      fijarAbiertas(false);
+      const el = await render('/inscripciones');
+      expect(el.querySelector('app-formulario-inscripcion')).toBeNull();
+      expect(el.querySelector('#paso-registro app-estado-datos[data-estado=cerrado] h3')?.textContent).toBe('El formulario abre pronto');
+      expect(el.querySelectorAll('app-metodos-pago .metodo').length).toBe(4); // el pago sigue visible
     });
 
     it('no avanza con el paso incompleto y muestra los errores', async () => {

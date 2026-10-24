@@ -6,8 +6,8 @@ import { Reveal } from '@core/reveal';
 
 /* ============ PRECIOS DE INSCRIPCIÓN (Paso I) ============
    Etapas de precio (contenido/inscripciones.json → precios.fases) y opciones por día.
-   Como en el sitio anterior, una etapa deja de mostrarse al pasar su fechaLimite;
-   mientras "porConfirmar" sea true se muestran todas con el aviso ✳ (son de la edición pasada).
+   Como en el sitio anterior, una etapa deja de mostrarse al terminar su fechaLimite (hora de Bogotá);
+   mientras "porConfirmar" sea true se muestran todas con el aviso ✳.
    Comprar pasa por el aviso de pago (hay que volver a registrarse). */
 
 const formato = new Intl.NumberFormat('es-CO');
@@ -61,7 +61,7 @@ export class PreciosInscripcion {
   private readonly aviso = inject(AvisoPagoServicio);
 
   /** Las etapas vigentes (o todas, si los precios están por confirmar). */
-  protected readonly fases = this.t.fases.filter((f) => this.t.porConfirmar || new Date(f.fechaLimite) >= new Date());
+  protected readonly fases = this.t.fases.filter((f) => this.t.porConfirmar || new Date(`${f.fechaLimite}T23:59:59-05:00`) >= new Date());
 
   protected precio(valor: number): string {
     return formato.format(valor);

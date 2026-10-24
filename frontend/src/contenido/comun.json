@@ -33,7 +33,7 @@
       "en": "We couldn't connect"
     },
     "errorTexto": {
-      "es": "El servidor no respondió. Revisa tu conexión y vuelve a intentarlo, sumercé.",
+      "es": "El servidor no respondió. Revisa tu conexión y vuelve a intentarlo.",
       "en": "The server did not answer. Check your connection and try again."
     },
     "reintentar": {

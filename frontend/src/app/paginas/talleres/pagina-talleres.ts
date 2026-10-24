@@ -20,7 +20,7 @@ import { desdeGaleria, TallerGaleriaApi } from '@core/talleres';
 
 /* ============ PÁGINA: TALLERES ============
    Paso I · talleres internacionales destacados (contenido fijo, talleres.json → internacionales,
-   con aviso ✳ mientras porConfirmar). Paso II · galería de GET /workshops (FichaTaller variante
+   con aviso ✳ mientras porConfirmar; se oculta con evento.secciones → talleres-internacionales). Paso II · galería de GET /workshops (FichaTaller variante
    galería) con filtro por nivel y público y ficha ampliada en <dialog>. Paso III · espacio del
    tallerista (EspacioTallerista). La galería se carga en el navegador; el resto va en el HTML. */
 
@@ -54,6 +54,7 @@ export class PaginaTalleres {
   protected readonly niveles = (['P', 'I', 'A'] as NivelTaller[]).map((id) => ({ id, nombre: this.etiquetas.niveles[id] }));
   protected readonly publicos = (['A', 'N'] as PublicoTaller[]).map((id) => ({ id, nombre: this.etiquetas.publicos[id] }));
   protected readonly programaVisible = seccionVisible('booklet');
+  protected readonly internacionalesVisibles = seccionVisible('talleres-internacionales');
 
   protected readonly galeria = new DatosVivos<Taller[]>(async () =>
     (await api<TallerGaleriaApi[]>('GET', 'workshops')).map(desdeGaleria));

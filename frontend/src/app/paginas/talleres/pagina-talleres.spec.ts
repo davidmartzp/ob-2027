@@ -14,14 +14,18 @@ const propio = (id: number, nombre: string, cambios: Partial<TallerPropioApi> = 
 
 describe('página de talleres', () => {
   const abiertas = evento.inscripcionesAbiertas;
+  const secciones = evento.secciones as Record<string, boolean>;
+  const internacionales = secciones['talleres-internacionales'];
   beforeEach(() => {
     fijarApiUrl('http://api.test');
     (evento as { inscripcionesAbiertas: boolean }).inscripcionesAbiertas = true;
+    secciones['talleres-internacionales'] = true;
   });
   afterEach(() => {
     vi.unstubAllGlobals();
     fijarApiUrl(evento.apiUrl);
     (evento as { inscripcionesAbiertas: boolean }).inscripcionesAbiertas = abiertas;
+    secciones['talleres-internacionales'] = internacionales;
   });
 
   async function abrir(rutas: Parameters<typeof simularApi>[0] = {}): Promise<{ el: HTMLElement; fetch: ReturnType<typeof simularApi> }> {
@@ -56,6 +60,13 @@ describe('página de talleres', () => {
         expect(!!tarjetas[i].querySelector('.pend-nota'), t.id).toBe(!!t.porConfirmar);
       }
       expect(el.querySelector('#thunder-bird h3')?.textContent).toBe('Thunder Bird');
+    });
+
+    it('con el interruptor apagado no hay sección de internacionales', async () => {
+      secciones['talleres-internacionales'] = false;
+      const { el } = await abrir();
+      expect(el.querySelector('#internacionales')).toBeNull();
+      expect(el.querySelector('#galeria')).toBeTruthy();
     });
 
     it('galería: con foto, sin foto (papel plegado) y socios con WhatsApp', async () => {

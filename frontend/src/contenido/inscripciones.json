@@ -16,6 +16,16 @@
       "es": "Las inscripciones de {edicion} abren pronto",
       "en": "Registration for {edicion} opens soon"
     },
+    "formularioCerrado": {
+      "titulo": {
+        "es": "El formulario abre pronto",
+        "en": "The form opens soon"
+      },
+      "texto": {
+        "es": "El registro de {edicion} todavía no está abierto. En cuanto arranquen las inscripciones, aquí mismo vas a encontrar el formulario. ¡Guarda la página y vuelve en un rato!",
+        "en": "The {edicion} registration isn't open yet. As soon as registration starts, you'll find the form right here. Bookmark this page and come back soon!"
+      }
+    },
     "comoTitulo": {
       "es": "¿Cómo realizo mi inscripción?",
       "en": "How do I register?"
@@ -58,10 +68,10 @@
     ]
   },
   "precios": {
-    "porConfirmar": true,
+    "porConfirmar": false,
     "aviso": {
-      "es": "✳ Precios y fechas de la edición 2026 — por confirmar para 2027.",
-      "en": "✳ Prices and dates from the 2026 edition — to be confirmed for 2027."
+      "es": "✳ Precios y fechas por confirmar.",
+      "en": "✳ Prices and dates to be confirmed."
     },
     "titulo": {
       "es": "PASO I",
@@ -87,12 +97,12 @@
           "es": "Oferta especial",
           "en": "Special offer"
         },
-        "precio": 140000,
+        "precio": 170000,
         "hasta": {
-          "es": "Hasta enero 15, 2026",
-          "en": "Until January 15, 2026"
+          "es": "Hasta enero 15, 2027",
+          "en": "Until January 15, 2027"
         },
-        "fechaLimite": "2026-01-15",
+        "fechaLimite": "2027-01-15",
         "incluye": {
           "es": [
             "Kit de materiales",
@@ -109,10 +119,10 @@
       {
         "precio": 200000,
         "hasta": {
-          "es": "Hasta Junio 14, 2026",
-          "en": "Until June 14, 2026"
+          "es": "Hasta junio 6, 2027",
+          "en": "Until June 6, 2027"
         },
-        "fechaLimite": "2026-06-14",
+        "fechaLimite": "2027-06-06",
         "incluye": {
           "es": [
             "Kit de materiales",
@@ -141,7 +151,7 @@
           "es": "Día Sábado",
           "en": "Saturday"
         },
-        "fecha": "13/06",
+        "fecha": "05/06",
         "precio": 120000,
         "descripcion": {
           "es": "Inscripción para participar en el evento el día viernes y sábado, con acceso a los talleres, conferencias y concursos. Incluye materiales y refrigerios (no almuerzo).",
@@ -154,7 +164,7 @@
           "es": "Día Domingo",
           "en": "Sunday"
         },
-        "fecha": "14/06",
+        "fecha": "06/06",
         "precio": 120000,
         "descripcion": {
           "es": "Inscripción para participar en el evento el día viernes y domingo, con acceso a los talleres, conferencias y concursos. Incluye materiales y refrigerios (no almuerzo).",

@@ -30,6 +30,7 @@
     "tallerista": true,
     "patrocinadores": true,
     "talleres": true,
+    "talleres-internacionales": false,
     "booklet": true,
     "inscribir-talleres": true,
     "recursos": true,

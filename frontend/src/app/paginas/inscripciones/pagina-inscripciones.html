@@ -47,7 +47,11 @@
       </div>
       <p class="lema" appReveal="2">{{ formulario.subtitulo }}</p>
     </div>
-    <app-formulario-inscripcion/>
+    @if (abiertas) {
+      <app-formulario-inscripcion/>
+    } @else {
+      <app-estado-datos estado="cerrado" [titulo]="t.formularioCerrado.titulo" [texto]="t.formularioCerrado.texto" appReveal/>
+    }
   </section>
 
   <!-- preguntas frecuentes -->

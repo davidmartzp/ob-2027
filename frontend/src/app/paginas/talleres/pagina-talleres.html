@@ -12,53 +12,55 @@
     </div>
   </section>
 
-  <!-- Paso I: talleres internacionales -->
-  <app-doblez fondo="var(--paramo)" tinta="var(--paramo-txt)"/>
-  <section class="paso internacionales" id="internacionales">
-    <div class="sec-head">
-      <div>
-        <app-separador montana appReveal/>
-        <h2 class="titulo" appReveal="1">{{ t.internacionales.titulo }}</h2>
+  <!-- Paso I: talleres internacionales (interruptor evento.secciones → talleres-internacionales) -->
+  @if (internacionalesVisibles) {
+    <app-doblez fondo="var(--paramo)" tinta="var(--paramo-txt)"/>
+    <section class="paso internacionales" id="internacionales">
+      <div class="sec-head">
+        <div>
+          <app-separador montana appReveal/>
+          <h2 class="titulo" appReveal="1">{{ t.internacionales.titulo }}</h2>
+        </div>
+        <p class="lema" appReveal="2">{{ t.internacionales.lema }}</p>
       </div>
-      <p class="lema" appReveal="2">{{ t.internacionales.lema }}</p>
-    </div>
-    <div class="tarjetas">
-      @for (i of internacionales; track i.id; let n = $index) {
-        <article class="internacional" [id]="i.id" [appReveal]="n + 1">
-          <p class="etiqueta mono">{{ t.internacionales.etiqueta }} · {{ i.dia }}</p>
-          <div class="cabeza">
-            <div class="retrato">
-              @if (i.foto) {
-                <img [src]="i.foto" [alt]="i.fotoAlt" loading="lazy">
-              } @else {
-                <app-papel-plegado/>
-              }
+      <div class="tarjetas">
+        @for (i of internacionales; track i.id; let n = $index) {
+          <article class="internacional" [id]="i.id" [appReveal]="n + 1">
+            <p class="etiqueta mono">{{ t.internacionales.etiqueta }} · {{ i.dia }}</p>
+            <div class="cabeza">
+              <div class="retrato">
+                @if (i.foto) {
+                  <img [src]="i.foto" [alt]="i.fotoAlt" loading="lazy">
+                } @else {
+                  <app-papel-plegado/>
+                }
+              </div>
+              <div>
+                <p class="mono rotulo">{{ t.internacionales.modelo }}</p>
+                <h3>{{ i.modelo }}</h3>
+                <p class="quien">{{ i.tallerista }} · {{ i.pais }}</p>
+                @if (i.red) {
+                  <a class="red" [appEnlace]="i.red.href">{{ i.red.texto }} ↗</a>
+                }
+              </div>
             </div>
-            <div>
-              <p class="mono rotulo">{{ t.internacionales.modelo }}</p>
-              <h3>{{ i.modelo }}</h3>
-              <p class="quien">{{ i.tallerista }} · {{ i.pais }}</p>
-              @if (i.red) {
-                <a class="red" [appEnlace]="i.red.href">{{ i.red.texto }} ↗</a>
-              }
-            </div>
-          </div>
-          <dl class="ficha mono">
-            <div><dt>{{ t.internacionales.dia }}</dt><dd>{{ i.dia }}</dd></div>
-            <div><dt>{{ t.internacionales.nivel }}</dt><dd>{{ i.nivel }}</dd></div>
-            <div><dt>{{ t.internacionales.papel }}</dt><dd>{{ i.papel }}<small>{{ i.papelNota }}</small></dd></div>
-            <div><dt>{{ t.internacionales.duracion }}</dt><dd>{{ i.duracion }}</dd></div>
-          </dl>
-          @for (p of i.bio; track $index) {
-            <p class="bio rico" [innerHTML]="p"></p>
-          }
-          @if (i.porConfirmar) {
-            <p class="pend-nota">{{ t.internacionales.porConfirmar }}</p>
-          }
-        </article>
-      }
-    </div>
-  </section>
+            <dl class="ficha mono">
+              <div><dt>{{ t.internacionales.dia }}</dt><dd>{{ i.dia }}</dd></div>
+              <div><dt>{{ t.internacionales.nivel }}</dt><dd>{{ i.nivel }}</dd></div>
+              <div><dt>{{ t.internacionales.papel }}</dt><dd>{{ i.papel }}<small>{{ i.papelNota }}</small></dd></div>
+              <div><dt>{{ t.internacionales.duracion }}</dt><dd>{{ i.duracion }}</dd></div>
+            </dl>
+            @for (p of i.bio; track $index) {
+              <p class="bio rico" [innerHTML]="p"></p>
+            }
+            @if (i.porConfirmar) {
+              <p class="pend-nota">{{ t.internacionales.porConfirmar }}</p>
+            }
+          </article>
+        }
+      </div>
+    </section>
+  }
 
   <!-- Paso II: galería -->
   <app-doblez fondo="var(--papel)" montana/>

@@ -21,6 +21,13 @@
         "en": "The community"
       }
     },
+    "inscripciones": {
+      "href": "inscripciones",
+      "texto": {
+        "es": "Inscripciones",
+        "en": "Registration"
+      }
+    },
     "itinerario": {
       "href": "#itinerario",
       "texto": {
@@ -109,7 +116,8 @@
   "listas": {
     "principal": [
       "evento",
-      "comunidad"
+      "comunidad",
+      "inscripciones"
     ],
     "congreso": [
       "itinerario",
@@ -130,6 +138,7 @@
     "movil": [
       "evento",
       "comunidad",
+      "inscripciones",
       "itinerario",
       "invitados",
       "actividades",

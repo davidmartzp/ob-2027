@@ -86,7 +86,7 @@
     "filtrosAria": { "es": "Filtrar talleres", "en": "Filter workshops" },
     "todos": { "es": "Todos", "en": "All" },
     "contador": { "es": "{n} talleres", "en": "{n} workshops" },
-    "sinCoincidencias": { "es": "Ningún taller con esos filtros, sumercé.", "en": "No workshop matches those filters." },
+    "sinCoincidencias": { "es": "Ningún taller con esos filtros.", "en": "No workshop matches those filters." },
     "vacioTitulo": { "es": "Aún no hay talleres publicados", "en": "No workshops published yet" },
     "vacioTexto": {
       "es": "Los talleristas están afinando sus modelos. ¡Vuelve pronto o propón el tuyo!",

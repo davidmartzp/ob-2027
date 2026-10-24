@@ -1,0 +1,94 @@
+{
+  "pagina": {
+    "volver": {
+      "es": "← Volver al inicio",
+      "en": "← Back to home"
+    },
+    "titulo": {
+      "es": "Programa de <em>talleres</em>",
+      "en": "Workshop <em>programme</em>"
+    },
+    "intro": {
+      "es": "Consulta la programación completa de talleres del congreso {edicion}: qué se pliega, a qué hora, en qué salón y con quién. Filtra por día, nivel o tallerista y comparte el enlace de tu vista.",
+      "en": "Browse the full workshop programme of the {edicion} convention: what is folded, when, in which room and with whom. Filter by day, level or instructor and share the link to your view."
+    },
+    "frase": {
+      "es": "pa' armar tu finde ✳",
+      "en": "plan your weekend ✳"
+    },
+    "imprimir": {
+      "es": "Imprimir programa",
+      "en": "Print programme"
+    },
+    "inscribir": {
+      "es": "¿Ya elegiste? Inscríbete a tus talleres →",
+      "en": "Made up your mind? Sign up for workshops →"
+    }
+  },
+  "filtros": {
+    "titulo": {
+      "es": "Filtros",
+      "en": "Filters"
+    },
+    "dia": {
+      "es": "Día",
+      "en": "Day"
+    },
+    "nivel": {
+      "es": "Nivel",
+      "en": "Level"
+    },
+    "publico": {
+      "es": "Público",
+      "en": "Audience"
+    },
+    "sala": {
+      "es": "Salón",
+      "en": "Room"
+    },
+    "tallerista": {
+      "es": "Tallerista",
+      "en": "Instructor"
+    },
+    "todos": {
+      "es": "Todos",
+      "en": "All"
+    },
+    "limpiar": {
+      "es": "Limpiar filtros",
+      "en": "Clear filters"
+    },
+    "contador": {
+      "es": "{n} talleres en el programa",
+      "en": "{n} workshops in the programme"
+    },
+    "contadorFiltrados": {
+      "es": "{n} de {total} talleres",
+      "en": "{n} of {total} workshops"
+    }
+  },
+  "sinCoincidencias": {
+    "titulo": {
+      "es": "Ningún taller coincide",
+      "en": "No workshop matches"
+    },
+    "texto": {
+      "es": "Prueba con menos filtros: a lo mejor ese pliegue está otro día.",
+      "en": "Try fewer filters: maybe that fold happens another day."
+    }
+  },
+  "vacio": {
+    "titulo": {
+      "es": "El programa aún se está plegando",
+      "en": "The programme is still being folded"
+    },
+    "texto": {
+      "es": "Todavía no hay talleres programados. Cuando el equipo arme los horarios, aparecerán aquí.",
+      "en": "There are no scheduled workshops yet. When the team sets the times, they will appear here."
+    },
+    "demo": {
+      "es": "El programa todavía no está conectado al servidor del congreso: cuando lo esté, aquí verás todos los talleres por día y hora.",
+      "en": "The programme is not connected to the convention server yet: when it is, you will see every workshop by day and time here."
+    }
+  }
+}

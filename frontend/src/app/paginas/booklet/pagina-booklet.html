@@ -1,0 +1,98 @@
+<app-pagina-interna fondo="var(--paramo)">
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.pagina.volver }}</a>
+    <app-separador [frase]="t.pagina.frase" appReveal/>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.pagina.titulo"></h2>
+    <p class="intro" appReveal="2">{{ t.pagina.intro }}</p>
+    <div class="acciones" appReveal="3">
+      <button type="button" class="btn btn-claro" (click)="imprimir()">{{ t.pagina.imprimir }} ⎙</button>
+      @if (inscripcionAbierta) {
+        <a class="enlace" appEnlace="inscribir-talleres">{{ t.pagina.inscribir }}</a>
+      }
+    </div>
+  </section>
+
+  <app-doblez fondo="var(--papel)" montana/>
+
+  <section class="programa" id="programa">
+    @if (programa.estado() === 'listo') {
+      <form class="filtros" (submit)="$event.preventDefault()" [attr.aria-label]="t.filtros.titulo">
+        <fieldset>
+          <legend>{{ t.filtros.dia }}</legend>
+          <button type="button" class="chip" [attr.aria-pressed]="!filtros().dia" (click)="poner('dia', null)">{{ t.filtros.todos }}</button>
+          @for (d of dias; track d.id) {
+            <button type="button" class="chip" [attr.aria-pressed]="filtros().dia === d.id" (click)="poner('dia', d.id)">{{ d.nombre }}</button>
+          }
+        </fieldset>
+        <fieldset>
+          <legend>{{ t.filtros.nivel }}</legend>
+          <button type="button" class="chip" [attr.aria-pressed]="!filtros().nivel" (click)="poner('nivel', null)">{{ t.filtros.todos }}</button>
+          @for (n of niveles; track n.id) {
+            <button type="button" class="chip" [attr.aria-pressed]="filtros().nivel === n.id" (click)="poner('nivel', n.id)">{{ n.nombre }}</button>
+          }
+        </fieldset>
+        <fieldset>
+          <legend>{{ t.filtros.publico }}</legend>
+          <button type="button" class="chip" [attr.aria-pressed]="!filtros().publico" (click)="poner('publico', null)">{{ t.filtros.todos }}</button>
+          @for (p of publicos; track p.id) {
+            <button type="button" class="chip" [attr.aria-pressed]="filtros().publico === p.id" (click)="poner('publico', p.id)">{{ p.nombre }}</button>
+          }
+        </fieldset>
+        <div class="selectores">
+          <label>
+            <span>{{ t.filtros.sala }}</span>
+            <select id="filtro-sala" (change)="poner('sala', valor($event))">
+              <option value="" [selected]="!filtros().sala">{{ t.filtros.todos }}</option>
+              @for (s of salas(); track s) { <option [value]="s" [selected]="filtros().sala === s">{{ s }}</option> }
+            </select>
+          </label>
+          <label>
+            <span>{{ t.filtros.tallerista }}</span>
+            <select id="filtro-tallerista" (change)="poner('tallerista', valor($event))">
+              <option value="" [selected]="!filtros().tallerista">{{ t.filtros.todos }}</option>
+              @for (p of talleristas(); track p) { <option [value]="p" [selected]="filtros().tallerista === p">{{ p }}</option> }
+            </select>
+          </label>
+          @if (conFiltros()) {
+            <button type="button" class="btn btn-linea limpiar" (click)="limpiar()">{{ t.filtros.limpiar }} ×</button>
+          }
+        </div>
+        <p class="contador mono" role="status" aria-live="polite">{{ contador() }}</p>
+      </form>
+
+      @for (d of porDia(); track d.dia) {
+        <div class="dia" [attr.data-dia]="d.dia">
+          <h3 class="nombre-dia">{{ nombreDia[d.dia] }}</h3>
+          @for (f of d.franjas; track f.hora) {
+            <div class="franja">
+              <p class="hora mono">{{ f.hora }}</p>
+              <ul class="talleres">
+                @for (taller of f.talleres; track taller.evento!.id) {
+                  <li>
+                    <details name="taller">
+                      <summary>
+                        <span class="nombre">{{ taller.nombre }}</span>
+                        <span class="datos mono">{{ taller.evento!.inicio }}–{{ taller.evento!.fin }}@if (taller.evento!.salon) { · {{ taller.evento!.salon }}}@if (taller.tallerista) { · {{ taller.tallerista }}}</span>
+                      </summary>
+                      <app-ficha-taller [taller]="taller" variante="programa" [nivelTitulo]="4"/>
+                    </details>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      } @empty {
+        <div class="sin-coincidencias" role="status">
+          <h3>{{ t.sinCoincidencias.titulo }}</h3>
+          <p>{{ t.sinCoincidencias.texto }}</p>
+          <button type="button" class="btn btn-linea" (click)="limpiar()">{{ t.filtros.limpiar }}</button>
+        </div>
+      }
+    } @else {
+      <app-estado-datos [estado]="programa.estado()" [mensaje]="programa.mensaje()" (reintentar)="programa.cargar()"
+                        [titulo]="programa.estado() === 'vacio' ? t.vacio.titulo : ''"
+                        [texto]="programa.estado() === 'vacio' ? t.vacio.texto : programa.estado() === 'demo' ? t.vacio.demo : ''"/>
+    }
+  </section>
+</app-pagina-interna>

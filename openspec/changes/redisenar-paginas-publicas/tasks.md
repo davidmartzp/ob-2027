@@ -21,9 +21,9 @@
 
 ## 4. Programa (spec `frontend/programa`)
 
-- [ ] 4.1 `booklet.json` y página `/booklet` con `GET /events/schedule` agrupado por día y hora; pruebas con respuesta simulada: orden por día y hora, estado vacío
-- [ ] 4.2 Filtros día/nivel/público/salón/tallerista sincronizados con la URL y «Limpiar filtros»; pruebas: `?dia=domingo&nivel=A` filtra, sin coincidencias muestra el mensaje
-- [ ] 4.3 Estilos de impresión y botón «Imprimir»; verificación manual de la vista de impresión; prueba de que no se muestran participantes ni contactos
+- [x] 4.1 `booklet.json` y página `/booklet` con `GET /events/schedule` agrupado por día y hora; pruebas con respuesta simulada: orden por día y hora, estado vacío
+- [x] 4.2 Filtros día/nivel/público/salón/tallerista sincronizados con la URL y «Limpiar filtros»; pruebas: `?dia=domingo&nivel=A` filtra, sin coincidencias muestra el mensaje
+- [x] 4.3 Estilos de impresión y botón «Imprimir»; verificación manual de la vista de impresión; prueba de que no se muestran participantes ni contactos
 
 ## 5. Talleres (spec `frontend/talleres`)
 

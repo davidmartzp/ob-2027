@@ -219,3 +219,12 @@ h2.titulo{
   .separador .linea{ width:72px; }
   .doblez{ height:44px; }
 }
+
+/* ============ IMPRESIÓN DEL PROGRAMA (/booklet) ============
+   Solo el programa: sin menú, hero, leyenda, pie, patrocinadores, dobleces, grano ni animaciones. */
+@media print{
+  body:has(app-pagina-booklet){ background:var(--blanco); }
+  body:has(app-pagina-booklet)::after{ display:none; }
+  body:has(app-pagina-booklet) :is(app-cabecera, app-hero, app-leyenda, app-pie, app-patrocinadores, app-vista-flotante, .doblez){ display:none !important; }
+  body:has(app-pagina-booklet) .reveal{ opacity:1; transform:none; transition:none; }
+}

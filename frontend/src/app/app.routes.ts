@@ -8,6 +8,7 @@ import { PaginaRecursos } from '@paginas/recursos/pagina-recursos';
 import { PaginaAmigosPlegadores } from '@paginas/amigos-plegadores/pagina-amigos-plegadores';
 import { PaginaBooklet } from '@paginas/booklet/pagina-booklet';
 import { PaginaTalleres } from '@paginas/talleres/pagina-talleres';
+import { PaginaInscribirTalleres } from '@paginas/inscribir-talleres/pagina-inscribir-talleres';
 import { NoEncontrada } from '@paginas/no-encontrada/no-encontrada';
 
 /* ============ RUTAS ============
@@ -27,6 +28,7 @@ const PAGINAS: Routes = [
   { path: 'inscripciones', component: PaginaInscripciones },
   ...(seccionVisible('recursos') ? [{ path: 'recursos', component: PaginaRecursos }] : []),
   ...(seccionVisible('talleres') ? [{ path: 'talleres', component: PaginaTalleres }] : []),
+  ...(seccionVisible('inscribir-talleres') ? [{ path: 'inscribir-talleres', component: PaginaInscribirTalleres }] : []),
   ...(seccionVisible('booklet') ? [{ path: 'booklet', component: PaginaBooklet }] : []),
   ...(seccionVisible('amigos-plegadores') ? [{ path: 'amigos-plegadores', component: PaginaAmigosPlegadores }] : []),
   { path: '404', component: NoEncontrada },

@@ -1,0 +1,77 @@
+:host{ display:block; }
+
+/* ============ HERO (páramo, acentos pajizo) ============ */
+.pagina-hero{ background:var(--paramo); color:var(--paramo-txt); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--pajizo); --color-anotacion:var(--pajizo); }
+.pagina-hero .separador{ color:var(--paramo-txt); margin-top:clamp(28px,4vw,48px); }
+.pagina-hero h2.titulo{ font-size:clamp(46px,7.5vw,110px); }
+.intro{ opacity:.92; max-width:58ch; margin-top:22px; }
+.turnos{ font-size:13px; letter-spacing:.06em; line-height:1.7; max-width:70ch; margin-top:18px; padding:14px 18px; border:1.2px dashed var(--pajizo); color:var(--paramo-txt); }
+.volver{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-bottom:1px dashed transparent; }
+.volver:hover{ border-bottom-color:currentColor; }
+.enlace{ display:inline-block; margin-top:24px; font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--pajizo); text-decoration:none; border-bottom:1px dashed var(--pajizo); padding-bottom:4px; }
+
+.paso{ scroll-margin-top:70px; }
+.paso + .paso{ padding-top:0; }
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{ outline:2px dashed var(--miel); outline-offset:3px; }
+.error{ color:var(--teja); font-weight:600; font-size:15px; margin-top:8px; }
+
+/* ============ PASO I · ACCESO ============ */
+.formulario-acceso{ display:grid; grid-template-columns:1fr 1fr auto; gap:16px; align-items:end; max-width:900px; }
+.campo{ display:grid; gap:6px; }
+label, .filtros label span{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta-80); }
+input, select{ font:inherit; font-size:17px; color:var(--tinta); background:var(--papel); border:1.5px solid var(--tinta); border-radius:var(--marron); padding:12px 16px; width:100%; }
+.mensaje-acceso:not(:empty){ margin-top:16px; padding:12px 16px; border-left:4px solid var(--pajizo); background:var(--papel-2); max-width:900px; font-weight:600; }
+.olvido{ display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:22px; color:var(--tinta-80); }
+.olvido .btn{ padding:8px 16px; font-size:12px; }
+.recordatorio{ width:100%; font-size:16px; }
+.saludo{ display:flex; flex-wrap:wrap; align-items:center; gap:20px 28px; background:var(--papel-2); border:1.5px solid var(--tinta); box-shadow:8px 8px 0 var(--pajizo); padding:18px 24px; max-width:900px; }
+.hola{ font-family:var(--serif); font-weight:520; font-size:clamp(26px,3vw,36px); line-height:1.1; }
+.numero{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--miel); }
+.saludo .salir{ margin-left:auto; }
+.mensaje-turno:not(:empty){ margin-top:14px; color:var(--tinta-80); }
+
+/* ============ PASO II · HOY  +  PASO III · MIS TALLERES ============ */
+.aviso:empty{ display:none; }
+.aviso{ font-family:var(--mano); font-size:28px; color:var(--miel); transform:rotate(-2deg); margin-bottom:14px; }
+.tablero{ display:grid; grid-template-columns:1fr 320px; gap:clamp(24px,3vw,44px); align-items:start; }
+.filtros{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+.filtros label{ display:grid; gap:6px; }
+.dos-partes{ margin:14px 0 6px; }
+.franja{ display:grid; grid-template-columns:76px 1fr; gap:clamp(10px,2vw,22px); padding:18px 0; border-top:1px dashed var(--tinta-30); }
+.hora{ font-size:clamp(18px,1.8vw,22px); font-weight:600; color:var(--miel); }
+.talleres{ list-style:none; display:grid; gap:14px; }
+.talleres li{ background:var(--papel); border:1.5px solid var(--tinta); padding:16px; }
+.talleres li[data-estado="inscrito"]{ box-shadow:8px 8px 0 var(--pajizo); }
+.talleres li[data-estado="lleno"], .talleres li[data-estado="choca"]{ background:var(--papel-2); }
+.accion{ margin-top:6px; }
+.sello{ display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; padding:6px 14px; border:1.5px solid var(--tinta); background:var(--pajizo); }
+.sello.apagado{ background:transparent; border-style:dashed; color:var(--tinta-80); }
+.sin-coincidencias{ color:var(--tinta-80); padding:20px 0; }
+
+.mios{ position:sticky; top:90px; background:var(--paramo); color:var(--paramo-txt); border:1.5px solid var(--tinta); box-shadow:8px 8px 0 var(--pajizo); padding:20px; }
+.mios h3{ font-family:var(--serif); font-weight:520; font-size:26px; margin-bottom:10px; }
+.mios h3 .mono{ font-size:14px; color:var(--pajizo); }
+.mios ul{ list-style:none; display:grid; gap:10px; }
+.mios li{ display:grid; gap:2px; padding-bottom:10px; border-bottom:1px dashed rgba(236,231,216,.3); }
+.mios li .mono{ font-size:11px; letter-spacing:.12em; color:var(--pajizo); }
+.mios li b{ font-weight:600; color:var(--paramo-txt); }
+.cancelar{ justify-self:start; margin-top:4px; background:none; border:0; color:var(--paramo-txt); font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; text-decoration:underline dashed; cursor:pointer; }
+.mios .ninguno{ border:0; opacity:.85; }
+
+.confirmacion{ margin:auto; border:0; padding:0; background:transparent; width:min(520px, calc(100vw - 32px)); }
+.confirmacion::backdrop{ background:rgba(20,17,10,.78); }
+.confirmacion .hoja{ background:var(--papel); border:1.5px solid var(--tinta); box-shadow:10px 10px 0 var(--pajizo); padding:clamp(22px,3vw,32px); display:grid; gap:14px; }
+.confirmacion h3{ font-family:var(--serif); font-weight:520; font-size:28px; }
+.confirmacion .acciones{ display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-end; }
+
+@media (max-width: 1020px){
+  .tablero{ grid-template-columns:1fr; }
+  /* en móvil y tableta, «mis talleres» queda como panel inferior fijo */
+  .mios{ order:-1; position:sticky; top:auto; bottom:0; z-index:5; max-height:40vh; overflow:auto; box-shadow:0 -6px 0 var(--pajizo); }
+}
+@media (max-width: 760px){
+  .formulario-acceso{ grid-template-columns:1fr; }
+  .filtros{ grid-template-columns:1fr 1fr; }
+  .franja{ grid-template-columns:1fr; gap:6px; }
+  .saludo .salir{ margin-left:0; }
+}

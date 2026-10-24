@@ -1,0 +1,210 @@
+{
+  "pagina": {
+    "volver": {
+      "es": "← Volver al inicio",
+      "en": "← Back to home"
+    },
+    "titulo": {
+      "es": "Inscribe tus <em>talleres</em>",
+      "en": "Sign up for <em>workshops</em>"
+    },
+    "intro": {
+      "es": "El día del congreso, con tu correo y tu número de participante, eliges los talleres de ese día. Es por cupos: ten varias opciones listas por si tu favorito se llena.",
+      "en": "On convention day, with your email and participant number, you choose that day's workshops. Places are limited: have a few options ready in case your favourite fills up."
+    },
+    "turnos": {
+      "es": "La inscripción abre a las 08:00 por turnos: grupos de 25 participantes, uno cada 10 minutos, según tu número. Solo puedes inscribir talleres de los días que elegiste al inscribirte.",
+      "en": "Sign-up opens at 08:00 in turns: groups of 25 participants, one every 10 minutes, by participant number. You can only sign up for workshops on the days you chose when registering."
+    },
+    "frase": {
+      "es": "¡que no te ganen el cupo! ✳",
+      "en": "don't miss your spot! ✳"
+    },
+    "verPrograma": {
+      "es": "Ver el programa completo →",
+      "en": "See the full programme →"
+    },
+    "cerrado": {
+      "es": "La inscripción a talleres abre cada día del congreso ({fecha}) desde las 08:00, por turnos. Mientras tanto, revisa el programa y arma tu lista.",
+      "en": "Workshop sign-up opens each day of the convention ({fecha}) from 08:00, in turns. Meanwhile, check the programme and make your list."
+    },
+    "demo": {
+      "es": "La inscripción a talleres todavía no está conectada al servidor del congreso.",
+      "en": "Workshop sign-up is not connected to the convention server yet."
+    }
+  },
+  "acceso": {
+    "titulo": {
+      "es": "Tu número",
+      "en": "Your number"
+    },
+    "lema": {
+      "es": "Correo y número de participante",
+      "en": "Email and participant number"
+    },
+    "correo": {
+      "es": "Correo de tu inscripción",
+      "en": "Your registration email"
+    },
+    "numero": {
+      "es": "Número de participante (o código especial)",
+      "en": "Participant number (or special code)"
+    },
+    "entrar": {
+      "es": "Ver mis talleres",
+      "en": "See my workshops"
+    },
+    "verificando": {
+      "es": "Verificando…",
+      "en": "Checking…"
+    },
+    "faltan": {
+      "es": "Escribe tu correo y tu número de participante.",
+      "en": "Enter your email and participant number."
+    },
+    "olvido": {
+      "es": "¿Olvidaste tu número?",
+      "en": "Forgot your number?"
+    },
+    "recordar": {
+      "es": "Enviarme mi número",
+      "en": "Email me my number"
+    },
+    "recordarTexto": {
+      "es": "Escribe tu correo arriba y te lo enviamos.",
+      "en": "Enter your email above and we'll send it to you."
+    },
+    "hola": {
+      "es": "¡Hola, {nombre}!",
+      "en": "Hi, {nombre}!"
+    },
+    "numeroDe": {
+      "es": "Participante N.º {numero}",
+      "en": "Participant no. {numero}"
+    },
+    "salir": {
+      "es": "Salir",
+      "en": "Sign out"
+    },
+    "listo": {
+      "es": "¡Listo, sumercé!",
+      "en": "All set!"
+    }
+  },
+  "hoy": {
+    "titulo": {
+      "es": "Talleres de hoy",
+      "en": "Today's workshops"
+    },
+    "lema": {
+      "es": "Elige por franja horaria",
+      "en": "Choose by time slot"
+    },
+    "salon": {
+      "es": "Salón",
+      "en": "Room"
+    },
+    "hora": {
+      "es": "Hora",
+      "en": "Time"
+    },
+    "tallerista": {
+      "es": "Tallerista",
+      "en": "Instructor"
+    },
+    "todos": {
+      "es": "Todos",
+      "en": "All"
+    },
+    "inscribirme": {
+      "es": "Inscribirme",
+      "en": "Sign me up"
+    },
+    "inscrito": {
+      "es": "✓ Inscrito",
+      "en": "✓ Signed up"
+    },
+    "sinCupos": {
+      "es": "Sin cupos",
+      "en": "Full"
+    },
+    "choca": {
+      "es": "Choca con «{nombre}»",
+      "en": "Clashes with “{nombre}”"
+    },
+    "dosPartes": {
+      "es": "✳ Los talleres en dos partes se inscriben (y se cancelan) juntos: al elegir una parte quedas en las dos.",
+      "en": "✳ Two-part workshops are signed up (and cancelled) together: choosing one part enrols you in both."
+    },
+    "sinCoincidencias": {
+      "es": "Ningún taller con esos filtros.",
+      "en": "No workshop matches those filters."
+    },
+    "vacio": {
+      "es": "Hoy no hay talleres abiertos para inscripción.",
+      "en": "No workshops are open for sign-up today."
+    },
+    "confirmar": {
+      "titulo": {
+        "es": "¿Inscribirte a este taller?",
+        "en": "Sign up for this workshop?"
+      },
+      "texto": {
+        "es": "«{nombre}» · {horario}",
+        "en": "“{nombre}” · {horario}"
+      },
+      "si": {
+        "es": "Sí, inscribirme",
+        "en": "Yes, sign me up"
+      },
+      "no": {
+        "es": "Mejor no",
+        "en": "Not now"
+      }
+    }
+  },
+  "mios": {
+    "titulo": {
+      "es": "Mis talleres",
+      "en": "My workshops"
+    },
+    "ninguno": {
+      "es": "Todavía no tienes talleres. ¡Elige alguno!",
+      "en": "No workshops yet. Pick one!"
+    },
+    "cancelar": {
+      "es": "Cancelar",
+      "en": "Cancel"
+    },
+    "cancelarAria": {
+      "es": "Cancelar mi inscripción a «{nombre}»",
+      "en": "Cancel my sign-up for “{nombre}”"
+    },
+    "confirmar": {
+      "titulo": {
+        "es": "¿Cancelar este taller?",
+        "en": "Cancel this workshop?"
+      },
+      "texto": {
+        "es": "Liberas tu cupo en «{nombre}» (y en su otra parte, si la tiene).",
+        "en": "You give up your place in “{nombre}” (and its other part, if any)."
+      },
+      "si": {
+        "es": "Sí, cancelar",
+        "en": "Yes, cancel"
+      },
+      "no": {
+        "es": "No, me quedo",
+        "en": "No, keep it"
+      }
+    },
+    "inscritoAviso": {
+      "es": "Quedaste inscrito en «{nombre}».",
+      "en": "You're signed up for “{nombre}”."
+    },
+    "canceladoAviso": {
+      "es": "Cancelaste «{nombre}».",
+      "en": "You cancelled “{nombre}”."
+    }
+  }
+}

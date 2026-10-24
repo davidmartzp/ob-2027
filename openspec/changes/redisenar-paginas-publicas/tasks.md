@@ -34,10 +34,10 @@
 
 ## 6. Inscripción a talleres (spec `frontend/inscripcion-talleres`)
 
-- [ ] 6.1 `inscribir-talleres.json` e interruptor `inscripcionTalleresAbierta`; Paso I verificación (`verify-code`) con mensaje de turno en `aria-live`, sesión en `sessionStorage`, «Salir» y «¿Olvidaste tu número?» (`remind-code`); pruebas de cada respuesta
-- [ ] 6.2 Paso II talleres de hoy (`GET /events/active`) por franja con filtros y estados de cada taller; 403 `logout` limpia la sesión; pruebas con respuestas simuladas
-- [ ] 6.3 Inscribirse y cancelar con confirmación, Paso III «mis talleres» y aviso de dos partes; pruebas: choque 409 muestra su mensaje, dos partes aparecen juntas
-- [ ] 6.4 Verificación contra el backend en Docker con `TURN_BYPASS=true`: verificar, inscribirse, cupo agotado, cancelar
+- [x] 6.1 `inscribir-talleres.json` e interruptor `inscripcionTalleresAbierta`; Paso I verificación (`verify-code`) con mensaje de turno en `aria-live`, sesión en `sessionStorage`, «Salir» y «¿Olvidaste tu número?» (`remind-code`); pruebas de cada respuesta
+- [x] 6.2 Paso II talleres de hoy (`GET /events/active`) por franja con filtros y estados de cada taller; 403 `logout` limpia la sesión; pruebas con respuestas simuladas
+- [x] 6.3 Inscribirse y cancelar con confirmación, Paso III «mis talleres» y aviso de dos partes; pruebas: choque 409 muestra su mensaje, dos partes aparecen juntas
+- [x] 6.4 Verificación contra el backend en Docker con `TURN_BYPASS=true`: verificar, inscribirse, cupo agotado, cancelar
 
 ## 7. Navegación, meta e integración
 

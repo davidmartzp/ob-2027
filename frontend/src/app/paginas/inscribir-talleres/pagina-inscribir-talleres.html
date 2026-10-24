@@ -1,0 +1,170 @@
+<app-pagina-interna fondo="var(--paramo)">
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.pagina.volver }}</a>
+    <app-separador [frase]="t.pagina.frase" appReveal/>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.pagina.titulo"></h2>
+    <p class="intro" appReveal="2">{{ t.pagina.intro }}</p>
+    <p class="turnos mono" appReveal="2">{{ t.pagina.turnos }}</p>
+    @if (programaVisible) {
+      <a class="enlace" appEnlace="booklet" appReveal="3">{{ t.pagina.verPrograma }}</a>
+    }
+  </section>
+
+  <app-doblez fondo="var(--papel)" montana/>
+
+  @if (!abierta) {
+    <section class="paso">
+      <app-estado-datos estado="cerrado" [texto]="textoCerrado"/>
+    </section>
+  } @else if (!conApi) {
+    <section class="paso">
+      <app-estado-datos estado="demo" [texto]="t.pagina.demo"/>
+    </section>
+  } @else {
+    <!-- Paso I: acceso -->
+    <section class="paso acceso" id="paso-acceso">
+      <div class="sec-head">
+        <div>
+          <app-separador/>
+          <h2 class="titulo">{{ t.acceso.titulo }}</h2>
+        </div>
+        <p class="lema">{{ t.acceso.lema }}</p>
+      </div>
+
+      @if (sesion(); as s) {
+        <div class="saludo">
+          <span class="anotacion">{{ t.acceso.listo }}</span>
+          <div>
+            <p class="hola">{{ hola() }}</p>
+            <p class="mono numero">{{ numeroDe() }}</p>
+          </div>
+          <button type="button" class="btn btn-linea salir" (click)="salir()">{{ t.acceso.salir }}</button>
+        </div>
+        <p class="mensaje-turno" role="status" aria-live="polite">{{ mensajeTurno() }}</p>
+      } @else {
+        <form class="formulario-acceso" novalidate (submit)="$event.preventDefault(); verificar()">
+          <div class="campo">
+            <label for="acceso-correo">{{ t.acceso.correo }}</label>
+            <input id="acceso-correo" type="email" autocomplete="email" inputmode="email" [value]="correo()" (input)="correo.set(texto($event))">
+          </div>
+          <div class="campo">
+            <label for="acceso-numero">{{ t.acceso.numero }}</label>
+            <input id="acceso-numero" autocomplete="off" [value]="numero()" (input)="numero.set(texto($event))">
+          </div>
+          <button type="submit" class="btn btn-naranja" [disabled]="verificando()">{{ verificando() ? t.acceso.verificando : t.acceso.entrar }}</button>
+        </form>
+        <p class="mensaje-acceso" role="status" aria-live="polite">{{ mensajeAcceso() }}</p>
+        <div class="olvido">
+          <span>{{ t.acceso.olvido }}</span>
+          <button type="button" class="btn btn-linea" (click)="recordar()">{{ t.acceso.recordar }}</button>
+          <p class="recordatorio" role="status" aria-live="polite">{{ recordatorio() }}</p>
+        </div>
+      }
+    </section>
+
+    @if (sesion()) {
+      <!-- Paso II y III: talleres de hoy y mis talleres -->
+      <section class="paso hoy" id="paso-hoy">
+        <div class="sec-head">
+          <div>
+            <app-separador montana/>
+            <h2 class="titulo">{{ t.hoy.titulo }}</h2>
+          </div>
+          <p class="lema">{{ t.hoy.lema }}</p>
+        </div>
+        <p class="aviso" role="status" aria-live="polite">{{ aviso() }}</p>
+
+        <div class="tablero">
+          <div class="columna">
+            @if (activos.estado() === 'listo') {
+              <div class="filtros">
+                <label>
+                  <span>{{ t.hoy.salon }}</span>
+                  <select id="filtro-salon" (change)="poner('salon', texto($event))">
+                    <option value="">{{ t.hoy.todos }}</option>
+                    @for (s of salones(); track s) { <option [value]="s">{{ s }}</option> }
+                  </select>
+                </label>
+                <label>
+                  <span>{{ t.hoy.hora }}</span>
+                  <select id="filtro-hora" (change)="poner('hora', texto($event))">
+                    <option value="">{{ t.hoy.todos }}</option>
+                    @for (h of horas(); track h) { <option [value]="h">{{ h }}</option> }
+                  </select>
+                </label>
+                <label>
+                  <span>{{ t.hoy.tallerista }}</span>
+                  <select id="filtro-tallerista" (change)="poner('tallerista', texto($event))">
+                    <option value="">{{ t.hoy.todos }}</option>
+                    @for (p of talleristas(); track p) { <option [value]="p">{{ p }}</option> }
+                  </select>
+                </label>
+              </div>
+              <p class="pend-nota dos-partes">{{ t.hoy.dosPartes }}</p>
+
+              @for (f of franjas(); track f.hora) {
+                <div class="franja">
+                  <p class="hora mono">{{ f.hora }}</p>
+                  <ul class="talleres">
+                    @for (taller of f.talleres; track taller.evento!.id) {
+                      <li [attr.data-evento]="taller.evento!.id" [attr.data-estado]="estado(taller)">
+                        <app-ficha-taller [taller]="taller" variante="inscripcion">
+                          <div class="accion">
+                            @switch (estado(taller)) {
+                              @case ('inscrito') { <span class="sello">{{ t.hoy.inscrito }}</span> }
+                              @case ('lleno') { <span class="sello apagado">{{ t.hoy.sinCupos }}</span> }
+                              @case ('choca') { <span class="sello apagado">{{ textoChoque(taller) }}</span> }
+                              @default {
+                                <button type="button" class="btn btn-naranja inscribirme" [disabled]="ocupado()" (click)="pedir('inscribir', taller)">{{ t.hoy.inscribirme }}</button>
+                              }
+                            }
+                          </div>
+                          @if (errorTaller()?.evento === taller.evento!.id) {
+                            <p class="error" role="alert">{{ errorTaller()!.mensaje }}</p>
+                          }
+                        </app-ficha-taller>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              } @empty {
+                <p class="sin-coincidencias">{{ t.hoy.sinCoincidencias }}</p>
+              }
+            } @else {
+              <app-estado-datos [estado]="activos.estado()" [mensaje]="activos.mensaje()" (reintentar)="activos.cargar()"
+                                [texto]="activos.estado() === 'vacio' ? t.hoy.vacio : ''"/>
+            }
+          </div>
+
+          <aside class="mios" id="mis-talleres" [attr.aria-label]="t.mios.titulo">
+            <h3>{{ t.mios.titulo }} <span class="mono">({{ mios().length }})</span></h3>
+            <ul>
+              @for (m of mios(); track m.evento!.id) {
+                <li>
+                  <span class="mono">{{ m.evento!.inicio }}–{{ m.evento!.fin }}@if (m.evento!.salon) { · {{ m.evento!.salon }}}</span>
+                  <b>{{ m.nombre }}</b>
+                  <button type="button" class="cancelar" [attr.aria-label]="cancelarAria(m)" [disabled]="ocupado()" (click)="pedir('cancelar', m)">{{ t.mios.cancelar }} ×</button>
+                </li>
+              } @empty {
+                <li class="ninguno">{{ t.mios.ninguno }}</li>
+              }
+            </ul>
+          </aside>
+        </div>
+      </section>
+    }
+  }
+
+  <dialog #dialogo class="confirmacion" aria-labelledby="confirmacion-titulo" (close)="ocupado() || pendiente.set(null)">
+    @if (pendiente(); as p) {
+      <div class="hoja">
+        <h3 id="confirmacion-titulo">{{ p.tipo === 'inscribir' ? t.hoy.confirmar.titulo : t.mios.confirmar.titulo }}</h3>
+        <p>{{ textoPendiente() }}</p>
+        <div class="acciones">
+          <button type="button" class="btn btn-linea no" (click)="cerrarDialogo()">{{ p.tipo === 'inscribir' ? t.hoy.confirmar.no : t.mios.confirmar.no }}</button>
+          <button type="button" class="btn si" [class.btn-naranja]="p.tipo === 'inscribir'" (click)="confirmar()">{{ p.tipo === 'inscribir' ? t.hoy.confirmar.si : t.mios.confirmar.si }}</button>
+        </div>
+      </div>
+    }
+  </dialog>
+</app-pagina-interna>

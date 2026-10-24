@@ -35,7 +35,7 @@ export const HOJA: BloqueHoja[] = [
   { id: 'comunidad', componente: Comunidad },
   { id: 'itinerario', componente: Itinerario, fondo: 'var(--paramo)', tinta: 'var(--paramo-txt)' },
   { id: 'invitados', componente: Invitados },
-  { id: 'actividades', componente: Actividades, fondo: 'var(--frailejon)' },
+  { id: 'actividades', componente: Actividades, fondo: 'var(--paramo)', tinta: 'var(--paramo-txt)' },
   { id: 'tallerista', componente: Tallerista, fondo: 'var(--ruana)' },
   { id: 'patrocinadores', componente: Patrocinadores },
 ];

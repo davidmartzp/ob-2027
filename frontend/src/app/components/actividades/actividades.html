@@ -7,20 +7,39 @@
     <p class="lema" appReveal="2">{{ t.lema }}</p>
   </div>
 
-  <div class="cuerpo">
-    <div>
-      <p class="intro" appReveal>{{ t.intro }}</p>
-      <div class="cta" appReveal="1">
-        <a class="btn" appEnlace="actividades">{{ t.cta }}</a>
-      </div>
-    </div>
-    <div>
-      <span class="mono destacadas-tag" appReveal>{{ t.destacadas }}</span>
-      <ul class="lista-actividades">
-        @for (a of destacadas; track a.id) {
-          <li appActividad [actividad]="a" [appReveal]="$index + 1"></li>
-        }
-      </ul>
-    </div>
+  <div class="entrada">
+    <p class="intro" appReveal>{{ t.intro }}</p>
+    <a class="btn btn-claro" appEnlace="actividades" appReveal="1">{{ t.cta }}</a>
   </div>
+
+  <!-- fotos impresas pegadas con cinta, en una fila; en móvil, carrusel deslizable -->
+  <ul class="mosaico desliza">
+    @for (a of destacadas; track a.id; let i = $index) {
+      <li [appReveal]="i + 1">
+        <a class="tarjeta" [appEnlace]="'actividades#' + a.id">
+          <span class="foto">
+            @if (a.foto) {
+              <img [src]="a.foto" alt="" loading="lazy" decoding="async">
+            } @else {
+              <app-papel-plegado/>
+            }
+            <span class="cinta" aria-hidden="true"></span>
+          </span>
+          <span class="pie">
+            <span class="chip">{{ categorias[a.categoria] }}</span>
+            <span class="nombre rico" role="heading" aria-level="3" [innerHTML]="a.titulo"></span>
+            <span class="resumen">{{ a.resumen }}</span>
+          </span>
+        </a>
+      </li>
+    }
+    <li appReveal="3">
+      <a class="tarjeta mas" appEnlace="actividades">
+        <span class="cuantas">+{{ restantes }}</span>
+        <span class="nombre">{{ t.mas }}</span>
+        <span class="resumen">{{ t.masTexto }}</span>
+        <span class="accion">{{ t.cta }}</span>
+      </a>
+    </li>
+  </ul>
 </section>

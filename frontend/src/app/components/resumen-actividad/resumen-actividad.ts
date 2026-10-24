@@ -6,8 +6,8 @@ import actividades from '@contenido/actividades.json';
 
 /* ============ RESUMEN DE ACTIVIDAD (la fila) ============
    Icono plegado + título + resumen + categoría + «Ver detalles».
-   Lo comparten la destacada de la home (sobre un <a>) y la ficha de la página
-   de actividades (sobre el <summary> de su <details>; ahí, abierta, dice «Cerrar»).
+   Va sobre el <summary> de cada ficha de la página de actividades (abierta, dice «Cerrar»);
+   también admite un <a>.
    El título es un span con role=heading: <summary> no admite un <h3> junto a otros elementos.
    Color del énfasis: variable CSS --color-enfasis (por defecto, miel).
    Uso: <a appResumenActividad [actividad]="a" href="…"></a> · <summary appResumenActividad [actividad]="a"></summary> */

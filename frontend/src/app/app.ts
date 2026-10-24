@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Doblez } from '@components/doblez/doblez';
-import { VistaFlotante } from '@components/vista-flotante/vista-flotante';
 import { Cabecera } from '@components/cabecera/cabecera';
 import { Leyenda } from '@components/leyenda/leyenda';
 import { Pie } from '@components/pie/pie';
@@ -12,7 +11,7 @@ import { Pie } from '@components/pie/pie';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Cabecera, VistaFlotante, Doblez, Leyenda, Pie],
+  imports: [RouterOutlet, Cabecera, Doblez, Leyenda, Pie],
   templateUrl: './app.html',
 })
 export class App {}

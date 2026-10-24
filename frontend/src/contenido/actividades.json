@@ -1,8 +1,8 @@
 {
   "destacadas": [
-    "publica-diagramas",
-    "pines",
-    "talleres"
+    "chiva",
+    "chocogami",
+    "exposicion"
   ],
   "logoSinFoto": "assets/logo-amigos-plegadores.png",
   "seccion": {
@@ -26,9 +26,13 @@
       "es": "Explorar las actividades →",
       "en": "Explore the activities →"
     },
-    "destacadas": {
-      "es": "Destacadas —",
-      "en": "Featured —"
+    "mas": {
+      "es": "planes más por descubrir",
+      "en": "more plans to discover"
+    },
+    "masTexto": {
+      "es": "Talleres por niveles, Origami Kids, subasta silenciosa, rifas, origami de pasillo… y la lista sigue.",
+      "en": "Workshops for every level, Origami Kids, silent auction, raffles, hallway origami… and the list goes on."
     }
   },
   "pagina": {
@@ -125,7 +129,7 @@
     {
       "id": "publica-diagramas",
       "categoria": "convocatorias",
-      "foto": "assets/actividades/publica-diagramas.jpg",
+      "foto": "assets/actividades/publica-diagramas.webp",
       "titulo": {
         "es": "Publica tus diagramas: deja tu <em>huella</em>",
         "en": "Publish your diagrams: leave your <em>mark</em>"
@@ -293,6 +297,7 @@
     {
       "id": "encuentro-invitados",
       "categoria": "talleres",
+      "foto": "assets/actividades/encuentro-invitados.jpeg",
       "titulo": {
         "es": "Encuentro con los <em>invitados</em>",
         "en": "Meet the <em>guests</em>"
@@ -313,6 +318,7 @@
     {
       "id": "talleres",
       "categoria": "talleres",
+      "foto": "assets/actividades/talleres.jpg",
       "titulo": {
         "es": "Talleres para todos: ¡encuentra tu <em>pliegue</em>!",
         "en": "Workshops for everyone: find your <em>fold</em>!"
@@ -394,6 +400,7 @@
     {
       "id": "origami-pasillo",
       "categoria": "comunidad",
+      "foto": "assets/actividades/origami-pasillo.jpg",
       "titulo": {
         "es": "Origami de pasillo: ¡la magia <em>espontánea</em>!",
         "en": "Hallway origami: the <em>spontaneous</em> magic!"

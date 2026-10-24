@@ -70,9 +70,15 @@ describe('App — la hoja completa', () => {
   it('pinta una tarjeta por invitado y solo las actividades destacadas en la home', async () => {
     const el = await render();
     expect(el.querySelectorAll('.invitado-card').length).toBe(invitados.lista.length);
-    const filas = [...el.querySelectorAll<HTMLAnchorElement>('.lista-actividades > li a')];
-    expect(filas.length).toBe(SECCIONES_VISIBLES.actividades ? actividades.destacadas.length : 0);
-    for (const a of filas) expect(a.getAttribute('href')).toMatch(/^actividades#/);
+    const tarjetas = [...el.querySelectorAll<HTMLAnchorElement>('.mosaico a.tarjeta:not(.mas)')];
+    expect(tarjetas.length).toBe(SECCIONES_VISIBLES.actividades ? actividades.destacadas.length : 0);
+    for (const a of tarjetas) expect(a.getAttribute('href')).toMatch(/^actividades#/);
+    if (SECCIONES_VISIBLES.actividades) {
+      // cierra con «+N planes más» hacia la página de actividades
+      const mas = el.querySelector('.mosaico a.tarjeta.mas');
+      expect(mas?.getAttribute('href')).toBe('actividades');
+      expect(mas?.querySelector('.cuantas')?.textContent).toBe(`+${actividades.items.length - actividades.destacadas.length}`);
+    }
   });
 
   it('marca como provisional el contenido no confirmado', async () => {

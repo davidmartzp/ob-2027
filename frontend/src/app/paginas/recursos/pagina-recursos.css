@@ -1,0 +1,48 @@
+:host{ display:block; }
+
+/* ============ HERO (frailejón) ============ */
+.pagina-hero{ background:var(--frailejon); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--paramo); --color-anotacion:var(--paramo-txt); }
+.pagina-hero .separador{ color:var(--tinta); margin-top:clamp(28px,4vw,48px); }
+.pagina-hero h2.titulo{ font-size:clamp(46px,7.5vw,110px); }
+.intro{ color:var(--tinta-80); max-width:56ch; margin-top:22px; }
+.volver{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-bottom:1px dashed transparent; }
+.volver:hover{ border-bottom-color:currentColor; }
+
+.paso{ scroll-margin-top:70px; }
+
+/* ============ PASO I · LISTA DE PIEZAS ============ */
+.piezas{ list-style:none; border-top:1.5px solid var(--tinta); }
+.piezas li{
+  display:grid; grid-template-columns:56px 150px 1fr auto; align-items:center; gap:clamp(14px,2.4vw,32px);
+  padding:clamp(18px,2.4vw,28px) 0; border-bottom:1px dashed var(--tinta-30); scroll-margin-top:80px;
+}
+.numero{ font-family:var(--serif); font-weight:600; font-size:clamp(34px,3.6vw,48px); line-height:1; color:var(--miel); }
+.tipo{
+  justify-self:start; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  padding:4px 10px; border:1.2px solid var(--tinta); background:var(--papel-2);
+}
+.tipo[data-tipo="pdf"]{ box-shadow:3px 3px 0 var(--teja); }
+.tipo[data-tipo="docx"]{ box-shadow:3px 3px 0 var(--paramo); }
+.tipo[data-tipo="gdoc"]{ box-shadow:3px 3px 0 var(--frailejon); }
+.texto h3{ font-family:var(--serif); font-weight:520; font-size:clamp(22px,2.2vw,28px); line-height:1.15; }
+.texto p{ color:var(--tinta-80); margin-top:4px; font-size:calc(var(--fs-texto) - 1px); }
+.piezas .btn{ white-space:nowrap; }
+.piezas .btn:focus-visible, .alternativa .btn:focus-visible{ outline:2px dashed var(--miel); outline-offset:3px; }
+
+/* ============ PASO II · CRONOGRAMA ============ */
+.cronograma{ background:var(--papel-2); }
+.visor{ border:1.5px solid var(--tinta); box-shadow:10px 10px 0 var(--tinta); background:var(--papel); }
+.visor iframe{ display:block; width:100%; height:min(80vh, 900px); border:0; }
+.alternativa{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:clamp(24px,3vw,36px); color:var(--tinta-80); }
+
+@media (max-width: 1020px){
+  .piezas li{ grid-template-columns:48px 1fr auto; }
+  .tipo{ grid-column:2; grid-row:1; }
+  .texto{ grid-column:2; }
+  .piezas .btn{ grid-column:3; grid-row:1 / span 2; }
+}
+@media (max-width: 760px){
+  .piezas li{ grid-template-columns:40px 1fr; }
+  .piezas .btn{ grid-column:2; grid-row:auto; justify-self:start; }
+  .visor iframe{ height:70vh; }
+}

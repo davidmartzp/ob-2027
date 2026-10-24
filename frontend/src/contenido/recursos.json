@@ -1,0 +1,93 @@
+{
+  "pagina": {
+    "volver": { "es": "← Volver al inicio", "en": "← Back to home" },
+    "titulo": { "es": "Recursos del <em>evento</em>", "en": "Event <em>resources</em>" },
+    "intro": {
+      "es": "Descarga todos los documentos con información relevante para el evento: guías, cronograma y bases de las convocatorias, en un solo lugar.",
+      "en": "Download every document with relevant information for the event: guides, schedule and calls for entries, all in one place."
+    },
+    "frase": { "es": "pa' llegar bien plegado ✳", "en": "fold-ready ✳" }
+  },
+  "documentosTitulo": { "es": "Documentos", "en": "Documents" },
+  "documentosLema": { "es": "Lista de piezas antes de empezar", "en": "Parts list before you start" },
+  "descargar": { "es": "Descargar", "en": "Download" },
+  "abrir": { "es": "Abrir", "en": "Open" },
+  "tipos": {
+    "gdoc": { "es": "Documento en línea", "en": "Online document" },
+    "pdf": { "es": "PDF", "en": "PDF" },
+    "docx": { "es": "Word (.docx)", "en": "Word (.docx)" }
+  },
+  "porConfirmar": {
+    "es": "✳ Versión de la edición anterior: se actualiza para {edicion}.",
+    "en": "✳ Previous edition's version: being updated for {edicion}."
+  },
+  "documentos": [
+    {
+      "id": "guia",
+      "tipo": "gdoc",
+      "url": "https://docs.google.com/document/d/1QUvn97FZU8NHgg4Rtj-nqs-ur0wTqFK2gFL5nJnh3qY/edit?tab=t.0",
+      "nombre": { "es": "Guía para participantes", "en": "Participant guide" },
+      "descripcion": {
+        "es": "Todo lo que necesitas saber antes de llegar: horarios, sede, talleres, actividades y recomendaciones.",
+        "en": "Everything you need to know before you arrive: times, venue, workshops, activities and tips."
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "cronograma",
+      "tipo": "pdf",
+      "url": "https://origamibogota.com/descargas/cronograma.pdf",
+      "nombre": { "es": "Cronograma", "en": "Schedule" },
+      "descripcion": {
+        "es": "Qué pasa cada día del congreso, hora por hora. También puedes leerlo aquí abajo sin descargarlo.",
+        "en": "What happens each day of the convention, hour by hour. You can also read it below without downloading it."
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "atc",
+      "tipo": "pdf",
+      "url": "https://origamibogota.com/descargas/ATC.pdf",
+      "nombre": { "es": "Bases de la convocatoria de intercambio de tarjetas", "en": "Artist Trading Cards call for entries" },
+      "descripcion": {
+        "es": "Cómo participar en el intercambio de tarjetas ATC y en el concurso a la mejor tarjeta.",
+        "en": "How to take part in the ATC card exchange and the best-card contest."
+      }
+    },
+    {
+      "id": "diagramas-es",
+      "tipo": "docx",
+      "url": "https://origamibogota.com/descargas/basesdiagramasES.docx",
+      "nombre": { "es": "Bases de la convocatoria de diagramas (español)", "en": "Call for diagrams (Spanish)" },
+      "descripcion": {
+        "es": "Requisitos para enviar tu diagrama al libro del congreso.",
+        "en": "Requirements to submit your diagram to the convention book."
+      }
+    },
+    {
+      "id": "diagramas-en",
+      "tipo": "docx",
+      "url": "https://origamibogota.com/descargas/basesdiagramasEN.docx",
+      "nombre": { "es": "Bases de la convocatoria de diagramas (inglés)", "en": "Call for diagrams (English)" },
+      "descripcion": {
+        "es": "La misma convocatoria, en inglés, para plegadores de otros países.",
+        "en": "The same call, in English, for folders from other countries."
+      }
+    }
+  ],
+  "cronograma": {
+    "titulo": { "es": "Ver cronograma en línea", "en": "View the schedule online" },
+    "texto": {
+      "es": "Lee el cronograma directamente desde esta página sin descargarlo.",
+      "en": "Read the schedule directly on this page without downloading it."
+    },
+    "url": "https://origamibogota.com/descargas/cronograma.pdf",
+    "visorUrl": "https://docs.google.com/viewer?url=https://origamibogota.com/descargas/cronograma.pdf&embedded=true",
+    "visorTitulo": { "es": "Cronograma del congreso (PDF)", "en": "Convention schedule (PDF)" },
+    "alternativa": {
+      "es": "Si tu navegador no muestra el PDF, ábrelo en una nueva pestaña:",
+      "en": "If your browser cannot display the PDF, open it in a new tab:"
+    },
+    "abrir": { "es": "Abrir cronograma", "en": "Open schedule" }
+  }
+}

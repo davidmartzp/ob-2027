@@ -44,5 +44,89 @@
       "es": "inscripción congreso de origami, inscripciones Origami Bogotá {edicion}, precios congreso de origami, entradas origami Bogotá, inscripción talleres de origami, métodos de pago, Nequi, Daviplata",
       "en": "origami convention registration, Origami Bogotá {edicion} registration, origami convention tickets, origami workshop registration, ticket prices, payment methods"
     }
+  },
+  "talleres": {
+    "titulo": {
+      "es": "Talleres — Origami Bogotá {edicion}",
+      "en": "Workshops — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Descubre los talleres de origami del Congreso Origami Bogotá {edicion}: maestros internacionales y nacionales, todos los niveles. Propón el tuyo si vas a dictar.",
+      "en": "Discover the origami workshops of the Origami Bogotá {edicion} Convention: international and national teachers, every level. Propose yours if you are teaching."
+    },
+    "palabrasClave": {
+      "es": "talleres de origami, talleres internacionales de origami, dictar un taller de origami, tallerista, niveles principiante intermedio avanzado, Origami Bogotá {edicion}",
+      "en": "origami workshops, international origami workshops, teach an origami workshop, instructor, beginner intermediate advanced, Origami Bogotá {edicion}"
+    }
+  },
+  "inscribir-talleres": {
+    "titulo": {
+      "es": "Inscribe tus talleres — Origami Bogotá {edicion}",
+      "en": "Sign up for workshops — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "El día del congreso, en tu turno, elige tus talleres con tu correo y tu número de participante.",
+      "en": "On convention day, during your turn, choose your workshops with your email and participant number."
+    },
+    "palabrasClave": {
+      "es": "inscripción a talleres de origami, turnos, número de participante, cupos, Origami Bogotá {edicion}",
+      "en": "origami workshop sign-up, turns, participant number, places, Origami Bogotá {edicion}"
+    }
+  },
+  "booklet": {
+    "titulo": {
+      "es": "Programa de talleres — Origami Bogotá {edicion}",
+      "en": "Workshop programme — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Consulta e imprime la programación completa de talleres del Congreso Origami Bogotá {edicion}, por día, hora, nivel y salón.",
+      "en": "Browse and print the full workshop programme of the Origami Bogotá {edicion} Convention, by day, time, level and room."
+    },
+    "palabrasClave": {
+      "es": "booklet, programa de talleres, horario de talleres de origami, cronograma, Origami Bogotá {edicion}",
+      "en": "booklet, workshop programme, origami workshop timetable, schedule, Origami Bogotá {edicion}"
+    }
+  },
+  "recursos": {
+    "titulo": {
+      "es": "Recursos — Origami Bogotá {edicion}",
+      "en": "Resources — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Guía para participantes, cronograma y bases de las convocatorias del Congreso Origami Bogotá {edicion}, para descargar o leer en línea.",
+      "en": "Participant guide, schedule and calls for entries of the Origami Bogotá {edicion} Convention, to download or read online."
+    },
+    "palabrasClave": {
+      "es": "recursos congreso de origami, guía para participantes, cronograma, intercambio de tarjetas ATC, convocatoria de diagramas, Origami Bogotá {edicion}",
+      "en": "origami convention resources, participant guide, schedule, artist trading cards, call for diagrams, Origami Bogotá {edicion}"
+    }
+  },
+  "amigos-plegadores": {
+    "titulo": {
+      "es": "Amigos Plegadores — Origami Bogotá {edicion}",
+      "en": "Amigos Plegadores — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Conoce a Amigos Plegadores, el parche que organiza el Congreso Origami Bogotá: sus reuniones, su historia, el evento anual y la chiva.",
+      "en": "Meet Amigos Plegadores, the crew behind the Origami Bogotá Convention: their meetings, history, the yearly event and the party bus."
+    },
+    "palabrasClave": {
+      "es": "Amigos Plegadores, grupo de origami Bogotá, reuniones de origami, AseisManos, comunidad de origami Colombia",
+      "en": "Amigos Plegadores, origami group Bogotá, origami meetings, AseisManos, origami community Colombia"
+    }
+  },
+  "no-encontrada": {
+    "titulo": {
+      "es": "Página no encontrada — Origami Bogotá {edicion}",
+      "en": "Page not found — Origami Bogotá {edicion}"
+    },
+    "descripcion": {
+      "es": "Esta página se perdió en un pliegue de origami.",
+      "en": "This page got lost in an origami fold."
+    },
+    "palabrasClave": {
+      "es": "origami Bogotá",
+      "en": "origami Bogotá"
+    }
   }
 }

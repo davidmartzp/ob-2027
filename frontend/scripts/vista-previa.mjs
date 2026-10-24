@@ -2,7 +2,8 @@
 // Uso: npm run preview  (compila con `ng build` y sirve dist/frontend/browser en http://localhost:4200)
 //
 // Sirve el build igual que el hosting (Apache): cada idioma y cada página es una carpeta
-// con su index.html, y /actividades redirige a /actividades/.
+// con su index.html, /actividades redirige a /actividades/ y una ruta inexistente responde
+// 404 con la página «no encontrada» de su idioma (como el ErrorDocument de public/.htaccess).
 
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
@@ -30,7 +31,10 @@ createServer((pedido, respuesta) => {
   }
   const archivo = esCarpeta(ruta) ? join(ruta, 'index.html') : ruta;
   if (!esArchivo(archivo)) {
-    return respuesta.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404 — no existe en el build');
+    const pagina404 = join(RAIZ, /^\/en(\/|$)/.test(camino) ? 'en/404/index.html' : '404/index.html');
+    if (!esArchivo(pagina404)) return respuesta.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404 — no existe en el build');
+    respuesta.writeHead(404, { 'Content-Type': TIPOS['.html'] });
+    return createReadStream(pagina404).pipe(respuesta);
   }
   respuesta.writeHead(200, { 'Content-Type': TIPOS[extname(archivo)] ?? 'application/octet-stream' });
   createReadStream(archivo).pipe(respuesta);

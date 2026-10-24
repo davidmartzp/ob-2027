@@ -1,0 +1,59 @@
+<app-pagina-interna fondo="var(--frailejon)">
+  <section class="pagina-hero">
+    <a class="volver" appEnlace="./">{{ t.pagina.volver }}</a>
+    <app-separador [frase]="t.pagina.frase" appReveal/>
+    <h2 class="titulo rico" appReveal="1" [innerHTML]="t.pagina.titulo"></h2>
+    <p class="intro" appReveal="2">{{ t.pagina.intro }}</p>
+  </section>
+
+  <app-doblez fondo="var(--papel)"/>
+
+  <!-- Paso I: documentos -->
+  <section class="paso" id="documentos">
+    <div class="sec-head">
+      <div>
+        <app-separador montana appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.documentosTitulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.documentosLema }}</p>
+    </div>
+    <ol class="piezas">
+      @for (d of t.documentos; track d.id; let i = $index) {
+        <li [id]="d.id" [appReveal]="(i % 3) + 1">
+          <span class="numero mono">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
+          <span class="tipo mono" [attr.data-tipo]="d.tipo">{{ tipos[d.tipo] }}</span>
+          <div class="texto">
+            <h3>{{ d.nombre }}</h3>
+            <p>{{ d.descripcion }}</p>
+            @if (d.porConfirmar) {
+              <p class="pend-nota">{{ t.porConfirmar }}</p>
+            }
+          </div>
+          <a class="btn" [class.btn-linea]="d.tipo === 'gdoc'" [appEnlace]="d.url">
+            {{ d.tipo === 'gdoc' ? t.abrir : t.descargar }} {{ d.tipo === 'gdoc' ? '↗' : '↓' }}
+          </a>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <app-doblez fondo="var(--papel-2)" montana/>
+
+  <!-- Paso II: cronograma embebido -->
+  <section class="paso cronograma" id="cronograma">
+    <div class="sec-head">
+      <div>
+        <app-separador appReveal/>
+        <h2 class="titulo" appReveal="1">{{ t.cronograma.titulo }}</h2>
+      </div>
+      <p class="lema" appReveal="2">{{ t.cronograma.texto }}</p>
+    </div>
+    <div class="visor">
+      <iframe [src]="visor" [title]="t.cronograma.visorTitulo" loading="lazy"></iframe>
+    </div>
+    <p class="alternativa">
+      {{ t.cronograma.alternativa }}
+      <a class="btn btn-linea" [appEnlace]="t.cronograma.url">{{ t.cronograma.abrir }} ↗</a>
+    </p>
+  </section>
+</app-pagina-interna>

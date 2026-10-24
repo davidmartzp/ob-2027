@@ -29,7 +29,7 @@
       }
     },
     "recursos": {
-      "href": "#itinerario",
+      "href": "recursos",
       "texto": {
         "es": "Recursos y cronograma",
         "en": "Resources and schedule"

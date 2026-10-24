@@ -1,0 +1,9 @@
+# ============ ORIGAMI BOGOTÁ — SITIO ESTÁTICO (Apache) ============
+# Cada página es una carpeta con su index.html (prerender de Angular).
+# Una ruta inexistente responde 404 con la página «no encontrada» del idioma de la URL.
+# Si el sitio se publica en una subcarpeta (ng build --base-href /ruta/), antepón /ruta a estas rutas.
+DirectoryIndex index.html
+ErrorDocument 404 /404/index.html
+<If "%{REQUEST_URI} =~ m#^/en(/|$)#">
+  ErrorDocument 404 /en/404/index.html
+</If>

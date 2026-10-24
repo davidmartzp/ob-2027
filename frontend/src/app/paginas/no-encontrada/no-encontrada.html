@@ -1,0 +1,21 @@
+<main class="no-encontrada">
+  <div class="hoja">
+    <svg class="pliegues" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <line class="valle" x1="0" y1="0" x2="100" y2="100"/>
+      <line class="montana" x1="100" y1="0" x2="0" y2="100"/>
+    </svg>
+    <p class="codigo">{{ t.codigo }}</p>
+    <h1 class="titulo rico" [innerHTML]="t.titulo"></h1>
+    <p class="texto">{{ t.texto }}</p>
+    <blockquote><p>«{{ t.cita }}»</p></blockquote>
+    <span class="anotacion">{{ t.anotacion }}</span>
+    <nav [attr.aria-label]="t.enlacesTitulo">
+      <p class="enlaces-titulo">{{ t.enlacesTitulo }}</p>
+      <ul>
+        @for (e of enlaces; track e.href) {
+          <li><a class="btn" [class.btn-linea]="!$first" [appEnlace]="e.href">{{ e.texto }}</a></li>
+        }
+      </ul>
+    </nav>
+  </div>
+</main>

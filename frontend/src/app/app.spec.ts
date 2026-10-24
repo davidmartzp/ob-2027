@@ -32,7 +32,8 @@ describe('App — la hoja completa', () => {
     // el idioma sale de la URL al arrancar la app (IdiomaActual): fijarla antes de montarla
     TestBed.inject(PlatformLocation).pushState(null, '', url);
     const fixture = TestBed.createComponent(App);
-    await TestBed.inject(Router).navigateByUrl(url);
+    // como en el navegador: Location quita la «/» final (/en/ → /en), si no el router ve un segmento vacío
+    await TestBed.inject(Router).navigateByUrl(url.replace(/(.)\/$/, '$1'));
     await fixture.whenStable();
     return fixture.nativeElement as HTMLElement;
   }

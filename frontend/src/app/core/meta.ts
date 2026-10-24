@@ -16,14 +16,20 @@ import { IdiomaActual, traducir } from './idioma';
    Título, descripción y palabras clave de cada página: contenido/meta.json.
    Uso (en el constructor): fijarMeta('actividades'); */
 
-export function fijarMeta(pagina: '' | 'actividades' | 'inscripciones' = ''): void {
+/** Cada página con entrada en meta.json; la clave es su ruta (amigos-plegadores…). */
+export type PaginaMeta = Exclude<keyof typeof textosMeta, 'imagenAlt' | 'inicio'>;
+
+export function fijarMeta(pagina: '' | PaginaMeta = ''): void {
   const textos = traducir(textosMeta);
   const { titulo, descripcion, palabrasClave } = pagina ? textos[pagina] : textos.inicio;
   const idioma = inject(IdiomaActual).idioma;
   const meta = inject(Meta);
   inject(Title).setTitle(titulo);
+  // la 404 no se indexa (además el hosting la sirve con estado 404)
+  if (pagina === 'no-encontrada') meta.updateTag({ name: 'robots', content: 'noindex' });
+  else meta.removeTag('name="robots"');
 
-  const ruta = pagina ? `${pagina}/` : '';
+  const ruta = pagina && pagina !== 'no-encontrada' ? `${pagina}/` : '';
   const url = (i: Idioma): string => evento.sitioUrl + i.ruta + ruta;
   enlazar(inject(DOCUMENT), [
     { rel: 'canonical', href: url(idioma) },

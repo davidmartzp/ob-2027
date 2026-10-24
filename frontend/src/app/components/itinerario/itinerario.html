@@ -10,8 +10,8 @@
     </div>
     <div class="acciones" appReveal="2">
       <button type="button" class="btn btn-claro" aria-haspopup="dialog" (click)="modal.abrir()">{{ t.verCompleto }}</button>
-      @if (recursosUrl) {
-        <a class="recursos-link" [appEnlace]="recursosUrl">{{ t.recursos }}</a>
+      @if (recursosVisible) {
+        <a class="recursos-link" appEnlace="recursos">{{ t.recursos }}</a>
       }
       <p class="aviso rico" [innerHTML]="t.aviso"></p>
     </div>

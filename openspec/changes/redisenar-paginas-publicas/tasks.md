@@ -9,9 +9,9 @@
 
 ## 2. Páginas estáticas (specs `frontend/recursos`, `frontend/pagina-no-encontrada`)
 
-- [ ] 2.1 `recursos.json` con los cinco documentos y el cronograma del sitio antiguo (es/en) y página `/recursos` (documentos + visor embebido + enlace alternativo); prueba: cada documento tiene enlace y botón correcto
-- [ ] 2.2 Destino `recursos` del menú → `recursos` y enlace «Ver recursos» en el itinerario de la home; prueba de navegación
-- [ ] 2.3 Página `no-encontrada` (es/en), rutas `**` y `en/**`, prerender de `/404` y `public/.htaccess` con `ErrorDocument`; verificar con `npm run preview` que una ruta inexistente responde 404 con la página
+- [x] 2.1 `recursos.json` con los cinco documentos y el cronograma del sitio antiguo (es/en) y página `/recursos` (documentos + visor embebido + enlace alternativo); prueba: cada documento tiene enlace y botón correcto
+- [x] 2.2 Destino `recursos` del menú → `recursos` y enlace «Ver recursos» en el itinerario de la home; prueba de navegación
+- [x] 2.3 Página `no-encontrada` (es/en), rutas `**` y `en/**`, prerender de `/404` y `public/.htaccess` con `ErrorDocument`; verificar con `npm run preview` que una ruta inexistente responde 404 con la página
 
 ## 3. Amigos Plegadores (spec `frontend/amigos-plegadores`)
 

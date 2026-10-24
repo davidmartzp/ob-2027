@@ -9,6 +9,7 @@
 :host(:focus-visible){ outline:2px dashed var(--miel); outline-offset:3px; }
 
 .icono{ width:var(--actividad-icono); }
+.texto{ min-width:0; }
 
 .nombre{
   display:block; font-family:var(--serif); font-weight:540; letter-spacing:-.02em;
@@ -20,7 +21,7 @@
 :host(:hover) .chip{ border-color:var(--tinta); color:var(--tinta); }
 .accion{
   font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
-  display:inline-flex; align-items:center; gap:8px;
+  display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
 }
 .abrir::after{ content:"→"; transition:transform .25s var(--ease); }
 :host(:hover) .abrir::after{ transform:translateX(6px); }
@@ -30,5 +31,5 @@
 
 @media (max-width: 760px){
   :host{ grid-template-columns:auto 1fr; }
-  .meta{ grid-column:2; flex-direction:row; align-items:center; justify-content:space-between; }
+  .meta{ grid-column:2; flex-direction:row; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px; min-width:0; }
 }

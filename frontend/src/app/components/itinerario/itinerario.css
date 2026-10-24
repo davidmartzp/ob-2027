@@ -38,4 +38,4 @@ button.btn{ line-height:inherit; }
 }
 
 .itinerario .separador{ color:var(--pajizo); }
-.aviso{ font-family:var(--mono); font-size:14px; letter-spacing:.08em; color:color-mix(in srgb, var(--paramo-txt) 72%, transparent); margin-top:14px; }
+.aviso{ font-family:var(--mono); font-size:15px; letter-spacing:.08em; color:color-mix(in srgb, var(--paramo-txt) 85%, transparent); margin-top:14px; }

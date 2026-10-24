@@ -17,21 +17,21 @@
   <section class="programa" id="programa">
     @if (programa.estado() === 'listo') {
       <form class="filtros" (submit)="$event.preventDefault()" [attr.aria-label]="t.filtros.titulo">
-        <fieldset>
+        <fieldset class="desliza">
           <legend>{{ t.filtros.dia }}</legend>
           <button type="button" class="chip" [attr.aria-pressed]="!filtros().dia" (click)="poner('dia', null)">{{ t.filtros.todos }}</button>
           @for (d of dias; track d.id) {
             <button type="button" class="chip" [attr.aria-pressed]="filtros().dia === d.id" (click)="poner('dia', d.id)">{{ d.nombre }}</button>
           }
         </fieldset>
-        <fieldset>
+        <fieldset class="desliza">
           <legend>{{ t.filtros.nivel }}</legend>
           <button type="button" class="chip" [attr.aria-pressed]="!filtros().nivel" (click)="poner('nivel', null)">{{ t.filtros.todos }}</button>
           @for (n of niveles; track n.id) {
             <button type="button" class="chip" [attr.aria-pressed]="filtros().nivel === n.id" (click)="poner('nivel', n.id)">{{ n.nombre }}</button>
           }
         </fieldset>
-        <fieldset>
+        <fieldset class="desliza">
           <legend>{{ t.filtros.publico }}</legend>
           <button type="button" class="chip" [attr.aria-pressed]="!filtros().publico" (click)="poner('publico', null)">{{ t.filtros.todos }}</button>
           @for (p of publicos; track p.id) {

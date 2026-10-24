@@ -27,5 +27,5 @@ figcaption .mono{ display:block; font-size:11px; letter-spacing:.16em; text-tran
 @media (max-width: 760px){
   .cuadricula{ grid-template-columns:repeat(2, 1fr); }
   .cuadricula li:nth-child(5n+1){ grid-row:auto; grid-column:span 2; }
-  .cerrar{ top:-14px; right:-6px; }
+  .cerrar{ top:-14px; right:-6px; width:44px; height:44px; }
 }

@@ -46,12 +46,12 @@ import comun from '@contenido/comun.json';
   styles: `
     nav{ display:flex; align-items:center; gap:10px; }
     a{
-      display:block; padding:4px 2px 6px; border-bottom:2px solid transparent;
+      display:block; padding:12px 6px 10px; border-bottom:2px solid transparent;
       opacity:.5; transition:opacity .2s, transform .2s var(--ease);
     }
     a:hover{ opacity:1; transform:translateY(-1px); }
     a[aria-current]{ opacity:1; border-bottom-color:var(--miel); }
-    svg{ display:block; height:15px; width:auto; border-radius:2px; box-shadow:0 0 0 1px var(--tinta-30); }
+    svg{ display:block; height:18px; width:auto; border-radius:2px; box-shadow:0 0 0 1px var(--tinta-30); }
   `,
 })
 export class SelectorIdioma {

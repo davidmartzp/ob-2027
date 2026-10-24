@@ -16,7 +16,7 @@
                [value]="termino()" (input)="termino.set(campo.value)" [placeholder]="t.buscarPlaceholder">
       </form>
 
-      <div class="filtros" role="group" [attr.aria-label]="t.filtrosAria">
+      <div class="filtros desliza" role="group" [attr.aria-label]="t.filtrosAria">
         <button type="button" class="chip" [attr.aria-pressed]="categoria() === null" (click)="categoria.set(null)">{{ t.todas }}</button>
         @for (c of categorias; track c.id) {
           <button type="button" class="chip" [attr.aria-pressed]="categoria() === c.id" (click)="categoria.set(c.id)">{{ c.nombre }}</button>

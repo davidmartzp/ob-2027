@@ -45,14 +45,15 @@ nav.movil{ display:none; }
   }
   nav.movil{
     position:fixed; inset:0; z-index:99; background:var(--papel);
-    display:flex; flex-direction:column; justify-content:center; gap:6px;
-    padding:0 var(--gutter); transform:translateY(-102%); transition:transform .5s var(--ease);
+    /* desde arriba (no centrado): centrado y con scroll, los primeros enlaces quedaban bajo la cabecera */
+    display:flex; flex-direction:column; justify-content:flex-start; gap:2px;
+    padding:88px var(--gutter) 40px; transform:translateY(-102%); transition:transform .5s var(--ease);
     overflow-y:auto; /* en pantallas bajas los enlaces no caben: sin esto asoman con el menú cerrado */
   }
   nav.movil.abierta{ transform:none; }
   /* los enlaces del menú móvil llevan su estilo en <app-menu>; este es el botón de inscripción */
   nav.movil .cta{
-    font-family:var(--serif); font-size:clamp(34px,9vw,54px); font-weight:520;
-    text-decoration:none; padding:10px 0; color:var(--ruana);
+    font-family:var(--serif); font-size:clamp(26px,7vw,40px); font-weight:520;
+    text-decoration:none; padding:12px 0; color:var(--miel); /* ruana sobre papel no llega a 3:1 */
   }
 }

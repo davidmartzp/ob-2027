@@ -74,7 +74,7 @@
     </div>
 
     @if (galeria.estado() === 'listo') {
-      <div class="filtros" role="group" [attr.aria-label]="t.galeria.filtrosAria">
+      <div class="filtros desliza" role="group" [attr.aria-label]="t.galeria.filtrosAria">
         <button type="button" class="chip" [attr.aria-pressed]="!nivel() && !publico()" (click)="nivel.set(null); publico.set(null)">{{ t.galeria.todos }}</button>
         @for (n of niveles; track n.id) {
           <button type="button" class="chip" [attr.aria-pressed]="nivel() === n.id" (click)="nivel.set(nivel() === n.id ? null : n.id)">{{ n.nombre }}</button>

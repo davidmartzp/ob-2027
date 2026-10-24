@@ -71,6 +71,7 @@ input, select{ font:inherit; font-size:17px; color:var(--tinta); background:var(
 }
 @media (max-width: 760px){
   .formulario-acceso{ grid-template-columns:1fr; }
+  .turnos{ font-size:15px; letter-spacing:.04em; line-height:1.65; }
   .filtros{ grid-template-columns:1fr 1fr; }
   .franja{ grid-template-columns:1fr; gap:6px; }
   .saludo .salir{ margin-left:0; }

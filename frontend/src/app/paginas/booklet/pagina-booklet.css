@@ -4,7 +4,7 @@
 .pagina-hero{ background:var(--paramo); color:var(--paramo-txt); padding-bottom:clamp(50px,6vw,90px); --color-enfasis:var(--pajizo); --color-anotacion:var(--pajizo); }
 .pagina-hero .separador{ color:var(--paramo-txt); margin-top:clamp(28px,4vw,48px); }
 .pagina-hero h2.titulo{ font-size:clamp(46px,7.5vw,110px); }
-.intro{ color:var(--paramo-txt); opacity:.9; max-width:58ch; margin-top:22px; }
+.intro{ color:var(--paramo-txt); max-width:58ch; margin-top:22px; }
 .volver{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border-bottom:1px dashed transparent; }
 .volver:hover{ border-bottom-color:currentColor; }
 .acciones{ display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:clamp(26px,3vw,40px); }

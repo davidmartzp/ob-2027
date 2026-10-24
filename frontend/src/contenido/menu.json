@@ -50,10 +50,24 @@
       }
     },
     "talleres": {
-      "href": "actividades#talleres",
+      "href": "talleres",
       "texto": {
         "es": "Talleres",
         "en": "Workshops"
+      }
+    },
+    "booklet": {
+      "href": "booklet",
+      "texto": {
+        "es": "Programa de talleres",
+        "en": "Workshop programme"
+      }
+    },
+    "inscribirTalleres": {
+      "href": "inscribir-talleres",
+      "texto": {
+        "es": "Inscribe tus talleres",
+        "en": "Sign up for workshops"
       }
     },
     "exposicion": {
@@ -103,6 +117,8 @@
       "invitados",
       "actividades",
       "talleres",
+      "booklet",
+      "inscribirTalleres",
       "exposicion",
       "patrocinadores",
       "contacto",
@@ -117,14 +133,18 @@
       "itinerario",
       "invitados",
       "actividades",
-      "patrocinadores",
+      "talleres",
+      "booklet",
+      "recursos",
+      "amigos",
       "tallerista"
     ],
     "pie": [
       "inicio",
       "itinerario",
-      "invitados",
       "talleres",
+      "booklet",
+      "recursos",
       "amigos"
     ]
   },

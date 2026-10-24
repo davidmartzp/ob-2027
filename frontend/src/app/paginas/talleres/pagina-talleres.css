@@ -13,7 +13,7 @@
 
 /* ============ PASO I · INTERNACIONALES (páramo) ============ */
 .internacionales{ background:var(--paramo); color:var(--paramo-txt); }
-.internacionales .lema{ color:var(--paramo-txt); opacity:.85; }
+.internacionales .lema{ color:var(--paramo-txt); }
 .internacionales .separador{ color:var(--pajizo); }
 .tarjetas{ display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:clamp(22px,3vw,40px); }
 .internacional{

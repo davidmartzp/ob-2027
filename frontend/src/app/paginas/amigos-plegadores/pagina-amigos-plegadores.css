@@ -23,7 +23,7 @@
 
 /* ============ EL PARCHE (páramo) ============ */
 .parche{ background:var(--paramo); color:var(--paramo-txt); }
-.parche .lema{ color:var(--paramo-txt); opacity:.85; }
+.parche .lema{ color:var(--paramo-txt); }
 .parche .separador{ color:var(--pajizo); }
 
 @media (prefers-reduced-motion: reduce){

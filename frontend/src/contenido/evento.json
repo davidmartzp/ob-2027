@@ -28,7 +28,12 @@
     "itinerario": true,
     "actividades": true,
     "tallerista": true,
-    "patrocinadores": true
+    "patrocinadores": true,
+    "talleres": true,
+    "booklet": true,
+    "inscribir-talleres": true,
+    "recursos": true,
+    "amigos-plegadores": true
   },
   "redes": [
     {

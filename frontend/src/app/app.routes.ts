@@ -18,21 +18,27 @@ import { NoEncontrada } from '@paginas/no-encontrada/no-encontrada';
    Una ruta inexistente muestra NoEncontrada (sin redirigir); /404 existe para prerenderizarla
    y que el hosting la sirva con estado 404 (public/.htaccess).
    /inscripciones existe siempre (para poder revisarla); el sitio solo enlaza a ella
-   cuando evento.inscripcionesAbiertas es true.
+   cuando evento.inscripcionesAbiertas es true. Las demás páginas se apagan con su
+   interruptor en evento.json → secciones (se quitan la ruta y los enlaces).
    Los enlaces entre páginas son <a href> relativos al <base href>: recarga completa,
    sin depender del router en el navegador. */
 
-const PAGINAS: Routes = [
-  { path: '', component: Inicio },
-  ...(seccionVisible('actividades') ? [{ path: 'actividades', component: PaginaActividades }] : []),
-  { path: 'inscripciones', component: PaginaInscripciones },
-  ...(seccionVisible('recursos') ? [{ path: 'recursos', component: PaginaRecursos }] : []),
-  ...(seccionVisible('talleres') ? [{ path: 'talleres', component: PaginaTalleres }] : []),
-  ...(seccionVisible('inscribir-talleres') ? [{ path: 'inscribir-talleres', component: PaginaInscribirTalleres }] : []),
-  ...(seccionVisible('booklet') ? [{ path: 'booklet', component: PaginaBooklet }] : []),
-  ...(seccionVisible('amigos-plegadores') ? [{ path: 'amigos-plegadores', component: PaginaAmigosPlegadores }] : []),
-  { path: '404', component: NoEncontrada },
-];
+/** Las páginas de un idioma. `visible` = interruptores de evento.json → secciones (se puede cambiar en pruebas). */
+export function crearPaginas(visible: (id: string) => boolean = seccionVisible): Routes {
+  return [
+    { path: '', component: Inicio },
+    ...(visible('actividades') ? [{ path: 'actividades', component: PaginaActividades }] : []),
+    { path: 'inscripciones', component: PaginaInscripciones },
+    ...(visible('recursos') ? [{ path: 'recursos', component: PaginaRecursos }] : []),
+    ...(visible('talleres') ? [{ path: 'talleres', component: PaginaTalleres }] : []),
+    ...(visible('inscribir-talleres') ? [{ path: 'inscribir-talleres', component: PaginaInscribirTalleres }] : []),
+    ...(visible('booklet') ? [{ path: 'booklet', component: PaginaBooklet }] : []),
+    ...(visible('amigos-plegadores') ? [{ path: 'amigos-plegadores', component: PaginaAmigosPlegadores }] : []),
+    { path: '404', component: NoEncontrada },
+  ];
+}
+
+const PAGINAS = crearPaginas();
 
 /** Al final de cada idioma: así /en/no-existe sale en inglés. */
 const NO_ENCONTRADA: Routes = [{ path: '**', component: NoEncontrada }];

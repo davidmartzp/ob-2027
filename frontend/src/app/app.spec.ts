@@ -2,8 +2,14 @@ import { PlatformLocation } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { App } from './app';
-import { routes } from './app.routes';
+import { crearPaginas, routes } from './app.routes';
 import acerca from '@contenido/acerca.json';
+import amigosPlegadores from '@contenido/amigos-plegadores.json';
+import booklet from '@contenido/booklet.json';
+import inscribirTalleres from '@contenido/inscribir-talleres.json';
+import noEncontrada from '@contenido/no-encontrada.json';
+import recursos from '@contenido/recursos.json';
+import talleres from '@contenido/talleres.json';
 import actividades from '@contenido/actividades.json';
 import comun from '@contenido/comun.json';
 import comunidad from '@contenido/comunidad.json';
@@ -22,9 +28,15 @@ import { sinEtiquetas } from '@core/idioma';
 import { IDIOMAS } from '@core/idiomas';
 
 const SECCIONES_VISIBLES = evento.secciones;
+/** Interruptores que son secciones de la home (los demás apagan páginas propias). */
+const PAGINAS_PROPIAS = crearPaginas(() => true).map((r) => r.path);
+const SECCIONES_HOME = Object.fromEntries(Object.entries(SECCIONES_VISIBLES).filter(([id]) => !PAGINAS_PROPIAS.includes(id)));
 const IDS_ACTIVIDADES = actividades.items.map((a) => a.id);
 /** Todos los JSON de contenido, para revisar que cada texto traducido tenga sus dos idiomas. */
-const CONTENIDO: Record<string, unknown> = { acerca, actividades, comun, comunidad, evento, hero, invitados, itinerario, leyenda, marquee, menu, meta, patrocinadores, pie, tallerista };
+const CONTENIDO: Record<string, unknown> = {
+  acerca, actividades, comun, comunidad, evento, hero, invitados, itinerario, leyenda, marquee, menu, meta, patrocinadores, pie, tallerista,
+  'amigos-plegadores': amigosPlegadores, booklet, 'inscribir-talleres': inscribirTalleres, 'no-encontrada': noEncontrada, recursos, talleres,
+};
 
 describe('App — la hoja completa', () => {
   async function render(url = '/'): Promise<HTMLElement> {
@@ -43,7 +55,7 @@ describe('App — la hoja completa', () => {
     for (const id of ['inicio', 'acerca', 'invitados', 'inscribete']) {
       expect(el.querySelector(`#${id}`), `#${id}`).toBeTruthy();
     }
-    for (const [id, visible] of Object.entries(SECCIONES_VISIBLES)) {
+    for (const [id, visible] of Object.entries(SECCIONES_HOME)) {
       expect(!!el.querySelector(`#${id}`), `#${id}`).toBe(visible);
     }
   });
@@ -103,7 +115,7 @@ describe('App — la hoja completa', () => {
 
   it('pinta todos los patrocinadores del contenido', async () => {
     const el = await render();
-    expect(el.querySelectorAll('.patros span').length).toBe(SECCIONES_VISIBLES.patrocinadores ? patrocinadores.lista.length : 0);
+    expect(el.querySelectorAll('.patros > :is(a, span)').length).toBe(SECCIONES_VISIBLES.patrocinadores ? patrocinadores.lista.length : 0);
   });
 
   it('cada texto traducido del contenido tiene sus dos idiomas', () => {
@@ -123,6 +135,45 @@ describe('App — la hoja completa', () => {
   it('la leyenda documenta los símbolos en uso', async () => {
     const el = await render();
     expect(el.querySelectorAll('app-leyenda svg.simb').length).toBe(SECCIONES_VISIBLES.itinerario ? 3 : 2);
+  });
+
+  describe('navegación entre páginas', () => {
+    const rutas = crearPaginas().map((r) => r.path);
+
+    it('cada destino del menú lleva a una página o a una sección que existe', async () => {
+      const el = await render();
+      for (const [id, destino] of Object.entries(menu.destinos)) {
+        const [pagina, ancla] = destino.href.split('#');
+        if (pagina) expect(rutas, `${id} → ${destino.href}`).toContain(pagina);
+        else expect(el.querySelector(`#${ancla}`), `${id} → ${destino.href}`).toBeTruthy();
+      }
+      for (const [lista, ids] of Object.entries(menu.listas)) {
+        for (const d of ids) expect(menu.destinos, `${lista} → ${d}`).toHaveProperty(d);
+      }
+    });
+
+    it('cada página tiene título, descripción y palabras clave en meta.json', () => {
+      for (const ruta of rutas.filter((r) => r && r !== '404')) {
+        expect(meta, ruta!).toHaveProperty(ruta!);
+        const m = (meta as unknown as Record<string, { titulo: unknown; descripcion: unknown; palabrasClave: unknown }>)[ruta!];
+        expect(m.titulo && m.descripcion && m.palabrasClave, ruta!).toBeTruthy();
+      }
+    });
+
+    it('un interruptor apagado quita la ruta y sus enlaces (talleres: false)', async () => {
+      expect(crearPaginas((id) => id !== 'talleres').map((r) => r.path)).not.toContain('talleres');
+      expect(rutas).toContain('talleres');
+      const secciones = evento.secciones as Record<string, boolean>;
+      const antes = secciones['talleres'];
+      secciones['talleres'] = false;
+      try {
+        const el = await render();
+        expect(el.querySelector('a[href="talleres"]')).toBeNull();
+        expect(el.querySelector('a[href="booklet"]')).toBeTruthy(); // las demás siguen
+      } finally {
+        secciones['talleres'] = antes;
+      }
+    });
   });
 
   describe('página de actividades', () => {

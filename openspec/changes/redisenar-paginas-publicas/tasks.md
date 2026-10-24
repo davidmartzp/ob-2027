@@ -41,10 +41,10 @@
 
 ## 7. Navegación, meta e integración
 
-- [ ] 7.1 `menu.json` (destinos y listas `congreso`, `movil`, `pie`) y `meta.json` (título, descripción y OG de las seis páginas); prueba de que cada destino existe y de que cada texto tiene `es` y `en`
-- [ ] 7.2 Interruptores de `secciones` para las páginas nuevas; prueba: `talleres: false` quita la ruta y sus enlaces
-- [ ] 7.3 `npm test` y `npm run build` en verde, prerender de todas las rutas en ambos idiomas, y revisión en navegador en 1020 px, 760 px y `prefers-reduced-motion`
-- [ ] 7.4 Actualizar `CLAUDE.md` (páginas nuevas, `core/api.ts`, interruptores) y verificar que los comandos documentados funcionan
+- [x] 7.1 `menu.json` (destinos y listas `congreso`, `movil`, `pie`) y `meta.json` (título, descripción y OG de las seis páginas); prueba de que cada destino existe y de que cada texto tiene `es` y `en`
+- [x] 7.2 Interruptores de `secciones` para las páginas nuevas; prueba: `talleres: false` quita la ruta y sus enlaces
+- [x] 7.3 `npm test` y `npm run build` en verde, prerender de todas las rutas en ambos idiomas, y revisión en navegador en 1020 px, 760 px y `prefers-reduced-motion`
+- [x] 7.4 Actualizar `CLAUDE.md` (páginas nuevas, `core/api.ts`, interruptores) y verificar que los comandos documentados funcionan
 
 ## Workflow follow-up
 
